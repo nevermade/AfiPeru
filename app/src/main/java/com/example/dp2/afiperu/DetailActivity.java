@@ -1,4 +1,4 @@
-package com.example.dp2.layouttest;
+package com.example.dp2.afiperu;
 
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -18,23 +18,16 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.AttendanceItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.DocumentsItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.DrawerItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.DrawerAdapter;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.KidItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.NewsArticleItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.NewsItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.SessionItem;
-import com.example.dp2.layouttest.fragments.AttendanceFragment;
-import com.example.dp2.layouttest.fragments.DocumentsFragment;
-import com.example.dp2.layouttest.fragments.KidsFragment;
-import com.example.dp2.layouttest.fragments.LoginFragment;
-import com.example.dp2.layouttest.fragments.NewsArticleFragment;
-import com.example.dp2.layouttest.fragments.NewsFragment;
-import com.example.dp2.layouttest.fragments.SessionFragment;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DocumentsItem;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DrawerItem;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DrawerAdapter;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsItem;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.SessionItem;
+import com.example.dp2.afiperu.fragments.DocumentsFragment;
+import com.example.dp2.afiperu.fragments.LoginFragment;
+import com.example.dp2.afiperu.fragments.NewsFragment;
+import com.example.dp2.afiperu.fragments.SessionFragment;
 
 import java.io.File;
 import java.io.FileOutputStream;

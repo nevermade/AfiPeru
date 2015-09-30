@@ -1,7 +1,7 @@
 /**
  * Automatically generated file. DO NOT MODIFY
  */
-package com.example.dp2.layouttest;
+package com.example.dp2.afiperu;
 
 public final class BuildConfig {
   public static final boolean DEBUG = Boolean.parseBoolean("true");

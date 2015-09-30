@@ -7,4 +7,4 @@
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/news_menu_search"
         app:showAsAction="ifRoom"/>
-</menu><!-- From: file:/C:/Users/Fernando/Desktop/AFIPeru/app/src/main/res/menu/news_menu_toolbar.xml -->
+</menu><!-- From: file:/C:/Users/Fernando/AndroidStudioProjects/AfiPeru/app/src/main/res/menu/news_menu_toolbar.xml -->

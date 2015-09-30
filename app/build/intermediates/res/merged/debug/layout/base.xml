@@ -31,4 +31,4 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp" />
-</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/Fernando/Desktop/AFIPeru/app/src/main/res/layout/base.xml -->
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/Fernando/AndroidStudioProjects/AfiPeru/app/src/main/res/layout/base.xml -->

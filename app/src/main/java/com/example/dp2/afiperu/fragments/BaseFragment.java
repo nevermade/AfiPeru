@@ -1,4 +1,4 @@
-package com.example.dp2.layouttest.fragments;
+package com.example.dp2.afiperu.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.example.dp2.layouttest.DetailActivity;
+import com.example.dp2.afiperu.DetailActivity;
 
 /**
  * Created by Fernando on 25/09/2015.

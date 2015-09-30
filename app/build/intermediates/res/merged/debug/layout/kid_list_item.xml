@@ -52,4 +52,4 @@
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:src="@android:drawable/checkbox_on_background"/>
-</RelativeLayout><!-- From: file:/C:/Users/Fernando/Desktop/AFIPeru/app/src/main/res/layout/kid_list_item.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/Fernando/AndroidStudioProjects/AfiPeru/app/src/main/res/layout/kid_list_item.xml -->

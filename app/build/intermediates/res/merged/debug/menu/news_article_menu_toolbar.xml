@@ -12,4 +12,4 @@
         android:icon="@android:drawable/ic_menu_share"
         android:title="@string/news_article_share"
         app:showAsAction="ifRoom"/>
-</menu><!-- From: file:/C:/Users/Fernando/Desktop/AFIPeru/app/src/main/res/menu/news_article_menu_toolbar.xml -->
+</menu><!-- From: file:/C:/Users/Fernando/AndroidStudioProjects/AfiPeru/app/src/main/res/menu/news_article_menu_toolbar.xml -->

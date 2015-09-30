@@ -1,17 +1,13 @@
-package com.example.dp2.layouttest.fragments;
+package com.example.dp2.afiperu.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.dp2.layouttest.DetailActivity;
-import com.example.dp2.layouttest.R;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.NewsArticleItem;
+import com.example.dp2.afiperu.R;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsArticleItem;
 
 /**
  * Created by Fernando on 23/09/2015.

@@ -9,4 +9,4 @@
     <item
         android:id="@+id/docs_menu_check_views"
         android:title="@string/documents_menu_check_views"/>
-</menu><!-- From: file:/C:/Users/Fernando/Desktop/AFIPeru/app/src/main/res/menu/docs_menu_afi.xml -->
+</menu><!-- From: file:/C:/Users/Fernando/AndroidStudioProjects/AfiPeru/app/src/main/res/menu/docs_menu_afi.xml -->

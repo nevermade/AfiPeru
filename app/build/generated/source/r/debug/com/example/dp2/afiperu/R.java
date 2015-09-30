@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.dp2.layouttest;
+package com.example.dp2.afiperu;
 
 public final class R {
     public static final class anim {

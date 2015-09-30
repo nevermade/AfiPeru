@@ -19,4 +19,4 @@
         android:text="No se encontraron sesiones."
         android:textAppearance="@style/text_appearance_large_dark"
         android:visibility="gone"/>
-</RelativeLayout><!-- From: file:/C:/Users/Fernando/Desktop/AFIPeru/app/src/main/res/layout/kids.xml -->
+</RelativeLayout><!-- From: file:/C:/Users/Fernando/AndroidStudioProjects/AfiPeru/app/src/main/res/layout/kids.xml -->

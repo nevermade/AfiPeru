@@ -1,17 +1,12 @@
-package com.example.dp2.layouttest.fragments;
+package com.example.dp2.afiperu.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.example.dp2.layouttest.R;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.DocumentsAdapter;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.DocumentsItem;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.NewsAdapter;
-import com.example.dp2.layouttest.com.example.dp2.layouttest.lists.NewsItem;
+import com.example.dp2.afiperu.R;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsAdapter;
+import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsItem;
 
 import java.util.ArrayList;
 
