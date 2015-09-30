@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsAdapter;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsItem;
+import com.example.dp2.afiperu.lists.NewsAdapter;
+import com.example.dp2.afiperu.lists.NewsItem;
 
 import java.util.ArrayList;
 

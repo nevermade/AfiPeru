@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsArticleItem;
+import com.example.dp2.afiperu.lists.NewsArticleItem;
 
 /**
  * Created by Fernando on 23/09/2015.
