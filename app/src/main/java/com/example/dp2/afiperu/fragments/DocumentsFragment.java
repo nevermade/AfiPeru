@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DocumentsAdapter;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DocumentsItem;
+import com.example.dp2.afiperu.lists.DocumentsAdapter;
+import com.example.dp2.afiperu.lists.DocumentsItem;
 
 import java.util.ArrayList;
 
