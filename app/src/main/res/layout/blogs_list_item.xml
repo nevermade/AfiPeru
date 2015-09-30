@@ -5,7 +5,7 @@
     android:padding="5dp">
     <LinearLayout
         android:id="@+id/blogs_item_text"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:orientation="vertical">

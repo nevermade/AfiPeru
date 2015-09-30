@@ -14,11 +14,23 @@ import com.example.dp2.afiperu.DetailActivity;
  */
 public abstract class BaseFragment extends Fragment {
 
+    public static final String FRAGMENT_ID_ARG = "fragment_id_arg";
+
+    private int fragmentId = -1;
+
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(getLayout(), container, false);
+        fragmentId = getArguments().getInt(FRAGMENT_ID_ARG);
         prepareView(rootView, getArguments(), savedInstanceState);
         return rootView;
+    }
+
+    public int getFragmentId(){
+        if(fragmentId == -1){
+            throw new ExceptionInInitializerError("Los BaseFragment necesitan recibir como argumento una constante DetailActivity.FRAGMENT_ como int (pasar con la llave BaseFragment.FRAGMENT_ID_ARG).");
+        }
+        return fragmentId;
     }
 
     public abstract int getLayout();

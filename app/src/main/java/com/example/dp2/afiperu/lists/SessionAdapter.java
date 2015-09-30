@@ -68,6 +68,7 @@ public class SessionAdapter extends BaseArrayAdapter<SessionItem> {
                                     kids.add(new KidItem("Robert Aduviri", 12, false));
                                     Collections.sort(kids);
                                     args.putSerializable(KidsFragment.KIDS_ARG, kids);
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
                                     KidsFragment kidsFragment = new KidsFragment();
                                     kidsFragment.setArguments(args);
                                     getFragment().addFragmentToStack(kidsFragment, DetailActivity.FRAGMENT_COMENTARIOS);
@@ -109,6 +110,7 @@ public class SessionAdapter extends BaseArrayAdapter<SessionItem> {
                                             "Luis Incio", false));
                                     Collections.sort(volunteers);
                                     args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, volunteers);
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_ASISTENCIA);
                                     AttendanceFragment attendanceFragment = new AttendanceFragment();
                                     attendanceFragment.setArguments(args);
                                     getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);

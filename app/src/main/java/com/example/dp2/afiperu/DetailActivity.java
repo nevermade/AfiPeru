@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
 import com.example.dp2.afiperu.lists.BlogsItem;
 import com.example.dp2.afiperu.lists.DocumentsItem;
@@ -57,6 +58,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final int FRAGMENT_DETALLE_NOTICIAS = 6;
     public static final int FRAGMENT_ASISTENCIA = 7;
     public static final int FRAGMENT_COMENTARIOS = 8;
+    public static final int FRAGMENT_DETALLE_BLOG = 9;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -64,15 +66,23 @@ public class DetailActivity extends AppCompatActivity {
     int selectedLayout;
     int toolbarMenu;
 
+    int previousBackStackCount;
+
     private FragmentManager.OnBackStackChangedListener backStackListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
         public void onBackStackChanged() {
             int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
             boolean noStack = backStackEntryCount == 0;
             setNavIcon(noStack);
-            if(noStack){
-                setTitle(getTitle(selectedLayout));
+
+            if(backStackEntryCount < previousBackStackCount) {
+                //Se sacó un elemento
+                BaseFragment fragment = (BaseFragment) getSupportFragmentManager().getFragments().get(0);
+                setTitle(getTitle(fragment.getFragmentId()));
+                toolbarMenu = getMenu(fragment.getFragmentId());
+                invalidateOptionsMenu();
             }
+            previousBackStackCount = backStackEntryCount;
         }
     };
 
@@ -120,6 +130,7 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_DETALLE_NOTICIAS: id = R.string.menu_noticias; break;
             case FRAGMENT_ASISTENCIA: id = R.string.title_asistencia; break;
             case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
+            case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
         }
         if(id != 0){
             return getResources().getString(id);
@@ -155,6 +166,7 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_NOTICIAS: return R.menu.news_menu_toolbar;
             case FRAGMENT_DOCUMENTOS: return R.menu.docs_menu_toolbar;
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
+            case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
             default: return 0;
         }
     }
@@ -182,14 +194,14 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position){
-        Bundle args = null;
+        Bundle args = new Bundle();
         Fragment fragment;
         switch(position){
             default:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_LOGIN);
                 fragment = new LoginFragment();
                 break;
             case FRAGMENT_NOTICIAS:
-                args = new Bundle();
                 ArrayList<NewsItem> news = new ArrayList<>();
                 Calendar calendar = new GregorianCalendar(2015, 8, 25, 0, 31);
                 news.add(new NewsItem(
@@ -216,10 +228,10 @@ public class DetailActivity extends AppCompatActivity {
                         "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
                         "Yuri", calendar.getTime().getTime(), false));
                 args.putSerializable(NewsFragment.NEWS_ARG, news);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NOTICIAS);
                 fragment = new NewsFragment();
                 break;
             case FRAGMENT_SESIONES:
-                args = new Bundle();
                 ArrayList<SessionItem> sessions = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
                 sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
@@ -233,10 +245,10 @@ public class DetailActivity extends AppCompatActivity {
                 sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
                 Collections.sort(sessions);
                 args.putSerializable(SessionFragment.SESSION_ARG, sessions);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SESIONES);
                 fragment = new SessionFragment();
                 break;
             case FRAGMENT_DOCUMENTOS:
-                args = new Bundle();
                 ArrayList<DocumentsItem> documents = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 21);
                 documents.add(new DocumentsItem("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, "254 KB", calendar.getTime().getTime()));
@@ -248,10 +260,10 @@ public class DetailActivity extends AppCompatActivity {
                 documents.add(new DocumentsItem("Material extra 27/09.docx", R.drawable.ic_docs_doc, "126 KB", calendar.getTime().getTime()));
                 Collections.sort(documents);
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
                 break;
             case FRAGMENT_BLOG:
-                args = new Bundle();
                 ArrayList<BlogsItem> blogs= new ArrayList<>();
                 calendar=new GregorianCalendar(2015,8,22);
                 blogs.add(new BlogsItem("Titulo 1","Daekef Abarca",calendar.getTime().getTime()));
@@ -261,12 +273,11 @@ public class DetailActivity extends AppCompatActivity {
                 blogs.add(new BlogsItem("Titulo 3","Luis Barcena",calendar.getTime().getTime()));
                 Collections.sort(blogs);
                 args.putSerializable(BlogsFragment.BLOG_ARG, blogs);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
                 fragment=new BlogsFragment();
                 break;
         }
-        if(args != null){
-            fragment.setArguments(args);
-        }
+        fragment.setArguments(args);
         mDrawerList.setItemChecked(position, true);
         mDrawerLayout.closeDrawer(mDrawerList);
         selectedLayout = position;

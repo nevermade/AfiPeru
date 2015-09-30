@@ -72,6 +72,7 @@ public class NewsAdapter extends BaseArrayAdapter<NewsItem> {
                             item.getTitle(), item.getAuthorName(), item.getUploadDate(),
                             convertView.getResources().getString(R.string.article_example));
                     args.putSerializable(NewsArticleFragment.NEWS_ARTICLE_ARG, arg);
+                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DETALLE_NOTICIAS);
                     newsArticleFragment.setArguments(args);
                     getFragment().addFragmentToStack(newsArticleFragment, DetailActivity.FRAGMENT_DETALLE_NOTICIAS);
                 }

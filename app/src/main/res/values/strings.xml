@@ -39,7 +39,7 @@
     <string name="news_article_author_date">%1$s, %2$s</string>
     <string name="news_article_comment">Comentar en la página Web</string>
     <string name="news_article_share">Compartir en Facebook</string>
-    <string name="article_example">El Ministerio de la Mujer y Poblaciones Vulnerables (MIMP), destacó la aprobación del reglamento de la Ley General del Voluntario que busca promover la solidaridad y conciencia social entre los peruanos y peruanas, y que establece diversos beneficios de carácter social, salud y educativos a favor de las personas que realicen ete tipo de actividades.\n\nEl reglamento de la ley indica que toda persona mayor de 14 años podrá ser voluntaria siempre y cuando</string>
+    <string name="article_example">El Ministerio de la Mujer y Poblaciones Vulnerables (MIMP), destacó la aprobación del reglamento de la Ley General del Voluntario que busca promover la solidaridad y conciencia social entre los peruanos y peruanas, y que establece diversos beneficios de carácter social, salud y educativos a favor de las personas que realicen ete tipo de actividades.\n\nEl reglamento de la ley indica que toda persona mayor de 14 años podrá ser voluntaria siempre y cuando sdfsdf sdfk weh weir oweir uoweir uweori uweoriwue roiweu rowieur oweir woeiruwoeir oweij fsldkf weori hwe sidf ,weir weroiweur po</string>
 
     <!-- Asistencia -->
     <string name="volunteers_none">No se encontraron voluntarios.</string>
@@ -63,6 +63,7 @@
 
     <!-- Blogs -->
     <string name="blogs_none">No se encontraron blogs.</string>
+    <string name="author_short_desc_example">Psicólogo</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
