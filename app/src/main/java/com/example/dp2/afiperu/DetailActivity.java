@@ -19,11 +19,11 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DocumentsItem;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DrawerItem;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.DrawerAdapter;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.NewsItem;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.SessionItem;
+import com.example.dp2.afiperu.lists.DocumentsItem;
+import com.example.dp2.afiperu.lists.DrawerItem;
+import com.example.dp2.afiperu.lists.DrawerAdapter;
+import com.example.dp2.afiperu.lists.NewsItem;
+import com.example.dp2.afiperu.lists.SessionItem;
 import com.example.dp2.afiperu.fragments.DocumentsFragment;
 import com.example.dp2.afiperu.fragments.LoginFragment;
 import com.example.dp2.afiperu.fragments.NewsFragment;

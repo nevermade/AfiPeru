@@ -1,4 +1,4 @@
-package com.example.dp2.afiperu.com.example.dp2.layouttest.lists;
+package com.example.dp2.afiperu.lists;
 
 import java.io.Serializable;
 

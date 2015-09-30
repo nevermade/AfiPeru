@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.AttendanceAdapter;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.AttendanceItem;
+import com.example.dp2.afiperu.lists.AttendanceAdapter;
+import com.example.dp2.afiperu.lists.AttendanceItem;
 
 import java.util.ArrayList;
 

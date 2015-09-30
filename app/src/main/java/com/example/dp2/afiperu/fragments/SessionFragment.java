@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.SessionAdapter;
-import com.example.dp2.afiperu.com.example.dp2.layouttest.lists.SessionItem;
+import com.example.dp2.afiperu.lists.SessionAdapter;
+import com.example.dp2.afiperu.lists.SessionItem;
 
 import java.util.ArrayList;
 
