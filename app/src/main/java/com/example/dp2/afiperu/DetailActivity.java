@@ -19,6 +19,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.fragments.BlogsFragment;
+import com.example.dp2.afiperu.lists.BlogsItem;
 import com.example.dp2.afiperu.lists.DocumentsItem;
 import com.example.dp2.afiperu.lists.DrawerItem;
 import com.example.dp2.afiperu.lists.DrawerAdapter;
@@ -247,6 +249,19 @@ public class DetailActivity extends AppCompatActivity {
                 Collections.sort(documents);
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
                 fragment = new DocumentsFragment();
+                break;
+            case FRAGMENT_BLOG:
+                args = new Bundle();
+                ArrayList<BlogsItem> blogs= new ArrayList<>();
+                calendar=new GregorianCalendar(2015,8,22);
+                blogs.add(new BlogsItem("Titulo 1","Daekef Abarca",calendar.getTime().getTime()));
+                calendar=new GregorianCalendar(2015,7,24);
+                blogs.add(new BlogsItem("Titulo 2","Fernando Banda",calendar.getTime().getTime()));
+                calendar=new GregorianCalendar(2015,6,15);
+                blogs.add(new BlogsItem("Titulo 3","Luis Barcena",calendar.getTime().getTime()));
+                Collections.sort(blogs);
+                args.putSerializable(BlogsFragment.BLOG_ARG, blogs);
+                fragment=new BlogsFragment();
                 break;
         }
         if(args != null){
