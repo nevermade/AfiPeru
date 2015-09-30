@@ -12,7 +12,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="@dimen/margin_medium">
+            android:padding="@dimen/margin_medium">
             <ImageView
                 android:id="@+id/news_detail_pic"
                 android:layout_width="match_parent"
