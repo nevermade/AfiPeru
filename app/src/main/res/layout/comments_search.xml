@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:theme="@style/edit_text"/>
+            android:theme="@style/edit_text"
+            android:singleLine="true"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -36,6 +37,13 @@
             android:layout_marginRight="@dimen/edit_text_medium"
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_from"/>
+        <EditText
+            android:layout_width="@dimen/edit_text_medium"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/edit_text"
+            android:editable="false"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -49,6 +57,13 @@
             android:layout_marginRight="@dimen/edit_text_medium"
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_to"/>
+        <EditText
+            android:layout_width="@dimen/edit_text_medium"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/edit_text"
+            android:editable="false"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"

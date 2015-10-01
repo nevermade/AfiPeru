@@ -30,27 +30,8 @@ public class CommentSearchDialog extends DialogFragment {
 
         //Background color
         result.getWindow().setBackgroundDrawableResource(R.color.main_background);
-        //Title text color
-        /*int titleId = result.getContext().getResources().getIdentifier("android:id/alertTitle", null, null);
-        TextView title = (TextView)result.findViewById(titleId);
-        int color;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            color = getResources().getColor(R.color.dark_text, null);
-        }else{
-            color = getResources().getColor(R.color.dark_text);
-        }
-        title.setTextColor(color);*/
 
         return result;
-    }
-
-    @Override
-    public void show(FragmentManager manager, String tag){
-        super.show(manager, tag);
-        //Button text color
-        /*((AlertDialog)getDialog()).getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(DetailActivity.DARK_COLOR);
-        ((AlertDialog)getDialog()).getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(DetailActivity.DARK_COLOR);
-        ((AlertDialog)getDialog()).getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(DetailActivity.DARK_COLOR);*/
     }
 
 }

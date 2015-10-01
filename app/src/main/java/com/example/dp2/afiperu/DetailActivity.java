@@ -141,21 +141,13 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base);
 
-        int color;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            color = getResources().getColor(R.color.dark_text, null);
-        }else{
-            color = getResources().getColor(R.color.dark_text);
-        }
-        DARK_COLOR = color;
-
         ArrayList<DrawerItem> list = new ArrayList<>();
         list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+        list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
         list.add(new DrawerItem(getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
         list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
         list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
         list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
-        list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
         list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
         list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
         list.add(new DrawerItem(getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
