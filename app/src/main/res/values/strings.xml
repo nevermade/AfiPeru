@@ -59,6 +59,8 @@
     <!-- Subir fotos -->
     <string name="upload_photos_menu_gallery">Elegir foto de la galería</string>
     <string name="upload_photos_menu_camera">Tomar foto</string>
+    <string name="upload_photos_button">Enviar</string>
+    <string name="no_photo_message">No se ha elegido ninguna imagen.\n\nPor favor elija una de la galería o tome una foto nueva.</string>
 
     <array name="spinner_age">
         <item>Edad igual a</item>

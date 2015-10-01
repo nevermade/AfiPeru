@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/upload_photos_menu_gallery"
-        android:icon="@android:drawable/ic_menu_gallery"
+        android:icon="@drawable/ic_menu_gallery"
         android:title="@string/upload_photos_menu_gallery"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/upload_photos_menu_camera"
-        android:icon="@android:drawable/ic_menu_camera"
+        android:icon="@drawable/ic_menu_camera"
         android:title="@string/upload_photos_menu_camera"
         app:showAsAction="ifRoom"/>
 </menu>
