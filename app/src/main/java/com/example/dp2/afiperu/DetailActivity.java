@@ -21,6 +21,7 @@ import android.widget.ListView;
 
 import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
+import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
 import com.example.dp2.afiperu.lists.BlogsItem;
 import com.example.dp2.afiperu.lists.DocumentsItem;
 import com.example.dp2.afiperu.lists.DrawerItem;
@@ -51,14 +52,15 @@ public class DetailActivity extends AppCompatActivity {
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_SESIONES = 1;
     public static final int FRAGMENT_DOCUMENTOS = 2;
-    public static final int FRAGMENT_BLOG = 3;
-    public static final int FRAGMENT_PAGOS = 4;
+    public static final int FRAGMENT_SUBIR_FOTOS = 3;
+    public static final int FRAGMENT_BLOG = 4;
+    public static final int FRAGMENT_PAGOS = 5;
 
-    public static final int FRAGMENT_LOGIN = 5;
-    public static final int FRAGMENT_DETALLE_NOTICIAS = 6;
-    public static final int FRAGMENT_ASISTENCIA = 7;
-    public static final int FRAGMENT_COMENTARIOS = 8;
-    public static final int FRAGMENT_DETALLE_BLOG = 9;
+    public static final int FRAGMENT_LOGIN = 6;
+    public static final int FRAGMENT_DETALLE_NOTICIAS = 7;
+    public static final int FRAGMENT_ASISTENCIA = 8;
+    public static final int FRAGMENT_COMENTARIOS = 9;
+    public static final int FRAGMENT_DETALLE_BLOG = 10;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -67,6 +69,44 @@ public class DetailActivity extends AppCompatActivity {
     int toolbarMenu;
 
     int previousBackStackCount;
+
+    /* Cosas a agregar con cada layout nuevo */
+
+    public String getTitle(int fragmentId){
+        int id = 0;
+        switch(fragmentId){
+            case FRAGMENT_NOTICIAS: id = R.string.menu_noticias; break;
+            case FRAGMENT_SESIONES: id = R.string.menu_sesiones; break;
+            case FRAGMENT_DOCUMENTOS: id = R.string.menu_documentos; break;
+            case FRAGMENT_SUBIR_FOTOS: id = R.string.menu_subir_fotos; break;
+            case FRAGMENT_BLOG: id = R.string.menu_blog; break;
+            case FRAGMENT_PAGOS: id = R.string.menu_pagos; break;
+
+            case FRAGMENT_LOGIN: id = R.string.app_name; break;
+            case FRAGMENT_DETALLE_NOTICIAS: id = R.string.menu_noticias; break;
+            case FRAGMENT_ASISTENCIA: id = R.string.title_asistencia; break;
+            case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
+            case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
+        }
+        if(id != 0){
+            return getResources().getString(id);
+        }else{
+            return "";
+        }
+    }
+
+    public int getMenu(int fragmentId){
+        switch(fragmentId){
+            case FRAGMENT_NOTICIAS: return R.menu.news_menu_toolbar;
+            case FRAGMENT_DOCUMENTOS: return R.menu.docs_menu_toolbar;
+            case FRAGMENT_SUBIR_FOTOS: return R.menu.upload_photos_toolbar;
+            case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
+            case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
+            default: return 0;
+        }
+    }
+
+    /* Cosas que casi no deberían cambiar */
 
     private FragmentManager.OnBackStackChangedListener backStackListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
@@ -95,9 +135,10 @@ public class DetailActivity extends AppCompatActivity {
         list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), android.R.drawable.ic_menu_gallery));
         list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), android.R.drawable.ic_menu_agenda));
         list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), android.R.drawable.ic_menu_view));
+        list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), android.R.drawable.ic_menu_camera));
         list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), android.R.drawable.ic_menu_delete));
         list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), android.R.drawable.ic_menu_my_calendar));
-        list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), android.R.drawable.ic_menu_info_details));
+        list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), android.R.drawable.ic_menu_info_details)); //Temporal
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new DrawerAdapter(this, list));
@@ -115,28 +156,6 @@ public class DetailActivity extends AppCompatActivity {
         getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
 
         selectItem(FRAGMENT_LOGIN);
-    }
-
-    public String getTitle(int fragmentId){
-        int id = 0;
-        switch(fragmentId){
-            case FRAGMENT_NOTICIAS: id = R.string.menu_noticias; break;
-            case FRAGMENT_SESIONES: id = R.string.menu_sesiones; break;
-            case FRAGMENT_DOCUMENTOS: id = R.string.menu_documentos; break;
-            case FRAGMENT_BLOG: id = R.string.menu_blog; break;
-            case FRAGMENT_PAGOS: id = R.string.menu_pagos; break;
-
-            case FRAGMENT_LOGIN: id = R.string.app_name; break;
-            case FRAGMENT_DETALLE_NOTICIAS: id = R.string.menu_noticias; break;
-            case FRAGMENT_ASISTENCIA: id = R.string.title_asistencia; break;
-            case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
-            case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
-        }
-        if(id != 0){
-            return getResources().getString(id);
-        }else{
-            return "";
-        }
     }
 
     protected void setNavIcon(boolean noStack) {
@@ -159,16 +178,6 @@ public class DetailActivity extends AppCompatActivity {
             inflater.inflate(toolbarMenu, menu);
         }
         return true;
-    }
-
-    public int getMenu(int fragmentId){
-        switch(fragmentId){
-            case FRAGMENT_NOTICIAS: return R.menu.news_menu_toolbar;
-            case FRAGMENT_DOCUMENTOS: return R.menu.docs_menu_toolbar;
-            case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
-            case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
-            default: return 0;
-        }
     }
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
@@ -262,6 +271,10 @@ public class DetailActivity extends AppCompatActivity {
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
+                break;
+            case FRAGMENT_SUBIR_FOTOS:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);
+                fragment = new UploadPhotosFragment();
                 break;
             case FRAGMENT_BLOG:
                 ArrayList<BlogsItem> blogs= new ArrayList<>();

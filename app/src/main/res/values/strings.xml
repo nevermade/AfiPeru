@@ -8,6 +8,7 @@
     <string name="menu_noticias">Noticias</string>
     <string name="menu_sesiones">Sesiones</string>
     <string name="menu_documentos">Documentos</string>
+    <string name="menu_subir_fotos">Subir fotos</string>
     <string name="menu_blog">Blog</string>
     <string name="menu_pagos">Pagos</string>
 
@@ -55,6 +56,10 @@
     <string name="kids_none">No se encontraron niños.</string>
     <string name="kids_age">%d años</string>
 
+    <!-- Subir fotos -->
+    <string name="upload_photos_menu_gallery">Elegir foto de la galería</string>
+    <string name="upload_photos_menu_camera">Tomar foto</string>
+
     <array name="spinner_age">
         <item>Edad igual a</item>
         <item>Edad menor a</item>
@@ -64,8 +69,5 @@
     <!-- Blogs -->
     <string name="blogs_none">No se encontraron blogs.</string>
     <string name="author_short_desc_example">Psicólogo</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
