@@ -2,6 +2,7 @@ package com.example.dp2.afiperu.lists;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,12 +45,9 @@ public class BlogsAdapter extends BaseArrayAdapter<BlogsItem> {
 
         title.setText(item.getTitle());
         author.setText(item.getAuthor());
-        Calendar calendar= new GregorianCalendar();
-        calendar.setTimeInMillis(item.getUploadDate());
-        int day=calendar.get(Calendar.DAY_OF_MONTH);
-        int month=calendar.get(Calendar.MONTH);
-        int year=calendar.get(Calendar.YEAR);
-        uploadDate.setText(day + "/" + month + "/" + year);
+        CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), item.getUploadDate(),
+                DateUtils.DAY_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH);
+        uploadDate.setText(formattedDate);
         favoriteIcon.setImageResource(getStarDrawable(item.isFavorite()));
 
         favoriteIcon.setOnClickListener(new View.OnClickListener() {

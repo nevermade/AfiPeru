@@ -102,6 +102,7 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_SUBIR_FOTOS: return R.menu.upload_photos_toolbar;
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
             case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
+            case FRAGMENT_BLOG: return R.menu.blogs_menu_toolbar;
             default: return 0;
         }
     }
@@ -278,11 +279,11 @@ public class DetailActivity extends AppCompatActivity {
                 break;
             case FRAGMENT_BLOG:
                 ArrayList<BlogsItem> blogs= new ArrayList<>();
-                calendar=new GregorianCalendar(2015,8,22);
+                calendar=new GregorianCalendar(2015,8,22,14,25);
                 blogs.add(new BlogsItem("Titulo 1","Daekef Abarca",calendar.getTime().getTime()));
-                calendar=new GregorianCalendar(2015,7,24);
+                calendar=new GregorianCalendar(2015,7,24,48,27);
                 blogs.add(new BlogsItem("Titulo 2","Fernando Banda",calendar.getTime().getTime()));
-                calendar=new GregorianCalendar(2015,6,15);
+                calendar=new GregorianCalendar(2015,6,15,9,45);
                 blogs.add(new BlogsItem("Titulo 3","Luis Barcena",calendar.getTime().getTime()));
                 Collections.sort(blogs);
                 args.putSerializable(BlogsFragment.BLOG_ARG, blogs);

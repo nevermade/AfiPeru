@@ -71,5 +71,13 @@
     <!-- Blogs -->
     <string name="blogs_none">No se encontraron blogs.</string>
     <string name="author_short_desc_example">Psicólogo</string>
+    <string name="blogs_menu_search">Buscar Blogs</string>
+
+    <!-- Users-->
+    <string name="users_none">No se encontraron usuarios.</string>
+    <string name="users_menu_search">Buscar Usuarios</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
