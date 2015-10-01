@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -50,17 +52,18 @@ import java.util.GregorianCalendar;
 public class DetailActivity extends AppCompatActivity {
 
     public static final int FRAGMENT_NOTICIAS = 0;
-    public static final int FRAGMENT_SESIONES = 1;
-    public static final int FRAGMENT_DOCUMENTOS = 2;
-    public static final int FRAGMENT_SUBIR_FOTOS = 3;
-    public static final int FRAGMENT_BLOG = 4;
-    public static final int FRAGMENT_PAGOS = 5;
+    public static final int FRAGMENT_BLOG = 1;
+    public static final int FRAGMENT_PERSONAS = 2;
+    public static final int FRAGMENT_SESIONES = 3;
+    public static final int FRAGMENT_DOCUMENTOS = 4;
+    public static final int FRAGMENT_SUBIR_FOTOS = 5;
+    public static final int FRAGMENT_PAGOS = 6;
 
-    public static final int FRAGMENT_LOGIN = 6;
-    public static final int FRAGMENT_DETALLE_NOTICIAS = 7;
-    public static final int FRAGMENT_ASISTENCIA = 8;
-    public static final int FRAGMENT_COMENTARIOS = 9;
-    public static final int FRAGMENT_DETALLE_BLOG = 10;
+    public static final int FRAGMENT_LOGIN = 7;
+    public static final int FRAGMENT_DETALLE_NOTICIAS = 8;
+    public static final int FRAGMENT_ASISTENCIA = 9;
+    public static final int FRAGMENT_COMENTARIOS = 10;
+    public static final int FRAGMENT_DETALLE_BLOG = 11;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -76,6 +79,7 @@ public class DetailActivity extends AppCompatActivity {
         int id = 0;
         switch(fragmentId){
             case FRAGMENT_NOTICIAS: id = R.string.menu_noticias; break;
+            case FRAGMENT_PERSONAS: id = R.string.menu_personas; break;
             case FRAGMENT_SESIONES: id = R.string.menu_sesiones; break;
             case FRAGMENT_DOCUMENTOS: id = R.string.menu_documentos; break;
             case FRAGMENT_SUBIR_FOTOS: id = R.string.menu_subir_fotos; break;
@@ -139,6 +143,7 @@ public class DetailActivity extends AppCompatActivity {
         list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
         list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
         list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
+        list.add(new DrawerItem(getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new DrawerAdapter(this, list));
@@ -203,6 +208,25 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position){
+        if(position == FRAGMENT_LOGIN + 1){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(which == DialogInterface.BUTTON_POSITIVE){
+
+                    }else if(which == DialogInterface.BUTTON_NEGATIVE){
+
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.confirm_postulate).setPositiveButton(android.R.string.yes, dialogClickListener)
+                    .setNegativeButton(android.R.string.no, dialogClickListener);
+            AlertDialog alert = builder.create();
+            alert.show();
+            return;
+        }
+
         Bundle args = new Bundle();
         Fragment fragment;
         switch(position){

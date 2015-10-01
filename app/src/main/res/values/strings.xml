@@ -6,11 +6,13 @@
     <string name="navigation_drawer_close">Cerrar menú</string>
 
     <string name="menu_noticias">Noticias</string>
+    <string name="menu_personas">Personas</string>
     <string name="menu_sesiones">Sesiones</string>
     <string name="menu_documentos">Documentos</string>
     <string name="menu_subir_fotos">Subir fotos</string>
     <string name="menu_blog">Blog</string>
     <string name="menu_pagos">Pagos</string>
+    <string name="menu_postular">Postular a 2016-1</string>
 
     <string name="title_asistencia">Asistencia</string>
     <string name="title_comentarios">Comentarios</string>
@@ -62,14 +64,11 @@
     <string name="upload_photos_button">Enviar</string>
     <string name="no_photo_message">No se ha elegido ninguna imagen.\n\nPor favor elija una de la galería o tome una foto nueva.</string>
 
-    <array name="spinner_age">
-        <item>Edad igual a</item>
-        <item>Edad menor a</item>
-        <item>Edad mayor a</item>
-    </array>
-
     <!-- Blogs -->
     <string name="blogs_none">No se encontraron blogs.</string>
     <string name="author_short_desc_example">Psicólogo</string>
+
+    <!-- Repostular -->
+    <string name="confirm_postulate">¿Estás seguro de que quieres postular para el siguiente periodo?</string>
 
 </resources>
