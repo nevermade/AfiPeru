@@ -4,12 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/blog_article_menu_comment"
-        android:icon="@android:drawable/ic_menu_edit"
+        android:icon="@drawable/ic_menu_comment"
         android:title="@string/news_article_comment"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/blog_article_menu_share"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_menu_share"
         android:title="@string/news_article_share"
         app:showAsAction="ifRoom"/>
 </menu>

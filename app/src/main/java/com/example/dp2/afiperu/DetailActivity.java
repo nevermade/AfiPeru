@@ -132,13 +132,13 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.base);
 
         ArrayList<DrawerItem> list = new ArrayList<>();
-        list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), android.R.drawable.ic_menu_gallery));
-        list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), android.R.drawable.ic_menu_agenda));
-        list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), android.R.drawable.ic_menu_view));
-        list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), android.R.drawable.ic_menu_camera));
-        list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), android.R.drawable.ic_menu_delete));
-        list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), android.R.drawable.ic_menu_my_calendar));
-        list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), android.R.drawable.ic_menu_info_details)); //Temporal
+        list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+        list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
+        list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
+        list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
+        list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
+        list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
+        list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new DrawerAdapter(this, list));

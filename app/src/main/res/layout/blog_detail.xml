@@ -89,7 +89,7 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_medium"
                     android:adjustViewBounds="true"
-                    android:src="@android:drawable/ic_menu_info_details"/>
+                    android:src="@drawable/ic_dark_info"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
