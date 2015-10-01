@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -16,11 +17,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
 import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
@@ -50,6 +53,8 @@ import java.util.GregorianCalendar;
  * Created by Fernando on 16/09/2015.
  */
 public class DetailActivity extends AppCompatActivity {
+
+    public static int DARK_COLOR;
 
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_BLOG = 1;
@@ -135,8 +140,17 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.base);
 
+        int color;
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            color = getResources().getColor(R.color.dark_text, null);
+        }else{
+            color = getResources().getColor(R.color.dark_text);
+        }
+        DARK_COLOR = color;
+
         ArrayList<DrawerItem> list = new ArrayList<>();
         list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+        list.add(new DrawerItem(getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
         list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
         list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
         list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
@@ -183,6 +197,20 @@ public class DetailActivity extends AppCompatActivity {
             inflater.inflate(toolbarMenu, menu);
         }
         return true;
+    }
+
+    public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Fragment shownFragment = getSupportFragmentManager().getFragments().get(0);
+        if(shownFragment instanceof NewsFragment){
+            if(item.getItemId() == R.id.news_menu_search){
+                CommentSearchDialog dialog = new CommentSearchDialog();
+                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){

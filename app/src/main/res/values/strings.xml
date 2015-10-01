@@ -58,6 +58,16 @@
     <string name="kids_none">No se encontraron niños.</string>
     <string name="kids_age">%d años</string>
 
+    <!-- Comentario -->
+    <string name="search_title_comments">Buscar comentarios</string>
+    <string name="search_author_content">Autor o contenido</string>
+    <string name="search_from">Desde</string>
+    <string name="search_to">Hasta</string>
+    <string name="search_order_by">Ordenar por</string>
+    <string name="search_order_by_recent_date">Más actual</string>
+    <string name="search_yes">Buscar</string>
+    <string name="search_no">Cancelar</string>
+
     <!-- Subir fotos -->
     <string name="upload_photos_menu_gallery">Elegir foto de la galería</string>
     <string name="upload_photos_menu_camera">Tomar foto</string>
