@@ -2,11 +2,12 @@ package com.example.dp2.afiperu;
 
 import android.app.DialogFragment;
 import android.app.AlertDialog;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -15,6 +16,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.dialogs.CommentSearchDialog;
@@ -62,8 +65,6 @@ import java.util.GregorianCalendar;
  * Created by Fernando on 16/09/2015.
  */
 public class DetailActivity extends AppCompatActivity {
-
-    public static int DARK_COLOR;
 
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_BLOG = 1;
@@ -146,8 +147,8 @@ public class DetailActivity extends AppCompatActivity {
                 /*UserSearchDialog dialog = new UserSearchDialog();
                 dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);*/
 
-                KidSearchDialog dialog = new KidSearchDialog();
-                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);
+                /*KidSearchDialog dialog = new KidSearchDialog();
+                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);*/
             }
         }
         return super.onOptionsItemSelected(item);
@@ -227,6 +228,24 @@ public class DetailActivity extends AppCompatActivity {
         if(toolbarMenu != 0){
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(toolbarMenu, menu);
+
+            if(toolbarMenu == R.menu.news_menu_toolbar){
+                SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
+                SearchView searchView = (SearchView)menu.findItem(R.id.news_menu_search).getActionView();
+                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+                LinearLayout parent = (LinearLayout)searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                ImageView plusIcon = new ImageView(this);
+                plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
+                plusIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CommentSearchDialog dialog = new CommentSearchDialog();
+                        dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);
+                    }
+                });
+                parent.addView(plusIcon);
+            }
         }
         return true;
     }
