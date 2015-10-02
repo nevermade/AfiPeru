@@ -1,6 +1,5 @@
 package com.example.dp2.afiperu;
 
-import android.app.DialogFragment;
 import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +20,6 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -32,8 +31,6 @@ import com.example.dp2.afiperu.dialogs.KidSearchDialog;
 import com.example.dp2.afiperu.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
-import com.example.dp2.afiperu.fragments.KidCommentFragment;
-import com.example.dp2.afiperu.fragments.KidsFragment;
 import com.example.dp2.afiperu.fragments.PeopleKidsFragment;
 import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
 import com.example.dp2.afiperu.fragments.UsersFragment;
@@ -81,6 +78,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final int FRAGMENT_ASISTENCIA = 10;
     public static final int FRAGMENT_COMENTARIOS = 11;
     public static final int FRAGMENT_DETALLE_BLOG = 12;
+    public static final int FRAGMENT_LISTA_COMENTARIOS = 13;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -128,30 +126,9 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_BLOG: return R.menu.blogs_menu_toolbar;
             case FRAGMENT_NIÑOS: return R.menu.people_kids_menu_toolbar;
             case FRAGMENT_USUARIOS: return R.menu.users_menu_toolbar;
+            case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
             default: return 0;
         }
-    }
-
-    public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
-    public static final String DIALOG_TAG_SEARCH_USERS = "search_users";
-    public static final String DIALOG_TAG_SEARCH_KIDS = "search_kids";
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        Fragment shownFragment = getSupportFragmentManager().getFragments().get(0);
-        if(shownFragment instanceof NewsFragment){
-            if(item.getItemId() == R.id.news_menu_search){
-                /*CommentSearchDialog dialog = new CommentSearchDialog();
-                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);*/
-
-                /*UserSearchDialog dialog = new UserSearchDialog();
-                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);*/
-
-                /*KidSearchDialog dialog = new KidSearchDialog();
-                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);*/
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /* Cosas que casi no deberían cambiar */
@@ -222,6 +199,11 @@ public class DetailActivity extends AppCompatActivity {
         });
     }
 
+    public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
+    public static final String DIALOG_TAG_SEARCH_USERS = "search_users";
+    public static final String DIALOG_TAG_SEARCH_KIDS = "search_kids";
+    public static final String DIALOG_TAG_DETAIL_COMMENT = "detail_comment";
+
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         menu.clear();
@@ -229,19 +211,51 @@ public class DetailActivity extends AppCompatActivity {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(toolbarMenu, menu);
 
-            if(toolbarMenu == R.menu.news_menu_toolbar){
-                SearchManager searchManager = (SearchManager)getSystemService(Context.SEARCH_SERVICE);
-                SearchView searchView = (SearchView)menu.findItem(R.id.news_menu_search).getActionView();
+            //Search view
+            final int menuItem;
+            final String dialogTag;
+            final Class<?> dialogFragmentClass;
+            switch(toolbarMenu){
+                case R.menu.users_menu_toolbar:
+                    menuItem = R.id.users_menu_search;
+                    dialogTag = DIALOG_TAG_SEARCH_USERS;
+                    dialogFragmentClass = UserSearchDialog.class;
+                    break;
+                case R.menu.people_kids_menu_toolbar:
+                    menuItem = R.id.people_kids_menu_search;
+                    dialogTag = DIALOG_TAG_SEARCH_KIDS;
+                    dialogFragmentClass = KidSearchDialog.class;
+                    break;
+                case R.menu.comments_menu_toolbar:
+                    menuItem = R.id.comments_menu_search;
+                    dialogTag = DIALOG_TAG_SEARCH_COMMENTS;
+                    dialogFragmentClass = CommentSearchDialog.class;
+                    break;
+                default:
+                    menuItem = 0;
+                    dialogTag = null;
+                    dialogFragmentClass = CommentSearchDialog.class;
+                    break;
+            }
+            if(menuItem != 0) {
+                SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                SearchView searchView = (SearchView) menu.findItem(menuItem).getActionView();
                 searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-                LinearLayout parent = (LinearLayout)searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
                 ImageView plusIcon = new ImageView(this);
                 plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
                 plusIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        CommentSearchDialog dialog = new CommentSearchDialog();
-                        dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);
+                        try {
+                            DialogFragment dialog = (DialogFragment) dialogFragmentClass.newInstance();
+                            dialog.show(getSupportFragmentManager(), dialogTag);
+                        } catch (InstantiationException e) {
+                            Log.e("", "", e);
+                        } catch (IllegalAccessException e) {
+                            Log.e("", "", e);
+                        }
                     }
                 });
                 parent.addView(plusIcon);
@@ -501,11 +515,6 @@ public class DetailActivity extends AppCompatActivity {
             Log.e("imgs", "", e);
         }
         return null;
-    }
-
-    public void showDialog(View v) {
-        DialogFragment newFragment = new KidCommentFragment();
-        newFragment.show(getFragmentManager(), "missiles");
     }
 
 }

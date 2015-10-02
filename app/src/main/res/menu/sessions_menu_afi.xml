@@ -7,6 +7,9 @@
         android:id="@+id/sessions_menu_map"
         android:title="@string/sessions_menu_map"/>
     <item
+        android:id="@+id/sessions_menu_show_comments"
+        android:title="@string/sessions_menu_show_comments"/>
+    <item
         android:id="@+id/sessions_menu_comment"
         android:title="@string/sessions_menu_comment"/>
     <item

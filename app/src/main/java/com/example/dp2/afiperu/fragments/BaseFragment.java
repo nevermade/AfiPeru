@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.fragments;
 
+import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -46,6 +47,11 @@ public abstract class BaseFragment extends Fragment {
     public void addFragmentToStack(Fragment fragment, int fragmentId){
         DetailActivity activity = ((DetailActivity) getContext());
         activity.addFragment(fragment, activity.getTitle(fragmentId), activity.getMenu(fragmentId));
+    }
+
+    public void showPopup(DialogFragment dialog, String tag){
+        DetailActivity activity = ((DetailActivity) getContext());
+        dialog.show(activity.getSupportFragmentManager(), tag);
     }
 
 }

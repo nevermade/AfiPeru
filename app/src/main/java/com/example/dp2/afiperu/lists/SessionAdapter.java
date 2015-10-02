@@ -15,6 +15,8 @@ import com.example.dp2.afiperu.DetailActivity;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.fragments.AttendanceFragment;
 import com.example.dp2.afiperu.fragments.BaseFragment;
+import com.example.dp2.afiperu.fragments.CommentFragment;
+import com.example.dp2.afiperu.fragments.Kids2Fragment;
 import com.example.dp2.afiperu.fragments.KidsFragment;
 
 import java.util.ArrayList;
@@ -58,8 +60,23 @@ public class SessionAdapter extends BaseArrayAdapter<SessionItem> {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
                             switch(item.getItemId()){
-                                case R.id.sessions_menu_comment:
+                                case R.id.sessions_menu_show_comments:
                                     Bundle args = new Bundle();
+                                    ArrayList<KidItem> kids2 = new ArrayList<>();
+                                    kids2.add(new KidItem("Eduardo Arenas", 12, true));
+                                    kids2.add(new KidItem("Julio Castillo", 12, false));
+                                    kids2.add(new KidItem("Juan Reyes", 12, true));
+                                    kids2.add(new KidItem("Kevin Brown", 12, true));
+                                    kids2.add(new KidItem("Robert Aduviri", 12, false));
+                                    Collections.sort(kids2);
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
+                                    args.putSerializable(Kids2Fragment.KIDS_ARG, kids2);
+                                    Kids2Fragment kidsFragment2 = new Kids2Fragment();
+                                    kidsFragment2.setArguments(args);
+                                    getFragment().addFragmentToStack(kidsFragment2, DetailActivity.FRAGMENT_COMENTARIOS);
+                                    break;
+                                case R.id.sessions_menu_comment:
+                                    args = new Bundle();
                                     ArrayList<KidItem> kids = new ArrayList<>();
                                     kids.add(new KidItem("Eduardo Arenas", 12, true));
                                     kids.add(new KidItem("Julio Castillo", 12, false));
