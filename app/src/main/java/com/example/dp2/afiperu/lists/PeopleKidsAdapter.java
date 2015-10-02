@@ -26,7 +26,7 @@ public class PeopleKidsAdapter extends BaseArrayAdapter<PeopleKidsItem> {
         ImageView gender=(ImageView)convertView.findViewById(R.id.people_kids_item_gender_pic);
 
         name.setText(item.getName()+" "+item.getLastName());
-        age.setText(item.getAge());
+        age.setText(String.valueOf(item.getAge()));
         if(item.isMale())
             gender.setImageResource(R.drawable.ic_male);
         else

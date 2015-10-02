@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 public class UsersFragment extends BaseFragment {
-    public static final String BLOG_ARG = "user_arg";
+    public static final String USER_ARG = "user_arg";
 
 
     public UsersFragment() {
@@ -29,7 +29,7 @@ public class UsersFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
-        ArrayList<UsersItem> users = (ArrayList<UsersItem>) args.getSerializable(BLOG_ARG);
+        ArrayList<UsersItem> users = (ArrayList<UsersItem>) args.getSerializable(USER_ARG);
         UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
 
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);

@@ -25,20 +25,27 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.dialogs.CommentSearchDialog;
+import com.example.dp2.afiperu.dialogs.KidSearchDialog;
+import com.example.dp2.afiperu.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
 import com.example.dp2.afiperu.fragments.KidCommentFragment;
+import com.example.dp2.afiperu.fragments.KidsFragment;
+import com.example.dp2.afiperu.fragments.PeopleKidsFragment;
 import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
+import com.example.dp2.afiperu.fragments.UsersFragment;
 import com.example.dp2.afiperu.lists.BlogsItem;
 import com.example.dp2.afiperu.lists.DocumentsItem;
 import com.example.dp2.afiperu.lists.DrawerItem;
 import com.example.dp2.afiperu.lists.DrawerAdapter;
 import com.example.dp2.afiperu.lists.NewsItem;
+import com.example.dp2.afiperu.lists.PeopleKidsItem;
 import com.example.dp2.afiperu.lists.SessionItem;
 import com.example.dp2.afiperu.fragments.DocumentsFragment;
 import com.example.dp2.afiperu.fragments.LoginFragment;
 import com.example.dp2.afiperu.fragments.NewsFragment;
 import com.example.dp2.afiperu.fragments.SessionFragment;
+import com.example.dp2.afiperu.lists.UsersItem;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,17 +67,19 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_BLOG = 1;
-    public static final int FRAGMENT_PERSONAS = 2;
-    public static final int FRAGMENT_SESIONES = 3;
-    public static final int FRAGMENT_DOCUMENTOS = 4;
-    public static final int FRAGMENT_SUBIR_FOTOS = 5;
-    public static final int FRAGMENT_PAGOS = 6;
+    //public static final int FRAGMENT_PERSONAS = 2;
+    public static final int FRAGMENT_USUARIOS = 2;
+    public static final int FRAGMENT_NIÑOS = 3;
+    public static final int FRAGMENT_SESIONES = 4;
+    public static final int FRAGMENT_DOCUMENTOS = 5;
+    public static final int FRAGMENT_SUBIR_FOTOS = 6;
+    public static final int FRAGMENT_PAGOS = 7;
 
-    public static final int FRAGMENT_LOGIN = 7;
-    public static final int FRAGMENT_DETALLE_NOTICIAS = 8;
-    public static final int FRAGMENT_ASISTENCIA = 9;
-    public static final int FRAGMENT_COMENTARIOS = 10;
-    public static final int FRAGMENT_DETALLE_BLOG = 11;
+    public static final int FRAGMENT_LOGIN = 8;
+    public static final int FRAGMENT_DETALLE_NOTICIAS = 9;
+    public static final int FRAGMENT_ASISTENCIA = 10;
+    public static final int FRAGMENT_COMENTARIOS = 11;
+    public static final int FRAGMENT_DETALLE_BLOG = 12;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -86,7 +95,9 @@ public class DetailActivity extends AppCompatActivity {
         int id = 0;
         switch(fragmentId){
             case FRAGMENT_NOTICIAS: id = R.string.menu_noticias; break;
-            case FRAGMENT_PERSONAS: id = R.string.menu_personas; break;
+            //case FRAGMENT_PERSONAS: id = R.string.menu_personas; break;
+            case FRAGMENT_USUARIOS: id = R.string.menu_usuarios; break;
+            case FRAGMENT_NIÑOS: id = R.string.menu_ninos; break;
             case FRAGMENT_SESIONES: id = R.string.menu_sesiones; break;
             case FRAGMENT_DOCUMENTOS: id = R.string.menu_documentos; break;
             case FRAGMENT_SUBIR_FOTOS: id = R.string.menu_subir_fotos; break;
@@ -114,8 +125,32 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
             case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
             case FRAGMENT_BLOG: return R.menu.blogs_menu_toolbar;
+            case FRAGMENT_NIÑOS: return R.menu.people_kids_menu_toolbar;
+            case FRAGMENT_USUARIOS: return R.menu.users_menu_toolbar;
             default: return 0;
         }
+    }
+
+    public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
+    public static final String DIALOG_TAG_SEARCH_USERS = "search_users";
+    public static final String DIALOG_TAG_SEARCH_KIDS = "search_kids";
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Fragment shownFragment = getSupportFragmentManager().getFragments().get(0);
+        if(shownFragment instanceof NewsFragment){
+            if(item.getItemId() == R.id.news_menu_search){
+                /*CommentSearchDialog dialog = new CommentSearchDialog();
+                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);*/
+
+                /*UserSearchDialog dialog = new UserSearchDialog();
+                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);*/
+
+                KidSearchDialog dialog = new KidSearchDialog();
+                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);
+            }
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /* Cosas que casi no deberían cambiar */
@@ -146,7 +181,9 @@ public class DetailActivity extends AppCompatActivity {
         ArrayList<DrawerItem> list = new ArrayList<>();
         list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
         list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
-        list.add(new DrawerItem(getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
+        //list.add(new DrawerItem(getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
+        list.add(new DrawerItem(getTitle(FRAGMENT_USUARIOS), R.drawable.ic_drawer_people));
+        list.add(new DrawerItem(getTitle(FRAGMENT_NIÑOS), R.drawable.ic_drawer_people));
         list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
         list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
         list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
@@ -192,20 +229,6 @@ public class DetailActivity extends AppCompatActivity {
             inflater.inflate(toolbarMenu, menu);
         }
         return true;
-    }
-
-    public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        Fragment shownFragment = getSupportFragmentManager().getFragments().get(0);
-        if(shownFragment instanceof NewsFragment){
-            if(item.getItemId() == R.id.news_menu_search){
-                CommentSearchDialog dialog = new CommentSearchDialog();
-                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);
-            }
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
@@ -287,6 +310,26 @@ public class DetailActivity extends AppCompatActivity {
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NOTICIAS);
                 fragment = new NewsFragment();
                 break;
+            case FRAGMENT_USUARIOS:
+                ArrayList<UsersItem> users= new ArrayList<>();
+                users.add(new UsersItem("dabarca","20101147","Daekef","Abarca","Cusimayta",3.5));
+                users.add(new UsersItem("fbanda","20107845","Fernando","Banda","Cardenas",4.8));
+                users.add(new UsersItem("lbarcena","20101019","Luis","Barcena","Navarro",1.0));
+                Collections.sort(users);
+                args.putSerializable(UsersFragment.USER_ARG, users);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_USUARIOS);
+                fragment=new UsersFragment();
+                break;
+            case FRAGMENT_NIÑOS:
+                ArrayList<PeopleKidsItem> kids= new ArrayList<>();
+                kids.add(new PeopleKidsItem(false,12,"Perales","Perez","Paola"));
+                kids.add(new PeopleKidsItem(true,10,"Perales","Perez","Juan"));
+                kids.add(new PeopleKidsItem(false,11,"Perales","Perez","Rosario"));
+                Collections.sort(kids);
+                args.putSerializable(PeopleKidsFragment.PEOPLE_KIDS_ARG, kids);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NIÑOS);
+                fragment = new PeopleKidsFragment();
+                break;
             case FRAGMENT_SESIONES:
                 ArrayList<SessionItem> sessions = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
@@ -336,6 +379,8 @@ public class DetailActivity extends AppCompatActivity {
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
                 fragment=new BlogsFragment();
                 break;
+
+
         }
         fragment.setArguments(args);
         mDrawerList.setItemChecked(position, true);

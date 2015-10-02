@@ -15,7 +15,7 @@ import java.util.List;
 public class UsersAdapter extends BaseArrayAdapter<UsersItem> {
 
     public UsersAdapter(Context context, BaseFragment fragment, List<UsersItem> objects) {
-        super(context, fragment, R.layout.blogs_list_item, objects);
+        super(context, fragment, R.layout.users_list_item, objects);
     }
 
     @Override
