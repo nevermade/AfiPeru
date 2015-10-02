@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu;
 
+import android.app.DialogFragment;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 
 import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
+import com.example.dp2.afiperu.fragments.KidCommentFragment;
 import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
 import com.example.dp2.afiperu.lists.BlogsItem;
 import com.example.dp2.afiperu.lists.DocumentsItem;
@@ -390,6 +392,11 @@ public class DetailActivity extends AppCompatActivity {
             Log.e("imgs", "", e);
         }
         return null;
+    }
+
+    public void showDialog(View v) {
+        DialogFragment newFragment = new KidCommentFragment();
+        newFragment.show(getFragmentManager(), "missiles");
     }
 
 }

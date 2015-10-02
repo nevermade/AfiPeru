@@ -51,5 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:onClick="showDialog"
         android:src="@android:drawable/checkbox_on_background"/>
 </RelativeLayout>

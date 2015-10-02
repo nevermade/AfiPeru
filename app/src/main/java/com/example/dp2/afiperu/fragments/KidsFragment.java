@@ -1,6 +1,11 @@
 package com.example.dp2.afiperu.fragments;
 
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ListView;
 
@@ -8,6 +13,8 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.lists.KidItem;
 import com.example.dp2.afiperu.lists.KidAdapter;
 
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -35,5 +42,9 @@ public class KidsFragment extends BaseFragment{
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_kids_list));
     }
+
+
+
+
 
 }
