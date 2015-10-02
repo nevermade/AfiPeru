@@ -7,6 +7,8 @@
 
     <string name="menu_noticias">Noticias</string>
     <string name="menu_personas">Personas</string>
+    <string name="menu_usuarios">Usuarios</string>
+    <string name="menu_ninos">Niños</string>
     <string name="menu_sesiones">Sesiones</string>
     <string name="menu_documentos">Documentos</string>
     <string name="menu_subir_fotos">Subir fotos</string>
@@ -57,6 +59,11 @@
     <!-- Niños -->
     <string name="kids_none">No se encontraron niños.</string>
     <string name="kids_age">%d años</string>
+    <string name="search_title_kids">Buscar niños</string>
+    <string name="search_age">Edad</string>
+    <string name="search_range_from">Entre</string>
+    <string name="search_range_to">y</string>
+    <string name="search_sex">Sexo</string>
 
     <!-- Comentario -->
     <string name="search_title_comments">Buscar comentarios</string>
@@ -81,10 +88,18 @@
 
     <!-- Users-->
     <string name="users_none">No se encontraron usuarios.</string>
-    <string name="users_menu_search">Buscar Usuarios</string>
+    <string name="users_menu_search">Buscar usuarios</string>
+    <string name="search_name">Nombre o apellido</string>
+    <string name="search_doc_number">Número de documento</string>
+    <string name="search_profile">Perfil</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_profile_options_any">Cualquiera</string>
+    <string-array name="search_profile_options">
+        <item>@string/search_profile_options_any</item>
+        <item>Miembro de AFI</item>
+        <item>Voluntario</item>
+        <item>Padrino</item>
+    </string-array>
 
     <!-- Repostular -->
     <string name="confirm_postulate">¿Estás seguro de que quieres postular para el siguiente periodo?</string>

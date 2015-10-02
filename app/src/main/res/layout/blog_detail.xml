@@ -91,6 +91,7 @@
                     android:adjustViewBounds="true"
                     android:src="@drawable/ic_dark_info"/>
             </RelativeLayout>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
