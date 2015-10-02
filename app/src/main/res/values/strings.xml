@@ -82,7 +82,8 @@
     <string name="no_photo_message">No se ha elegido ninguna imagen.\n\nPor favor elija una de la galería o tome una foto nueva.</string>
 
     <!-- Blogs -->
-    <string name="blogs_none">No se encontraron blogs.</string>
+    <string name="blogs_none">No se encontraron artículos de blog.</string>
+    <string name="blog_go_to_comments">Ver comentarios</string>
     <string name="author_short_desc_example">Psicólogo</string>
     <string name="blogs_menu_search">Buscar Blogs</string>
 
