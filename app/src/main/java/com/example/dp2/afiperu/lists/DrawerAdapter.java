@@ -2,6 +2,7 @@ package com.example.dp2.afiperu.lists;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,5 +24,12 @@ public class DrawerAdapter extends BaseArrayAdapter<DrawerItem> {
 
         icon.setImageResource(item.getIconId());
         name.setText(item.getName());
+        if(item.getName().equals(convertView.getResources().getString(R.string.menu_postular))){
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                name.setTextColor(convertView.getResources().getColor(R.color.drawer_highlight, null));
+            }else{
+                name.setTextColor(convertView.getResources().getColor(R.color.drawer_highlight));
+            }
+        }
     }
 }

@@ -1,9 +1,12 @@
 package com.example.dp2.afiperu;
 
 import android.app.DialogFragment;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
@@ -15,11 +18,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
 import com.example.dp2.afiperu.fragments.KidCommentFragment;
@@ -51,18 +56,21 @@ import java.util.GregorianCalendar;
  */
 public class DetailActivity extends AppCompatActivity {
 
-    public static final int FRAGMENT_NOTICIAS = 0;
-    public static final int FRAGMENT_SESIONES = 1;
-    public static final int FRAGMENT_DOCUMENTOS = 2;
-    public static final int FRAGMENT_SUBIR_FOTOS = 3;
-    public static final int FRAGMENT_BLOG = 4;
-    public static final int FRAGMENT_PAGOS = 5;
+    public static int DARK_COLOR;
 
-    public static final int FRAGMENT_LOGIN = 6;
-    public static final int FRAGMENT_DETALLE_NOTICIAS = 7;
-    public static final int FRAGMENT_ASISTENCIA = 8;
-    public static final int FRAGMENT_COMENTARIOS = 9;
-    public static final int FRAGMENT_DETALLE_BLOG = 10;
+    public static final int FRAGMENT_NOTICIAS = 0;
+    public static final int FRAGMENT_BLOG = 1;
+    public static final int FRAGMENT_PERSONAS = 2;
+    public static final int FRAGMENT_SESIONES = 3;
+    public static final int FRAGMENT_DOCUMENTOS = 4;
+    public static final int FRAGMENT_SUBIR_FOTOS = 5;
+    public static final int FRAGMENT_PAGOS = 6;
+
+    public static final int FRAGMENT_LOGIN = 7;
+    public static final int FRAGMENT_DETALLE_NOTICIAS = 8;
+    public static final int FRAGMENT_ASISTENCIA = 9;
+    public static final int FRAGMENT_COMENTARIOS = 10;
+    public static final int FRAGMENT_DETALLE_BLOG = 11;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -78,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
         int id = 0;
         switch(fragmentId){
             case FRAGMENT_NOTICIAS: id = R.string.menu_noticias; break;
+            case FRAGMENT_PERSONAS: id = R.string.menu_personas; break;
             case FRAGMENT_SESIONES: id = R.string.menu_sesiones; break;
             case FRAGMENT_DOCUMENTOS: id = R.string.menu_documentos; break;
             case FRAGMENT_SUBIR_FOTOS: id = R.string.menu_subir_fotos; break;
@@ -104,6 +113,7 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_SUBIR_FOTOS: return R.menu.upload_photos_toolbar;
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
             case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
+            case FRAGMENT_BLOG: return R.menu.blogs_menu_toolbar;
             default: return 0;
         }
     }
@@ -135,12 +145,15 @@ public class DetailActivity extends AppCompatActivity {
 
         ArrayList<DrawerItem> list = new ArrayList<>();
         list.add(new DrawerItem(getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+        list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
+        list.add(new DrawerItem(getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
         list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
         list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
         list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
         list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
         list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
         list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
+        list.add(new DrawerItem(getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new DrawerAdapter(this, list));
@@ -182,6 +195,20 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+    public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Fragment shownFragment = getSupportFragmentManager().getFragments().get(0);
+        if(shownFragment instanceof NewsFragment){
+            if(item.getItemId() == R.id.news_menu_search){
+                CommentSearchDialog dialog = new CommentSearchDialog();
+                dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
@@ -205,6 +232,25 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void selectItem(int position){
+        if(position == FRAGMENT_LOGIN + 1){
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if(which == DialogInterface.BUTTON_POSITIVE){
+
+                    }else if(which == DialogInterface.BUTTON_NEGATIVE){
+
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(R.string.confirm_postulate).setPositiveButton(android.R.string.yes, dialogClickListener)
+                    .setNegativeButton(android.R.string.no, dialogClickListener);
+            AlertDialog alert = builder.create();
+            alert.show();
+            return;
+        }
+
         Bundle args = new Bundle();
         Fragment fragment;
         switch(position){

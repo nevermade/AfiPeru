@@ -7,6 +7,7 @@
     <dimen name="button_large">200dp</dimen>
     <dimen name="button_medium">150dp</dimen>
 
+    <dimen name="edit_text_medium">180dp</dimen>
     <dimen name="edit_text_large">240dp</dimen>
     <dimen name="edit_text_padding">@dimen/margin_small</dimen>
 

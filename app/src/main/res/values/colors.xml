@@ -4,8 +4,10 @@
     <item name="status_bar" type="color">#0078A0</item>
 
     <item name="toolbar_background" type="color">#0099cc</item>
-    <item name="drawer_background" type="color">@color/main_background</item>
     <item name="light_text" type="color">@android:color/white</item>
+
+    <item name="drawer_background" type="color">@color/main_background</item>
+    <item name="drawer_highlight" type="color">#f39c12</item>
 
     <item name="main_background" type="color">#F0FFFF</item>
     <item name="dark_text" type="color">#0099cc</item>

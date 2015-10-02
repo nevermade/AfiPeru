@@ -1,6 +1,5 @@
 package com.example.dp2.afiperu.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
