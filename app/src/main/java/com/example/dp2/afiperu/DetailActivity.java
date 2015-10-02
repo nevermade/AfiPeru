@@ -150,7 +150,6 @@ public class DetailActivity extends AppCompatActivity {
         list.add(new DrawerItem(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
         list.add(new DrawerItem(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
         list.add(new DrawerItem(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
-        list.add(new DrawerItem(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
         list.add(new DrawerItem(getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
         list.add(new DrawerItem(getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
         list.add(new DrawerItem(getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
@@ -326,11 +325,11 @@ public class DetailActivity extends AppCompatActivity {
                 break;
             case FRAGMENT_BLOG:
                 ArrayList<BlogsItem> blogs= new ArrayList<>();
-                calendar=new GregorianCalendar(2015,8,22);
+                calendar=new GregorianCalendar(2015,8,22,14,25);
                 blogs.add(new BlogsItem("Titulo 1","Daekef Abarca",calendar.getTime().getTime()));
-                calendar=new GregorianCalendar(2015,7,24);
+                calendar=new GregorianCalendar(2015,7,24,48,27);
                 blogs.add(new BlogsItem("Titulo 2","Fernando Banda",calendar.getTime().getTime()));
-                calendar=new GregorianCalendar(2015,6,15);
+                calendar=new GregorianCalendar(2015,6,15,9,45);
                 blogs.add(new BlogsItem("Titulo 3","Luis Barcena",calendar.getTime().getTime()));
                 Collections.sort(blogs);
                 args.putSerializable(BlogsFragment.BLOG_ARG, blogs);

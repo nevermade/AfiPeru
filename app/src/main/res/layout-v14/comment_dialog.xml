@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="2500dp"
+    android:background="@color/main_background">
+
+
+    <TextView
+        android:id="@+id/empty_blogs_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/blogs_none"
+        android:textAppearance="@style/text_appearance_large_dark"
+        android:visibility="gone"/>
+
+
+    <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="21dp"
+            android:layout_marginLeft="41dp"
+            android:id="@+id/carita1"
+
+            android:background="@drawable/happy"
+        style="@android:style/MediaButton" />
+
+    <ImageButton
+            android:layout_width="50dp"
+        android:layout_height="50dp"
+            android:id="@+id/carita2"
+
+
+            android:background="@drawable/sad"
+        android:layout_alignTop="@+id/carita1"
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/text_appearance_large_dark"
+        android:text="Inserte su comentario"
+        android:id="@+id/textView"
+        android:layout_below="@+id/carita1"
+        android:layout_alignLeft="@+id/carita1"
+        android:layout_alignStart="@+id/carita1"
+        android:layout_marginTop="39dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/carita1"
+        android:layout_marginBottom="40dp"/>
+
+</RelativeLayout>
