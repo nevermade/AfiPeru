@@ -5,6 +5,7 @@
 
     <item name="toolbar_background" type="color">#0099cc</item>
     <item name="light_text" type="color">@android:color/white</item>
+    <item name="light_soft_text" type="color">#7bd3f0</item>
 
     <item name="drawer_background" type="color">@color/main_background</item>
     <item name="drawer_highlight" type="color">#f39c12</item>

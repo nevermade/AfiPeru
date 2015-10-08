@@ -30,7 +30,11 @@ import com.example.dp2.afiperu.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.dialogs.KidSearchDialog;
 import com.example.dp2.afiperu.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.fragments.BaseFragment;
+import com.example.dp2.afiperu.fragments.BlogTabFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
+import com.example.dp2.afiperu.fragments.FavoriteBlogFragment;
+import com.example.dp2.afiperu.fragments.FavoriteNewsFragment;
+import com.example.dp2.afiperu.fragments.NewsTabFragment;
 import com.example.dp2.afiperu.fragments.PeopleKidsFragment;
 import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
 import com.example.dp2.afiperu.fragments.UsersFragment;
@@ -322,7 +326,7 @@ public class DetailActivity extends AppCompatActivity {
                         "Paseo pinoteco al parque de las leyendas",
                         2001,
                         "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                        "Manuel", calendar.getTime().getTime(), false));
+                        "Manuel", calendar.getTime().getTime(), true));
                 calendar = new GregorianCalendar(2015, 8, 24, 23, 40);
                 news.add(new NewsItem(
                         1002,
@@ -340,8 +344,27 @@ public class DetailActivity extends AppCompatActivity {
                         "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
                         "Yuri", calendar.getTime().getTime(), false));
                 args.putSerializable(NewsFragment.NEWS_ARG, news);
+                ArrayList<NewsItem> favoriteNews = new ArrayList<>();
+                favoriteNews.add(news.get(0));
+                args.putSerializable(FavoriteNewsFragment.FAVORITE_NEWS_ARG, favoriteNews);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NOTICIAS);
-                fragment = new NewsFragment();
+                fragment = new NewsTabFragment();
+                break;
+            case FRAGMENT_BLOG:
+                ArrayList<BlogsItem> blogs= new ArrayList<>();
+                calendar=new GregorianCalendar(2015,8,22,14,25);
+                blogs.add(new BlogsItem("Titulo 1","Daekef Abarca",calendar.getTime().getTime(),false));
+                calendar=new GregorianCalendar(2015,7,24,48,27);
+                blogs.add(new BlogsItem("Titulo 2","Fernando Banda",calendar.getTime().getTime(),true));
+                calendar=new GregorianCalendar(2015,6,15,9,45);
+                blogs.add(new BlogsItem("Titulo 3","Luis Barcena",calendar.getTime().getTime(),false));
+                Collections.sort(blogs);
+                args.putSerializable(BlogsFragment.BLOG_ARG, blogs);
+                ArrayList<BlogsItem> favoriteBlogs = new ArrayList<>();
+                favoriteBlogs.add(blogs.get(1));
+                args.putSerializable(FavoriteBlogFragment.FAVORITE_BLOG_ARG, favoriteBlogs);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
+                fragment=new BlogTabFragment();
                 break;
             case FRAGMENT_USUARIOS:
                 ArrayList<UsersItem> users= new ArrayList<>();
@@ -399,21 +422,6 @@ public class DetailActivity extends AppCompatActivity {
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);
                 fragment = new UploadPhotosFragment();
                 break;
-            case FRAGMENT_BLOG:
-                ArrayList<BlogsItem> blogs= new ArrayList<>();
-                calendar=new GregorianCalendar(2015,8,22,14,25);
-                blogs.add(new BlogsItem("Titulo 1","Daekef Abarca",calendar.getTime().getTime()));
-                calendar=new GregorianCalendar(2015,7,24,48,27);
-                blogs.add(new BlogsItem("Titulo 2","Fernando Banda",calendar.getTime().getTime()));
-                calendar=new GregorianCalendar(2015,6,15,9,45);
-                blogs.add(new BlogsItem("Titulo 3","Luis Barcena",calendar.getTime().getTime()));
-                Collections.sort(blogs);
-                args.putSerializable(BlogsFragment.BLOG_ARG, blogs);
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
-                fragment=new BlogsFragment();
-                break;
-
-
         }
         fragment.setArguments(args);
         mDrawerList.setItemChecked(position, true);

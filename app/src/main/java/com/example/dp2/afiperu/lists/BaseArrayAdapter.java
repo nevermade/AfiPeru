@@ -25,7 +25,7 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
         this.itemLayout = itemLayout;
     }
 
-    public BaseFragment getFragment(){
+    public final BaseFragment getFragment(){
         return fragment;
     }
 

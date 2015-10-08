@@ -1,8 +1,11 @@
 package com.example.dp2.afiperu.lists;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,7 +20,7 @@ import com.example.dp2.afiperu.fragments.NewsFragment;
 
 import java.util.List;
 
-public class NewsAdapter extends BaseArrayAdapter<NewsItem> {
+public class FavoriteNewsAdapter extends BaseArrayAdapter<NewsItem> {
 
     public static final int EMPTY_STAR = R.drawable.ic_star_empty;
     public static final int FULL_STAR = R.drawable.ic_star_full;
@@ -29,12 +32,8 @@ public class NewsAdapter extends BaseArrayAdapter<NewsItem> {
         }
     }
 
-    public NewsAdapter(Context context, BaseFragment fragment, List<NewsItem> objects) {
+    public FavoriteNewsAdapter(Context context, BaseFragment fragment, List<NewsItem> objects) {
         super(context, fragment, R.layout.news_list_item, objects);
-    }
-
-    public BaseFragment getTopFragment(){
-        return (BaseFragment)super.getFragment().getParentFragment();
     }
 
     @Override
@@ -58,9 +57,21 @@ public class NewsAdapter extends BaseArrayAdapter<NewsItem> {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.news_item_icon_favorite) {
-                    boolean isFavorite = ((NewsFragment)getFragment()).toggleFavorite(position);
-                    ImageView favoriteIcon = (ImageView) v;
-                    favoriteIcon.setImageResource(getStarDrawable(isFavorite));
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == DialogInterface.BUTTON_POSITIVE){
+
+                            }else if(which == DialogInterface.BUTTON_NEGATIVE){
+
+                            }
+                        }
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.delete_news_favorite).setPositiveButton(android.R.string.yes, dialogClickListener)
+                            .setNegativeButton(android.R.string.no, dialogClickListener);
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
             }
         });

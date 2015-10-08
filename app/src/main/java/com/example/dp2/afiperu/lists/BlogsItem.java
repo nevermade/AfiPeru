@@ -20,12 +20,11 @@ public class BlogsItem implements Serializable, Comparable<BlogsItem>{
         this.isFavorite = isFavorite;
     }
 
-
-
-    public BlogsItem(String title, String author,long uploadDate) {
+    public BlogsItem(String title, String author,long uploadDate,boolean isFavorite) {
         this.title = title;
         this.uploadDate = uploadDate;
         this.author = author;
+        this.isFavorite = isFavorite;
     }
 
     public String getTitle() {

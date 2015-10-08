@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.lists.NewsAdapter;
+import com.example.dp2.afiperu.lists.FavoriteNewsAdapter;
 import com.example.dp2.afiperu.lists.NewsItem;
 
 import java.util.ArrayList;
@@ -14,13 +14,11 @@ import java.util.ArrayList;
 /**
  * Created by Fernando on 23/09/2015.
  */
-public class NewsFragment extends BaseFragment{
+public class FavoriteNewsFragment extends BaseFragment{
 
-    public static final String NEWS_ARG = "news_arg";
+    public static final String FAVORITE_NEWS_ARG = "favorite_news_arg";
 
-    private boolean[] isFavorite;
-
-    public NewsFragment(){
+    public FavoriteNewsFragment(){
         super();
     }
 
@@ -31,22 +29,12 @@ public class NewsFragment extends BaseFragment{
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<NewsItem> news = (ArrayList<NewsItem>)args.getSerializable(NEWS_ARG);
-        NewsAdapter adapter = new NewsAdapter(getContext(), this, news);
+        ArrayList<NewsItem> news = (ArrayList<NewsItem>)args.getSerializable(FAVORITE_NEWS_ARG);
+        FavoriteNewsAdapter adapter = new FavoriteNewsAdapter(getContext(), this, news);
 
         ListView newsList = (ListView)rootView.findViewById(R.id.news_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_news_list));
-
-        isFavorite = new boolean[news.size()];
-        for(int i=0; i<isFavorite.length; i++){
-            isFavorite[i] = news.get(i).isFavorite();
-        }
-    }
-
-    public boolean toggleFavorite(int position){
-        isFavorite[position] = !isFavorite[position];
-        return isFavorite[position];
     }
 
 }

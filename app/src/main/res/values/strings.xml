@@ -19,6 +19,9 @@
     <string name="title_asistencia">Asistencia</string>
     <string name="title_comentarios">Comentarios</string>
 
+    <string name="tab_all">TODO</string>
+    <string name="tab_favorite">FAVORITOS</string>
+
     <!-- Login -->
     <string name="login_message">Ingresa a tu cuenta</string>
     <string name="login_email_hint">Correo electrónico</string>
@@ -39,6 +42,7 @@
     <string name="news_none">No se encontraron noticias.</string>
     <string name="news_menu_favorite">Agregar a favoritos</string>
     <string name="news_menu_search">Buscar noticias</string>
+    <string name="delete_news_favorite">¿Borrar esta noticia de tus favoritos?</string>
 
     <!-- Noticias detalle -->
     <string name="news_article_author_date">%1$s, %2$s</string>
@@ -89,7 +93,8 @@
     <string name="blogs_none">No se encontraron artículos de blog.</string>
     <string name="blog_go_to_comments">Ver comentarios</string>
     <string name="author_short_desc_example">Psicólogo</string>
-    <string name="blogs_menu_search">Buscar Blogs</string>
+    <string name="blogs_menu_search">Buscar artículos de blog</string>
+    <string name="delete_blog_favorite">¿Borrar este artículo de tus favoritos?</string>
 
     <!-- Users-->
     <string name="users_none">No se encontraron usuarios.</string>
