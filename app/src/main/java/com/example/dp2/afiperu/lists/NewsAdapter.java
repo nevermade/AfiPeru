@@ -74,7 +74,8 @@ public class NewsAdapter extends BaseArrayAdapter<NewsItem> {
                     Bundle args = new Bundle();
                     NewsArticleItem arg = new NewsArticleItem(item.getPicId(), item.getPicURL(),
                             item.getTitle(), item.getAuthorName(), item.getUploadDate(),
-                            convertView.getResources().getString(R.string.article_example));
+                            convertView.getResources().getString(R.string.article_example),
+                            new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_EVENT_ADDRESS, null));
                     args.putSerializable(NewsArticleFragment.NEWS_ARTICLE_ARG, arg);
                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DETALLE_NOTICIAS);
                     newsArticleFragment.setArguments(args);

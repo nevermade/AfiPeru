@@ -40,16 +40,20 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
-    public void setImage(ImageView v, String URL, String fileName){
+    public void onSearch(String query){
+
+    }
+
+    public final void setImage(ImageView v, String URL, String fileName){
         ((DetailActivity)getContext()).setImage(v, URL, fileName);
     }
 
-    public void addFragmentToStack(Fragment fragment, int fragmentId){
+    public final void addFragmentToStack(Fragment fragment, int fragmentId){
         DetailActivity activity = ((DetailActivity) getContext());
         activity.addFragment(fragment, activity.getTitle(fragmentId), activity.getMenu(fragmentId));
     }
 
-    public void showPopup(DialogFragment dialog, String tag){
+    public final void showPopup(DialogFragment dialog, String tag){
         DetailActivity activity = ((DetailActivity) getContext());
         dialog.show(activity.getSupportFragmentManager(), tag);
     }

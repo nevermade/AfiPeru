@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.lists;
 
+import com.google.android.gms.maps.model.Marker;
+
 import java.io.Serializable;
 
 public class NewsArticleItem implements Serializable, Comparable<NewsArticleItem> {
@@ -9,14 +11,16 @@ public class NewsArticleItem implements Serializable, Comparable<NewsArticleItem
     private String authorName;
     private long uploadDate;
     private String content;
+    private MarkerInfo marker;
 
-    public NewsArticleItem(int picId, String picURL, String title, String authorName, long uploadDate, String content) {
+    public NewsArticleItem(int picId, String picURL, String title, String authorName, long uploadDate, String content, MarkerInfo marker) {
         this.picId = picId;
         this.picURL = picURL;
         this.title = title;
         this.authorName = authorName;
         this.uploadDate = uploadDate;
         this.content = content;
+        this.marker = marker;
     }
 
     public int getPicId(){
@@ -41,6 +45,10 @@ public class NewsArticleItem implements Serializable, Comparable<NewsArticleItem
 
     public String getContent(){
         return content;
+    }
+
+    public MarkerInfo getMarker(){
+        return marker;
     }
 
     @Override

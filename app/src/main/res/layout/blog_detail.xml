@@ -89,7 +89,7 @@
                     android:layout_marginLeft="@dimen/margin_small"
                     android:layout_marginRight="@dimen/margin_medium"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_dark_info"/>
+                    android:src="@drawable/ic_info"/>
             </RelativeLayout>
             <View
                 android:layout_width="match_parent"

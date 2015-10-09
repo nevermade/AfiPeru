@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -83,6 +84,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final int FRAGMENT_COMENTARIOS = 11;
     public static final int FRAGMENT_DETALLE_BLOG = 12;
     public static final int FRAGMENT_LISTA_COMENTARIOS = 13;
+    public static final int FRAGMENT_MAPA = 14;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -112,6 +114,7 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_ASISTENCIA: id = R.string.title_asistencia; break;
             case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
             case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
+            case FRAGMENT_MAPA: id = R.string.app_name; break;
         }
         if(id != 0){
             return getResources().getString(id);
@@ -131,6 +134,7 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_NIÑOS: return R.menu.people_kids_menu_toolbar;
             case FRAGMENT_USUARIOS: return R.menu.users_menu_toolbar;
             case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
+            case FRAGMENT_MAPA: return R.menu.map_menu_toolbar;
             default: return 0;
         }
     }
@@ -235,10 +239,15 @@ public class DetailActivity extends AppCompatActivity {
                     dialogTag = DIALOG_TAG_SEARCH_COMMENTS;
                     dialogFragmentClass = CommentSearchDialog.class;
                     break;
+                case R.menu.map_menu_toolbar:
+                    menuItem = R.id.map_menu_search;
+                    dialogTag = null;
+                    dialogFragmentClass = null;
+                    break;
                 default:
                     menuItem = 0;
                     dialogTag = null;
-                    dialogFragmentClass = CommentSearchDialog.class;
+                    dialogFragmentClass = null;
                     break;
             }
             if(menuItem != 0) {
@@ -246,23 +255,25 @@ public class DetailActivity extends AppCompatActivity {
                 SearchView searchView = (SearchView) menu.findItem(menuItem).getActionView();
                 searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-                LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
-                ImageView plusIcon = new ImageView(this);
-                plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
-                plusIcon.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            DialogFragment dialog = (DialogFragment) dialogFragmentClass.newInstance();
-                            dialog.show(getSupportFragmentManager(), dialogTag);
-                        } catch (InstantiationException e) {
-                            Log.e("", "", e);
-                        } catch (IllegalAccessException e) {
-                            Log.e("", "", e);
+                if(dialogFragmentClass != null) {
+                    LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                    ImageView plusIcon = new ImageView(this);
+                    plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
+                    plusIcon.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                DialogFragment dialog = (DialogFragment) dialogFragmentClass.newInstance();
+                                dialog.show(getSupportFragmentManager(), dialogTag);
+                            } catch (InstantiationException e) {
+                                Log.e("", "", e);
+                            } catch (IllegalAccessException e) {
+                                Log.e("", "", e);
+                            }
                         }
-                    }
-                });
-                parent.addView(plusIcon);
+                    });
+                    parent.addView(plusIcon);
+                }
             }
         }
         return true;
@@ -523,6 +534,20 @@ public class DetailActivity extends AppCompatActivity {
             Log.e("imgs", "", e);
         }
         return null;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent){
+        Log.d("search", "ON NEW INTENT CALLED");
+        setIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent){
+        if(intent.getAction().equals(Intent.ACTION_SEARCH)){
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            ((BaseFragment)getSupportFragmentManager().getFragments().get(0)).onSearch(query);
+        }
     }
 
 }
