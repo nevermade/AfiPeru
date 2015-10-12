@@ -121,6 +121,7 @@
     <!-- Mapa -->
     <string name="see_map">Mapa</string>
     <string name="map_menu_search">Buscar dirección</string>
+    <string name="map_menu_save">Guardar cambios</string>
     <string name="marker_event_address">Dirección del evento</string>
     <string name="marker_session_address">Dirección de la sesión</string>
     <string name="marker_session_reunion">Punto de reunión</string>
@@ -128,5 +129,10 @@
     <string name="marker_info_volunteer">Voluntario: %1$s</string>
 
     <string name="connection_failed">Ocurrió un error en la conexión.</string>
+    <string name="save_not_needed">No hay cambios que guardar.</string>
+    <string name="save_needed">No ha guardado los cambios en los puntos de reunión. ¿Qué desea hacer?</string>
+    <string name="save_needed_save">Guardar</string>
+    <string name="save_needed_exit">Salir sin guardar</string>
+    <string name="save_needed_cancel">Cancelar</string>
 
 </resources>

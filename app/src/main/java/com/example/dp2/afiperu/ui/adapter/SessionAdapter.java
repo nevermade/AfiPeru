@@ -21,7 +21,9 @@ import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.fragment.Kids2Fragment;
 import com.example.dp2.afiperu.ui.fragment.KidsFragment;
-
+import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
+import com.example.dp2.afiperu.ui.fragment.MapFragment;
+import com.example.dp2.afiperu.ui.fragment.CommentFragment;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,8 +63,8 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                     popup.show();
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch(item.getItemId()){
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch(menuItem.getItemId()){
                                 case R.id.sessions_menu_show_comments:
                                     Bundle args = new Bundle();
                                     ArrayList<Kid> kids2 = new ArrayList<>();
@@ -134,6 +136,22 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     AttendanceFragment attendanceFragment = new AttendanceFragment();
                                     attendanceFragment.setArguments(args);
                                     getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);
+                                    break;
+                                case R.id.sessions_menu_map:
+                                    MapFragment mapFragment;
+                                    args = new Bundle();
+                                    args.putSerializable(MapFragment.MARKERS_ARG, item.getMarkers());
+                                    int fragmentId;
+                                    if(true){ //Si es editable
+                                        fragmentId = DetailActivity.FRAGMENT_MAPA_EDITABLE;
+                                        mapFragment = new MapEditFragment();
+                                    }else{
+                                        fragmentId = DetailActivity.FRAGMENT_MAPA;
+                                        mapFragment = new MapFragment();
+                                    }
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, fragmentId);
+                                    mapFragment.setArguments(args);
+                                    getFragment().addFragmentToStack(mapFragment, fragmentId);
                                     break;
                             }
                             return true;
