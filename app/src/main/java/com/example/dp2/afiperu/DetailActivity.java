@@ -13,6 +13,7 @@ import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -35,6 +37,7 @@ import com.example.dp2.afiperu.fragments.BlogTabFragment;
 import com.example.dp2.afiperu.fragments.BlogsFragment;
 import com.example.dp2.afiperu.fragments.FavoriteBlogFragment;
 import com.example.dp2.afiperu.fragments.FavoriteNewsFragment;
+import com.example.dp2.afiperu.fragments.MapEditFragment;
 import com.example.dp2.afiperu.fragments.NewsTabFragment;
 import com.example.dp2.afiperu.fragments.PeopleKidsFragment;
 import com.example.dp2.afiperu.fragments.UploadPhotosFragment;
@@ -43,6 +46,7 @@ import com.example.dp2.afiperu.lists.BlogsItem;
 import com.example.dp2.afiperu.lists.DocumentsItem;
 import com.example.dp2.afiperu.lists.DrawerItem;
 import com.example.dp2.afiperu.lists.DrawerAdapter;
+import com.example.dp2.afiperu.lists.MarkerInfo;
 import com.example.dp2.afiperu.lists.NewsItem;
 import com.example.dp2.afiperu.lists.PeopleKidsItem;
 import com.example.dp2.afiperu.lists.SessionItem;
@@ -62,6 +66,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 /**
  * Created by Fernando on 16/09/2015.
@@ -85,6 +90,7 @@ public class DetailActivity extends AppCompatActivity {
     public static final int FRAGMENT_DETALLE_BLOG = 12;
     public static final int FRAGMENT_LISTA_COMENTARIOS = 13;
     public static final int FRAGMENT_MAPA = 14;
+    public static final int FRAGMENT_MAPA_EDITABLE = 15;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -114,7 +120,9 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_ASISTENCIA: id = R.string.title_asistencia; break;
             case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
             case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
-            case FRAGMENT_MAPA: id = R.string.app_name; break;
+            case FRAGMENT_MAPA:
+            case FRAGMENT_MAPA_EDITABLE:
+                id = R.string.app_name; break;
         }
         if(id != 0){
             return getResources().getString(id);
@@ -135,11 +143,40 @@ public class DetailActivity extends AppCompatActivity {
             case FRAGMENT_USUARIOS: return R.menu.users_menu_toolbar;
             case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
             case FRAGMENT_MAPA: return R.menu.map_menu_toolbar;
+            case FRAGMENT_MAPA_EDITABLE: return R.menu.map_edit_menu_toolbar;
             default: return 0;
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        BaseFragment topFragment = getTopFragment();
+        int fragmentId = topFragment.getFragmentId();
+        switch(fragmentId){
+            case FRAGMENT_MAPA_EDITABLE:
+                MapEditFragment mapEditFragment = (MapEditFragment)topFragment;
+                switch(item.getItemId()){
+                    case R.id.map_menu_save:
+                        mapEditFragment.trySave();
+                        break;
+                }
+                break;
+        }
+        return true;
+    }
+
     /* Cosas que casi no deberían cambiar */
+
+    private BaseFragment getTopFragment(){
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for(int i=fragments.size()-1; i>=0; i--){
+            Fragment fragment = fragments.get(i);
+            if (fragment != null) {
+                return (BaseFragment) fragment;
+            }
+        }
+        return null;
+    }
 
     private FragmentManager.OnBackStackChangedListener backStackListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
@@ -150,7 +187,7 @@ public class DetailActivity extends AppCompatActivity {
 
             if(backStackEntryCount < previousBackStackCount) {
                 //Se sacó un elemento
-                BaseFragment fragment = (BaseFragment) getSupportFragmentManager().getFragments().get(0);
+                BaseFragment fragment = getTopFragment();
                 setTitle(getTitle(fragment.getFragmentId()));
                 toolbarMenu = getMenu(fragment.getFragmentId());
                 invalidateOptionsMenu();
@@ -205,6 +242,30 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void goBack(){
+        super.onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed(){
+        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+        boolean noStack = backStackEntryCount == 0;
+        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
+            if(noStack){
+                finish();
+            }else{
+                goBack(); //Close drawer
+            }
+        }else{
+            if(noStack){
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                //Open drawer
+            }else if(getTopFragment().tryBack()) {
+                goBack();
+            }
+        }
     }
 
     public static final String DIALOG_TAG_SEARCH_COMMENTS = "search_comments";
@@ -398,17 +459,23 @@ public class DetailActivity extends AppCompatActivity {
                 fragment = new PeopleKidsFragment();
                 break;
             case FRAGMENT_SESIONES:
+                ArrayList<MarkerInfo> markers = new ArrayList<>();
+                markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
+                markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
+                markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
+                markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
+
                 ArrayList<SessionItem> sessions = new ArrayList<>();
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime()));
+                calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
+                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime(), markers));
+                calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
+                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime(), markers));
+                calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
+                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime(), markers));
+                calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
+                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime(), markers));
+                calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
+                sessions.add(new SessionItem("Cerro el Pino", calendar.getTime().getTime(), markers));
                 Collections.sort(sessions);
                 args.putSerializable(SessionFragment.SESSION_ARG, sessions);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SESIONES);
@@ -418,7 +485,7 @@ public class DetailActivity extends AppCompatActivity {
                 ArrayList<DocumentsItem> documents = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 21);
                 documents.add(new DocumentsItem("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, "254 KB", calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 21, 12, 05);
+                calendar = new GregorianCalendar(2015, 8, 21, 12, 5);
                 documents.add(new DocumentsItem("Materiales para 27/09.xlsx", R.drawable.ic_docs_xls, "1.2 MB", calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 18, 13, 14);
                 documents.add(new DocumentsItem("Documento sin ícono", R.drawable.ic_docs_generic, "13 KB", calendar.getTime().getTime()));
@@ -546,7 +613,7 @@ public class DetailActivity extends AppCompatActivity {
     private void handleIntent(Intent intent){
         if(intent.getAction().equals(Intent.ACTION_SEARCH)){
             String query = intent.getStringExtra(SearchManager.QUERY);
-            ((BaseFragment)getSupportFragmentManager().getFragments().get(0)).onSearch(query);
+            getTopFragment().onSearch(query);
         }
     }
 

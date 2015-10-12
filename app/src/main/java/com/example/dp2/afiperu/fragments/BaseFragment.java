@@ -44,6 +44,10 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+    public boolean tryBack(){
+        return true;
+    }
+
     public final void setImage(ImageView v, String URL, String fileName){
         ((DetailActivity)getContext()).setImage(v, URL, fileName);
     }

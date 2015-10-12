@@ -18,6 +18,8 @@ import com.example.dp2.afiperu.fragments.BaseFragment;
 import com.example.dp2.afiperu.fragments.CommentFragment;
 import com.example.dp2.afiperu.fragments.Kids2Fragment;
 import com.example.dp2.afiperu.fragments.KidsFragment;
+import com.example.dp2.afiperu.fragments.MapEditFragment;
+import com.example.dp2.afiperu.fragments.MapFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,7 +34,7 @@ public class SessionAdapter extends BaseArrayAdapter<SessionItem> {
     }
 
     @Override
-    public void prepareItemView(View convertView, SessionItem item, int position) {
+    public void prepareItemView(View convertView, final SessionItem item, int position) {
         TextView name = (TextView) convertView.findViewById(R.id.sessions_item_name);
         TextView date = (TextView) convertView.findViewById(R.id.sessions_item_date);
         ImageView menu = (ImageView) convertView.findViewById(R.id.sessions_item_menu);
@@ -58,8 +60,8 @@ public class SessionAdapter extends BaseArrayAdapter<SessionItem> {
                     popup.show();
                     popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch(item.getItemId()){
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            switch(menuItem.getItemId()){
                                 case R.id.sessions_menu_show_comments:
                                     Bundle args = new Bundle();
                                     ArrayList<KidItem> kids2 = new ArrayList<>();
@@ -131,6 +133,22 @@ public class SessionAdapter extends BaseArrayAdapter<SessionItem> {
                                     AttendanceFragment attendanceFragment = new AttendanceFragment();
                                     attendanceFragment.setArguments(args);
                                     getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);
+                                    break;
+                                case R.id.sessions_menu_map:
+                                    MapFragment mapFragment;
+                                    args = new Bundle();
+                                    args.putSerializable(MapFragment.MARKERS_ARG, item.getMarkers());
+                                    int fragmentId;
+                                    if(true){ //Si es editable
+                                        fragmentId = DetailActivity.FRAGMENT_MAPA_EDITABLE;
+                                        mapFragment = new MapEditFragment();
+                                    }else{
+                                        fragmentId = DetailActivity.FRAGMENT_MAPA;
+                                        mapFragment = new MapFragment();
+                                    }
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, fragmentId);
+                                    mapFragment.setArguments(args);
+                                    getFragment().addFragmentToStack(mapFragment, fragmentId);
                                     break;
                             }
                             return true;
