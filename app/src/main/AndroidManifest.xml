@@ -9,7 +9,7 @@
         android:theme="@style/AppTheme">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAyU6jiYKyuzlYA3-PQy7_Z6xWAU30qklU"/>
         <activity
-            android:name="com.example.dp2.afiperu.DetailActivity"
+            android:name=".ui.activity.DetailActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
