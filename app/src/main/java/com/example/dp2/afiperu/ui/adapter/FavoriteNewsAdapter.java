@@ -16,9 +16,9 @@ import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.domain.NewsArticle;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.ui.fragment.NewsArticleFragment;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.ui.fragment.NewsArticleFragment;
 
 import java.util.List;
 

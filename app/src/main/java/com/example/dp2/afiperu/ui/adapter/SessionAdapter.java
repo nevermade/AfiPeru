@@ -37,7 +37,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
     }
 
     @Override
-    public void prepareItemView(View convertView, Session item, int position) {
+    public void prepareItemView(View convertView, final Session item, int position) {
         TextView name = (TextView) convertView.findViewById(R.id.sessions_item_name);
         TextView date = (TextView) convertView.findViewById(R.id.sessions_item_date);
         ImageView menu = (ImageView) convertView.findViewById(R.id.sessions_item_menu);

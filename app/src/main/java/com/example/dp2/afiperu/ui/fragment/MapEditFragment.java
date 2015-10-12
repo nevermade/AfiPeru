@@ -1,4 +1,4 @@
-package com.example.dp2.afiperu.fragments;
+package com.example.dp2.afiperu.ui.fragment;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -6,9 +6,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.dp2.afiperu.DetailActivity;
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.lists.MarkerInfo;
+import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;

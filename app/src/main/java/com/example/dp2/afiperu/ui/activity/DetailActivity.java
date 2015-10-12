@@ -31,6 +31,7 @@ import android.widget.ListView;
 
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.domain.Drawer;
+import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
@@ -39,6 +40,7 @@ import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogsFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
+import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
@@ -467,15 +469,15 @@ public class DetailActivity extends AppCompatActivity {
                 
                 ArrayList<Session> sessions = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime()));
+                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime()));
+                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime()));
+                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime()));
+                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime()));
+                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
                 Collections.sort(sessions);
                 args.putSerializable(SessionFragment.SESSION_ARG, sessions);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SESIONES);
