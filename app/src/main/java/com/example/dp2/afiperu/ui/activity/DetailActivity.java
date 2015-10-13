@@ -16,7 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -29,7 +28,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
+import com.example.dp2.afiperu.common.BaseActivity;
+import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
@@ -37,7 +39,7 @@ import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
-import com.example.dp2.afiperu.ui.fragment.BlogsFragment;
+import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
@@ -45,7 +47,6 @@ import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
-import com.example.dp2.afiperu.domain.Blogs;
 import com.example.dp2.afiperu.domain.Documents;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.domain.News;
@@ -72,7 +73,7 @@ import java.util.List;
 /**
  * Created by Fernando on 16/09/2015.
  */
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends BaseActivity {
 
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_BLOG = 1;
@@ -424,16 +425,16 @@ public class DetailActivity extends AppCompatActivity {
                 fragment = new NewsTabFragment();
                 break;
             case FRAGMENT_BLOG:
-                ArrayList<Blogs> blogs= new ArrayList<>();
+                ArrayList<Blog> blogs= new ArrayList<>();
                 calendar=new GregorianCalendar(2015,8,22,14,25);
-                blogs.add(new Blogs("Titulo 1","Daekef Abarca",calendar.getTime().getTime(),false));
+                blogs.add(new Blog("Titulo 1","Daekef Abarca",calendar.getTime().getTime(),false));
                 calendar=new GregorianCalendar(2015,7,24,48,27);
-                blogs.add(new Blogs("Titulo 2","Fernando Banda",calendar.getTime().getTime(),true));
+                blogs.add(new Blog("Titulo 2","Fernando Banda",calendar.getTime().getTime(),true));
                 calendar=new GregorianCalendar(2015,6,15,9,45);
-                blogs.add(new Blogs("Titulo 3","Luis Barcena",calendar.getTime().getTime(),false));
+                blogs.add(new Blog("Titulo 3","Luis Barcena",calendar.getTime().getTime(),false));
                 Collections.sort(blogs);
-                args.putSerializable(BlogsFragment.BLOG_ARG, blogs);
-                ArrayList<Blogs> favoriteBlogs = new ArrayList<>();
+                //args.putSerializable(BlogSearchFragment.BLOG_ARG, blogs);
+                ArrayList<Blog> favoriteBlogs = new ArrayList<>();
                 favoriteBlogs.add(blogs.get(1));
                 args.putSerializable(FavoriteBlogFragment.FAVORITE_BLOG_ARG, favoriteBlogs);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
@@ -508,6 +509,11 @@ public class DetailActivity extends AppCompatActivity {
         mDrawerLayout.closeDrawer(mDrawerList);
         selectedLayout = position;
         changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+        //There isn't dependencies
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{

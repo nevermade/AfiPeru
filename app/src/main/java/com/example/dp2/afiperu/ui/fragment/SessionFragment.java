@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.domain.Session;
 
@@ -35,6 +37,16 @@ public class SessionFragment extends BaseFragment {
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_sessions_list));
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }

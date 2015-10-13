@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
@@ -79,6 +80,11 @@ public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDr
         }else {
             return true;
         }
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
     @Override

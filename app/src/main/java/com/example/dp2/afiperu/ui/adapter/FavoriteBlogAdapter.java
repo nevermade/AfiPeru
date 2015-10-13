@@ -11,8 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
+import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.BlogArticle;
-import com.example.dp2.afiperu.domain.Blogs;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by Nevermade on 30/09/2015.
  */
-public class FavoriteBlogAdapter extends BaseArrayAdapter<Blogs> {
+public class FavoriteBlogAdapter extends BaseArrayAdapter<Blog> {
 
     public static int getStarDrawable(boolean isFavorite){
         if(!isFavorite){
@@ -33,12 +33,12 @@ public class FavoriteBlogAdapter extends BaseArrayAdapter<Blogs> {
         }
     }
 
-    public FavoriteBlogAdapter(Context context, BaseFragment fragment, List<Blogs> objects) {
+    public FavoriteBlogAdapter(Context context, BaseFragment fragment, List<Blog> objects) {
         super(context, fragment, R.layout.blogs_list_item, objects);
     }
 
     @Override
-    public void prepareItemView(final View convertView, final Blogs item, final int position) {
+    public void prepareItemView(final View convertView, final Blog item, final int position) {
 
         TextView title = (TextView) convertView.findViewById(R.id.blogs_item_title);
         TextView author = (TextView) convertView.findViewById(R.id.blog_item_author);

@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Nevermade on 30/09/2015.
  */
-public class Blogs implements Serializable, Comparable<Blogs>{
+public class Blog implements Serializable, Comparable<Blog>{
     private String title;
     private String author;
     private long uploadDate;
@@ -19,7 +19,7 @@ public class Blogs implements Serializable, Comparable<Blogs>{
         this.isFavorite = isFavorite;
     }
 
-    public Blogs(String title, String author, long uploadDate, boolean isFavorite) {
+    public Blog(String title, String author, long uploadDate, boolean isFavorite) {
         this.title = title;
         this.uploadDate = uploadDate;
         this.author = author;
@@ -51,7 +51,7 @@ public class Blogs implements Serializable, Comparable<Blogs>{
     }
 
     @Override
-    public int compareTo(Blogs o2){
+    public int compareTo(Blog o2){
                 return Long.valueOf(o2.uploadDate).compareTo(uploadDate);
     }
 }

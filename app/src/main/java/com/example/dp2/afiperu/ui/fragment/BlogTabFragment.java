@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 
 /**
  * Created by Fernando on 05/10/2015.
@@ -29,8 +31,8 @@ public class BlogTabFragment extends BaseFragment {
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
         Bundle args0 = new Bundle();
-        args0.putSerializable(BlogsFragment.BLOG_ARG, args.getSerializable(BlogsFragment.BLOG_ARG));
-        tabs[0] = new BlogsFragment();
+        args0.putSerializable(BlogSearchFragment.BLOG_ARG, args.getSerializable(BlogSearchFragment.BLOG_ARG));
+        tabs[0] = new BlogSearchFragment();
         tabs[0].setArguments(args0);
         Bundle args1 = new Bundle();
         args1.putSerializable(FavoriteBlogFragment.FAVORITE_BLOG_ARG, args.getSerializable(FavoriteBlogFragment.FAVORITE_BLOG_ARG));
@@ -71,6 +73,16 @@ public class BlogTabFragment extends BaseFragment {
 
             }
         });
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }

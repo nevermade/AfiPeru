@@ -7,8 +7,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.domain.NewsArticle;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
@@ -68,6 +70,16 @@ public class NewsArticleFragment extends BaseFragment {
         }else{
             mapIcon.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }

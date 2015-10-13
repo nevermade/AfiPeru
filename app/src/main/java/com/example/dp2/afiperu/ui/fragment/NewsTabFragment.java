@@ -7,8 +7,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 
 /**
  * Created by Fernando on 05/10/2015.
@@ -71,6 +73,16 @@ public class NewsTabFragment extends BaseFragment {
 
             }
         });
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+        
     }
 
 }

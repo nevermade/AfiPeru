@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.ui.adapter.PeopleKidsAdapter;
 import com.example.dp2.afiperu.domain.PeopleKids;
 
@@ -33,6 +35,16 @@ public class PeopleKidsFragment extends BaseFragment {
         ListView peopleKidsList = (ListView)rootView.findViewById(R.id.people_kids_list);
         peopleKidsList.setAdapter(adapter);
         peopleKidsList.setEmptyView(rootView.findViewById(R.id.empty_people_kids_list));
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.common;
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.dp2.afiperu.AfiApp;
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 
 /**
@@ -23,9 +26,19 @@ public abstract class BaseFragment extends Fragment {
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(getLayout(), container, false);
         fragmentId = getArguments().getInt(FRAGMENT_ID_ARG);
+        injectDependencies();
         prepareView(rootView, getArguments(), savedInstanceState);
+
         return rootView;
     }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //injectDependencies();
+    }
+
+
 
     public int getFragmentId(){
         if(fragmentId == -1){
@@ -36,7 +49,7 @@ public abstract class BaseFragment extends Fragment {
 
     public abstract int getLayout();
 
-    public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
+    public  void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
 
     }
 
@@ -61,5 +74,24 @@ public abstract class BaseFragment extends Fragment {
         DetailActivity activity = ((DetailActivity) getContext());
         dialog.show(activity.getSupportFragmentManager(), tag);
     }
+    private void injectDependencies() {
+        setUpComponent(AfiApp.getApp(getActivity()).getComponent());
+    }
+
+    public abstract void setUpComponent(AfiAppComponent appComponent);
+
+    protected abstract BasePresenter getPresenter();
+/*
+    @Override
+    public void onStart() {
+        super.onStart();
+        getPresenter().onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getPresenter().onStop();
+    }*/
 
 }

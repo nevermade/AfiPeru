@@ -8,33 +8,49 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
+import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.BlogArticle;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
-import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogArticleFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Nevermade on 30/09/2015.
+ * Created by Nevermade on 12/10/2015.
  */
-public class BlogsAdapter extends BaseArrayAdapter<Blog> {
+public class BlogSearchAdapter extends BaseArrayAdapter<Blog> {
+    Context context;
+    View.OnClickListener onBlogClickedListener;
+    View.OnClickListener onStarClickedListener;
+    ArrayList<Blog> blogs;
 
 
-    public static int getStarDrawable(boolean isFavorite){
-        if(!isFavorite){
-            return R.drawable.ic_star_empty;
-        }else{
-            return R.drawable.ic_star_full;
+
+    public BlogSearchAdapter(Context context, BaseFragment fragment, List<Blog> objects) {
+        super(context, fragment, R.layout.blogs_list_item, objects);
+        this.context=context;
+        this.blogs=(ArrayList<Blog>)objects;
+    }
+
+    public void updateBlogs(ArrayList<Blog> blogs){
+        if(blogs!=null) {
+            clear();
+            addAll(blogs);
+            notifyDataSetChanged();
         }
     }
 
-    public BlogsAdapter(Context context, BaseFragment fragment, List<Blog> objects) {
-        super(context, fragment, R.layout.blogs_list_item, objects);
+    public void setOnBlogClickedListener(View.OnClickListener onBlogClickedListener) {
+        this.onBlogClickedListener = onBlogClickedListener;
+    }
+
+    public void setOnStarClickedListener(View.OnClickListener onStarClickedListener) {
+        this.onStarClickedListener = onStarClickedListener;
     }
 
     @Override
@@ -86,6 +102,11 @@ public class BlogsAdapter extends BaseArrayAdapter<Blog> {
         });
 
     }
-
-
+    public static int getStarDrawable(boolean isFavorite){
+        if(!isFavorite){
+            return R.drawable.ic_star_empty;
+        }else{
+            return R.drawable.ic_star_full;
+        }
+    }
 }

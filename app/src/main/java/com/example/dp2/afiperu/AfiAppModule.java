@@ -12,10 +12,10 @@ import dagger.Provides;
  * Created by Nevermade on 11/10/2015.
  */
 @Module
-public class AfiModule {
+public class AfiAppModule {
     private AfiApp app;
 
-    public AfiModule (AfiApp app) {
+    public AfiAppModule(AfiApp app) {
         this.app = app;
     }
 

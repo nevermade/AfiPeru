@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.Blogs;
+import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.ui.adapter.FavoriteBlogAdapter;
 
 import java.util.ArrayList;
@@ -29,12 +31,22 @@ public class FavoriteBlogFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<Blogs> blogs = (ArrayList<Blogs>)args.getSerializable(FAVORITE_BLOG_ARG);
+        ArrayList<Blog> blogs = (ArrayList<Blog>)args.getSerializable(FAVORITE_BLOG_ARG);
         FavoriteBlogAdapter adapter = new FavoriteBlogAdapter(getContext(), this, blogs);
 
         ListView newsList = (ListView)rootView.findViewById(R.id.blogs_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_blogs_list));
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }

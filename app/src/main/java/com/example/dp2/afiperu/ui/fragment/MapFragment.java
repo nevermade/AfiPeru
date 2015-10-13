@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.util.FetchAddressIntentService;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -157,6 +159,16 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             AlertDialog alert = builder.create();
             alert.show();
         }*/
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
     public class AddressResultReceiver extends ResultReceiver{

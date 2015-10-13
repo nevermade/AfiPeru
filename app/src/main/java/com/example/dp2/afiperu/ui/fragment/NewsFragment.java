@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.ui.adapter.NewsAdapter;
 import com.example.dp2.afiperu.domain.News;
 
@@ -42,6 +44,16 @@ public class NewsFragment extends BaseFragment {
         for(int i=0; i<isFavorite.length; i++){
             isFavorite[i] = news.get(i).isFavorite();
         }
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
     public boolean toggleFavorite(int position){

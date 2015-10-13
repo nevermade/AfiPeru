@@ -1,4 +1,4 @@
-package com.example.dp2.afiperu.ui.fragment;
+package com.example.dp2.afiperu.ui.adapter;
 
 
 import android.content.Context;

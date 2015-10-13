@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.ui.adapter.Kid2Adapter;
 import com.example.dp2.afiperu.domain.Kid;
 
@@ -41,8 +43,15 @@ public class Kids2Fragment extends BaseFragment {
 
     }
 
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
 
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
 
+    }
 
 
 }

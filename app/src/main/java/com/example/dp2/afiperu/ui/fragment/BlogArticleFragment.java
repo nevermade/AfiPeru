@@ -6,8 +6,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.BlogArticle;
 
 /**
@@ -45,6 +47,16 @@ public class BlogArticleFragment extends BaseFragment {
         authorName.setText(article.getAuthorName());
         TextView authorShortDesc = (TextView)rootView.findViewById(R.id.blog_detail_author_short_desc);
         authorShortDesc.setText(article.getAuthorShortDesc());
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }

@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.Documents;
+import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 
 import java.util.ArrayList;
 
@@ -34,6 +37,16 @@ public class DocumentsFragment extends BaseFragment {
         ListView docsList = (ListView)rootView.findViewById(R.id.docs_list);
         docsList.setAdapter(adapter);
         docsList.setEmptyView(rootView.findViewById(R.id.empty_docs_list));
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return null;
+    }
+
+    @Override
+    public void setUpComponent(AfiAppComponent appComponent) {
+
     }
 
 }
