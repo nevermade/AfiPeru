@@ -3,6 +3,7 @@ package com.example.dp2.afiperu;
 import android.content.Context;
 
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
+import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.module.InteractorModule;
 
 import javax.inject.Singleton;
@@ -20,6 +21,8 @@ import dagger.Component;
         }
 )
 public interface AfiAppComponent {
+        /*Agregar los interactors aqui*/
         Context getContext();
         BlogSearchInteractor getBlogSearchInteractor();
+        PaymentListInteractor getPaymentListInteractor();
 }

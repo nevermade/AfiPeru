@@ -44,6 +44,7 @@ import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
+import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
@@ -498,6 +499,10 @@ public class DetailActivity extends BaseActivity {
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
+                break;
+            case FRAGMENT_PAGOS:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG,FRAGMENT_PAGOS);
+                fragment=new PaymentListFragment();
                 break;
             case FRAGMENT_SUBIR_FOTOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);

@@ -20,5 +20,6 @@
     <item name="edit_text_underline_highlight" type="color">@color/toolbar_background</item>
 
     <item name="list_view_divider" type="color">#93E0FA</item>
+    <item name="table_header" type="color">#E7E7E7</item>
 
 </resources>
