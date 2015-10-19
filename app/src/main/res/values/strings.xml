@@ -21,6 +21,8 @@
 
     <string name="tab_all">TODO</string>
     <string name="tab_favorite">FAVORITOS</string>
+    <string name="tab_users">USUARIOS</string>
+    <string name="tab_kids">NIÑOS</string>
 
     <!-- Login -->
     <string name="login_message">Ingresa a tu cuenta</string>

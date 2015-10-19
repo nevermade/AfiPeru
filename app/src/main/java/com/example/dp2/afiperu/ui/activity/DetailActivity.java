@@ -37,8 +37,8 @@ import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
-import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
@@ -47,6 +47,7 @@ import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
+import com.example.dp2.afiperu.ui.fragment.PeopleTabFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
 import com.example.dp2.afiperu.domain.Documents;
@@ -144,7 +145,7 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
             case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
             case FRAGMENT_BLOG: return R.menu.blogs_menu_toolbar;
-            case FRAGMENT_PERSONAS: return R.menu.people_kids_menu_toolbar;
+            case FRAGMENT_PERSONAS: return R.menu.people_menu_toolbar;
             case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
             case FRAGMENT_MAPA: return R.menu.map_menu_toolbar;
             case FRAGMENT_MAPA_EDITABLE: return R.menu.map_edit_menu_toolbar;
@@ -289,10 +290,15 @@ public class DetailActivity extends BaseActivity {
             final String dialogTag;
             final Class<?> dialogFragmentClass;
             switch(toolbarMenu){
-                case R.menu.people_kids_menu_toolbar:
-                    menuItem = R.id.people_kids_menu_search;
-                    dialogTag = DIALOG_TAG_SEARCH_KIDS;
-                    dialogFragmentClass = KidSearchDialog.class;
+                case R.menu.people_menu_toolbar:
+                    menuItem = R.id.people_menu_search;
+                    if(((PeopleTabFragment)getTopFragment()).showingUsers()){
+                        dialogTag = DIALOG_TAG_SEARCH_USERS;
+                        dialogFragmentClass = UserSearchDialog.class;
+                    }else{
+                        dialogTag = DIALOG_TAG_SEARCH_KIDS;
+                        dialogFragmentClass = KidSearchDialog.class;
+                    }
                     break;
                 case R.menu.comments_menu_toolbar:
                     menuItem = R.id.comments_menu_search;
@@ -436,28 +442,22 @@ public class DetailActivity extends BaseActivity {
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
                 fragment=new BlogTabFragment();
                 break;
-            /*case FRAGMENT_PERSONAS:
-                break;*/
-            /*case FRAGMENT_USUARIOS:
+            case FRAGMENT_PERSONAS:
                 ArrayList<Users> users= new ArrayList<>();
                 users.add(new Users("dabarca","20101147","Daekef","Abarca","Cusimayta",3.5));
                 users.add(new Users("fbanda","20107845","Fernando","Banda","Cardenas",4.8));
                 users.add(new Users("lbarcena","20101019","Luis","Barcena","Navarro",1.0));
                 Collections.sort(users);
                 args.putSerializable(UsersFragment.USER_ARG, users);
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_USUARIOS);
-                fragment=new UsersFragment();
-                break;
-            case FRAGMENT_NIÑOS:
                 ArrayList<PeopleKids> kids= new ArrayList<>();
                 kids.add(new PeopleKids(false,12,"Perales","Perez","Paola"));
                 kids.add(new PeopleKids(true,10,"Perales","Perez","Juan"));
                 kids.add(new PeopleKids(false,11,"Perales","Perez","Rosario"));
                 Collections.sort(kids);
                 args.putSerializable(PeopleKidsFragment.PEOPLE_KIDS_ARG, kids);
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NIÑOS);
-                fragment = new PeopleKidsFragment();
-                break;*/
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_PERSONAS);
+                fragment = new PeopleTabFragment();
+                break;
             case FRAGMENT_SESIONES:
                 ArrayList<MarkerInfo> markers = new ArrayList<>();
                 markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
