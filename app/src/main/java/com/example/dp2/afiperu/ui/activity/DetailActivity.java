@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,8 +39,8 @@ import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
+import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
-import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
@@ -495,6 +496,7 @@ public class DetailActivity extends BaseActivity {
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 24);
                 documents.add(new Documents("Material extra 27/09.docx", R.drawable.ic_docs_doc, "126 KB", calendar.getTime().getTime()));
                 Collections.sort(documents);
+
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
@@ -522,9 +524,50 @@ public class DetailActivity extends BaseActivity {
             selectItem(position);
         }
     }
+    private class RecoverPasswordClickListener implements Button.OnClickListener{
 
+        @Override
+        public void onClick(View v) {
+            //selectItem(2);
+            /*
+            Bundle args = new Bundle();
+            Fragment fragment = new ChangePasswordFragment();
+            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);
+            fragment = new ChangePasswordFragment();
+            fragment.setArguments(args);
+            changeFragment(fragment, "Recuperar contraseña", R.menu.users_menu_toolbar);
+
+            */
+            //DialogFragment newFragment = new KidCommentDialog();
+            DialogFragment dialog = new recoverPasswordDialog();
+            dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+            //getFragment().showPopup(newFragment, DetailActivity.DIALOG_TAG_DETAIL_COMMENT);
+
+
+
+            /*
+            Bundle args = new Bundle();
+            ArrayList<DocumentsItem> documents = new ArrayList<>();
+            Fragment fragment = new ChangePasswordFragment();
+            args.putSerializable(ChangePasswordFragment.DOCUMENTS_ARG, documents);
+            */
+            /*
+            Fragment fragment = new DocumentsFragment();
+            args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, null);
+            */
+            /*
+            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
+            fragment.setArguments(args);
+            changeFragment(fragment, "Recuperar contraseña", R.menu.users_menu_toolbar);
+            */
+
+        }
+    }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+        Button recoverpass;
+        recoverpass = (Button)findViewById(R.id.button_recoverpass);
+        recoverpass.setOnClickListener(new RecoverPasswordClickListener());
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
