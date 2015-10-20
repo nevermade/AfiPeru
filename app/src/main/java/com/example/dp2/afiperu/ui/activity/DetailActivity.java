@@ -48,6 +48,7 @@ import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleTabFragment;
+import com.example.dp2.afiperu.ui.fragment.SettingsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
 import com.example.dp2.afiperu.domain.Documents;
@@ -505,8 +506,10 @@ public class DetailActivity extends BaseActivity {
                 break;*/
             /*case FRAGMENT_DONACIONES:
                 break;*/
-            /*case FRAGMENT_CONFIGURACIÓN:
-                break;*/
+            case FRAGMENT_CONFIGURACIÓN:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CONFIGURACIÓN);
+                fragment = new SettingsFragment();
+                break;
         }
         fragment.setArguments(args);
         mDrawerList.setItemChecked(fragmentId, true);
