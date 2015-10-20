@@ -7,13 +7,13 @@
 
     <string name="menu_noticias">Noticias</string>
     <string name="menu_personas">Personas</string>
-    <string name="menu_usuarios">Usuarios</string>
-    <string name="menu_ninos">Niños</string>
     <string name="menu_sesiones">Sesiones</string>
     <string name="menu_documentos">Documentos</string>
     <string name="menu_subir_fotos">Subir fotos</string>
     <string name="menu_blog">Blog</string>
     <string name="menu_pagos">Pagos</string>
+    <string name="menu_donaciones">Donaciones</string>
+    <string name="menu_configuracion">Configuración</string>
     <string name="menu_postular">Postular a 2016-1</string>
 
     <string name="title_asistencia">Asistencia</string>
@@ -21,6 +21,8 @@
 
     <string name="tab_all">TODO</string>
     <string name="tab_favorite">FAVORITOS</string>
+    <string name="tab_users">USUARIOS</string>
+    <string name="tab_kids">NIÑOS</string>
 
     <!-- Login -->
     <string name="login_message">Ingresa a tu cuenta</string>
@@ -135,4 +137,25 @@
     <string name="save_needed_exit">Salir sin guardar</string>
     <string name="save_needed_cancel">Cancelar</string>
 
+    <!--Configuración-->
+    <string name="config_personal">Datos personales</string>
+    <string name="config_personal_phone">Teléfono</string>
+    <string name="config_personal_address">Cambiar dirección</string>
+    <string name="config_personal_password">Cambiar contraseña</string>
+    <string name="config_calendar">Calendario</string>
+    <string name="config_calendar_sync">Sincronizar eventos</string>
+    <string name="config_notifications">Notificaciones</string>
+    <string name="config_notifications_events">Eventos próximos</string>
+    <string name="config_notifications_payments">Pagos pendientes</string>
+    <string name="config_sign_out">Cerrar sesión</string>
+
+    <!-- payment -->
+    <string name="payment_header_expiration_date">Vence</string>
+    <string name="payment_header_mount">Monto</string>
+    <string name="payment_header_state">Estado</string>
+    <string name="payment_header_action">Acción</string>
+    <string name="payment_none">No se encontró ningún pago</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

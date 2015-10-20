@@ -26,6 +26,7 @@ public class DrawerAdapter extends BaseArrayAdapter<Drawer> {
 
         icon.setImageResource(item.getIconId());
         name.setText(item.getName());
+        convertView.setTag(item.getFragmentId());
         if(item.getName().equals(convertView.getResources().getString(R.string.menu_postular))){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 name.setTextColor(convertView.getResources().getColor(R.color.drawer_highlight, null));

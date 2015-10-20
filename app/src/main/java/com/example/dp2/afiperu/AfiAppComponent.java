@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
+import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.module.InteractorModule;
 
@@ -22,8 +23,10 @@ import dagger.Component;
         }
 )
 public interface AfiAppComponent {
+        /*Agregar los interactors aqui*/
         Context getContext();
         BlogSearchInteractor getBlogSearchInteractor();
         ChangePasswordInteractor getChangePasswordInteractor();
         PaymentDepositInteractor getPaymentDepositInteractor();
+        PaymentListInteractor getPaymentListInteractor();
 }

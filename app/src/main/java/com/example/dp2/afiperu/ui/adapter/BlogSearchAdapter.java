@@ -41,7 +41,7 @@ public class BlogSearchAdapter extends BaseArrayAdapter<Blog> {
         if(blogs!=null) {
             clear();
             addAll(blogs);
-            notifyDataSetChanged();
+            //notifyDataSetChanged();
         }
     }
 
