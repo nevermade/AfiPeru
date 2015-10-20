@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    android:padding="35dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nro. Voucher:"
+        style="@style/text_appearance_medium_dark_soft"
+        android:layout_marginBottom="2dp"
+        />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/edit_text_reloaded"
+        android:hint="Voucher"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.4"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Monto:"
+                style="@style/text_appearance_medium_dark_soft"
+                android:layout_marginBottom="2dp"
+
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/edit_text_reloaded"
+                android:hint="Monto"
+                android:layout_marginRight="5dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.6"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha:"
+                style="@style/text_appearance_medium_dark_soft"
+                android:layout_marginBottom="2dp"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/edit_text_reloaded"
+                android:hint="Fecha del Pago"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Registrar Pago"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        android:textAllCaps="false"
+        android:fontFamily="sans-serif-light"
+        android:background="@drawable/payment_register_deposit_button"
+        />
+
+</LinearLayout>

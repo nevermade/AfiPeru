@@ -68,5 +68,13 @@
         <item name="android:textColor">@color/dark_text</item>
         <item name="android:lineSpacingExtra">4dp</item>
     </style>
-
+    <style name="edit_text_reloaded">
+        <item name="android:padding">@dimen/edit_text_padding</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:colorControlNormal" tools:targetApi="21">@color/edit_text_underline_normal</item>
+        <item name="android:colorControlActivated" tools:targetApi="21">@color/edit_text_underline_highlight</item>
+        <item name="android:colorControlHighlight" tools:targetApi="21">@color/edit_text_underline_highlight</item>
+        <item name="android:background">@drawable/edit_text_background</item>
+        <item name="android:textColorHint">#BCBCCA</item>
+    </style>
 </resources>
