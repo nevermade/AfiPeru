@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -36,16 +37,19 @@ import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
-import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
+import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
+import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
+import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
+import com.example.dp2.afiperu.ui.fragment.PeopleTabFragment;
+import com.example.dp2.afiperu.ui.fragment.SettingsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
 import com.example.dp2.afiperu.domain.Documents;
@@ -78,22 +82,23 @@ public class DetailActivity extends BaseActivity {
 
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_BLOG = 1;
-    //public static final int FRAGMENT_PERSONAS = 2;
-    public static final int FRAGMENT_USUARIOS = 2;
-    public static final int FRAGMENT_NIÑOS = 3;
+    public static final int FRAGMENT_PERSONAS = 2;
     public static final int FRAGMENT_SESIONES = 4;
     public static final int FRAGMENT_DOCUMENTOS = 5;
     public static final int FRAGMENT_SUBIR_FOTOS = 6;
     public static final int FRAGMENT_PAGOS = 7;
+    public static final int FRAGMENT_DONACIONES = 8;
+    public static final int FRAGMENT_CONFIGURACIÓN = 9;
 
-    public static final int FRAGMENT_LOGIN = 8;
-    public static final int FRAGMENT_DETALLE_NOTICIAS = 9;
-    public static final int FRAGMENT_ASISTENCIA = 10;
-    public static final int FRAGMENT_COMENTARIOS = 11;
-    public static final int FRAGMENT_DETALLE_BLOG = 12;
-    public static final int FRAGMENT_LISTA_COMENTARIOS = 13;
-    public static final int FRAGMENT_MAPA = 14;
-    public static final int FRAGMENT_MAPA_EDITABLE = 15;
+    public static final int FRAGMENT_DETALLE_NOTICIAS = 10;
+    public static final int FRAGMENT_ASISTENCIA = 11;
+    public static final int FRAGMENT_COMENTARIOS = 12;
+    public static final int FRAGMENT_DETALLE_BLOG = 13;
+    public static final int FRAGMENT_LISTA_COMENTARIOS = 14;
+    public static final int FRAGMENT_MAPA = 15;
+    public static final int FRAGMENT_MAPA_EDITABLE = 16;
+    public static final int FRAGMENT_REGISTRAR_PAGO = 17;
+    public static final int FRAGMENT_LOGIN = 99;
 
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
@@ -109,14 +114,14 @@ public class DetailActivity extends BaseActivity {
         int id = 0;
         switch(fragmentId){
             case FRAGMENT_NOTICIAS: id = R.string.menu_noticias; break;
-            //case FRAGMENT_PERSONAS: id = R.string.menu_personas; break;
-            case FRAGMENT_USUARIOS: id = R.string.menu_usuarios; break;
-            case FRAGMENT_NIÑOS: id = R.string.menu_ninos; break;
+            case FRAGMENT_PERSONAS: id = R.string.menu_personas; break;
             case FRAGMENT_SESIONES: id = R.string.menu_sesiones; break;
             case FRAGMENT_DOCUMENTOS: id = R.string.menu_documentos; break;
             case FRAGMENT_SUBIR_FOTOS: id = R.string.menu_subir_fotos; break;
             case FRAGMENT_BLOG: id = R.string.menu_blog; break;
             case FRAGMENT_PAGOS: id = R.string.menu_pagos; break;
+            case FRAGMENT_DONACIONES: id = R.string.menu_donaciones; break;
+            case FRAGMENT_CONFIGURACIÓN: id = R.string.menu_configuracion; break;
 
             case FRAGMENT_LOGIN: id = R.string.app_name; break;
             case FRAGMENT_DETALLE_NOTICIAS: id = R.string.menu_noticias; break;
@@ -124,8 +129,8 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
             case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
             case FRAGMENT_MAPA:
-            case FRAGMENT_MAPA_EDITABLE:
-                id = R.string.app_name; break;
+            case FRAGMENT_MAPA_EDITABLE: id = R.string.app_name; break;
+            case FRAGMENT_REGISTRAR_PAGO: id = R.string.menu_pagos; break;
         }
         if(id != 0){
             return getResources().getString(id);
@@ -142,8 +147,7 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
             case FRAGMENT_DETALLE_BLOG: return R.menu.blog_article_menu_toolbar;
             case FRAGMENT_BLOG: return R.menu.blogs_menu_toolbar;
-            case FRAGMENT_NIÑOS: return R.menu.people_kids_menu_toolbar;
-            case FRAGMENT_USUARIOS: return R.menu.users_menu_toolbar;
+            case FRAGMENT_PERSONAS: return R.menu.people_menu_toolbar;
             case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
             case FRAGMENT_MAPA: return R.menu.map_menu_toolbar;
             case FRAGMENT_MAPA_EDITABLE: return R.menu.map_edit_menu_toolbar;
@@ -205,17 +209,17 @@ public class DetailActivity extends BaseActivity {
         setContentView(R.layout.base);
 
         ArrayList<Drawer> list = new ArrayList<>();
-        list.add(new Drawer(getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
-        list.add(new Drawer(getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
-        //list.add(new Drawer(getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
-        list.add(new Drawer(getTitle(FRAGMENT_USUARIOS), R.drawable.ic_drawer_people));
-        list.add(new Drawer(getTitle(FRAGMENT_NIÑOS), R.drawable.ic_drawer_people));
-        list.add(new Drawer(getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
-        list.add(new Drawer(getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
-        list.add(new Drawer(getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
-        list.add(new Drawer(getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
-        list.add(new Drawer(getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
-        list.add(new Drawer(getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
+        list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
+        list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+        list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
+        list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
+        list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
+        list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
+        list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
+        list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
+        list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
+        list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
+        list.add(new Drawer(FRAGMENT_LOGIN, getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new DrawerAdapter(this, list));
@@ -288,15 +292,15 @@ public class DetailActivity extends BaseActivity {
             final String dialogTag;
             final Class<?> dialogFragmentClass;
             switch(toolbarMenu){
-                case R.menu.users_menu_toolbar:
-                    menuItem = R.id.users_menu_search;
-                    dialogTag = DIALOG_TAG_SEARCH_USERS;
-                    dialogFragmentClass = UserSearchDialog.class;
-                    break;
-                case R.menu.people_kids_menu_toolbar:
-                    menuItem = R.id.people_kids_menu_search;
-                    dialogTag = DIALOG_TAG_SEARCH_KIDS;
-                    dialogFragmentClass = KidSearchDialog.class;
+                case R.menu.people_menu_toolbar:
+                    menuItem = R.id.people_menu_search;
+                    if(((PeopleTabFragment)getTopFragment()).showingUsers()){
+                        dialogTag = DIALOG_TAG_SEARCH_USERS;
+                        dialogFragmentClass = UserSearchDialog.class;
+                    }else{
+                        dialogTag = DIALOG_TAG_SEARCH_KIDS;
+                        dialogFragmentClass = KidSearchDialog.class;
+                    }
                     break;
                 case R.menu.comments_menu_toolbar:
                     menuItem = R.id.comments_menu_search;
@@ -365,29 +369,28 @@ public class DetailActivity extends BaseActivity {
         invalidateOptionsMenu();
     }
 
-    private void selectItem(int position){
-        if(position == FRAGMENT_LOGIN + 1){
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if(which == DialogInterface.BUTTON_POSITIVE){
+    private void tryPostulate(){
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(which == DialogInterface.BUTTON_POSITIVE){
 
-                    }else if(which == DialogInterface.BUTTON_NEGATIVE){
+                }else if(which == DialogInterface.BUTTON_NEGATIVE){
 
-                    }
                 }
-            };
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setMessage(R.string.confirm_postulate).setPositiveButton(android.R.string.yes, dialogClickListener)
-                    .setNegativeButton(android.R.string.no, dialogClickListener);
-            AlertDialog alert = builder.create();
-            alert.show();
-            return;
-        }
+            }
+        };
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.confirm_postulate).setPositiveButton(android.R.string.yes, dialogClickListener)
+                .setNegativeButton(android.R.string.no, dialogClickListener);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 
+    private void selectItem(int fragmentId){
         Bundle args = new Bundle();
         Fragment fragment;
-        switch(position){
+        switch(fragmentId){
             default:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_LOGIN);
                 fragment = new LoginFragment();
@@ -434,32 +437,28 @@ public class DetailActivity extends BaseActivity {
                 calendar=new GregorianCalendar(2015,6,15,9,45);
                 blogs.add(new Blog("Titulo 3","Luis Barcena",calendar.getTime().getTime(),false));
                 Collections.sort(blogs);
-                //args.putSerializable(BlogSearchFragment.BLOG_ARG, blogs);
+                args.putSerializable(BlogSearchFragment.BLOG_ARG, blogs);
                 ArrayList<Blog> favoriteBlogs = new ArrayList<>();
                 favoriteBlogs.add(blogs.get(1));
                 args.putSerializable(FavoriteBlogFragment.FAVORITE_BLOG_ARG, favoriteBlogs);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
                 fragment=new BlogTabFragment();
                 break;
-            case FRAGMENT_USUARIOS:
+            case FRAGMENT_PERSONAS:
                 ArrayList<Users> users= new ArrayList<>();
                 users.add(new Users("dabarca","20101147","Daekef","Abarca","Cusimayta",3.5));
                 users.add(new Users("fbanda","20107845","Fernando","Banda","Cardenas",4.8));
                 users.add(new Users("lbarcena","20101019","Luis","Barcena","Navarro",1.0));
                 Collections.sort(users);
                 args.putSerializable(UsersFragment.USER_ARG, users);
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_USUARIOS);
-                fragment=new UsersFragment();
-                break;
-            case FRAGMENT_NIÑOS:
                 ArrayList<PeopleKids> kids= new ArrayList<>();
                 kids.add(new PeopleKids(false,12,"Perales","Perez","Paola"));
                 kids.add(new PeopleKids(true,10,"Perales","Perez","Juan"));
                 kids.add(new PeopleKids(false,11,"Perales","Perez","Rosario"));
                 Collections.sort(kids);
                 args.putSerializable(PeopleKidsFragment.PEOPLE_KIDS_ARG, kids);
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NIÑOS);
-                fragment = new PeopleKidsFragment();
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_PERSONAS);
+                fragment = new PeopleTabFragment();
                 break;
             case FRAGMENT_SESIONES:
                 ArrayList<MarkerInfo> markers = new ArrayList<>();
@@ -467,7 +466,6 @@ public class DetailActivity extends BaseActivity {
                 markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
                 markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
                 markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                
                 
                 ArrayList<Session> sessions = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
@@ -496,6 +494,7 @@ public class DetailActivity extends BaseActivity {
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 24);
                 documents.add(new Documents("Material extra 27/09.docx", R.drawable.ic_docs_doc, "126 KB", calendar.getTime().getTime()));
                 Collections.sort(documents);
+
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
@@ -508,11 +507,19 @@ public class DetailActivity extends BaseActivity {
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);
                 fragment = new UploadPhotosFragment();
                 break;
+            /*case FRAGMENT_PAGOS:
+                break;*/
+            /*case FRAGMENT_DONACIONES:
+                break;*/
+            case FRAGMENT_CONFIGURACIÓN:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CONFIGURACIÓN);
+                fragment = new SettingsFragment();
+                break;
         }
         fragment.setArguments(args);
-        mDrawerList.setItemChecked(position, true);
+        mDrawerList.setItemChecked(fragmentId, true);
         mDrawerLayout.closeDrawer(mDrawerList);
-        selectedLayout = position;
+        selectedLayout = fragmentId;
         changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
     }
 
@@ -524,12 +531,58 @@ public class DetailActivity extends BaseActivity {
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
+            int fragmentId = (Integer)view.getTag();
+            if(fragmentId == -1) {
+                tryPostulate();
+            }else{
+                selectItem(fragmentId);
+            }
         }
     }
+    private class RecoverPasswordClickListener implements Button.OnClickListener{
 
+        @Override
+        public void onClick(View v) {
+            //selectItem(2);
+            /*
+            Bundle args = new Bundle();
+            Fragment fragment = new ChangePasswordFragment();
+            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);
+            fragment = new ChangePasswordFragment();
+            fragment.setArguments(args);
+            changeFragment(fragment, "Recuperar contraseña", R.menu.users_menu_toolbar);
+
+            */
+            //DialogFragment newFragment = new KidCommentDialog();
+            DialogFragment dialog = new recoverPasswordDialog();
+            dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
+            //getFragment().showPopup(newFragment, DetailActivity.DIALOG_TAG_DETAIL_COMMENT);
+
+
+
+            /*
+            Bundle args = new Bundle();
+            ArrayList<DocumentsItem> documents = new ArrayList<>();
+            Fragment fragment = new ChangePasswordFragment();
+            args.putSerializable(ChangePasswordFragment.DOCUMENTS_ARG, documents);
+            */
+            /*
+            Fragment fragment = new DocumentsFragment();
+            args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, null);
+            */
+            /*
+            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
+            fragment.setArguments(args);
+            changeFragment(fragment, "Recuperar contraseña", R.menu.users_menu_toolbar);
+            */
+
+        }
+    }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
+        Button recoverpass;
+        recoverpass = (Button)findViewById(R.id.button_recoverpass);
+        recoverpass.setOnClickListener(new RecoverPasswordClickListener());
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();
     }
