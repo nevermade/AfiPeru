@@ -8,15 +8,27 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.component.DaggerSessionComponent;
+import com.example.dp2.afiperu.module.SessionModule;
+import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.domain.Session;
+import com.example.dp2.afiperu.ui.viewmodel.SessionView;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 /**
  * Created by Fernando on 23/09/2015.
  */
-public class SessionFragment extends BaseFragment {
+public class SessionFragment extends BaseFragment implements SessionView{
+
+    @Inject
+    SessionPresenter presenter;
+    @Inject
+    SessionAdapter adapter;
+
 
     public static final String SESSION_ARG = "session_arg";
 
@@ -31,12 +43,14 @@ public class SessionFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<Session> sessions = (ArrayList<Session>)args.getSerializable(SESSION_ARG);
-        SessionAdapter adapter = new SessionAdapter(getContext(), this, sessions);
+        //ArrayList<Session> sessions = (ArrayList<Session>)args.getSerializable(SESSION_ARG);
+
 
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_sessions_list));
+
+        presenter.getAllSessions();
     }
 
     @Override
@@ -46,7 +60,15 @@ public class SessionFragment extends BaseFragment {
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
-
+        DaggerSessionComponent.builder()
+                .afiAppComponent(appComponent)
+                .sessionModule(new SessionModule(this))
+                .build()
+                .inject(this);
     }
 
+    @Override
+    public void displaySessions(ArrayList<Session> sessions) {
+        adapter.updateSessions(sessions);
+    }
 }

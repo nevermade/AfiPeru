@@ -470,25 +470,6 @@ public class DetailActivity extends BaseActivity {
                 fragment = new PeopleTabFragment();
                 break;
             case FRAGMENT_SESIONES:
-                ArrayList<MarkerInfo> markers = new ArrayList<>();
-                markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
-                markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                
-                ArrayList<Session> sessions = new ArrayList<>();
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                Collections.sort(sessions);
-                args.putSerializable(SessionFragment.SESSION_ARG, sessions);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SESIONES);
                 fragment = new SessionFragment();
                 break;
