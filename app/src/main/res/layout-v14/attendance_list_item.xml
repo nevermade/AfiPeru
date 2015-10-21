@@ -18,12 +18,28 @@
         android:text="Manuel Chumpitaz"
         android:textAppearance="@style/text_appearance_large_dark"
         android:singleLine="true"
-        android:layout_marginRight="25dp"/>
-    <!--'marginRight' logra que el texto no se dibuje encima del Switch-->
-    <Switch
-        android:id="@+id/attendance_item_toggle"
+        android:layout_marginRight="10dp"/>
+
+    <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/radioButton"
+
+        android:layout_toLeftOf="@+id/attendance_item_scorebutton"
+        android:layout_marginRight="15dp"
+        android:layout_centerVertical="true" />
+
+    <ImageView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/attendance_item_scorebutton"
+        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"/>
+        android:src="@drawable/ic_edit_icon"
+
+        />
+
+    <!--'marginRight' logra que el texto no se dibuje encima del Switch-->
 </RelativeLayout>
