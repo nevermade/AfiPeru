@@ -16,8 +16,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,36 +32,37 @@ import android.widget.ListView;
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseActivity;
+import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Blog;
+import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.domain.News;
+import com.example.dp2.afiperu.domain.PeopleKids;
+import com.example.dp2.afiperu.domain.Session;
+import com.example.dp2.afiperu.domain.User;
+import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
-import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
+import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
+import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
+import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleTabFragment;
+import com.example.dp2.afiperu.ui.fragment.PeriodReportFragment;
+import com.example.dp2.afiperu.ui.fragment.SessionFragment;
 import com.example.dp2.afiperu.ui.fragment.SettingsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
-import com.example.dp2.afiperu.domain.Documents;
-import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
-import com.example.dp2.afiperu.domain.News;
-import com.example.dp2.afiperu.domain.PeopleKids;
-import com.example.dp2.afiperu.domain.Session;
-import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
-import com.example.dp2.afiperu.ui.fragment.LoginFragment;
-import com.example.dp2.afiperu.ui.fragment.NewsFragment;
-import com.example.dp2.afiperu.ui.fragment.SessionFragment;
-import com.example.dp2.afiperu.domain.Users;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -98,6 +99,9 @@ public class DetailActivity extends BaseActivity {
     public static final int FRAGMENT_MAPA = 15;
     public static final int FRAGMENT_MAPA_EDITABLE = 16;
     public static final int FRAGMENT_REGISTRAR_PAGO = 17;
+    public static final int FRAGMENT_PAGO_DEPOSITO=18;
+    public static final int FRAGMENT_PERIODO = 19;
+    public static final int FRAGMENT_DOWNLOADED_USERS=20;
     public static final int FRAGMENT_LOGIN = 99;
 
     DrawerLayout mDrawerLayout;
@@ -131,6 +135,9 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_MAPA:
             case FRAGMENT_MAPA_EDITABLE: id = R.string.app_name; break;
             case FRAGMENT_REGISTRAR_PAGO: id = R.string.menu_pagos; break;
+            case FRAGMENT_PAGO_DEPOSITO: id=R.string.payment_deposit;break;
+            case FRAGMENT_PERIODO:id=R.string.period;break;
+            case FRAGMENT_DOWNLOADED_USERS:id=R.string.downloaded_users;break;
         }
         if(id != 0){
             return getResources().getString(id);
@@ -220,6 +227,7 @@ public class DetailActivity extends BaseActivity {
         list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
         list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
         list.add(new Drawer(FRAGMENT_LOGIN, getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
+        list.add(new Drawer(FRAGMENT_PERIODO, getTitle(FRAGMENT_PERIODO), R.drawable.ic_drawer_docs));
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         mDrawerList.setAdapter(new DrawerAdapter(this, list));
@@ -445,10 +453,10 @@ public class DetailActivity extends BaseActivity {
                 fragment=new BlogTabFragment();
                 break;
             case FRAGMENT_PERSONAS:
-                ArrayList<Users> users= new ArrayList<>();
-                users.add(new Users("dabarca","20101147","Daekef","Abarca","Cusimayta",3.5));
-                users.add(new Users("fbanda","20107845","Fernando","Banda","Cardenas",4.8));
-                users.add(new Users("lbarcena","20101019","Luis","Barcena","Navarro",1.0));
+                ArrayList<User> users= new ArrayList<>();
+                users.add(new User("dabarca","20101147","Daekef","Abarca","Cusimayta",3.5,false));
+                users.add(new User("fbanda","20107845","Fernando","Banda","Cardenas",4.8,false));
+                users.add(new User("lbarcena","20101019","Luis","Barcena","Navarro",1.0,false));
                 Collections.sort(users);
                 args.putSerializable(UsersFragment.USER_ARG, users);
                 ArrayList<PeopleKids> kids= new ArrayList<>();
@@ -484,15 +492,15 @@ public class DetailActivity extends BaseActivity {
                 fragment = new SessionFragment();
                 break;
             case FRAGMENT_DOCUMENTOS:
-                ArrayList<Documents> documents = new ArrayList<>();
+                ArrayList<Document> documents = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 21);
-                documents.add(new Documents("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, "254 KB", calendar.getTime().getTime()));
+                documents.add(new Document("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, "254 KB", calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 21, 12, 05);
-                documents.add(new Documents("Materiales para 27/09.xlsx", R.drawable.ic_docs_xls, "1.2 MB", calendar.getTime().getTime()));
+                documents.add(new Document("Materiales para 27/09.xlsx", R.drawable.ic_docs_xls, "1.2 MB", calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 18, 13, 14);
-                documents.add(new Documents("Documento sin ícono", R.drawable.ic_docs_generic, "13 KB", calendar.getTime().getTime()));
+                documents.add(new Document("Documento sin ícono", R.drawable.ic_docs_generic, "13 KB", calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 24);
-                documents.add(new Documents("Material extra 27/09.docx", R.drawable.ic_docs_doc, "126 KB", calendar.getTime().getTime()));
+                documents.add(new Document("Material extra 27/09.docx", R.drawable.ic_docs_doc, "126 KB", calendar.getTime().getTime()));
                 Collections.sort(documents);
 
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
@@ -502,6 +510,10 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_PAGOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG,FRAGMENT_PAGOS);
                 fragment=new PaymentListFragment();
+                break;
+            case FRAGMENT_PERIODO:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG,FRAGMENT_PERIODO);
+                fragment=new PeriodReportFragment();
                 break;
             case FRAGMENT_SUBIR_FOTOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);

@@ -98,7 +98,7 @@
     <string name="blogs_menu_search">Buscar artículos de blog</string>
     <string name="delete_blog_favorite">¿Borrar este artículo de tus favoritos?</string>
 
-    <!-- Users-->
+    <!-- User-->
     <string name="users_none">No se encontraron usuarios.</string>
     <string name="users_menu_search">Buscar usuarios</string>
     <string name="search_name">Nombre o apellido</string>
@@ -155,7 +155,11 @@
     <string name="payment_header_state">Estado</string>
     <string name="payment_header_action">Acción</string>
     <string name="payment_none">No se encontró ningún pago</string>
+    <string name="payment_deposit">Depósito</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- period -->
+    <string name="period">Periodo</string>
+
+    <!--Downloaded Users-->
+    <string name="downloaded_users">Descargas de voluntarios</string>
 </resources>

@@ -8,7 +8,7 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
-import com.example.dp2.afiperu.domain.Documents;
+import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class DocumentsFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<Documents> documents = (ArrayList<Documents>)args.getSerializable(DOCUMENTS_ARG);
+        ArrayList<Document> documents = (ArrayList<Document>)args.getSerializable(DOCUMENTS_ARG);
         DocumentsAdapter adapter = new DocumentsAdapter(getContext(), this, documents);
 
         ListView docsList = (ListView)rootView.findViewById(R.id.docs_list);

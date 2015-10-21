@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
+import com.example.dp2.afiperu.interactor.DownloadedUserInteractor;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
+import com.example.dp2.afiperu.interactor.PeriodReportInteractor;
 import com.example.dp2.afiperu.module.InteractorModule;
 
 import javax.inject.Singleton;
@@ -29,4 +31,6 @@ public interface AfiAppComponent {
         ChangePasswordInteractor getChangePasswordInteractor();
         PaymentDepositInteractor getPaymentDepositInteractor();
         PaymentListInteractor getPaymentListInteractor();
+        PeriodReportInteractor getPeriodReportInteractor();
+        DownloadedUserInteractor getDownloadedUserInteractor();
 }

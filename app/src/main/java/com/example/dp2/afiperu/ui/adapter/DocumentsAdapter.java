@@ -3,6 +3,7 @@ package com.example.dp2.afiperu.ui.adapter;
 
 import android.content.Context;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,18 +15,20 @@ import android.widget.Toast;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.Documents;
+import com.example.dp2.afiperu.domain.Document;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.ui.fragment.DownloadedUserFragment;
 
 import java.util.List;
 
-public class DocumentsAdapter extends BaseArrayAdapter<Documents> {
+public class DocumentsAdapter extends BaseArrayAdapter<Document> {
 
-    public DocumentsAdapter(Context context, BaseFragment fragment, List<Documents> objects) {
+    public DocumentsAdapter(Context context, BaseFragment fragment, List<Document> objects) {
         super(context, fragment, R.layout.documents_list_item, objects);
     }
 
     @Override
-    public void prepareItemView(View convertView, Documents item, int position) {
+    public void prepareItemView(View convertView, Document item, int position) {
         ImageView icon = (ImageView) convertView.findViewById(R.id.docs_item_icon);
         TextView name = (TextView) convertView.findViewById(R.id.docs_item_name);
         TextView date = (TextView) convertView.findViewById(R.id.docs_item_size_date);
@@ -63,6 +66,11 @@ public class DocumentsAdapter extends BaseArrayAdapter<Documents> {
                                     break;
                                 case R.id.docs_menu_check_views:
                                     Toast.makeText(getContext(), "Revisar vistas...", Toast.LENGTH_LONG).show();
+                                    Bundle args= new Bundle();
+                                    DownloadedUserFragment fragment = new DownloadedUserFragment();
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DOWNLOADED_USERS);
+                                    fragment.setArguments(args);
+                                    getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_DOWNLOADED_USERS);
                                     break;
                             }
                             return true;
