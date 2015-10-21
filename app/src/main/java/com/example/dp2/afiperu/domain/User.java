@@ -5,21 +5,23 @@ import java.io.Serializable;
 /**
  * Created by Nevermade on 01/10/2015.
  */
-public class Users implements Serializable, Comparable<Users> {
+public class User implements Serializable, Comparable<User> {
     private String nickName;
     private String cod;
     private String name;
     private String lastName;
     private String secondLastName;
     private double score;
+    private boolean hasDownloaded;
 
-    public Users(String nickName, String cod, String name, String lastName, String secondLastName, double score) {
+    public User(String nickName, String cod, String name, String lastName, String secondLastName, double score, boolean hasDownloaded) {
         this.nickName = nickName;
         this.cod = cod;
         this.name = name;
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.score = score;
+        this.hasDownloaded=hasDownloaded;
     }
 
     public String getNickName() {
@@ -69,8 +71,15 @@ public class Users implements Serializable, Comparable<Users> {
         this.secondLastName = secondLastName;
     }
 
+    public boolean isHasDownloaded() {
+        return hasDownloaded;
+    }
+
+    public void setHasDownloaded(boolean hasDownloaded) {
+        this.hasDownloaded = hasDownloaded;
+    }
     @Override
-    public int compareTo(Users o2) {
+    public int compareTo(User o2) {
         return (o2.name).compareTo(name);
     }
 }

@@ -2,13 +2,13 @@ package com.example.dp2.afiperu.domain;
 
 import java.io.Serializable;
 
-public class Documents implements Serializable, Comparable<Documents> {
+public class Document implements Serializable, Comparable<Document> {
     private String name;
     private int iconId;
     private String filesize;
     private long uploadDate;
 
-    public Documents(String name, int iconId, String filesize, long uploadDate) {
+    public Document(String name, int iconId, String filesize, long uploadDate) {
         this.name = name;
         this.iconId = iconId;
         this.filesize = filesize;
@@ -32,7 +32,7 @@ public class Documents implements Serializable, Comparable<Documents> {
     }
 
     @Override
-    public int compareTo(Documents o2){
+    public int compareTo(Document o2){
         return Long.valueOf(o2.uploadDate).compareTo(uploadDate);
     }
 }

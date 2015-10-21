@@ -76,6 +76,7 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
 
     }
 
+
     public void displayNoPaymentsFound(){
 
     }

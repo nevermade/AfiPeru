@@ -9,7 +9,7 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
-import com.example.dp2.afiperu.domain.Users;
+import com.example.dp2.afiperu.domain.User;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ public class UsersFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
-        ArrayList<Users> users = (ArrayList<Users>) args.getSerializable(USER_ARG);
+        ArrayList<User> users = (ArrayList<User>) args.getSerializable(USER_ARG);
         UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
 
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);

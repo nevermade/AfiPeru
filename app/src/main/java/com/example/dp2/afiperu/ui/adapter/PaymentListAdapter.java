@@ -3,8 +3,10 @@ package com.example.dp2.afiperu.ui.adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +15,9 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Payment;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.ui.fragment.PaymentDepositFragment;
+import com.example.dp2.afiperu.ui.viewmodel.PaymentListView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.EnumMapping;
 
@@ -27,10 +32,12 @@ import java.util.List;
 public class PaymentListAdapter extends BaseArrayAdapter <Payment>{
     Context context;
     ArrayList<Payment>payments;
+    PaymentListView view;
     public PaymentListAdapter(Context context, BaseFragment fragment, List<Payment> objects) {
         super(context, fragment, R.layout.payments_list_item, objects);
         payments=(ArrayList<Payment>)objects;
         this.context=context;
+        this.view=(PaymentListView)fragment;
     }
 
     @Override
@@ -87,8 +94,18 @@ public class PaymentListAdapter extends BaseArrayAdapter <Payment>{
         if (title != null) builder.setTitle(title);
 
         builder.setMessage(message);
-        builder.setPositiveButton("Depósito", null);
+        builder.setPositiveButton("Depósito", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Bundle args= new Bundle();
+                PaymentDepositFragment fragment = new PaymentDepositFragment();
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG,DetailActivity.FRAGMENT_PAGO_DEPOSITO);
+                fragment.setArguments(args);
+                getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_PAGO_DEPOSITO);
+            }
+        });
         builder.setNegativeButton("PayPal", null);
+
         builder.show();
     }
 }
