@@ -49,6 +49,7 @@ import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
+import com.example.dp2.afiperu.ui.fragment.DonationFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
@@ -523,6 +524,10 @@ public class DetailActivity extends BaseActivity {
                 break;*/
             /*case FRAGMENT_DONACIONES:
                 break;*/
+            case FRAGMENT_DONACIONES:
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DONACIONES);
+                fragment = new DonationFragment();
+                break;
             case FRAGMENT_CONFIGURACIÓN:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CONFIGURACIÓN);
                 fragment = new SettingsFragment();

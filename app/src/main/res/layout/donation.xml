@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="@style/text_appearance_giant_dark"
+            android:textSize="31dp"
+            android:text="¿Cuánto deseas donar?"
+            android:id="@+id/question_donation" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+
+    android:layout_alignParentTop="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true">
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:inputType="number"
+        android:ems="4"
+        android:gravity="right"
+        android:id="@+id/donation_amount" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/donation_amount"
+        android:text="Monto:"
+        android:layout_margin="8dp"
+        android:textAppearance="@style/text_appearance_medium_dark"
+        android:id="@+id/textView3" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:layout_toRightOf="@+id/donation_amount"
+        android:text="USD"
+        android:textAppearance="@style/text_appearance_medium_dark_soft"
+        android:id="@+id/textView4" />
+
+
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/common_signin_btn_default_background"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="Términos y condiciones"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120dp"
+
+            />
+
+
+    </RelativeLayout>
+</LinearLayout>
