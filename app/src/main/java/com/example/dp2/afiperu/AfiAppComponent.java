@@ -10,6 +10,7 @@ import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PeriodReportInteractor;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
 import com.example.dp2.afiperu.module.InteractorModule;
+import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 
 import javax.inject.Singleton;
 
@@ -28,6 +29,7 @@ import dagger.Component;
 public interface AfiAppComponent {
         /*Agregar los interactors aqui*/
         Context getContext();
+        AfiApiServiceEndPoints getService();
         BlogSearchInteractor getBlogSearchInteractor();
         ChangePasswordInteractor getChangePasswordInteractor();
         PaymentDepositInteractor getPaymentDepositInteractor();

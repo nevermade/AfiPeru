@@ -32,6 +32,10 @@ public class AfiAppModule {
         return app;
     }
 
+    @Provides @Singleton public Retrofit provideResrofitAdapter(){
+        return AfiApiServiceAdapter.getInstance();
+    }
+
     @Provides @Singleton public AfiApiServiceEndPoints provideAfiApiServiceEndPoints(Retrofit adapter){
         return adapter.create(AfiApiServiceEndPoints.class);
     }

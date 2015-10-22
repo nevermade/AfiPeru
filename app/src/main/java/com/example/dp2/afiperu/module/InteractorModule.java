@@ -15,6 +15,7 @@ import com.example.dp2.afiperu.interactor.PeriodReportInteractor;
 import com.example.dp2.afiperu.interactor.PeriodReportInteractorImpl;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
 import com.example.dp2.afiperu.interactor.SessionInteractorImpl;
+import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 
 import dagger.Module;
 import dagger.Provides;
@@ -48,5 +49,7 @@ public class InteractorModule {
     public DownloadedUserInteractor provideDownloadedUserInteractor(){return new DownloadedUserInteractorImpl();}
 
     @Provides
-    public SessionInteractor provideSessionInteractor(){return new SessionInteractorImpl();}
+    public SessionInteractor provideSessionInteractor(AfiApiServiceEndPoints service){
+        return new SessionInteractorImpl(service);
+    }
 }

@@ -5,5 +5,5 @@ package com.example.dp2.afiperu.util;
  */
 public class Constants {
 
-    public static final String BASE_URL="http://private-7791c-afiapp.apiary-mock.com/api/v1";
+    public static final String BASE_URL="http://private-7791c-afiapp.apiary-mock.com";
 }

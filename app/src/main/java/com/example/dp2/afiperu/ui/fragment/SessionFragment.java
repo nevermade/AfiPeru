@@ -43,7 +43,7 @@ public class SessionFragment extends BaseFragment implements SessionView{
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        //ArrayList<Session> sessions = (ArrayList<Session>)args.getSerializable(SESSION_ARG);
+        //ArrayList<SessionResponse> sessions = (ArrayList<SessionResponse>)args.getSerializable(SESSION_ARG);
 
 
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
