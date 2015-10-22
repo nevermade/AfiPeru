@@ -49,6 +49,7 @@ import com.example.dp2.afiperu.ui.fragment.DonationFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
+import com.example.dp2.afiperu.ui.fragment.MapFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
@@ -171,18 +172,39 @@ public class DetailActivity extends BaseActivity {
         BaseFragment topFragment = getTopFragment();
         int fragmentId = topFragment.getFragmentId();
         switch(fragmentId){
+            case FRAGMENT_PERSONAS:
+                switch(item.getItemId()){
+                    case R.id.people_menu_map:
+                        MapFragment mapFragment = new MapFragment();
+                        Bundle args = new Bundle();
+                        ArrayList<MarkerInfo> markers = new ArrayList<>();
+                        markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+                        markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+                        markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+                        markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+                        args.putSerializable(MapFragment.MARKERS_ARG, markers);
+                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_MAPA);
+                        mapFragment.setArguments(args);
+                        addFragment(mapFragment, getTitle(FRAGMENT_MAPA), getMenu(FRAGMENT_MAPA));
+                        break;
+                }
+                break;
             case FRAGMENT_SESIONES:
-                Hashtable<Long, AFIEvent> events = new Hashtable<>();
-                Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
-                Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
-                events.put(dateNoTime.getTime().getTime(),
-                        new AFIEvent("Av. Antonio Alarco 497", dateWithTime.getTime().getTime(), "Sesión 1"));
-                Bundle args = new Bundle();
-                args.putSerializable(CalendarFragment.EVENTS_ARG, events);
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CALENDARIO);
-                BaseFragment calendarFragment = new CalendarFragment();
-                calendarFragment.setArguments(args);
-                addFragment(calendarFragment, getTitle(FRAGMENT_CALENDARIO), getMenu(FRAGMENT_CALENDARIO));
+                switch(item.getItemId()){
+                    case R.id.sessions_menu_calendar:
+                        Hashtable<Long, AFIEvent> events = new Hashtable<>();
+                        Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
+                        Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
+                        events.put(dateNoTime.getTime().getTime(),
+                                new AFIEvent("Av. Antonio Alarco 497", dateWithTime.getTime().getTime(), "Sesión 1"));
+                        Bundle args = new Bundle();
+                        args.putSerializable(CalendarFragment.EVENTS_ARG, events);
+                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CALENDARIO);
+                        BaseFragment calendarFragment = new CalendarFragment();
+                        calendarFragment.setArguments(args);
+                        addFragment(calendarFragment, getTitle(FRAGMENT_CALENDARIO), getMenu(FRAGMENT_CALENDARIO));
+                        break;
+                }
                 break;
             case FRAGMENT_MAPA_EDITABLE:
                 MapEditFragment mapEditFragment = (MapEditFragment)topFragment;
@@ -242,6 +264,7 @@ public class DetailActivity extends BaseActivity {
         list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
         list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
         list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
+        list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
         list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
         //list.add(new Drawer(FRAGMENT_LOGIN, getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
 

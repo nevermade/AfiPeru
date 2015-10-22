@@ -32,9 +32,9 @@
     </LinearLayout>
     <ImageView
         android:id="@+id/kids_item_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:src="@android:drawable/checkbox_on_background"/>
+        android:src="@drawable/ic_checked_checkbox"/>
 </RelativeLayout>

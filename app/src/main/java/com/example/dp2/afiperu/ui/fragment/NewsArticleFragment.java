@@ -14,7 +14,6 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.MarkerInfo;
 import com.example.dp2.afiperu.domain.NewsArticle;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 

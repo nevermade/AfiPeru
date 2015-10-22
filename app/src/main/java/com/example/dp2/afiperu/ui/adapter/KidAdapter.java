@@ -33,7 +33,7 @@ public class KidAdapter extends BaseArrayAdapter<Kid> {
         name.setText(item.getName());
         age.setText(convertView.getResources().getString(R.string.kids_age, item.getAge()));
 
-        menu.setImageResource(item.isWritten() ? android.R.drawable.checkbox_on_background : android.R.drawable.checkbox_off_background);
+        menu.setImageResource(item.isWritten() ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

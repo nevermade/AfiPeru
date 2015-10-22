@@ -113,6 +113,7 @@
     <!-- People Kids -->
     <string name="people_kids_none">No se encontraron niños.</string>
     <string name="people_kids_menu_search">Buscar niños</string>
+    <string name="people_menu_map">Mapa de colegios</string>
 
     <string name="search_profile_options_any">Cualquiera</string>
     <string-array name="search_profile_options">
