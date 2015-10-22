@@ -11,15 +11,17 @@ public class User implements Serializable, Comparable<User> {
     private String name;
     private String lastName;
     private String secondLastName;
+    private String profile;
     private double score;
     private boolean hasDownloaded;
 
-    public User(String nickName, String cod, String name, String lastName, String secondLastName, double score, boolean hasDownloaded) {
+    public User(String nickName, String cod, String name, String lastName, String secondLastName, String profile, double score, boolean hasDownloaded) {
         this.nickName = nickName;
         this.cod = cod;
         this.name = name;
         this.lastName = lastName;
         this.secondLastName = secondLastName;
+        this.profile = profile;
         this.score = score;
         this.hasDownloaded=hasDownloaded;
     }
@@ -69,6 +71,10 @@ public class User implements Serializable, Comparable<User> {
 
     public void setSecondLastName(String secondLastName) {
         this.secondLastName = secondLastName;
+    }
+
+    public String getProfile(){
+        return profile;
     }
 
     public boolean isHasDownloaded() {

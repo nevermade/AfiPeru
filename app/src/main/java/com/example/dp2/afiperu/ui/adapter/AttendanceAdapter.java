@@ -1,24 +1,17 @@
 package com.example.dp2.afiperu.ui.adapter;
 
 
-import android.app.FragmentManager;
 import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Attendance;
 import com.example.dp2.afiperu.ui.dialogs.ScoreVolunteerDialog;
-import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 
 import java.util.List;
 

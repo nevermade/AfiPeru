@@ -37,7 +37,7 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
 
     @Override
     public int getLayout(){
-        return R.layout.changepassword;
+        return R.layout.change_password;
     }
 
     @Override

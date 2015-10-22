@@ -68,9 +68,9 @@ public class DocumentsAdapter extends BaseArrayAdapter<Document> {
                                     Toast.makeText(getContext(), "Revisar vistas...", Toast.LENGTH_LONG).show();
                                     Bundle args= new Bundle();
                                     DownloadedUserFragment fragment = new DownloadedUserFragment();
-                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DOWNLOADED_USERS);
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_USUARIOS_REVISADO);
                                     fragment.setArguments(args);
-                                    getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_DOWNLOADED_USERS);
+                                    getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_USUARIOS_REVISADO);
                                     break;
                             }
                             return true;

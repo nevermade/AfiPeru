@@ -44,8 +44,8 @@ public class PeopleTabFragment extends BaseFragment {
         tabs[1].setArguments(args1);
 
         TabLayout tabLayout = (TabLayout)rootView.findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all));
-        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_favorite));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_users));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_kids));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager pager = (ViewPager)rootView.findViewById(R.id.pager);

@@ -36,8 +36,6 @@ public class UsersFragment extends BaseFragment {
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
         blogsList.setAdapter(adapter);
         blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
-
-
     }
 
     @Override

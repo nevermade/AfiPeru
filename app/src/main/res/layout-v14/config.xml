@@ -89,7 +89,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/config_notifications_payments"
+                    android:text="@string/config_notifications_events"
                     android:textAppearance="@style/text_appearance_medium_dark_soft"
                     android:layout_alignParentLeft="true"/>
                 <Switch
@@ -125,6 +125,7 @@
             android:text="@string/config_sign_out"
             android:textAppearance="@style/text_appearance_large_dark"
             android:layout_marginTop="@dimen/margin_top"
+            android:layout_marginBottom="@dimen/margin_large"
             android:layout_gravity="center"
             android:background="?attr/selectableItemBackground"/>
     </LinearLayout>

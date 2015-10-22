@@ -24,10 +24,10 @@ public class UsersAdapter extends BaseArrayAdapter<User> {
     public void prepareItemView(final View convertView,final User item,final int position) {
         TextView name= (TextView)convertView.findViewById(R.id.user_item_name);
         TextView code= (TextView)convertView.findViewById(R.id.user_item_code);
-        TextView score= (TextView)convertView.findViewById(R.id.users_item_score);
+        //TextView score= (TextView)convertView.findViewById(R.id.users_item_score);
 
         name.setText(item.getName()+" "+item.getLastName());
-        code.setText(item.getCod());
-        score.setText(String.format("%.2f",item.getScore()));
+        code.setText(item.getProfile() + " - " + item.getCod());
+        //score.setText(String.format("%.2f",item.getScore()));
     }
 }

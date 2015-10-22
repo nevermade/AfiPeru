@@ -99,9 +99,9 @@ public class PaymentListAdapter extends BaseArrayAdapter <Payment>{
             public void onClick(DialogInterface dialog, int which) {
                 Bundle args= new Bundle();
                 PaymentDepositFragment fragment = new PaymentDepositFragment();
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG,DetailActivity.FRAGMENT_PAGO_DEPOSITO);
+                args.putInt(BaseFragment.FRAGMENT_ID_ARG,DetailActivity.FRAGMENT_REGISTRAR_PAGO);
                 fragment.setArguments(args);
-                getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_PAGO_DEPOSITO);
+                getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
             }
         });
         builder.setNegativeButton("PayPal", null);

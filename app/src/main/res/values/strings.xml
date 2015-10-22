@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">AFI Perú</string>
 
+    <!--Recuperar contraseña-->
+    <string name="recover_password">Para recuperar su contraseña escriba su correo electronico de registro:</string>
+
     <!-- Drawer menu -->
     <string name="navigation_drawer_open">Abrir menú</string>
     <string name="navigation_drawer_close">Cerrar menú</string>
@@ -13,11 +16,13 @@
     <string name="menu_blog">Blog</string>
     <string name="menu_pagos">Pagos</string>
     <string name="menu_donaciones">Donaciones</string>
+    <string name="menu_reportes">Reportes</string>
     <string name="menu_configuracion">Configuración</string>
     <string name="menu_postular">Postular a 2016-1</string>
 
     <string name="title_asistencia">Asistencia</string>
     <string name="title_comentarios">Comentarios</string>
+    <string name="title_calendar">Calendario de sesiones</string>
 
     <string name="tab_all">TODO</string>
     <string name="tab_favorite">FAVORITOS</string>
@@ -134,7 +139,7 @@
     <string name="save_not_needed">No hay cambios que guardar.</string>
     <string name="save_needed">No ha guardado los cambios en los puntos de reunión. ¿Qué desea hacer?</string>
     <string name="save_needed_save">Guardar</string>
-    <string name="save_needed_exit">Salir sin guardar</string>
+    <string name="save_needed_exit">Descartar</string>
     <string name="save_needed_cancel">Cancelar</string>
 
     <!--Configuración-->

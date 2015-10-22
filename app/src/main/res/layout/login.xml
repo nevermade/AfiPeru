@@ -54,12 +54,12 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_small"
                 android:text="@string/login_btn_recover_password"/>
-            <TextView
+            <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login_footer"
                 android:textAppearance="@style/text_appearance_small_dark"
-                android:padding="10dp"/>
+                android:padding="10dp"/-->
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
