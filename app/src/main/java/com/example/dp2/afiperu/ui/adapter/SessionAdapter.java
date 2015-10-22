@@ -35,6 +35,14 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
     public SessionAdapter(Context context, BaseFragment fragment, List<Session> objects) {
         super(context, fragment, R.layout.session_list_item, objects);
     }
+    public void updateSessions(ArrayList<Session> sessions){
+        if(sessions!=null){
+            clear();
+            addAll(sessions);
+            notifyDataSetChanged();
+        }
+    }
+
 
     @Override
     public void prepareItemView(View convertView, final Session item, int position) {

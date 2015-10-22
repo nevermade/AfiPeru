@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.module;
 
+import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractorImpl;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
@@ -12,6 +13,8 @@ import com.example.dp2.afiperu.interactor.PaymentListInteractorImpl;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PeriodReportInteractor;
 import com.example.dp2.afiperu.interactor.PeriodReportInteractorImpl;
+import com.example.dp2.afiperu.interactor.SessionInteractor;
+import com.example.dp2.afiperu.interactor.SessionInteractorImpl;
 
 import dagger.Module;
 import dagger.Provides;
@@ -43,4 +46,7 @@ public class InteractorModule {
 
     @Provides
     public DownloadedUserInteractor provideDownloadedUserInteractor(){return new DownloadedUserInteractorImpl();}
+
+    @Provides
+    public SessionInteractor provideSessionInteractor(){return new SessionInteractorImpl();}
 }
