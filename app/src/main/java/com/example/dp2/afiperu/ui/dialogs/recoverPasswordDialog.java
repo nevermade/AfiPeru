@@ -22,7 +22,7 @@ public class recoverPasswordDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
-        builder.setView(inflater.inflate(R.layout.recoverpassword, null))
+        builder.setView(inflater.inflate(R.layout.recover_password, null))
                 .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
@@ -34,7 +34,12 @@ public class recoverPasswordDialog extends DialogFragment {
                         recoverPasswordDialog.this.getDialog().cancel();
                     }
                 }).setTitle("Recuperar contraseña");
-        return builder.create();
+        AlertDialog result = builder.create();
+
+        //Background color
+        result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+
+        return result;
     }
 
 }
