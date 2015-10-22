@@ -46,14 +46,20 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/login_btn_enter"/>
+                android:text="@string/login_btn_enter"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-light"
+                android:background="@drawable/payment_register_deposit_button"/>
             <Button
                 android:id="@+id/button_recoverpass"
                 android:layout_width="@dimen/button_large"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_small"
-                android:text="@string/login_btn_recover_password"/>
+                android:text="@string/login_btn_recover_password"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-light"
+                android:background="@drawable/payment_register_deposit_button"/>/>
             <!--TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
