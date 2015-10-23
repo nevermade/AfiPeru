@@ -27,7 +27,17 @@ public class ChangePasswordPresenter extends BasePresenter{
     public void onStop() {
 
     }
+
+    public void onChangePassword(){
+        view.displayPasswordChanged();
+    }
+
+    public void changePassword(String currentPw,String newPw){
+        interactor.changePassword(currentPw,newPw,this);
+    }
 /*
+
+
     public void getAllArtists(){
 
         view.displayFoundBlogs(interactor.getAllBlogs());

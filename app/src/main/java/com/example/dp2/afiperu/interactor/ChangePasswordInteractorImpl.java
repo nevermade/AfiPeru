@@ -1,11 +1,44 @@
 package com.example.dp2.afiperu.interactor;
 
+import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
+import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.squareup.okhttp.Response;
+
+import retrofit.Call;
+import retrofit.Callback;
+import retrofit.Retrofit;
+
 /**
  * Created by Nevermade on 12/10/2015.
  */
 public class ChangePasswordInteractorImpl implements ChangePasswordInteractor {
 
-    public ChangePasswordInteractorImpl(){}
+    AfiApiServiceEndPoints service;
+
+    public ChangePasswordInteractorImpl(AfiApiServiceEndPoints service) {
+        this.service = service;
+    }
+
+
+
+    @Override
+    public void changePassword(String currentPw, String newPw, final ChangePasswordPresenter presenter) {
+        Call<Response> call= service.changePassword(currentPw,newPw);
+        call.enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
+                if(response!=null){
+                    presenter.onChangePassword();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+    }
+
 
     /*
     @Override

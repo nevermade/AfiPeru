@@ -111,6 +111,7 @@ public class DetailActivity extends BaseActivity {
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
     ActionBarDrawerToggle mDrawerToggle;
+    Toolbar toolbar;
     int selectedLayout;
     int toolbarMenu;
 
@@ -272,7 +273,7 @@ public class DetailActivity extends BaseActivity {
         mDrawerList.setAdapter(new DrawerAdapter(this, list));
         mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -283,9 +284,20 @@ public class DetailActivity extends BaseActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
 
+        hideAppElements(true);
+
         selectItem(FRAGMENT_LOGIN);
     }
 
+    public void hideAppElements(boolean isGone){
+        if(isGone){
+            toolbar.setVisibility(View.GONE);
+            mDrawerList.setVisibility(View.GONE);
+        }else{
+            toolbar.setVisibility(View.VISIBLE);
+            mDrawerList.setVisibility(View.VISIBLE);
+        }
+    }
     protected void setNavIcon(boolean noStack) {
         mDrawerToggle.setDrawerIndicatorEnabled(noStack);
         mDrawerToggle.setToolbarNavigationClickListener(new View.OnClickListener() {
@@ -439,7 +451,7 @@ public class DetailActivity extends BaseActivity {
         alert.show();
     }
 
-    private void selectItem(int fragmentId){
+    public void selectItem(int fragmentId){
         Bundle args = new Bundle();
         Fragment fragment;
         switch(fragmentId){
@@ -513,25 +525,6 @@ public class DetailActivity extends BaseActivity {
                 fragment = new PeopleTabFragment();
                 break;
             case FRAGMENT_SESIONES:
-                ArrayList<MarkerInfo> markers = new ArrayList<>();
-                markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
-                markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-                
-                ArrayList<Session> sessions = new ArrayList<>();
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-                sessions.add(new Session("Cerro el Pino", calendar.getTime().getTime(), markers));
-                Collections.sort(sessions);
-                args.putSerializable(SessionFragment.SESSION_ARG, sessions);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SESIONES);
                 fragment = new SessionFragment();
                 break;
