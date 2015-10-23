@@ -5,6 +5,6 @@ package com.example.dp2.afiperu.util;
  */
 public class Constants {
 
-    public static final String BASE_URL="http://private-7791c-afiapp.apiary-mock.com";
-    public static final String DUMMY_CONSTANT="This is a dummy constant";
+    public static final String BASE_URL="http://200.16.7.111/afiperularavel/public/api/v1/";
+    public static String TOKEN="";
 }

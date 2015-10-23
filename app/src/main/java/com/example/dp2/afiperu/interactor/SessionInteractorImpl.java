@@ -59,17 +59,20 @@ public class SessionInteractorImpl implements SessionInteractor {
                 ArrayList<PointsOfReunionResponse> lrs;
                 Session s;
                 ArrayList<MarkerInfo> markers;
-                for(SessionResponse sr: srs){
-                    lrs=(ArrayList<PointsOfReunionResponse>) sr.getPointsOfReunionResponse();
-                    markers = new ArrayList<>();
-                    for(PointsOfReunionResponse lr:lrs){
-                        markers.add(new MarkerInfo(lr.getLatitude(),lr.getLongitude(),MarkerInfo.MARKER_KIND_SESSION_ADDRESS,null));
+                if(srs!=null) {
+                    for (SessionResponse sr : srs) {
+                        lrs = (ArrayList<PointsOfReunionResponse>) sr.getPointsOfReunionResponse();
+                        markers = new ArrayList<>();
+                        for (PointsOfReunionResponse lr : lrs) {
+                            markers.add(new MarkerInfo(lr.getLatitude(), lr.getLongitude(), MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
+                        }
+
+                        s = new Session(sr.getName(), sr.getDate(), markers);
+                        sessions.add(s);
                     }
 
-                    s=new Session(sr.getName(),sr.getDate(),markers);
-                    sessions.add(s);
+                    presenter.onSessionFound(sessions);
                 }
-                presenter.onSessionFound(sessions);
             }
 
             @Override

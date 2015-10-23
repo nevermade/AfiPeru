@@ -7,6 +7,8 @@ import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractorImpl;
 import com.example.dp2.afiperu.interactor.DownloadedUserInteractor;
 import com.example.dp2.afiperu.interactor.DownloadedUserInteractorImpl;
+import com.example.dp2.afiperu.interactor.LoginInteractor;
+import com.example.dp2.afiperu.interactor.LoginInteractorImpl;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractorImpl;
 import com.example.dp2.afiperu.interactor.PaymentListInteractorImpl;
@@ -31,8 +33,8 @@ public class InteractorModule {
         return new BlogSearchInteractorImpl();
     }
     @Provides
-    public ChangePasswordInteractor provideChangePasswordInteractor(){
-        return new ChangePasswordInteractorImpl();
+    public ChangePasswordInteractor provideChangePasswordInteractor(AfiApiServiceEndPoints service){
+        return new ChangePasswordInteractorImpl(service);
     }
     @Provides
     public PaymentDepositInteractor providePaymentDepositInteractor(){
@@ -51,5 +53,10 @@ public class InteractorModule {
     @Provides
     public SessionInteractor provideSessionInteractor(AfiApiServiceEndPoints service){
         return new SessionInteractorImpl(service);
+    }
+
+    @Provides
+    public LoginInteractor provideLoginInteractor(AfiApiServiceEndPoints service){
+        return new LoginInteractorImpl(service);
     }
 }

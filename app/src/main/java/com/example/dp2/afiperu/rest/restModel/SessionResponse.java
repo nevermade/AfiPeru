@@ -21,13 +21,13 @@ public class SessionResponse {
     @SerializedName("date")
     @Expose
     private Integer date;
-    @SerializedName("locationResponse")
+    @SerializedName("location")
     @Expose
     private LocationResponse locationResponse;
     @SerializedName("points_of_reunion")
     @Expose
     private List<PointsOfReunionResponse> pointsOfReunionResponse = new ArrayList<PointsOfReunionResponse>();
-    @SerializedName("documentResponses")
+    @SerializedName("documents")
     @Expose
     private List<DocumentResponse> documentResponses = new ArrayList<DocumentResponse>();
 

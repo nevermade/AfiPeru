@@ -16,4 +16,5 @@ public interface ChangePasswordView {
     void displayFoundBlogs(ArrayList<Blog> blogs);
     void displayEmptyList();
     */
+    void displayPasswordChanged();
 }

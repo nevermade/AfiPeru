@@ -2,7 +2,10 @@ package com.example.dp2.afiperu.ui.fragment;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -23,9 +26,10 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     @Inject
     ChangePasswordAdapter changePasswordAdapter;
     @Inject
-    ChangePasswordPresenter changePasswordPresenter;
+    ChangePasswordPresenter presenter;
 
-
+    EditText currentPassword;
+    EditText newPassword;
 
     private boolean[] isFavorite;
 
@@ -54,13 +58,23 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
             isFavorite[i] = blogSearchAdapter.getItem(i).isFavorite();
         }
         */
+        Button chanPwd=(Button)rootView.findViewById(R.id.changepassword);
+        currentPassword=(EditText)rootView.findViewById(R.id.actpassword);
+        newPassword=(EditText)rootView.findViewById(R.id.newpassword);
+
+        chanPwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.changePassword(currentPassword.getText().toString(),newPassword.getText().toString());
+            }
+        });
 
     }
 
 
     @Override
     protected BasePresenter getPresenter() {
-        return changePasswordPresenter;
+        return presenter;
     }
 
     @Override
@@ -87,6 +101,11 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     @Override
     public void setupAdapter() {
 
+    }
+
+    @Override
+    public void displayPasswordChanged() {
+        Toast.makeText(getContext(), "Se ha actualizado su contraseña", Toast.LENGTH_SHORT).show();
     }
 /*
     @Override
