@@ -1,14 +1,13 @@
-package com.example.dp2.afiperu.rest.restModel;
+package com.example.dp2.afiperu.domain;
 
 /**
  * Created by Nevermade on 21/10/2015.
  */
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 
-public class LocationResponse {
+public class PointsOfReunion {
 
     @SerializedName("latitude")
     @Expose

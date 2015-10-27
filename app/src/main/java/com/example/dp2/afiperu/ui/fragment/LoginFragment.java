@@ -60,7 +60,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Override
     public void showApp(String name) {
         DetailActivity activity = ((DetailActivity) getActivity());
-        Toast.makeText(getContext(), "Bienvenido "+ name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity.getApplicationContext(), "Bienvenido "+ name, Toast.LENGTH_SHORT).show();
         activity.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
         activity.hideAppElements(false);
         hideSoftKeyboard();

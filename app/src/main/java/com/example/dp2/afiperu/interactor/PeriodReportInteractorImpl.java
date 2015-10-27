@@ -19,11 +19,11 @@ public class PeriodReportInteractorImpl implements PeriodReportInteractor {
         ArrayList<Document> documents = new ArrayList<>();
         Calendar calendar;
         calendar = new GregorianCalendar(2015, 3, 22, 15, 21);
-        documents.add(new Document("Reporte 2015-0.pdf", R.drawable.ic_docs_pdf, "254 KB", calendar.getTime().getTime()));
+        documents.add(new Document("Reporte 2015-0.pdf", R.drawable.ic_docs_pdf, 0.2, calendar.getTime().getTime()));
         calendar = new GregorianCalendar(2015, 8, 21, 12, 05);
-        documents.add(new Document("Reporte 2015-1.pdf", R.drawable.ic_docs_pdf, "1.2 MB", calendar.getTime().getTime()));
+        documents.add(new Document("Reporte 2015-1.pdf", R.drawable.ic_docs_pdf,1.2, calendar.getTime().getTime()));
         calendar = new GregorianCalendar(2015, 12, 18, 13, 14);
-        documents.add(new Document("Reporte 2015-2.pdf", R.drawable.ic_docs_pdf, "13 KB", calendar.getTime().getTime()));
+        documents.add(new Document("Reporte 2015-2.pdf", R.drawable.ic_docs_pdf, 0.01, calendar.getTime().getTime()));
 
         Collections.sort(documents);
 
