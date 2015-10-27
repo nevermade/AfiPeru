@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Session extends SugarRecord<Session> implements Serializable, Comparable<Session> {
 
-    @SerializedName("sessionId")
+    @SerializedName("id")
     @Expose
     private Integer sessionId;
     @SerializedName("name")
