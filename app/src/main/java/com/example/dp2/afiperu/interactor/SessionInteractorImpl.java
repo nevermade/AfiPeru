@@ -1,12 +1,11 @@
 package com.example.dp2.afiperu.interactor;
 
 import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.domain.PointsOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
-import com.example.dp2.afiperu.rest.restModel.LocationResponse;
-import com.example.dp2.afiperu.rest.restModel.PointsOfReunionResponse;
-import com.example.dp2.afiperu.rest.restModel.SessionResponse;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,29 +49,14 @@ public class SessionInteractorImpl implements SessionInteractor {
         Collections.sort(sessions);
         return null;*/
 
-        Call<List<SessionResponse>> call = service.getAllSessions();
-        call.enqueue(new Callback<List<SessionResponse>>() {
+        Call<List<Session>> call = service.getAllSessions();
+        call.enqueue(new Callback<List<Session>>() {
             @Override
-            public void onResponse(Response<List<SessionResponse>> response, Retrofit retrofit) {
-                ArrayList<Session> sessions=new ArrayList<Session>();
-                ArrayList<SessionResponse> srs= (ArrayList<SessionResponse>)response.body();
-                ArrayList<PointsOfReunionResponse> lrs;
-                Session s;
-                ArrayList<MarkerInfo> markers;
-                if(srs!=null) {
-                    for (SessionResponse sr : srs) {
-                        lrs = (ArrayList<PointsOfReunionResponse>) sr.getPointsOfReunionResponse();
-                        markers = new ArrayList<>();
-                        for (PointsOfReunionResponse lr : lrs) {
-                            markers.add(new MarkerInfo(lr.getLatitude(), lr.getLongitude(), MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
-                        }
+            public void onResponse(Response<List<Session>> response, Retrofit retrofit) {
+                ArrayList<Session> sessions=(ArrayList<Session>)response.body();
 
-                        s = new Session(sr.getName(), sr.getDate(), markers);
-                        sessions.add(s);
-                    }
-
+                if(sessions!=null)
                     presenter.onSessionFound(sessions);
-                }
             }
 
             @Override

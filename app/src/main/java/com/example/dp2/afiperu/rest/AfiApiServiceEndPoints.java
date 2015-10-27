@@ -1,7 +1,7 @@
 package com.example.dp2.afiperu.rest;
 
-import com.example.dp2.afiperu.rest.restModel.LoginResponse;
-import com.example.dp2.afiperu.rest.restModel.SessionResponse;
+import com.example.dp2.afiperu.domain.Session;
+import com.example.dp2.afiperu.domain.User;
 import com.squareup.okhttp.Response;
 
 import java.util.List;
@@ -23,11 +23,13 @@ import retrofit.http.Part;
 public interface AfiApiServiceEndPoints {
 
     @GET("sessions")
-    Call<List<SessionResponse>> getAllSessions();
+    Call<List<Session>> getAllSessions();
 
     @FormUrlEncoded
     @POST("sign_in")
-    Call<LoginResponse> login(@Field("username") String username, @Field("password") String password);
+    Call<User> login(@Field("username") String username, @Field("password") String password);
+
+    /*** Usar Response como respuesta cuando no nos interesa que devuelve el WS***/
     @FormUrlEncoded
     @PUT("change_password")
     Call<Response> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);

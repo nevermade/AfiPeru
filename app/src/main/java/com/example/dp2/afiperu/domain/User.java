@@ -1,21 +1,41 @@
 package com.example.dp2.afiperu.domain;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nevermade on 01/10/2015.
  */
 public class User implements Serializable, Comparable<User> {
-    private String nickName;
-    private String cod;
+    @SerializedName("id")
+    @Expose
+    private Integer cod;
+    @SerializedName("names")
+    @Expose
     private String name;
+    @SerializedName("last_name")
+    @Expose
     private String lastName;
+    @SerializedName("username")
+    @Expose
+    private String nickName;
+    @SerializedName("actions")
+    @Expose
+    private List<Action> actions = new ArrayList<Action>();
+    @SerializedName("auth_token")
+    @Expose
+    private String authToken;
+
     private String secondLastName;
     private String profile;
     private double score;
     private boolean hasDownloaded;
 
-    public User(String nickName, String cod, String name, String lastName, String secondLastName, String profile, double score, boolean hasDownloaded) {
+    public User(String nickName, int cod, String name, String lastName, String secondLastName, String profile, double score, boolean hasDownloaded) {
         this.nickName = nickName;
         this.cod = cod;
         this.name = name;
@@ -26,27 +46,12 @@ public class User implements Serializable, Comparable<User> {
         this.hasDownloaded=hasDownloaded;
     }
 
-    public String getNickName() {
-        return nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-    public String getCod() {
+    public Integer getCod() {
         return cod;
     }
 
-    public void setCod(String cod) {
+    public void setCod(Integer cod) {
         this.cod = cod;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public String getName() {
@@ -57,12 +62,28 @@ public class User implements Serializable, Comparable<User> {
         this.name = name;
     }
 
-    public double getScore() {
-        return score;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setScore(double score) {
-        this.score = score;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public List<Action> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<Action> actions) {
+        this.actions = actions;
     }
 
     public String getSecondLastName() {
@@ -73,8 +94,28 @@ public class User implements Serializable, Comparable<User> {
         this.secondLastName = secondLastName;
     }
 
-    public String getProfile(){
+    public String getAuthToken() {
+        return authToken;
+    }
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public String getProfile() {
         return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
     }
 
     public boolean isHasDownloaded() {
@@ -84,6 +125,7 @@ public class User implements Serializable, Comparable<User> {
     public void setHasDownloaded(boolean hasDownloaded) {
         this.hasDownloaded = hasDownloaded;
     }
+
     @Override
     public int compareTo(User o2) {
         return (o2.name).compareTo(name);
