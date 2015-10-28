@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -527,9 +528,9 @@ public class DetailActivity extends BaseActivity {
                 break;
             case FRAGMENT_PERSONAS:
                 ArrayList<User> users= new ArrayList<>();
-                users.add(new User("dabarca","20101147","Daekef","Abarca","Cusimayta", "Miembro de AFI",3.5, true));
-                users.add(new User("fbanda","20107845","Fernando","Banda","Cardenas", "Voluntario",4.8, false));
-                users.add(new User("lbarcena","20101019","Luis","Barcena","Navarro","Padrino",1.0, true));
+                users.add(new User("dabarca",20101147,"Daekef","Abarca","Cusimayta", "Miembro de AFI",3.5, true));
+                users.add(new User("fbanda",20107845,"Fernando","Banda","Cardenas", "Voluntario",4.8, false));
+                users.add(new User("lbarcena",20101019,"Luis","Barcena","Navarro","Padrino",1.0, true));
                 Collections.sort(users);
                 args.putSerializable(UsersFragment.USER_ARG, users);
                 ArrayList<PeopleKids> kids= new ArrayList<>();
@@ -548,13 +549,13 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_DOCUMENTOS:
                 ArrayList<Document> documents = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 21);
-                documents.add(new Document("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, "254 KB", calendar.getTime().getTime()));
+                documents.add(new Document("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, 0.2, calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 21, 12, 05);
-                documents.add(new Document("Materiales para 27/09.xlsx", R.drawable.ic_docs_xls, "1.2 MB", calendar.getTime().getTime()));
+                documents.add(new Document("Materiales para 27/09.xlsx", R.drawable.ic_docs_xls, 1.2, calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 18, 13, 14);
-                documents.add(new Document("Documento sin ícono", R.drawable.ic_docs_generic, "13 KB", calendar.getTime().getTime()));
+                documents.add(new Document("Documento sin ícono", R.drawable.ic_docs_generic, 0.13, calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 24);
-                documents.add(new Document("Material extra 27/09.docx", R.drawable.ic_docs_doc, "126 KB", calendar.getTime().getTime()));
+                documents.add(new Document("Material extra 27/09.docx", R.drawable.ic_docs_doc, 0.12, calendar.getTime().getTime()));
                 Collections.sort(documents);
 
                 args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
@@ -646,8 +647,8 @@ public class DetailActivity extends BaseActivity {
     }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
-        Button recoverpass;
-        recoverpass = (Button)findViewById(R.id.button_recoverpass);
+        TextView recoverpass;
+        recoverpass = (TextView)findViewById(R.id.button_recoverpass);
         recoverpass.setOnClickListener(new RecoverPasswordClickListener());
         super.onPostCreate(savedInstanceState);
         mDrawerToggle.syncState();

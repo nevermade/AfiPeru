@@ -9,6 +9,12 @@
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAyU6jiYKyuzlYA3-PQy7_Z6xWAU30qklU"/>
+
+        <meta-data android:name="DATABASE" android:value="AFIdb.db" />
+        <meta-data android:name="VERSION" android:value="1" />
+        <meta-data android:name="QUERY_LOG" android:value="true" />
+        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example.dp2.afiperu.domain" />
+
         <activity
             android:name=".ui.activity.DetailActivity"
             android:label="@string/app_name"

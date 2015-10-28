@@ -1,13 +1,14 @@
-package com.example.dp2.afiperu.rest.restModel;
+package com.example.dp2.afiperu.domain;
 
 /**
  * Created by Nevermade on 21/10/2015.
  */
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 
-public class PointsOfReunionResponse {
+public class PointsOfReunion extends SugarRecord<PointsOfReunion>{
 
     @SerializedName("latitude")
     @Expose
@@ -16,6 +17,8 @@ public class PointsOfReunionResponse {
     @Expose
     private Double longitude;
 
+
+    public PointsOfReunion(){};
     /**
      *
      * @return

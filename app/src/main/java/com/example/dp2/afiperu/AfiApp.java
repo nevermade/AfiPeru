@@ -3,10 +3,12 @@ package com.example.dp2.afiperu;
 import android.app.Application;
 import android.content.Context;
 
+import com.orm.SugarApp;
+
 /**
  * Created by Nevermade on 11/10/2015.
  */
-public class AfiApp extends Application {
+public class AfiApp extends SugarApp {
     private AfiAppComponent component;
 
     @Override

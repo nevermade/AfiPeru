@@ -1,4 +1,4 @@
-package com.example.dp2.afiperu.rest.restModel;
+package com.example.dp2.afiperu.domain;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by Nevermade on 23/10/2015.
  */
-public class ActionResponse {
+public class Action {
     @SerializedName("id")
     @Expose
     private Integer id;
