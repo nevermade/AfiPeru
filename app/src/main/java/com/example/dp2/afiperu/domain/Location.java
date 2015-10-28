@@ -6,9 +6,10 @@ package com.example.dp2.afiperu.domain;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 
-public class Location {
+public class Location extends SugarRecord<Location>{
 
     @SerializedName("latitude")
     @Expose
@@ -16,6 +17,9 @@ public class Location {
     @SerializedName("longitude")
     @Expose
     private Double longitude;
+
+
+    public Location(){}
 
     /**
      *
