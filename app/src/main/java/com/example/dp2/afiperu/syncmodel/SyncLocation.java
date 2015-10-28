@@ -1,4 +1,4 @@
-package com.example.dp2.afiperu.domain;
+package com.example.dp2.afiperu.syncmodel;
 
 /**
  * Created by Nevermade on 21/10/2015.
@@ -9,17 +9,13 @@ import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 
-public class Location{
+public class SyncLocation extends SugarRecord<SyncLocation>{
 
-    @SerializedName("latitude")
-    @Expose
     private Double latitude;
-    @SerializedName("longitude")
-    @Expose
     private Double longitude;
 
 
-    public Location(){}
+    public SyncLocation(){}
 
     /**
      *

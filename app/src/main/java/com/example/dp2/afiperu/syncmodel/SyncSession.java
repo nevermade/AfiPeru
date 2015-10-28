@@ -1,7 +1,10 @@
-package com.example.dp2.afiperu.domain;
+package com.example.dp2.afiperu.syncmodel;
 
 
 import com.example.dp2.afiperu.domain.Document;
+import com.example.dp2.afiperu.domain.Location;
+import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.domain.PointsOfReunion;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
@@ -11,11 +14,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Session implements Serializable, Comparable<Session> {
+public class SyncSession extends SugarRecord<SyncSession> implements Serializable, Comparable<SyncSession> {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Integer sessionId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -38,10 +41,10 @@ public class Session implements Serializable, Comparable<Session> {
     @Ignore
     private ArrayList<MarkerInfo> markers;
 
-    public Session(){};
+    public SyncSession(){};
 
 
-    public Session(String name, Integer date, ArrayList<MarkerInfo> markers) {
+    public SyncSession(String name, Integer date, ArrayList<MarkerInfo> markers) {
    
         this.name = name;
         this.date = date;
@@ -58,12 +61,12 @@ public class Session implements Serializable, Comparable<Session> {
         return result;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getSessionId() {
+        return sessionId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSessionId(Integer sessionId) {
+        this.sessionId = sessionId;
     }
 
     public String getName() {
@@ -107,7 +110,7 @@ public class Session implements Serializable, Comparable<Session> {
     }
 
     @Override
-    public int compareTo(Session o2){
+    public int compareTo(SyncSession o2){
         return Integer.valueOf(o2.date).compareTo(date);
     }
 

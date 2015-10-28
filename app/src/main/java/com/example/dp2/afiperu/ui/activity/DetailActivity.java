@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -40,8 +41,11 @@ import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
+import com.example.dp2.afiperu.domain.Location;
 import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.domain.PointsOfReunion;
 import com.example.dp2.afiperu.domain.Profile;
+import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
@@ -81,10 +85,13 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by Fernando on 16/09/2015.
@@ -578,6 +585,24 @@ public class DetailActivity extends BaseActivity {
                 return;
 
             case FRAGMENT_NOTICIAS:
+                Session se = new Session();
+                se.setName("Sesion1");
+
+                PointsOfReunion pr = new PointsOfReunion();
+                pr.setLongitude(2.2);
+                pr.setLatitude(2.2);
+
+                Location lo = new Location();
+                lo.setLongitude(4.4);
+                lo.setLatitude(4.4);
+
+
+                se.getPointsOfReunion().add(pr);
+                se.setLocation(lo);
+
+                se.save();
+
+
                 ArrayList<News> news = new ArrayList<>();
                 Calendar calendar = new GregorianCalendar(2015, 8, 25, 0, 31);
                 news.add(new News(
@@ -611,6 +636,10 @@ public class DetailActivity extends BaseActivity {
                 fragment = new NewsTabFragment();
                 break;
             case FRAGMENT_BLOG:
+
+                //Session se = Session.;
+
+
                 ArrayList<Blog> blogs= new ArrayList<>();
                 calendar=new GregorianCalendar(2015,8,22,14,25);
                 blogs.add(new Blog("Titulo 1","Daekef Abarca",calendar.getTime().getTime(),false));

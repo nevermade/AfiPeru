@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 
-public class PointsOfReunion extends SugarRecord<PointsOfReunion>{
+public class PointsOfReunion{
 
     @SerializedName("latitude")
     @Expose
