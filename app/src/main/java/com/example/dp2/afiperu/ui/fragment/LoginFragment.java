@@ -1,6 +1,8 @@
 package com.example.dp2.afiperu.ui.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +20,9 @@ import com.example.dp2.afiperu.module.LoginModule;
 import com.example.dp2.afiperu.presenter.LoginPresenter;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.viewmodel.LoginView;
+import com.example.dp2.afiperu.util.AsyncTaskCallBack;
+import com.example.dp2.afiperu.util.Constants;
+import com.example.dp2.afiperu.util.GenericAsyncTask;
 
 import javax.inject.Inject;
 
@@ -45,7 +50,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
 
     @Override
     protected BasePresenter getPresenter() {
-        return null;
+        return presenter;
     }
 
     @Override
@@ -60,6 +65,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Override
     public void showApp(String name) {
         DetailActivity activity = ((DetailActivity) getActivity());
+        activity.setActions(Constants.loggedUser);
         Toast.makeText(activity.getApplicationContext(), "Bienvenido "+ name, Toast.LENGTH_SHORT).show();
         activity.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
         activity.hideAppElements(false);
@@ -70,14 +76,15 @@ public class LoginFragment extends BaseFragment implements LoginView {
         Toast.makeText(getContext(), "Usuario o contraseña inválido", Toast.LENGTH_SHORT).show();
     }
     @Override
-    public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
+    public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
 
-        Button loginBtn=(Button)rootView.findViewById(R.id.login_btn);
-        username=(EditText)rootView.findViewById(R.id.login_username);
-        password=(EditText)rootView.findViewById(R.id.login_password);
+        Button loginBtn = (Button) rootView.findViewById(R.id.login_btn);
+        username = (EditText) rootView.findViewById(R.id.login_username);
+        password = (EditText) rootView.findViewById(R.id.login_password);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 presenter.login(username.getText().toString(), password.getText().toString());
             }
         });
@@ -89,4 +96,6 @@ public class LoginFragment extends BaseFragment implements LoginView {
             inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
         }
     }
+
+
 }

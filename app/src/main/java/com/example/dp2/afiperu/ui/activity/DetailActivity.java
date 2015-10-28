@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.ui.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,10 +35,12 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseActivity;
 import com.example.dp2.afiperu.domain.AFIEvent;
+import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
@@ -67,6 +70,7 @@ import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.SessionFragment;
+import com.example.dp2.afiperu.util.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -254,6 +258,13 @@ public class DetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /****dialog de loading****/
+        Constants.PROGRESS=new ProgressDialog(this);
+        Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        Constants.PROGRESS.setTitle("Cargando");
+        Constants.PROGRESS.setMessage("Espere mientras carga...");
+
+
         setContentView(R.layout.base);
 
         ArrayList<Drawer> list = new ArrayList<>();
@@ -284,12 +295,97 @@ public class DetailActivity extends BaseActivity {
         );
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
-
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
         hideAppElements(true);
 
         selectItem(FRAGMENT_LOGIN);
     }
 
+    public void setActions(User user){
+        ArrayList<Action> actions=null;
+        ArrayList<Drawer> list=list = new ArrayList<>();
+        if(user!=null) {
+           actions = (ArrayList<Action>) user.getActions();
+
+        }
+        if(user==null || isWebMaster(user.getProfiles())){
+            list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
+            list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+            list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
+            list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
+            list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
+            list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
+            list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
+            list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
+            list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
+            list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
+            list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
+        }else{
+            if(isVolunteer(user.getProfiles()))//si es voluntario puede postular al periodo
+                list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
+
+            /**Permisos que todos tienen independiente del perfil**/
+            list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
+            list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
+            list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
+            list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
+
+
+            for(Action a:actions){
+                if(a.getId()==31)
+                    list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
+                if(a.getId()==15){
+                    list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
+                    list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
+                }
+                if(a.getId()==20)
+                    list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
+                if(a.getId()==21)
+                    list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
+            }
+            list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
+        }
+
+        //list.add(new Drawer(FRAGMENT_LOGIN, getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
+
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        mDrawerList.setAdapter(new DrawerAdapter(this, list));
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(
+                this,  mDrawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        );
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
+    }
+
+
+    public boolean isVolunteer(List<Profile> profiles){
+        if(profiles!=null){
+            for(Profile p:profiles){
+                if(p.getId()==3)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isWebMaster(List<Profile> profiles){
+        if(profiles!=null){
+            for(Profile p:profiles){
+                if(p.getId()==1)
+                    return true;
+            }
+        }
+        return false;
+    }
     public void hideAppElements(boolean isGone){
         if(isGone){
             toolbar.setVisibility(View.GONE);
@@ -459,7 +555,11 @@ public class DetailActivity extends BaseActivity {
             default:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_LOGIN);
                 fragment = new LoginFragment();
-                break;
+                fragment.setArguments(args);
+                selectedLayout = fragmentId;
+                changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
+                return;
+
             case FRAGMENT_NOTICIAS:
                 ArrayList<News> news = new ArrayList<>();
                 Calendar calendar = new GregorianCalendar(2015, 8, 25, 0, 31);

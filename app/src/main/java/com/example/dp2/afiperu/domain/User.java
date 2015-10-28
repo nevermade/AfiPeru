@@ -23,6 +23,9 @@ public class User implements Serializable, Comparable<User> {
     @SerializedName("username")
     @Expose
     private String nickName;
+    @SerializedName("profiles")
+    @Expose
+    private List<Profile> profiles = new ArrayList<Profile>();
     @SerializedName("actions")
     @Expose
     private List<Action> actions = new ArrayList<Action>();
@@ -124,6 +127,14 @@ public class User implements Serializable, Comparable<User> {
 
     public void setHasDownloaded(boolean hasDownloaded) {
         this.hasDownloaded = hasDownloaded;
+    }
+
+    public List<Profile> getProfiles() {
+        return profiles;
+    }
+
+    public void setProfiles(List<Profile> profiles) {
+        this.profiles = profiles;
     }
 
     @Override
