@@ -5,6 +5,8 @@ import android.content.res.Resources;
 import com.example.dp2.afiperu.R;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
+import com.orm.SugarRecord;
 
 import java.io.Serializable;
 
@@ -22,19 +24,21 @@ public class MarkerInfo implements Serializable, Cloneable {
     public static final int MARKER_KIND_SESSION_REUNION_EDITED = 5;
     public static final int MARKER_KIND_SESSION_REUNION_DELETED = 6;
 
-    private String id;
+    private String markerId;
     private double latitude;
     private double longitude;
     private int markerKind;
     private String textArg;
 
-    public String getId(){
-        return id;
+
+    public String getMarkerId() {
+        return markerId;
     }
 
-    public void setId(String id){
-        this.id = id;
+    public void setMarkerId(String markerId) {
+        this.markerId = markerId;
     }
+
 
     public double getLatitude() {
         return latitude;
@@ -130,4 +134,6 @@ public class MarkerInfo implements Serializable, Cloneable {
     public Object clone(){
         return new MarkerInfo(latitude, longitude, markerKind, textArg);
     }
+
+
 }

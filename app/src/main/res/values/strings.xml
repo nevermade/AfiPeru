@@ -37,6 +37,8 @@
     <string name="login_btn_recover_password">Recuperar contraseña</string>
     <string name="login_footer">© 2015 Keinions. Todos los derechos reservados.\nFooter de texto largo largo largo blablabla</string>
 
+    <string name="search_generic">Buscar</string>
+
     <!-- Documentos -->
     <string name="documents_none">No se encontraron documentos.</string>
     <string name="documents_size_date">%1$s - %2$s</string>
@@ -44,11 +46,13 @@
     <string name="documents_menu_download">Descargar</string>
     <string name="documents_menu_check_views">Revisar vistas</string>
     <string name="documents_menu_search">Buscar documentos</string>
+    <string name="search_doc_title">Título del documento</string>
 
     <!-- Noticias -->
     <string name="news_none">No se encontraron noticias.</string>
     <string name="news_menu_favorite">Agregar a favoritos</string>
     <string name="news_menu_search">Buscar noticias</string>
+    <string name="search_article_title">Título del artículo</string>
     <string name="delete_news_favorite">¿Borrar esta noticia de tus favoritos?</string>
 
     <!-- Noticias detalle -->
@@ -129,6 +133,7 @@
     <!-- Mapa -->
     <string name="see_map">Mapa</string>
     <string name="map_menu_search">Buscar dirección</string>
+    <string name="search_address">Dirección</string>
     <string name="map_menu_save">Guardar cambios</string>
     <string name="marker_event_address">Dirección del evento</string>
     <string name="marker_session_address">Dirección de la sesión</string>

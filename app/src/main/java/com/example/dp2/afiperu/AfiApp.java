@@ -4,12 +4,14 @@ import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 
+import com.orm.SugarApp;
+
 import com.example.dp2.afiperu.util.Constants;
 
 /**
  * Created by Nevermade on 11/10/2015.
  */
-public class AfiApp extends Application {
+public class AfiApp extends SugarApp {
     private AfiAppComponent component;
 
     @Override
