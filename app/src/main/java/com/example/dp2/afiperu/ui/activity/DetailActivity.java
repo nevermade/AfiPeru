@@ -2,6 +2,7 @@ package com.example.dp2.afiperu.ui.activity;
 
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -61,7 +62,6 @@ import com.example.dp2.afiperu.ui.fragment.UsersFragment;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.PeopleKids;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsFragment;
@@ -71,6 +71,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -114,6 +115,7 @@ public class DetailActivity extends BaseActivity {
     Toolbar toolbar;
     int selectedLayout;
     int toolbarMenu;
+    int hintTextId;
 
     int previousBackStackCount;
 
@@ -164,6 +166,19 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
             case FRAGMENT_MAPA: return R.menu.map_menu_toolbar;
             case FRAGMENT_MAPA_EDITABLE: return R.menu.map_edit_menu_toolbar;
+            default: return 0;
+        }
+    }
+
+    public int getHintText(int fragmentId){
+        switch(fragmentId){
+            case FRAGMENT_DOCUMENTOS: return R.string.search_doc_title;
+            case FRAGMENT_BLOG:
+            case FRAGMENT_NOTICIAS: return R.string.search_article_title;
+            case FRAGMENT_PERSONAS: return R.string.search_name;
+            case FRAGMENT_COMENTARIOS: return R.string.search_author_content;
+            case FRAGMENT_MAPA:
+            case FRAGMENT_MAPA_EDITABLE: return R.string.search_address;
             default: return 0;
         }
     }
@@ -244,6 +259,7 @@ public class DetailActivity extends BaseActivity {
                 BaseFragment fragment = getTopFragment();
                 setTitle(getTitle(fragment.getFragmentId()));
                 toolbarMenu = getMenu(fragment.getFragmentId());
+                hintTextId = getHintText(fragment.getFragmentId());
                 invalidateOptionsMenu();
             }
             previousBackStackCount = backStackEntryCount;
@@ -385,7 +401,8 @@ public class DetailActivity extends BaseActivity {
             if(menuItem != 0) {
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
                 SearchView searchView = (SearchView) menu.findItem(menuItem).getActionView();
-                searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+                SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+                searchView.setSearchableInfo(searchableInfo);
 
                 if(dialogFragmentClass != null) {
                     LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
@@ -720,7 +737,6 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     protected void onNewIntent(Intent intent){
-        Log.d("search", "ON NEW INTENT CALLED");
         setIntent(intent);
         handleIntent(intent);
     }

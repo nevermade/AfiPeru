@@ -136,7 +136,7 @@ public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDr
     public void updateMarker(Marker marker){
         for(int i=0; i<markersInfo.size(); i++){
             MarkerInfo markerInfo = markersInfo.get(i);
-            if(markerInfo.getId().equals(marker.getId())){
+            if(markerInfo.getMarkerId().equals(marker.getId())){
                 LatLng position = marker.getPosition();
                 markerInfo.setLatitude(position.latitude);
                 markerInfo.setLongitude(position.longitude);

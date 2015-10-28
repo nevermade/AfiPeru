@@ -1,11 +1,13 @@
 package com.example.dp2.afiperu.ui.fragment;
 
 import android.content.Intent;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -27,7 +29,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -44,7 +48,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public boolean sameMarker(Marker marker){
         MarkerInfo markerInfo = getLastMarker();
-        return markerInfo == null ? false : marker.getId().equals(markerInfo.getId());
+        return markerInfo == null ? false : marker.getId().equals(markerInfo.getMarkerId());
     }
 
     public MarkerInfo getLastMarker(){
@@ -53,7 +57,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public void setLastMarker(Marker marker){
         for(int i=0; i<markersInfo.size(); i++){
-            if(markersInfo.get(i).getId().equals(marker.getId())){
+            if(markersInfo.get(i).getMarkerId().equals(marker.getId())){
                 lastMarker = i;
                 lastMarkerObject = marker;
                 return;
@@ -94,7 +98,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                     .title(marker.getTitle(getResources()))
                     .icon(marker.getColoredIcon())
                     .draggable(marker.isReunion() && markersAreDraggable()));
-            marker.setId(m.getId());
+            marker.setMarkerId(m.getId());
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 40));
         if(markersInfo.size() <= 1){
@@ -143,7 +147,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     @Override
     public void onSearch(String query){
-        /*if(geocoder == null) return;
+        if(geocoder == null) return;
         try {
             List<Address> addresses = geocoder.getFromLocationName(query, 1);
             if(!addresses.isEmpty()){
@@ -158,7 +162,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             builder.setMessage(R.string.connection_failed).setNeutralButton(android.R.string.ok, null);
             AlertDialog alert = builder.create();
             alert.show();
-        }*/
+        }
     }
 
     @Override
