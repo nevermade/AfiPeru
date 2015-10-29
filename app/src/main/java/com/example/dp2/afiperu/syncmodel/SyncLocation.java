@@ -13,7 +13,7 @@ public class SyncLocation extends SugarRecord<SyncLocation>{
 
     private Double latitude;
     private Double longitude;
-
+    private SyncSession session;
 
     public SyncLocation(){}
 
@@ -53,4 +53,11 @@ public class SyncLocation extends SugarRecord<SyncLocation>{
         this.longitude = longitude;
     }
 
+    public SyncSession getSession() {
+        return session;
+    }
+
+    public void setSession(SyncSession session) {
+        this.session = session;
+    }
 }

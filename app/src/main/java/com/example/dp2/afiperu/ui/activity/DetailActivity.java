@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -40,9 +41,14 @@ import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
+import com.example.dp2.afiperu.domain.Location;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
+import com.example.dp2.afiperu.syncmodel.SyncLocation;
+import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -577,24 +583,28 @@ public class DetailActivity extends BaseActivity {
                 return;
 
             case FRAGMENT_NOTICIAS:
-                /*Session se = new Session();
+                /*
+                SyncSession se = new SyncSession();
                 se.setName("Sesion1");
-
-                PointOfReunion pr = new PointOfReunion();
+                SyncPointOfReunion pr = new SyncPointOfReunion();
                 pr.setLongitude(2.2);
                 pr.setLatitude(2.2);
 
-                Location lo = new Location();
+                pr.save();
+                SyncLocation lo = new SyncLocation();
                 lo.setLongitude(4.4);
                 lo.setLatitude(4.4);
-
 
                 se.getPointsOfReunion().add(pr);
                 se.setLocation(lo);
 
-                se.save();*/
-
-
+                se.save();
+                pr.setSession(se);
+                lo.setSession(se);
+                pr.save();
+                lo.save();
+                Toast.makeText(getBaseContext(),se.getId().toString() + " IDD",Toast.LENGTH_SHORT).show();
+                */
                 ArrayList<News> news = new ArrayList<>();
                 Calendar calendar = new GregorianCalendar(2015, 8, 25, 0, 31);
                 news.add(new News(
@@ -628,10 +638,14 @@ public class DetailActivity extends BaseActivity {
                 fragment = new NewsTabFragment();
                 break;
             case FRAGMENT_BLOG:
+/*
+                List<SyncSession> out = SyncSession.listAll(SyncSession.class);
 
-                //Session se = Session.;
-
-
+                List<SyncPointOfReunion> loca = SyncLocation.find(SyncPointOfReunion.class, " session = ?", String.valueOf(out.get(7).getId()));
+                //List<Book> books = Book.listAll(Book.class);
+                //Toast.makeText(getBaseContext(),loca.get(0).getLatitude().toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),out.get(7).getPointsOfReunion().get(0).getLatitude().toString(),Toast.LENGTH_SHORT).show();
+  */
                 ArrayList<Blog> blogs= new ArrayList<>();
                 calendar=new GregorianCalendar(2015,8,22,14,25);
                 blogs.add(new Blog("Titulo 1","Daekef Abarca",calendar.getTime().getTime(),false));

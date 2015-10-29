@@ -11,7 +11,7 @@
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAyU6jiYKyuzlYA3-PQy7_Z6xWAU30qklU"/>
 
         <meta-data android:name="DATABASE" android:value="AFIdb.db" />
-        <meta-data android:name="VERSION" android:value="2" />
+        <meta-data android:name="VERSION" android:value="5" />
         <meta-data android:name="QUERY_LOG" android:value="true" />
         <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="com.example.dp2.afiperu.syncmodel" />
 
