@@ -1,6 +1,5 @@
 package com.example.dp2.afiperu.ui.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -12,13 +11,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -41,11 +40,8 @@ import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
-import com.example.dp2.afiperu.domain.Location;
-import com.example.dp2.afiperu.domain.MarkerInfo;
-import com.example.dp2.afiperu.domain.PointsOfReunion;
+import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.domain.Profile;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
@@ -80,18 +76,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Fernando on 16/09/2015.
@@ -284,8 +276,8 @@ public class DetailActivity extends BaseActivity {
         /****dialog de loading****/
         Constants.PROGRESS=new ProgressDialog(this);
         Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        Constants.PROGRESS.setTitle("Cargando");
-        Constants.PROGRESS.setMessage("Espere mientras carga...");
+        Constants.PROGRESS.setTitle(getResources().getString(R.string.loading));
+        Constants.PROGRESS.setMessage(getResources().getString(R.string.please_wait));
 
 
         setContentView(R.layout.base);
@@ -585,10 +577,10 @@ public class DetailActivity extends BaseActivity {
                 return;
 
             case FRAGMENT_NOTICIAS:
-                Session se = new Session();
+                /*Session se = new Session();
                 se.setName("Sesion1");
 
-                PointsOfReunion pr = new PointsOfReunion();
+                PointOfReunion pr = new PointOfReunion();
                 pr.setLongitude(2.2);
                 pr.setLatitude(2.2);
 
@@ -600,7 +592,7 @@ public class DetailActivity extends BaseActivity {
                 se.getPointsOfReunion().add(pr);
                 se.setLocation(lo);
 
-                se.save();
+                se.save();*/
 
 
                 ArrayList<News> news = new ArrayList<>();

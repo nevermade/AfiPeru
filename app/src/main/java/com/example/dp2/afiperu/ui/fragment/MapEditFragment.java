@@ -8,17 +8,31 @@ import android.widget.ImageView;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.component.DaggerPointsOfReunionComponent;
+import com.example.dp2.afiperu.component.DaggerSessionComponent;
+import com.example.dp2.afiperu.module.PointsOfReunionModule;
+import com.example.dp2.afiperu.others.MarkerInfo;
+import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
+import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
+import com.example.dp2.afiperu.ui.viewmodel.PointsOfReunionView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import javax.inject.Inject;
 
 /**
  * Created by Fernando on 11/10/2015.
  */
-public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDragListener {
+public class MapEditFragment extends MapFragment implements PointsOfReunionView,
+        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener {
+
+    @Inject
+    PointsOfReunionPresenter presenter;
 
     public boolean needsSave(){
         for(MarkerInfo marker : markersInfo){
@@ -29,20 +43,42 @@ public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDr
         return false;
     }
 
-    public void save(){
-        //save
-
+    @Override
+    public void saveSuccessful(){
         for(int i=0; i<markersInfo.size(); i++){
-            MarkerInfo markerInfo = markersInfo.get(i);
-            if(markerInfo.isEdited()){
-                markerInfo.setEdited(false);
-            }else if(markerInfo.isDeleted()){
-                markersInfo.remove(i);
-                i--;
-            }
+        MarkerInfo markerInfo = markersInfo.get(i);
+        if(markerInfo.isEdited()){
+            markerInfo.setEdited(false);
+        }else if(markerInfo.isDeleted()){
+            markersInfo.remove(i);
+            i--;
         }
+    }
         GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
         refillMap(map);
+    }
+
+    @Override
+    public void saveFailed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(R.string.save_failed).setNeutralButton(android.R.string.ok, null);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void save(){
+        for(MarkerInfo marker : markersInfo){
+            if(marker.isCreated()) {
+                //CREATE
+            }else if(marker.isEdited()){
+                //UPDATE where
+            }else if(marker.isDeleted()){
+                //DELETE where
+            }
+        }
+        /*presenter.editMeetingPoints(sessionId, uneditedPoints,
+                newPoints,
+                deletedPoints);*/
     }
 
     public void trySave(){
@@ -84,13 +120,18 @@ public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDr
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
-
+        DaggerPointsOfReunionComponent.builder()
+                .afiAppComponent(appComponent)
+                .pointsOfReunionModule(new PointsOfReunionModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
         googleMap.setOnMarkerDragListener(this);
+        googleMap.setOnMapLongClickListener(this);
     }
 
     @Override
@@ -107,6 +148,18 @@ public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDr
                 }
             }
         });
+    }
+
+    @Override
+    public void onMapLongClick(LatLng point){
+        GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+        MarkerInfo marker = new MarkerInfo(point);
+        Marker m = map.addMarker(new MarkerOptions().position(point)
+                .title(marker.getTitle(getResources()))
+                .icon(marker.getColoredIcon())
+                .draggable(marker.isReunion() && markersAreDraggable()));
+        marker.markerId = m.getId();
+        markersInfo.add(marker);
     }
 
     @Override
@@ -136,10 +189,10 @@ public class MapEditFragment extends MapFragment implements GoogleMap.OnMarkerDr
     public void updateMarker(Marker marker){
         for(int i=0; i<markersInfo.size(); i++){
             MarkerInfo markerInfo = markersInfo.get(i);
-            if(markerInfo.getMarkerId().equals(marker.getId())){
+            if(markerInfo.markerId.equals(marker.getId())){
                 LatLng position = marker.getPosition();
-                markerInfo.setLatitude(position.latitude);
-                markerInfo.setLongitude(position.longitude);
+                markerInfo.latitude = (position.latitude);
+                markerInfo.longitude = (position.longitude);
                 markerInfo.setEdited(true);
                 break;
             }

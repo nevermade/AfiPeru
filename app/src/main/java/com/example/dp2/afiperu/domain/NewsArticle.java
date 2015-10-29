@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.domain;
 
+import com.example.dp2.afiperu.others.MarkerInfo;
+
 import java.io.Serializable;
 
 public class NewsArticle implements Serializable, Comparable<NewsArticle> {

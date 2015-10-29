@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
-import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.util.FetchAddressIntentService;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -48,7 +48,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public boolean sameMarker(Marker marker){
         MarkerInfo markerInfo = getLastMarker();
-        return markerInfo == null ? false : marker.getId().equals(markerInfo.getMarkerId());
+        return markerInfo == null ? false : marker.getId().equals(markerInfo.markerId);
     }
 
     public MarkerInfo getLastMarker(){
@@ -57,7 +57,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public void setLastMarker(Marker marker){
         for(int i=0; i<markersInfo.size(); i++){
-            if(markersInfo.get(i).getMarkerId().equals(marker.getId())){
+            if(markersInfo.get(i).markerId.equals(marker.getId())){
                 lastMarker = i;
                 lastMarkerObject = marker;
                 return;
@@ -92,13 +92,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for(MarkerInfo marker : markersInfo){
-            LatLng latLng = new LatLng(marker.getLatitude(), marker.getLongitude());
+            LatLng latLng = new LatLng(marker.latitude, marker.longitude);
             builder.include(latLng);
             Marker m = googleMap.addMarker(new MarkerOptions().position(latLng)
                     .title(marker.getTitle(getResources()))
                     .icon(marker.getColoredIcon())
                     .draggable(marker.isReunion() && markersAreDraggable()));
-            marker.setMarkerId(m.getId());
+            marker.markerId = (m.getId());
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 40));
         if(markersInfo.size() <= 1){

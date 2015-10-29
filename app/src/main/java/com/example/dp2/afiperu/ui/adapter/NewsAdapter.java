@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
-import com.example.dp2.afiperu.domain.MarkerInfo;
+import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.domain.NewsArticle;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;

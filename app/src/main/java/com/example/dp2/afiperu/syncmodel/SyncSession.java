@@ -3,8 +3,8 @@ package com.example.dp2.afiperu.syncmodel;
 
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Location;
-import com.example.dp2.afiperu.domain.MarkerInfo;
-import com.example.dp2.afiperu.domain.PointsOfReunion;
+import com.example.dp2.afiperu.others.MarkerInfo;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
@@ -31,7 +31,7 @@ public class SyncSession extends SugarRecord<SyncSession> implements Serializabl
 
     @SerializedName("points_of_reunion")
     @Expose
-    private List<PointsOfReunion> pointsOfReunion = new ArrayList<PointsOfReunion>();
+    private List<PointOfReunion> pointsOfReunion = new ArrayList<PointOfReunion>();
     @Ignore
     @SerializedName("documents")
     @Expose
@@ -93,12 +93,12 @@ public class SyncSession extends SugarRecord<SyncSession> implements Serializabl
         this.location = location;
     }
 
-    public List<PointsOfReunion> getPointsOfReunion() {
+    public List<PointOfReunion> getPointsOfReunion() {
         return pointsOfReunion;
     }
 
-    public void setPointsOfReunion(List<PointsOfReunion> pointsOfReunion) {
-        this.pointsOfReunion = pointsOfReunion;
+    public void setPointsOfReunion(List<PointOfReunion> pointOfReunion) {
+        this.pointsOfReunion = pointOfReunion;
     }
 
     public List<Document> getDocuments() {

@@ -1,12 +1,13 @@
-package com.example.dp2.afiperu.domain;
+package com.example.dp2.afiperu.others;
 
 import android.content.res.Resources;
 
 import com.example.dp2.afiperu.R;
+import com.example.dp2.afiperu.domain.Location;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Marker;
-import com.orm.SugarRecord;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.Serializable;
 
@@ -21,40 +22,15 @@ public class MarkerInfo implements Serializable, Cloneable {
     public static final int MARKER_KIND_INFO_SCHOOL = 3;
     public static final int MARKER_KIND_INFO_VOLUNTEER = 4;
 
-    public static final int MARKER_KIND_SESSION_REUNION_EDITED = 5;
-    public static final int MARKER_KIND_SESSION_REUNION_DELETED = 6;
+    public static final int MARKER_KIND_SESSION_REUNION_CREATED = 5;
+    public static final int MARKER_KIND_SESSION_REUNION_EDITED = 6;
+    public static final int MARKER_KIND_SESSION_REUNION_DELETED = 7;
 
-    private String markerId;
-    private double latitude;
-    private double longitude;
+    public String markerId;
+    public double latitude;
+    public double longitude;
     private int markerKind;
     private String textArg;
-
-
-    public String getMarkerId() {
-        return markerId;
-    }
-
-    public void setMarkerId(String markerId) {
-        this.markerId = markerId;
-    }
-
-
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(double latitude){
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude){
-        this.longitude = longitude;
-    }
 
     public String getTitle(Resources resources) {
         int id = 0;
@@ -62,6 +38,7 @@ public class MarkerInfo implements Serializable, Cloneable {
             case MARKER_KIND_EVENT_ADDRESS: id = R.string.marker_event_address; break;
             case MARKER_KIND_SESSION_ADDRESS: id = R.string.marker_session_address; break;
             case MARKER_KIND_SESSION_REUNION:
+            case MARKER_KIND_SESSION_REUNION_CREATED:
             case MARKER_KIND_SESSION_REUNION_EDITED:
             case MARKER_KIND_SESSION_REUNION_DELETED:
                 id = R.string.marker_session_reunion; break;
@@ -84,6 +61,7 @@ public class MarkerInfo implements Serializable, Cloneable {
             default:
                 hue = BitmapDescriptorFactory.HUE_RED;
                 break;
+            case MARKER_KIND_SESSION_REUNION_CREATED:
             case MARKER_KIND_SESSION_REUNION_EDITED:
                 hue = BitmapDescriptorFactory.HUE_YELLOW;
                 break;
@@ -101,6 +79,10 @@ public class MarkerInfo implements Serializable, Cloneable {
     public boolean isReunion(){
         return markerKind == MARKER_KIND_SESSION_REUNION || markerKind == MARKER_KIND_SESSION_REUNION_EDITED
                 || markerKind == MARKER_KIND_SESSION_REUNION_DELETED;
+    }
+
+    public boolean isCreated(){
+        return markerKind == MARKER_KIND_SESSION_REUNION_CREATED;
     }
 
     public boolean isEdited(){
@@ -128,6 +110,17 @@ public class MarkerInfo implements Serializable, Cloneable {
         this.longitude = longitude;
         this.markerKind = markerKind;
         this.textArg = textArg;
+    }
+
+    //Sólo para sesiones
+    public MarkerInfo(Location location){
+        this(location.getLatitude(), location.getLongitude(), MARKER_KIND_SESSION_ADDRESS, null);
+    }
+    public MarkerInfo(PointOfReunion pointOfReunion){
+        this(pointOfReunion.getLatitude(), pointOfReunion.getLongitude(), MARKER_KIND_SESSION_REUNION, null);
+    }
+    public MarkerInfo(LatLng point){
+        this(point.latitude, point.longitude, MARKER_KIND_SESSION_REUNION_CREATED, null);
     }
 
     @Override

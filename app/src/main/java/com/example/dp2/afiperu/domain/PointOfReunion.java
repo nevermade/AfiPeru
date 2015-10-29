@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 
-public class PointsOfReunion{
+public class PointOfReunion {
 
     @SerializedName("latitude")
     @Expose
@@ -18,7 +18,7 @@ public class PointsOfReunion{
     private Double longitude;
 
 
-    public PointsOfReunion(){};
+    public PointOfReunion(){};
     /**
      *
      * @return
