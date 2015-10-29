@@ -73,7 +73,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                 if (v.getId() == R.id.sessions_item_menu) {
                     PopupMenu popup = new PopupMenu(getContext(), v);
                     popup.getMenuInflater().inflate(R.menu.sessions_menu_afi, popup.getMenu());
-                    //if(!hasAttendancePermission())
+                    if(!hasAttendancePermission())
                         popup.getMenu().findItem(R.id.sessions_menu_attendance).setVisible(false);
 
                     popup.show();
