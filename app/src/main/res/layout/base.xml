@@ -16,12 +16,11 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:theme="@style/toolbar_theme"
-            app:popupTheme="@style/toolbar_theme"
-            />
-            <RelativeLayout
-                android:id="@+id/content_frame"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+            app:popupTheme="@style/toolbar_theme"/>
+        <RelativeLayout
+            android:id="@+id/content_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
     <ListView
         android:id="@+id/left_drawer"

@@ -37,8 +37,6 @@ import java.util.List;
 
 public class SessionAdapter extends BaseArrayAdapter<Session> {
 
-    public static final int FILTER_COLOR = 0xff7fb2d6;
-
     public SessionAdapter(Context context, BaseFragment fragment, List<Session> objects) {
         super(context, fragment, R.layout.session_list_item, objects);
     }
