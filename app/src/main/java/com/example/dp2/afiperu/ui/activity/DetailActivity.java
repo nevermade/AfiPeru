@@ -78,6 +78,7 @@ import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.SessionFragment;
+import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 
 import java.io.File;
@@ -206,10 +207,10 @@ public class DetailActivity extends BaseActivity {
                         MapFragment mapFragment = new MapFragment();
                         Bundle args = new Bundle();
                         ArrayList<MarkerInfo> markers = new ArrayList<>();
-                        markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-                        markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
-                        markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-                        markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+                        markers.add(new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+                        markers.add(new MarkerInfo(-1, -12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+                        markers.add(new MarkerInfo(-1, -12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+                        markers.add(new MarkerInfo(-1, -12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
                         args.putSerializable(MapFragment.MARKERS_ARG, markers);
                         args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_MAPA);
                         mapFragment.setArguments(args);
@@ -356,15 +357,15 @@ public class DetailActivity extends BaseActivity {
 
 
             for(Action a:actions){
-                if(a.getId()==31)
+                if(a.getId()== AppEnum.EnumAction.LIST_USERS.getNumVal())
                     list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
-                if(a.getId()==15){
+                if(a.getId()==AppEnum.EnumAction.SESSION_AND_DOCUMENTS.getNumVal()){
                     list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
                     list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
                 }
-                if(a.getId()==20)
+                if(a.getId()==AppEnum.EnumAction.LIST_PERIOD_REPORT.getNumVal())
                     list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
-                if(a.getId()==21)
+                if(a.getId()==AppEnum.EnumAction.PAYMENT.getNumVal())
                     list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             }
             list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));

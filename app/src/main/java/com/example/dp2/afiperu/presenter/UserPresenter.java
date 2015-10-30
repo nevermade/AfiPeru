@@ -42,13 +42,13 @@ public class UserPresenter extends BasePresenter {
         view.showUsers(users);
     }
     public void onUsersFound(ArrayList<SyncUser> users){
-        System.out.println("Estoy aca 5");
+        //System.out.println("Estoy aca 5");
         view.showUsers(users);
     }
 
     public ArrayList<User> getAllUsers(){
 
-        System.out.println("Estoy aca 3");
+        //System.out.println("Estoy aca 3");
         return interactor.getAllUsers(this);
     }
 /*

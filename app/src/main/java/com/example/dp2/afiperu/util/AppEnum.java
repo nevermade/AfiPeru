@@ -20,8 +20,6 @@ public class AppEnum {
         PAYMENT(21),
         LIST_SCHOOL_VOLUNTEER(28);
 
-        private int numval;
-
         private int numVal;
 
         EnumAction(int numVal) {
@@ -33,6 +31,9 @@ public class AppEnum {
         }
 
     }
+
+
+
 }
 
 

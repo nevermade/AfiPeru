@@ -41,16 +41,6 @@ public class SyncSession extends SugarRecord<SyncSession> implements Serializabl
         this.markers = markers;
     }
 
-
-
-    public ArrayList<MarkerInfo> getMarkers() {
-        ArrayList result = new ArrayList<>(markers.size());
-        for(MarkerInfo marker : markers){
-            result.add(marker.clone());
-        }
-        return result;
-    }
-
     public Integer getSessionId() {
         return sessionId;
     }

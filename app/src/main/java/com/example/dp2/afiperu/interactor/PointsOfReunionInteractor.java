@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.interactor;
 
+import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 
@@ -10,8 +11,6 @@ import java.util.List;
  */
 public interface PointsOfReunionInteractor {
     void editPointsOfReunion(PointsOfReunionPresenter presenter, int sessionId,
-                             List<PointOfReunion> uneditedPoints,
-                             //List<LatLng> createdPoints,
-                             List<PointOfReunion> deletedPoints);
-
+                             List<PointOfReunion> previousPoints, List<NewPointOfReunion> newPoints);
+                            
 }

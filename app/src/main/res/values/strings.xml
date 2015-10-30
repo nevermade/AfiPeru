@@ -3,6 +3,7 @@
 
     <string name="loading">Cargando…</string>
     <string name="please_wait">Espere unos segundos</string>
+    <string name="save_success">Se guardó con éxito</string>
     <string name="save_failed">No se pudo guardar</string>
 
     <!--Recuperar contraseña-->

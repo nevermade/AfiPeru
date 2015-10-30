@@ -36,7 +36,7 @@ public class UsersAdapter extends BaseArrayAdapter<SyncUser> {
 
 
     public void updateUsers(ArrayList<SyncUser> users){
-        System.out.println("Estoy aca 7");
+        //System.out.println("Estoy aca 7");
         if(users!=null){
             clear();
             addAll(users);

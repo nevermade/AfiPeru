@@ -24,7 +24,7 @@ public class Session implements Serializable, Comparable<Session> {
     @Expose
     private Location location;
 
-    @SerializedName("points_of_reunion")
+    @SerializedName("meeting_points")
     @Expose
     private List<PointOfReunion> pointsOfReunion = new ArrayList<PointOfReunion>();
     @Ignore
