@@ -199,7 +199,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
 
     private boolean hasEditMapPermission(){
         for(Action a : Constants.loggedUser.getActions()){
-            if(a.getId()==16)
+            if(a.getId()== AppEnum.EnumAction.CREATE_POINTS_OF_REUNION.getNumVal())
                 return true;
         }
         return false;
