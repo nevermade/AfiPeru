@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -38,7 +39,7 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
 
     @Override
     public void saveSuccessful(){
-        for(int i=0; i<markersInfo.size(); i++){
+        /*for(int i=0; i<markersInfo.size(); i++){
             MarkerInfo markerInfo = markersInfo.get(i);
             if(markerInfo.isCreated()){
                 markerInfo.setEnabled(true);
@@ -46,7 +47,9 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
         }
         GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
         refillMap(map);
-        saved = true;
+        saved = true;*/
+        Toast.makeText(getContext(), getResources().getString(R.string.save_success), Toast.LENGTH_SHORT).show();
+        ((DetailActivity)getActivity()).goBack();
     }
 
     @Override

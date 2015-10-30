@@ -204,10 +204,10 @@ public class DetailActivity extends BaseActivity {
                         MapFragment mapFragment = new MapFragment();
                         Bundle args = new Bundle();
                         ArrayList<MarkerInfo> markers = new ArrayList<>();
-                        markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-                        markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
-                        markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-                        markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+                        markers.add(new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+                        markers.add(new MarkerInfo(-1, -12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+                        markers.add(new MarkerInfo(-1, -12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+                        markers.add(new MarkerInfo(-1, -12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
                         args.putSerializable(MapFragment.MARKERS_ARG, markers);
                         args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_MAPA);
                         mapFragment.setArguments(args);

@@ -100,7 +100,8 @@ public class MarkerInfo implements Serializable {
         }
     }
 
-    public MarkerInfo(double latitude, double longitude, int markerKind, String textArg) {
+    public MarkerInfo(int pointId, double latitude, double longitude, int markerKind, String textArg) {
+        this.pointId = pointId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.markerKind = markerKind;
@@ -109,14 +110,14 @@ public class MarkerInfo implements Serializable {
 
     //Sólo para sesiones
     public MarkerInfo(Location location){
-        this(location.getLatitude(), location.getLongitude(), MARKER_KIND_SESSION_ADDRESS, null);
+        this(-1, location.getLatitude(), location.getLongitude(), MARKER_KIND_SESSION_ADDRESS, null);
     }
     public MarkerInfo(PointOfReunion pointOfReunion, boolean selected){
-        this(pointOfReunion.getLatitude(), pointOfReunion.getLongitude(),
+        this(pointOfReunion.getId(), pointOfReunion.getLatitude(), pointOfReunion.getLongitude(),
                 selected ? MARKER_KIND_SESSION_REUNION_ENABLED : MARKER_KIND_SESSION_REUNION_DISABLED, null);
     }
     public MarkerInfo(LatLng point){
-        this(point.latitude, point.longitude, MARKER_KIND_SESSION_REUNION_CREATED, null);
+        this(-1, point.latitude, point.longitude, MARKER_KIND_SESSION_REUNION_CREATED, null);
     }
 
     public PointOfReunion toPointOfReunion(){

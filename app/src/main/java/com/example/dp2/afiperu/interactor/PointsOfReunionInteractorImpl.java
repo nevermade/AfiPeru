@@ -3,7 +3,6 @@ package com.example.dp2.afiperu.interactor;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
-import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.squareup.okhttp.Response;
 

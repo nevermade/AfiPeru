@@ -10,14 +10,11 @@ import java.util.List;
 
 import retrofit.Call;
 
-import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
-import retrofit.http.Multipart;
 import retrofit.http.POST;
 import retrofit.http.PUT;
-import retrofit.http.Part;
 
 /**
  * Created by DABARCA on 21/10/2015.
@@ -27,6 +24,7 @@ public interface AfiApiServiceEndPoints {
     @GET("sessions")
     Call<List<Session>> getAllSessions();
 
+    @FormUrlEncoded
     @POST("meeting_points")
     Call<Response> editMeetingPoints(@Field("session_id") Integer sessionId,
                                      @Field("meeting_points") List<PointOfReunion> previousPoints,

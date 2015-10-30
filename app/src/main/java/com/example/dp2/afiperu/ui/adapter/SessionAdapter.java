@@ -167,7 +167,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     args.putInt(MapFragment.SESSION_ID_ARG, item.getId());
 
                                     int fragmentId;
-                                    if(true){ //Si es editable
+                                    if(hasEditMapPermission()){ //Si es editable
                                         fragmentId = DetailActivity.FRAGMENT_MAPA_EDITABLE;
                                         mapFragment = new MapEditFragment();
                                     }else{
@@ -188,6 +188,14 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
     }
 
     private boolean hasAttendancePermission(){
+        for(Action a : Constants.loggedUser.getActions()){
+            if(a.getId()==16)
+                return true;
+        }
+        return false;
+    }
+
+    private boolean hasEditMapPermission(){
         for(Action a : Constants.loggedUser.getActions()){
             if(a.getId()==16)
                 return true;
