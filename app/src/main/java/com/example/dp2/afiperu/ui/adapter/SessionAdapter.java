@@ -25,6 +25,7 @@ import com.example.dp2.afiperu.ui.fragment.KidsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.MapFragment;
 import com.example.dp2.afiperu.ui.fragment.CommentFragment;
+import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 
 import java.util.ArrayList;
@@ -179,7 +180,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
 
     private boolean hasAttendancePermission(){
         for(Action a : Constants.loggedUser.getActions()){
-            if(a.getId()==16)
+            if(a.getId()== AppEnum.EnumAction.ASSISTANCE.getNumVal())
                 return true;
         }
         return false;

@@ -70,6 +70,7 @@ import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.SessionFragment;
+import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 
 import java.io.File;
@@ -349,15 +350,15 @@ public class DetailActivity extends BaseActivity {
 
 
             for(Action a:actions){
-                if(a.getId()==31)
+                if(a.getId()== AppEnum.EnumAction.LIST_USERS.getNumVal())
                     list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
-                if(a.getId()==15){
+                if(a.getId()==AppEnum.EnumAction.SESSION_AND_DOCUMENTS.getNumVal()){
                     list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
                     list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
                 }
-                if(a.getId()==20)
+                if(a.getId()==AppEnum.EnumAction.LIST_PERIOD_REPORT.getNumVal())
                     list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
-                if(a.getId()==21)
+                if(a.getId()==AppEnum.EnumAction.PAYMENT.getNumVal())
                     list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             }
             list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));

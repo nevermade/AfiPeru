@@ -38,7 +38,7 @@ public class Session extends SugarRecord<Session> implements Serializable, Compa
     @Ignore
     private ArrayList<MarkerInfo> markers;
 
-    public Session(){};
+
 
 
     public Session(String name, Integer date, ArrayList<MarkerInfo> markers) {

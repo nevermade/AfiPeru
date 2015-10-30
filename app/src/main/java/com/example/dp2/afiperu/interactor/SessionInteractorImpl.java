@@ -61,7 +61,7 @@ public class SessionInteractorImpl implements SessionInteractor {
 
             @Override
             public void onFailure(Throwable t) {
-
+                if(true);
             }
         });
 
