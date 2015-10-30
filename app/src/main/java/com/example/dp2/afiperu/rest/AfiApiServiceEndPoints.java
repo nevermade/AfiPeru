@@ -26,6 +26,10 @@ public interface AfiApiServiceEndPoints {
     @GET("sessions")
     Call<List<Session>> getAllSessions();
 
+
+    @GET("users")
+    Call<List<User>> getAllUsers();
+
     @POST("meeting_points")
     Call<Response> editMeetingPoints(@Field("session_id") Integer sessionId,
                                      @Field("points_of_reunion") List<PointOfReunion> uneditedPoints,

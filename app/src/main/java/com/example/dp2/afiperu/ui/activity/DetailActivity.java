@@ -43,12 +43,14 @@ import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.Location;
 import com.example.dp2.afiperu.domain.PointOfReunion;
+import com.example.dp2.afiperu.interactor.UserInteractorImpl;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.syncmodel.SyncLocation;
 import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
 import com.example.dp2.afiperu.syncmodel.SyncSession;
+import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -583,6 +585,11 @@ public class DetailActivity extends BaseActivity {
                 return;
 
             case FRAGMENT_NOTICIAS:
+
+                SyncUser su = new SyncUser();
+                su.setName("A ver");
+                su.save();
+                Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_SHORT).show();
                 /*
                 SyncSession se = new SyncSession();
                 se.setName("Sesion1");

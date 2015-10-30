@@ -13,4 +13,5 @@ public interface PointsOfReunionInteractor {
                              List<PointOfReunion> uneditedPoints,
                              //List<LatLng> createdPoints,
                              List<PointOfReunion> deletedPoints);
+
 }
