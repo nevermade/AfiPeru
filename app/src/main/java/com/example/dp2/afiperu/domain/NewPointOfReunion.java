@@ -5,11 +5,13 @@ package com.example.dp2.afiperu.domain;
  */
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.orm.SugarRecord;
 
 
-public class PointsOfReunion extends SugarRecord<PointsOfReunion>{
+public class NewPointOfReunion {
 
+    @SerializedName("address")
+    @Expose
+    private String address;
     @SerializedName("latitude")
     @Expose
     private Double latitude;
@@ -18,7 +20,7 @@ public class PointsOfReunion extends SugarRecord<PointsOfReunion>{
     private Double longitude;
 
 
-    public PointsOfReunion(){};
+    public NewPointOfReunion(){};
     /**
      *
      * @return
@@ -55,4 +57,11 @@ public class PointsOfReunion extends SugarRecord<PointsOfReunion>{
         this.longitude = longitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 }

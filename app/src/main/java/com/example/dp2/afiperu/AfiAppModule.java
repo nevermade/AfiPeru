@@ -32,7 +32,7 @@ public class AfiAppModule {
         return app;
     }
 
-    @Provides @Singleton public Retrofit provideResrofitAdapter(){
+    @Provides @Singleton public Retrofit provideRetrofitAdapter(){
         return AfiApiServiceAdapter.getInstance();
     }
 

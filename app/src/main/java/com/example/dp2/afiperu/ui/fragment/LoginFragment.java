@@ -35,10 +35,6 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Inject
     LoginPresenter presenter;
 
-    View rooView;
-    EditText username;
-    EditText password;
-
     public LoginFragment(){
         super();
     }
@@ -79,12 +75,11 @@ public class LoginFragment extends BaseFragment implements LoginView {
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
 
         Button loginBtn = (Button) rootView.findViewById(R.id.login_btn);
-        username = (EditText) rootView.findViewById(R.id.login_username);
-        password = (EditText) rootView.findViewById(R.id.login_password);
+        final EditText username = (EditText) rootView.findViewById(R.id.login_username);
+        final EditText password = (EditText) rootView.findViewById(R.id.login_password);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 presenter.login(username.getText().toString(), password.getText().toString());
             }
         });

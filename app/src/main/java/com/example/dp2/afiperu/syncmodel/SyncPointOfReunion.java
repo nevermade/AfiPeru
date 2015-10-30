@@ -1,26 +1,21 @@
-package com.example.dp2.afiperu.domain;
+package com.example.dp2.afiperu.syncmodel;
 
 /**
  * Created by Nevermade on 21/10/2015.
  */
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
 
-public class Location{
+public class SyncPointOfReunion extends SugarRecord<SyncPointOfReunion>{
 
-    @SerializedName("latitude")
-    @Expose
+
     private Double latitude;
-    @SerializedName("longitude")
-    @Expose
+
     private Double longitude;
 
+    private SyncSession session;
 
-    public Location(){}
-
+    public SyncPointOfReunion(){};
     /**
      *
      * @return
@@ -57,4 +52,11 @@ public class Location{
         this.longitude = longitude;
     }
 
+    public SyncSession getSession() {
+        return session;
+    }
+
+    public void setSession(SyncSession session) {
+        this.session = session;
+    }
 }

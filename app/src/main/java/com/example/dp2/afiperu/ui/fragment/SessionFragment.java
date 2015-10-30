@@ -29,8 +29,7 @@ public class SessionFragment extends BaseFragment implements SessionView{
     @Inject
     SessionAdapter adapter;
 
-
-    public static final String SESSION_ARG = "session_arg";
+    //public static final String SESSION_ARG = "session_arg";
 
     public SessionFragment(){
         super();
@@ -44,7 +43,6 @@ public class SessionFragment extends BaseFragment implements SessionView{
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
         //ArrayList<SessionResponse> sessions = (ArrayList<SessionResponse>)args.getSerializable(SESSION_ARG);
-
 
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
         newsList.setAdapter(adapter);

@@ -1,13 +1,15 @@
 package com.example.dp2.afiperu.interactor;
 
-import com.example.dp2.afiperu.domain.MarkerInfo;
-import com.example.dp2.afiperu.domain.PointsOfReunion;
+import com.example.dp2.afiperu.domain.Location;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit.Call;
@@ -27,27 +29,29 @@ public class SessionInteractorImpl implements SessionInteractor {
 
     @Override
     public void getAllSessions(final SessionPresenter presenter) {
-
-       /* ArrayList<MarkerInfo> markers = new ArrayList<>();
-        markers.add(new MarkerInfo(-12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_SESSION_ADDRESS, null));
-        markers.add(new MarkerInfo(-12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-        markers.add(new MarkerInfo(-12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-        markers.add(new MarkerInfo(-12.067451, -77.061305, MarkerInfo.MARKER_KIND_SESSION_REUNION, null));
-
-        ArrayList<SessionResponse> sessions = new ArrayList<>();
-        Calendar calendar;
-        calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-        sessions.add(new SessionResponse("Cerro el Pino", calendar.getTime().getTime(), markers));
-        calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-        sessions.add(new SessionResponse("Cerro el Pino", calendar.getTime().getTime(), markers));
-        calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-        sessions.add(new SessionResponse("Cerro el Pino", calendar.getTime().getTime(), markers));
-        calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-        sessions.add(new SessionResponse("Cerro el Pino", calendar.getTime().getTime(), markers));
-        calendar = new GregorianCalendar(2015, 8, 16, 16, 00);
-        sessions.add(new SessionResponse("Cerro el Pino", calendar.getTime().getTime(), markers));
-        Collections.sort(sessions);
-        return null;*/
+        /*ArrayList<Session> sessions = new ArrayList<>();
+        Calendar calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
+        Session session = new Session("Cerro el Pino", (int)calendar.getTime().getTime());
+        Location location = new Location();
+        location.setLatitude(-12.0731492);
+        location.setLongitude(-77.0819083);
+        session.setLocation(location);
+        ArrayList<PointOfReunion> pointsOfReunion = new ArrayList<>();
+        PointOfReunion pointOfReunion = new PointOfReunion();
+        pointOfReunion.setLatitude(-12.0767993);
+        pointOfReunion.setLongitude(-77.0811531);
+        pointsOfReunion.add(pointOfReunion);
+        pointOfReunion = new PointOfReunion();
+        pointOfReunion.setLatitude(-12.0587955);
+        pointOfReunion.setLongitude(-77.0815501);
+        pointsOfReunion.add(pointOfReunion);
+        pointOfReunion = new PointOfReunion();
+        pointOfReunion.setLatitude(-12.067451);
+        pointOfReunion.setLongitude(-77.061305);
+        pointsOfReunion.add(pointOfReunion);
+        session.setPointsOfReunion(pointsOfReunion);
+        sessions.add(session);
+        presenter.onSessionFound(sessions);*/
 
         Call<List<Session>> call = service.getAllSessions();
         call.enqueue(new Callback<List<Session>>() {

@@ -15,6 +15,9 @@ import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Attendance;
 import com.example.dp2.afiperu.domain.Kid;
+import com.example.dp2.afiperu.domain.Location;
+import com.example.dp2.afiperu.others.MarkerInfo;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.R;
@@ -111,7 +114,6 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     getFragment().addFragmentToStack(kidsFragment, DetailActivity.FRAGMENT_COMENTARIOS);
                                     break;
                                 case R.id.sessions_menu_attendance:
-
                                     args = new Bundle();
                                     ArrayList<Attendance> volunteers = new ArrayList<>();
                                     volunteers.add(new Attendance(
@@ -156,7 +158,16 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                 case R.id.sessions_menu_map:
                                     MapFragment mapFragment;
                                     args = new Bundle();
-                                    args.putSerializable(MapFragment.MARKERS_ARG, item.getMarkers());
+                                    Location location = item.getLocation();
+                                    List<PointOfReunion> pointsOfReunion = item.getPointsOfReunion();
+                                    ArrayList<MarkerInfo> markers = new ArrayList<>();
+                                    markers.add(new MarkerInfo(location));
+                                    for(PointOfReunion pointOfReunion : pointsOfReunion){
+                                        markers.add(new MarkerInfo(pointOfReunion, pointOfReunion.getSelected() == 1));
+                                    }
+                                    args.putSerializable(MapFragment.MARKERS_ARG, markers);
+                                    args.putInt(MapFragment.SESSION_ID_ARG, item.getId());
+
                                     int fragmentId;
                                     if(true){ //Si es editable
                                         fragmentId = DetailActivity.FRAGMENT_MAPA_EDITABLE;

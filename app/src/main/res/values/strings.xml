@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">AFI Perú</string>
 
+    <string name="loading">Cargando…</string>
+    <string name="please_wait">Espere unos segundos</string>
+    <string name="save_failed">No se pudo guardar</string>
+
     <!--Recuperar contraseña-->
     <string name="recover_password">Para recuperar su contraseña escriba su correo electronico de registro:</string>
 

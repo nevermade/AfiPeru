@@ -46,8 +46,8 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             @Override
             public void onFailure(Throwable t) {
-                presenter.onLoginSuccess("Invitado");
-                Constants.PROGRESS.dismiss();
+                /*presenter.onLoginSuccess("Invitado");
+                Constants.PROGRESS.dismiss();*/
             }
         });
     }

@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.rest;
 
+import com.example.dp2.afiperu.domain.NewPointOfReunion;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.squareup.okhttp.Response;
@@ -24,6 +26,11 @@ public interface AfiApiServiceEndPoints {
 
     @GET("sessions")
     Call<List<Session>> getAllSessions();
+
+    @POST("meeting_points")
+    Call<Response> editMeetingPoints(@Field("session_id") Integer sessionId,
+                                     @Field("meeting_points") List<PointOfReunion> previousPoints,
+                                     @Field("new_meeting_points") List<NewPointOfReunion> newPoints);
 
     @FormUrlEncoded
     @POST("sign_in")
