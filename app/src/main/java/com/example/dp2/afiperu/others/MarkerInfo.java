@@ -14,19 +14,19 @@ import java.io.Serializable;
 /**
  * Created by Fernando on 08/10/2015.
  */
-public class MarkerInfo implements Serializable, Cloneable {
+public class MarkerInfo implements Serializable {
 
     public static final int MARKER_KIND_EVENT_ADDRESS = 0;
     public static final int MARKER_KIND_SESSION_ADDRESS = 1;
-    public static final int MARKER_KIND_SESSION_REUNION = 2;
-    public static final int MARKER_KIND_INFO_SCHOOL = 3;
-    public static final int MARKER_KIND_INFO_VOLUNTEER = 4;
-
-    public static final int MARKER_KIND_SESSION_REUNION_CREATED = 5;
-    public static final int MARKER_KIND_SESSION_REUNION_EDITED = 6;
-    public static final int MARKER_KIND_SESSION_REUNION_DELETED = 7;
+    public static final int MARKER_KIND_SESSION_REUNION_ENABLED = 2;
+    public static final int MARKER_KIND_SESSION_REUNION_CREATED = 3;
+    public static final int MARKER_KIND_SESSION_REUNION_DISABLED = 4;
+    public static final int MARKER_KIND_INFO_SCHOOL = 5;
+    public static final int MARKER_KIND_INFO_VOLUNTEER = 6;
 
     public String markerId;
+    public int pointId;
+    public String address;
     public double latitude;
     public double longitude;
     private int markerKind;
@@ -37,10 +37,9 @@ public class MarkerInfo implements Serializable, Cloneable {
         switch(markerKind){
             case MARKER_KIND_EVENT_ADDRESS: id = R.string.marker_event_address; break;
             case MARKER_KIND_SESSION_ADDRESS: id = R.string.marker_session_address; break;
-            case MARKER_KIND_SESSION_REUNION:
+            case MARKER_KIND_SESSION_REUNION_ENABLED:
             case MARKER_KIND_SESSION_REUNION_CREATED:
-            case MARKER_KIND_SESSION_REUNION_EDITED:
-            case MARKER_KIND_SESSION_REUNION_DELETED:
+            case MARKER_KIND_SESSION_REUNION_DISABLED:
                 id = R.string.marker_session_reunion; break;
             case MARKER_KIND_INFO_SCHOOL: id = R.string.marker_info_school; break;
             case MARKER_KIND_INFO_VOLUNTEER: id = R.string.marker_info_volunteer; break;
@@ -56,17 +55,16 @@ public class MarkerInfo implements Serializable, Cloneable {
             case MARKER_KIND_INFO_SCHOOL:
                 hue = BitmapDescriptorFactory.HUE_AZURE;
                 break;
-            case MARKER_KIND_SESSION_REUNION:
+            case MARKER_KIND_SESSION_REUNION_ENABLED:
             case MARKER_KIND_INFO_VOLUNTEER:
             default:
                 hue = BitmapDescriptorFactory.HUE_RED;
                 break;
             case MARKER_KIND_SESSION_REUNION_CREATED:
-            case MARKER_KIND_SESSION_REUNION_EDITED:
                 hue = BitmapDescriptorFactory.HUE_YELLOW;
                 break;
-            case MARKER_KIND_SESSION_REUNION_DELETED:
-                hue = BitmapDescriptorFactory.HUE_CYAN;
+            case MARKER_KIND_SESSION_REUNION_DISABLED:
+                hue = BitmapDescriptorFactory.HUE_GREEN;
                 break;
         }
         return BitmapDescriptorFactory.defaultMarker(hue);
@@ -76,32 +74,29 @@ public class MarkerInfo implements Serializable, Cloneable {
         return getColoredIcon(markerKind);
     }
 
-    public boolean isReunion(){
-        return markerKind == MARKER_KIND_SESSION_REUNION || markerKind == MARKER_KIND_SESSION_REUNION_EDITED
-                || markerKind == MARKER_KIND_SESSION_REUNION_DELETED;
-    }
-
     public boolean isCreated(){
         return markerKind == MARKER_KIND_SESSION_REUNION_CREATED;
     }
 
-    public boolean isEdited(){
-        return markerKind == MARKER_KIND_SESSION_REUNION_EDITED;
+    public boolean isEnabled(){
+        return markerKind == MARKER_KIND_SESSION_REUNION_ENABLED;
     }
 
-    public void setEdited(boolean edited){
-        if(isReunion()){
-            markerKind = edited ? MARKER_KIND_SESSION_REUNION_EDITED : MARKER_KIND_SESSION_REUNION;
-        }
+    public boolean isDisabled(){
+        return markerKind == MARKER_KIND_SESSION_REUNION_DISABLED;
     }
 
-    public boolean isDeleted(){
-        return markerKind == MARKER_KIND_SESSION_REUNION_DELETED;
+    public void setEnabled(boolean enabled){
+        markerKind = enabled ? MARKER_KIND_SESSION_REUNION_ENABLED : MARKER_KIND_SESSION_REUNION_DISABLED;
     }
 
-    public void setDeleted(){
-        if(isReunion()){
-            markerKind = MARKER_KIND_SESSION_REUNION_DELETED;
+    public boolean toggleEnabled(){
+        if(markerKind == MARKER_KIND_SESSION_REUNION_ENABLED){
+            setEnabled(false);
+            return false;
+        }else{
+            setEnabled(true);
+            return true;
         }
     }
 
@@ -116,17 +111,24 @@ public class MarkerInfo implements Serializable, Cloneable {
     public MarkerInfo(Location location){
         this(location.getLatitude(), location.getLongitude(), MARKER_KIND_SESSION_ADDRESS, null);
     }
-    public MarkerInfo(PointOfReunion pointOfReunion){
-        this(pointOfReunion.getLatitude(), pointOfReunion.getLongitude(), MARKER_KIND_SESSION_REUNION, null);
+    public MarkerInfo(PointOfReunion pointOfReunion, boolean selected){
+        this(pointOfReunion.getLatitude(), pointOfReunion.getLongitude(),
+                selected ? MARKER_KIND_SESSION_REUNION_ENABLED : MARKER_KIND_SESSION_REUNION_DISABLED, null);
     }
     public MarkerInfo(LatLng point){
         this(point.latitude, point.longitude, MARKER_KIND_SESSION_REUNION_CREATED, null);
     }
 
-    @Override
-    public Object clone(){
-        return new MarkerInfo(latitude, longitude, markerKind, textArg);
+    public PointOfReunion toPointOfReunion(){
+        if(markerKind == MARKER_KIND_SESSION_REUNION_ENABLED || markerKind == MARKER_KIND_SESSION_REUNION_DISABLED) {
+            PointOfReunion point = new PointOfReunion();
+            point.setId(pointId);
+            point.setLatitude(latitude);
+            point.setLongitude(longitude);
+            point.setSelected(markerKind == MARKER_KIND_SESSION_REUNION_ENABLED ? 1 : 0);
+            return point;
+        }
+        return null;
     }
-
 
 }

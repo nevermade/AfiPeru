@@ -161,9 +161,10 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     ArrayList<MarkerInfo> markers = new ArrayList<>();
                                     markers.add(new MarkerInfo(location));
                                     for(PointOfReunion pointOfReunion : pointsOfReunion){
-                                        markers.add(new MarkerInfo(pointOfReunion));
+                                        markers.add(new MarkerInfo(pointOfReunion, pointOfReunion.getSelected() == 1));
                                     }
                                     args.putSerializable(MapFragment.MARKERS_ARG, markers);
+                                    args.putInt(MapFragment.SESSION_ID_ARG, item.getId());
 
                                     int fragmentId;
                                     if(true){ //Si es editable

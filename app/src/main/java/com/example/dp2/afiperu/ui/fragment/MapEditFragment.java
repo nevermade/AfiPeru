@@ -9,13 +9,12 @@ import android.widget.ImageView;
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.component.DaggerPointsOfReunionComponent;
-import com.example.dp2.afiperu.component.DaggerSessionComponent;
+import com.example.dp2.afiperu.domain.NewPointOfReunion;
+import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.module.PointsOfReunionModule;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
-import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
-import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.PointsOfReunionView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -23,39 +22,31 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import javax.inject.Inject;
 
 /**
  * Created by Fernando on 11/10/2015.
  */
-public class MapEditFragment extends MapFragment implements PointsOfReunionView,
-        GoogleMap.OnMarkerDragListener, GoogleMap.OnMapLongClickListener {
+public class MapEditFragment extends MapFragment implements PointsOfReunionView, GoogleMap.OnMapLongClickListener {
 
     @Inject
     PointsOfReunionPresenter presenter;
 
-    public boolean needsSave(){
-        for(MarkerInfo marker : markersInfo){
-            if(marker.isEdited() || marker.isDeleted()){
-                return true;
-            }
-        }
-        return false;
-    }
+    private boolean saved = true;
 
     @Override
     public void saveSuccessful(){
         for(int i=0; i<markersInfo.size(); i++){
-        MarkerInfo markerInfo = markersInfo.get(i);
-        if(markerInfo.isEdited()){
-            markerInfo.setEdited(false);
-        }else if(markerInfo.isDeleted()){
-            markersInfo.remove(i);
-            i--;
+            MarkerInfo markerInfo = markersInfo.get(i);
+            if(markerInfo.isCreated()){
+                markerInfo.setEnabled(true);
+            }
         }
-    }
         GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
         refillMap(map);
+        saved = true;
     }
 
     @Override
@@ -67,22 +58,24 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
     }
 
     public void save(){
+        ArrayList<PointOfReunion> previousPoints = new ArrayList<>();
+        ArrayList<NewPointOfReunion> newPoints = new ArrayList<>();
         for(MarkerInfo marker : markersInfo){
-            if(marker.isCreated()) {
-                //CREATE
-            }else if(marker.isEdited()){
-                //UPDATE where
-            }else if(marker.isDeleted()){
-                //DELETE where
+            if(marker.isCreated()){
+                NewPointOfReunion newPoint = new NewPointOfReunion();
+                newPoint.setAddress(marker.address);
+                newPoint.setLatitude(marker.latitude);
+                newPoint.setLongitude(marker.longitude);
+                newPoints.add(newPoint);
+            }else if(marker.isEnabled() || marker.isDisabled()){
+                previousPoints.add(marker.toPointOfReunion());
             }
         }
-        /*presenter.editMeetingPoints(sessionId, uneditedPoints,
-                newPoints,
-                deletedPoints);*/
+        presenter.editMeetingPoints(sessionId, previousPoints, newPoints);
     }
 
     public void trySave(){
-        if(needsSave()){
+        if(!saved){
             save();
         }else{
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -94,7 +87,7 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
 
     @Override
     public boolean tryBack(){
-        if(needsSave()){
+        if(!saved){
             DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -130,7 +123,6 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
     @Override
     public void onMapReady(GoogleMap googleMap) {
         super.onMapReady(googleMap);
-        googleMap.setOnMarkerDragListener(this);
         googleMap.setOnMapLongClickListener(this);
     }
 
@@ -138,16 +130,41 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
         super.prepareView(rootView, args, savedInstanceState);
         ImageView deleteIcon = (ImageView)rootView.findViewById(R.id.map_bar_delete_icon);
-        deleteIcon.setVisibility(View.VISIBLE);
         deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (lastMarkerObject != null) {
-                    lastMarkerObject.setIcon(MarkerInfo.getColoredIcon(MarkerInfo.MARKER_KIND_SESSION_REUNION_DELETED));
-                    getLastMarker().setDeleted();
+                    MarkerInfo marker = getLastMarker();
+                    if(marker.isCreated()){
+                        markersInfo.remove(marker);
+                        GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+                        refillMap(map);
+                    }else {
+                        marker.toggleEnabled();
+                        lastMarkerObject.setIcon(getLastMarker().getColoredIcon());
+                    }
+                    saved = false;
                 }
             }
         });
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker){
+        super.onMarkerClick(marker);
+
+        ImageView deleteIcon = (ImageView)getView().findViewById(R.id.map_bar_delete_icon);
+        MarkerInfo markerInfo = getLastMarker();
+        deleteIcon.setVisibility(View.VISIBLE);
+        if(markerInfo.isCreated() || markerInfo.isEnabled()){
+            deleteIcon.setImageResource(R.drawable.ic_delete_100);
+        }else if(markerInfo.isDisabled()){
+            deleteIcon.setImageResource(R.drawable.ic_pin_100);
+        }else{
+            deleteIcon.setVisibility(View.GONE);
+        }
+
+        return true;
     }
 
     @Override
@@ -156,37 +173,14 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
         MarkerInfo marker = new MarkerInfo(point);
         Marker m = map.addMarker(new MarkerOptions().position(point)
                 .title(marker.getTitle(getResources()))
-                .icon(marker.getColoredIcon())
-                .draggable(marker.isReunion() && markersAreDraggable()));
+                .icon(marker.getColoredIcon()));
         marker.markerId = m.getId();
         markersInfo.add(marker);
+        onMarkerClick(m);
+        saved = false;
     }
 
-    @Override
-    public boolean markersAreDraggable(){
-        return true;
-    }
-
-    @Override
-    public void onMarkerDragStart(Marker marker) {
-        if(!onMarkerClick(marker)) { //Incuye setLastMarker(marker)
-            marker.showInfoWindow();
-        }
-    }
-
-    @Override
-    public void onMarkerDrag(Marker marker) {
-
-    }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-        updateMarker(marker);
-        marker.setIcon(MarkerInfo.getColoredIcon(MarkerInfo.MARKER_KIND_SESSION_REUNION_EDITED));
-        getLastMarker().setEdited(true);
-    }
-
-    public void updateMarker(Marker marker){
+    /*public void updateMarker(Marker marker){
         for(int i=0; i<markersInfo.size(); i++){
             MarkerInfo markerInfo = markersInfo.get(i);
             if(markerInfo.markerId.equals(marker.getId())){
@@ -203,5 +197,5 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
         if(!onMarkerClick(marker)) { //Incuye setLastMarker(marker)
             marker.showInfoWindow();
         }
-    }
+    }*/
 }

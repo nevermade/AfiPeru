@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,7 +41,9 @@ import java.util.Locale;
 public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     public static final String MARKERS_ARG = "markers_arg";
+    public static final String SESSION_ID_ARG = "session_id_arg";
 
+    protected int sessionId;
     protected Geocoder geocoder;
     protected ArrayList<MarkerInfo> markersInfo;
     protected int lastMarker = -1;
@@ -78,29 +81,28 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         SupportMapFragment map = (SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map_fragment);
         map.getMapAsync(this);
 
+        sessionId = args.getInt(SESSION_ID_ARG);
+
         if(geocoder == null){
             geocoder = new Geocoder(getContext(), Locale.getDefault());
         }
     }
 
-    public boolean markersAreDraggable(){
-        return false;
-    }
-
     public void refillMap(GoogleMap googleMap){
         googleMap.clear();
 
-        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        LatLngBounds.Builder consideredForCamera = new LatLngBounds.Builder();
         for(MarkerInfo marker : markersInfo){
             LatLng latLng = new LatLng(marker.latitude, marker.longitude);
-            builder.include(latLng);
+            if(!marker.isDisabled()) {
+                consideredForCamera.include(latLng);
+            }
             Marker m = googleMap.addMarker(new MarkerOptions().position(latLng)
                     .title(marker.getTitle(getResources()))
-                    .icon(marker.getColoredIcon())
-                    .draggable(marker.isReunion() && markersAreDraggable()));
+                    .icon(marker.getColoredIcon()));
             marker.markerId = (m.getId());
         }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 40));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(consideredForCamera.build(), 40));
         if(markersInfo.size() <= 1){
             googleMap.moveCamera(CameraUpdateFactory.zoomTo(14.0f));
         }
@@ -135,14 +137,14 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             location.setLatitude(position.latitude);
             location.setLongitude(position.longitude);
 
-            AddressResultReceiver receiver = new AddressResultReceiver(new Handler());
+            AddressResultReceiver receiver = new AddressResultReceiver(getLastMarker(), new Handler());
             Intent intent = new Intent(getContext(), FetchAddressIntentService.class);
             intent.putExtra(FetchAddressIntentService.LOCATION_ARG, location);
             intent.putExtra(FetchAddressIntentService.RECEIVER_ARG, receiver);
             getActivity().startService(intent);
         }
 
-        return false;
+        return true;
     }
 
     @Override
@@ -177,8 +179,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
     public class AddressResultReceiver extends ResultReceiver{
 
-        public AddressResultReceiver(Handler handler){
+        private MarkerInfo marker;
+
+        public AddressResultReceiver(MarkerInfo marker, Handler handler){
             super(handler);
+            this.marker = marker;
         }
 
         @Override
@@ -191,6 +196,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                 text = "";
             }
             addressText.setText(text);
+            marker.address = text;
         }
     }
 

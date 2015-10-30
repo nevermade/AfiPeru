@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.interactor;
 
+import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
@@ -24,13 +25,11 @@ public class PointsOfReunionInteractorImpl implements PointsOfReunionInteractor 
 
     @Override
     public void editPointsOfReunion(final PointsOfReunionPresenter presenter, int sessionId,
-                                    List<PointOfReunion> uneditedPoints,
-                                    //List<LatLngPoint> createdPoints,
-                                    List<PointOfReunion> deletedPoints) {
-        Call<Response> result = service.editMeetingPoints(sessionId, uneditedPoints,
-                //createdPoints,
-                deletedPoints);
+                                    List<PointOfReunion> previousPoints,
+                                    List<NewPointOfReunion> newPoints) {
+        Call<Response> result = service.editMeetingPoints(sessionId, previousPoints, newPoints);
         result.enqueue(new Callback<Response>() {
+
             @Override
             public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
                 presenter.saveSuccessful();
