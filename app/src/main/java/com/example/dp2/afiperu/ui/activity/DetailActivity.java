@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -586,11 +588,13 @@ public class DetailActivity extends BaseActivity {
                 return;
 
             case FRAGMENT_NOTICIAS:
-
+//                isNetworkConnected();
+/*
                 SyncUser su = new SyncUser();
                 su.setName("A ver");
                 su.save();
                 Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_SHORT).show();
+                */
                 /*
                 SyncSession se = new SyncSession();
                 se.setName("Sesion1");
@@ -891,5 +895,8 @@ public class DetailActivity extends BaseActivity {
             getTopFragment().onSearch(query);
         }
     }
+
+
+
 
 }

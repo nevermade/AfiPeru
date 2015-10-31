@@ -50,7 +50,7 @@ public class UsersFragment extends BaseFragment implements UserView {
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
         blogsList.setAdapter(adapter);
         blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
-        presenter.getAllUsers();
+        presenter.getAllUsers(getContext());
         System.out.println("Estoy aca2");
         //ArrayList<User> u2 = presenter.getAllUsers();
         //Toast
