@@ -4,6 +4,7 @@ import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
+import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 import com.squareup.okhttp.Response;
 
 import java.util.List;
@@ -31,12 +32,8 @@ public interface AfiApiServiceEndPoints {
     Call<List<User>> getAllUsers();
     
     
-    @FormUrlEncoded
     @POST("meeting_points")
-    Call<Response> editMeetingPoints(@Field("session_id") Integer sessionId,
-                                     @Field("points_of_reunion") List<PointOfReunion> uneditedPoints,
-                                     //@Field("new_points_of_reunion") List<LatLngPoint> newPoints,
-                                     @Field("deleted_points_of_reunion") List<NewPointOfReunion> deletedPoints);
+    Call<Response> editMeetingPoints(@Body MeetingPointsBody meetingPointsBody);
 
     @FormUrlEncoded
     @POST("sign_in")

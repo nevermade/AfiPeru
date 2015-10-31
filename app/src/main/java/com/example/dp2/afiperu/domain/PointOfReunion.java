@@ -7,8 +7,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.orm.SugarRecord;
 
+import java.io.Serializable;
 
-public class PointOfReunion {
+
+public class PointOfReunion implements Serializable {
     public Integer getId() {
         return id;
     }

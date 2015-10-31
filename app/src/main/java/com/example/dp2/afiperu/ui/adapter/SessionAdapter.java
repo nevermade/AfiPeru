@@ -159,15 +159,18 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     Location location = item.getLocation();
                                     List<PointOfReunion> pointsOfReunion = item.getPointsOfReunion();
                                     ArrayList<MarkerInfo> markers = new ArrayList<>();
+                                    boolean hasEditMapPermission = hasEditMapPermission();
                                     markers.add(new MarkerInfo(location));
                                     for(PointOfReunion pointOfReunion : pointsOfReunion){
-                                        markers.add(new MarkerInfo(pointOfReunion, pointOfReunion.getSelected() == 1));
+                                        if(pointOfReunion.getSelected() == 1 || hasEditMapPermission) {
+                                            markers.add(new MarkerInfo(pointOfReunion, pointOfReunion.getSelected() == 1));
+                                        }
                                     }
                                     args.putSerializable(MapFragment.MARKERS_ARG, markers);
                                     args.putInt(MapFragment.SESSION_ID_ARG, item.getId());
 
                                     int fragmentId;
-                                    if(hasEditMapPermission()){ //Si es editable
+                                    if(hasEditMapPermission){ //Si es editable
                                         fragmentId = DetailActivity.FRAGMENT_MAPA_EDITABLE;
                                         mapFragment = new MapEditFragment();
                                     }else{

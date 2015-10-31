@@ -4,6 +4,7 @@ import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 import com.squareup.okhttp.Response;
 
 import java.util.List;
@@ -23,10 +24,9 @@ public class PointsOfReunionInteractorImpl implements PointsOfReunionInteractor 
     }
 
     @Override
-    public void editPointsOfReunion(final PointsOfReunionPresenter presenter, int sessionId,
-                                    List<PointOfReunion> previousPoints,
-                                    List<NewPointOfReunion> newPoints) {
-        Call<Response> result = service.editMeetingPoints(sessionId, previousPoints, newPoints);
+    public void editPointsOfReunion(final PointsOfReunionPresenter presenter, MeetingPointsBody body) {
+        Call<Response> result = service.editMeetingPoints(body);
+
         result.enqueue(new Callback<Response>() {
 
             @Override

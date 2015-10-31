@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.rest;
 
+import android.util.Log;
+
 import com.example.dp2.afiperu.util.Constants;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
@@ -22,7 +24,10 @@ public class AfiApiServiceAdapter {
             Interceptor interceptor = new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-                    Request newRequest = chain.request().newBuilder().addHeader("Authorization", Constants.TOKEN).build();
+                    Request newRequest = chain.request().newBuilder()
+                            .addHeader("Accept", "application/json")
+                            .addHeader("Authorization", Constants.TOKEN).build();
+                    Log.d("Token", Constants.TOKEN);
                     return chain.proceed(newRequest);
                 }
             };

@@ -4,6 +4,7 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.interactor.PointsOfReunionInteractor;
+import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 import com.example.dp2.afiperu.ui.viewmodel.PointsOfReunionView;
 
 import java.util.List;
@@ -32,7 +33,11 @@ public class PointsOfReunionPresenter extends BasePresenter {
     }
 
     public void editMeetingPoints(int sessionId, List<PointOfReunion> previousPoints, List<NewPointOfReunion> newPoints){
-        interactor.editPointsOfReunion(this, sessionId, previousPoints, newPoints);
+        MeetingPointsBody body = new MeetingPointsBody();
+        body.setSessionId(sessionId);
+        body.setPreviousPoints(previousPoints);
+        body.setNewPoints(newPoints);
+        interactor.editPointsOfReunion(this, body);
     }
 
     public void saveSuccessful(){
