@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.presenter;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
@@ -43,14 +45,12 @@ public class UserPresenter extends BasePresenter {
         view.showUsers(users);
     }
     public void onUsersFound(ArrayList<SyncUser> users){
-        //System.out.println("Estoy aca 5");
         view.showUsers(users);
     }
 
-    public ArrayList<User> getAllUsers(){
+    public ArrayList<User> getAllUsers(Context context){
 
-        //System.out.println("Estoy aca 3");
-        return interactor.getAllUsers(this);
+        return interactor.getAllUsers(this,context);
     }
 
     public void onLocationsFound(LocationsBody locations){

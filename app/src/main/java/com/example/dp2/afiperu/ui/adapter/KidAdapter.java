@@ -30,10 +30,10 @@ public class KidAdapter extends BaseArrayAdapter<Kid> {
         TextView age = (TextView) convertView.findViewById(R.id.kids_item_date);
         ImageView menu = (ImageView) convertView.findViewById(R.id.kids_item_menu);
 
-        name.setText(item.getName());
+        name.setText(item.getNames());
         age.setText(convertView.getResources().getString(R.string.kids_age, item.getAge()));
 
-        menu.setImageResource(item.isWritten() ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
+        menu.setImageResource(true ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

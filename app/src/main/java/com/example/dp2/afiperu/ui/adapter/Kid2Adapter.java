@@ -34,9 +34,9 @@ public class Kid2Adapter extends BaseArrayAdapter<Kid> {
         TextView age = (TextView) convertView.findViewById(R.id.kids_item_date2);
         ImageView menu = (ImageView) convertView.findViewById(R.id.kids_item_menu2);
 
-        name.setText(item.getName());
+        name.setText(item.getNames());
         age.setText(convertView.getResources().getString(R.string.kids_age, item.getAge()));
-        menu.setImageResource(item.isWritten() ? android.R.drawable.checkbox_on_background : android.R.drawable.checkbox_off_background);
+        menu.setImageResource(false? android.R.drawable.checkbox_on_background : android.R.drawable.checkbox_off_background);
 
 
         menu.setOnClickListener(new View.OnClickListener() {
