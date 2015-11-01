@@ -128,7 +128,6 @@ public class DetailActivity extends BaseActivity {
     Toolbar toolbar;
     int selectedLayout;
     int toolbarMenu;
-    int hintTextId;
 
     int previousBackStackCount;
 
@@ -183,19 +182,6 @@ public class DetailActivity extends BaseActivity {
         }
     }
 
-    public int getHintText(int fragmentId){
-        switch(fragmentId){
-            case FRAGMENT_DOCUMENTOS: return R.string.search_doc_title;
-            case FRAGMENT_BLOG:
-            case FRAGMENT_NOTICIAS: return R.string.search_article_title;
-            case FRAGMENT_PERSONAS: return R.string.search_name;
-            case FRAGMENT_COMENTARIOS: return R.string.search_author_content;
-            case FRAGMENT_MAPA:
-            case FRAGMENT_MAPA_EDITABLE: return R.string.search_address;
-            default: return 0;
-        }
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         BaseFragment topFragment = getTopFragment();
@@ -204,7 +190,7 @@ public class DetailActivity extends BaseActivity {
             case FRAGMENT_PERSONAS:
                 switch(item.getItemId()){
                     case R.id.people_menu_map:
-                        MapFragment mapFragment = new MapFragment();
+                        /*MapFragment mapFragment = new MapFragment();
                         Bundle args = new Bundle();
                         ArrayList<MarkerInfo> markers = new ArrayList<>();
                         markers.add(new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
@@ -214,7 +200,8 @@ public class DetailActivity extends BaseActivity {
                         args.putSerializable(MapFragment.MARKERS_ARG, markers);
                         args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_MAPA);
                         mapFragment.setArguments(args);
-                        addFragment(mapFragment, getTitle(FRAGMENT_MAPA), getMenu(FRAGMENT_MAPA));
+                        addFragment(mapFragment, getTitle(FRAGMENT_MAPA), getMenu(FRAGMENT_MAPA));*/
+                        ((PeopleTabFragment)topFragment).getUsersFragment().getLocations();
                         break;
                 }
                 break;
@@ -272,7 +259,6 @@ public class DetailActivity extends BaseActivity {
                 BaseFragment fragment = getTopFragment();
                 setTitle(getTitle(fragment.getFragmentId()));
                 toolbarMenu = getMenu(fragment.getFragmentId());
-                hintTextId = getHintText(fragment.getFragmentId());
                 invalidateOptionsMenu();
             }
             previousBackStackCount = backStackEntryCount;
@@ -493,6 +479,7 @@ public class DetailActivity extends BaseActivity {
                     dialogFragmentClass = CommentSearchDialog.class;
                     break;
                 case R.menu.map_menu_toolbar:
+                case R.menu.map_edit_menu_toolbar:
                     menuItem = R.id.map_menu_search;
                     dialogTag = null;
                     dialogFragmentClass = null;

@@ -29,7 +29,7 @@ public class SessionInteractorImpl implements SessionInteractor {
 
     @Override
     public void getAllSessions(final SessionPresenter presenter) {
-        /*ArrayList<Session> sessions = new ArrayList<>();
+        ArrayList<Session> sessions = new ArrayList<>();
         Calendar calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
         Session session = new Session("Cerro el Pino", (int)calendar.getTime().getTime());
         Location location = new Location();
@@ -38,22 +38,29 @@ public class SessionInteractorImpl implements SessionInteractor {
         session.setLocation(location);
         ArrayList<PointOfReunion> pointsOfReunion = new ArrayList<>();
         PointOfReunion pointOfReunion = new PointOfReunion();
+        pointOfReunion.setId(1);
         pointOfReunion.setLatitude(-12.0767993);
         pointOfReunion.setLongitude(-77.0811531);
+        pointOfReunion.setSelected(1);
         pointsOfReunion.add(pointOfReunion);
         pointOfReunion = new PointOfReunion();
+        pointOfReunion.setId(2);
         pointOfReunion.setLatitude(-12.0587955);
         pointOfReunion.setLongitude(-77.0815501);
+        pointOfReunion.setSelected(1);
         pointsOfReunion.add(pointOfReunion);
         pointOfReunion = new PointOfReunion();
+        pointOfReunion.setId(3);
         pointOfReunion.setLatitude(-12.067451);
         pointOfReunion.setLongitude(-77.061305);
+        pointOfReunion.setSelected(1);
         pointsOfReunion.add(pointOfReunion);
+        session.setId(-1);
         session.setPointsOfReunion(pointsOfReunion);
         sessions.add(session);
-        presenter.onSessionFound(sessions);*/
+        presenter.onSessionFound(sessions);
 
-        Call<List<Session>> call = service.getAllSessions();
+        /*Call<List<Session>> call = service.getAllSessions();
         call.enqueue(new Callback<List<Session>>() {
             @Override
             public void onResponse(Response<List<Session>> response, Retrofit retrofit) {
@@ -64,11 +71,10 @@ public class SessionInteractorImpl implements SessionInteractor {
             }
 
             @Override
-            public void onFailure(Throwable t) {
-                if(true);
+            public void onFailure(Throwable t){
             }
-        });
+        });*/
 
 
-    }
+     }
 }

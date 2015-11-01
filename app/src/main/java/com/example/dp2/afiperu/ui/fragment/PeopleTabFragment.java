@@ -89,4 +89,8 @@ public class PeopleTabFragment extends BaseFragment {
         
     }
 
+    public UsersFragment getUsersFragment(){
+        return (UsersFragment)tabs[0];
+    }
+
 }

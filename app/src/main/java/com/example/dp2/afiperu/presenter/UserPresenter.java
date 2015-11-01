@@ -4,6 +4,7 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
 import com.example.dp2.afiperu.interactor.UserInteractor;
+import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.viewmodel.LoginView;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
@@ -50,6 +51,14 @@ public class UserPresenter extends BasePresenter {
 
         //System.out.println("Estoy aca 3");
         return interactor.getAllUsers(this);
+    }
+
+    public void onLocationsFound(LocationsBody locations){
+        view.showLocations(locations);
+    }
+
+    public LocationsBody getLocations(){
+        return interactor.getLocations(this);
     }
 /*
     public void onLoginFailure(){

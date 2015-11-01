@@ -146,6 +146,8 @@
     <string name="marker_info_school">Colegio: %1$s</string>
     <string name="marker_info_volunteer">Voluntario: %1$s</string>
 
+    <string name="no_address">No se encontró la dirección.</string>
+    <string name="choose_address">Elija una dirección.</string>
     <string name="connection_failed">Ocurrió un error en la conexión.</string>
     <string name="save_not_needed">No hay cambios que guardar.</string>
     <string name="save_needed">No ha guardado los cambios en los puntos de reunión. ¿Qué desea hacer?</string>

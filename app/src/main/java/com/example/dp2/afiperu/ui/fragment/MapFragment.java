@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.ui.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -142,6 +143,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             intent.putExtra(FetchAddressIntentService.LOCATION_ARG, location);
             intent.putExtra(FetchAddressIntentService.RECEIVER_ARG, receiver);
             getActivity().startService(intent);
+
+            marker.showInfoWindow();
         }
 
         return true;
@@ -151,19 +154,46 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     public void onSearch(String query){
         if(geocoder == null) return;
         try {
-            List<Address> addresses = geocoder.getFromLocationName(query, 1);
-            if(!addresses.isEmpty()){
+            final List<Address> addresses = geocoder.getFromLocationName(query + ", Peru", 4);
+            if(addresses.isEmpty()){
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage(R.string.no_address).setNeutralButton(android.R.string.ok, null);
+                AlertDialog alert = builder.create();
+                alert.show();
+            }else if(addresses.size() == 1){
                 Address address = addresses.get(0);
-                GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
-                if(map != null){
-                    map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(address.getLatitude(), address.getLongitude())));
+                goToAddress(address);
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                String[] options = new String[addresses.size()];
+                for(int i=0; i<addresses.size(); i++){
+                    Address address = addresses.get(i);
+                    options[i] = address.getAddressLine(1);
+                    for(int j=2; j<address.getMaxAddressLineIndex(); j++){
+                        options[i] += "\n" + address.getAddressLine(j);
+                    }
                 }
+                builder.setTitle(R.string.choose_address).setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        goToAddress(addresses.get(which));
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         }catch(IOException e){
             AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
             builder.setMessage(R.string.connection_failed).setNeutralButton(android.R.string.ok, null);
             AlertDialog alert = builder.create();
             alert.show();
+        }
+    }
+
+    public void goToAddress(Address address){
+        GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+        if(map != null){
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(address.getLatitude(), address.getLongitude()), 18f));
         }
     }
 

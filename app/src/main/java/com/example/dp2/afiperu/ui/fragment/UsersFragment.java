@@ -11,8 +11,13 @@ import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerUserComponent;
 import com.example.dp2.afiperu.module.UserModule;
+import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.presenter.UserPresenter;
+import com.example.dp2.afiperu.rest.model.LocationsBody;
+import com.example.dp2.afiperu.rest.model.School;
+import com.example.dp2.afiperu.rest.model.Volunteer;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
@@ -82,6 +87,31 @@ public class UsersFragment extends BaseFragment implements UserView {
         blogsList.setAdapter(adapter);
         blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
         */
+    }
+
+    public void getLocations(){
+        presenter.getLocations();
+    }
+
+    @Override
+    public void showLocations(LocationsBody locations){
+        MapFragment mapFragment = new MapFragment();
+        Bundle args = new Bundle();
+        ArrayList<MarkerInfo> markers = new ArrayList<>();
+        /*markers.add(new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+        markers.add(new MarkerInfo(-1, -12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
+        markers.add(new MarkerInfo(-1, -12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
+        markers.add(new MarkerInfo(-1, -12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));*/
+        for(School school : locations.getSchools()){
+            markers.add(new MarkerInfo(-1, school.getLatitude(), school.getLongitude(), MarkerInfo.MARKER_KIND_INFO_SCHOOL, school.getName()));
+        }
+        for(Volunteer volunteer : locations.getVolunteers()){
+            markers.add(new MarkerInfo(-1, volunteer.getLatitude(), volunteer.getLongitude(), MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, volunteer.getNames() + " " + volunteer.getLastName()));
+        }
+        args.putSerializable(MapFragment.MARKERS_ARG, markers);
+        args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_MAPA);
+        mapFragment.setArguments(args);
+        addFragmentToStack(mapFragment, DetailActivity.FRAGMENT_MAPA);
     }
 
 }

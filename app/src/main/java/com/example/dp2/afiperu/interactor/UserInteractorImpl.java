@@ -5,6 +5,7 @@ import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 
 import java.util.ArrayList;
@@ -23,7 +24,6 @@ import retrofit.Retrofit;
  */
 public class UserInteractorImpl implements UserInteractor {
     AfiApiServiceEndPoints service;
-    Call<User> call;
     //public UserInteractorImpl(){}
 
     public UserInteractorImpl(AfiApiServiceEndPoints service) {
@@ -80,6 +80,23 @@ public class UserInteractorImpl implements UserInteractor {
 
 
 
+        return null;
+    }
+
+    @Override
+    public LocationsBody getLocations(final UserPresenter presenter) {
+        Call<LocationsBody> locations = service.getLocations();
+        locations.enqueue(new Callback<LocationsBody>() {
+            @Override
+            public void onResponse(Response<LocationsBody> response, Retrofit retrofit) {
+                presenter.onLocationsFound(response.body());
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
         return null;
     }
 }
