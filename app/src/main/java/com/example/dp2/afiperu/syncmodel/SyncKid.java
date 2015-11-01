@@ -1,41 +1,32 @@
-package com.example.dp2.afiperu.domain;
+package com.example.dp2.afiperu.syncmodel;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
 import java.io.Serializable;
 
-public class Kid implements Serializable, Comparable<Kid> {
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("names")
-    @Expose
+public class SyncKid extends SugarRecord<SyncKid> implements Serializable, Comparable<SyncKid> {
+
+    private Integer kidId;
+
     private String names;
-    @SerializedName("last_name")
-    @Expose
     private String lastName;
-    @SerializedName("age")
-    @Expose
     private Integer age;
-    @SerializedName("gender")
-    @Expose
     private Integer gender;
+
+
+    public SyncKid(){}
+
 
     /**
      *
      * @return
      * The id
      */
-    public Kid (String n, Integer age ,Boolean isMale){
-        this.names = n;
-        this.age=age;
-        if (isMale) this.gender=0; else gender=1;
-    }
-
-    public Integer getId() {
-        return id;
+    public Integer getKidId() {
+        return kidId;
     }
 
     /**
@@ -43,8 +34,8 @@ public class Kid implements Serializable, Comparable<Kid> {
      * @param id
      * The id
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setKidId(Integer id) {
+        this.kidId = kidId;
     }
 
     /**
@@ -120,7 +111,7 @@ public class Kid implements Serializable, Comparable<Kid> {
     }
 
     @Override
-    public int compareTo(Kid o2){
+    public int compareTo(SyncKid o2){
         return names.compareTo(o2.names);
     }
 }

@@ -3,24 +3,25 @@ package com.example.dp2.afiperu.presenter;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.domain.User;
-import com.example.dp2.afiperu.interactor.LoginInteractor;
+import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.UserInteractor;
+import com.example.dp2.afiperu.syncmodel.SyncKid;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
-import com.example.dp2.afiperu.ui.viewmodel.LoginView;
+import com.example.dp2.afiperu.ui.viewmodel.KidView;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Nevermade on 23/10/2015.
  */
-public class UserPresenter extends BasePresenter {
-    UserView view;
-    UserInteractor interactor;
+public class KidPresenter extends BasePresenter {
+    KidView view;
+    KidInteractor interactor;
 
-    public UserPresenter(UserView view, UserInteractor interactor) {
+    public KidPresenter(KidView view, KidInteractor interactor) {
         this.view = view;
         this.interactor = interactor;
     }
@@ -40,16 +41,18 @@ public class UserPresenter extends BasePresenter {
     }
 
     */
-    public void onGetAllUserSuccess(ArrayList<SyncUser> users){
-        view.showUsers(users);
+    public void onGetAllKidSuccess(ArrayList<SyncKid> kids){
+        view.showKids(kids);
     }
-    public void onUsersFound(ArrayList<SyncUser> users){
-        view.showUsers(users);
+    public void onUsersFound(ArrayList<SyncKid> kids){
+        //System.out.println("Estoy aca 5");
+        view.showKids(kids);
     }
 
-    public ArrayList<User> getAllUsers(Context context){
+    public ArrayList<Kid> getAllKids(Context context){
 
-        return interactor.getAllUsers(this,context);
+        //System.out.println("Estoy aca 3");
+        return interactor.getAllKids(this, context);
     }
 /*
     public void onLoginFailure(){

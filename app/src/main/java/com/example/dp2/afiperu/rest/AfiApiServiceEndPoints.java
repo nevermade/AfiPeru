@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.rest;
 
+import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
@@ -30,7 +31,10 @@ public interface AfiApiServiceEndPoints {
 
     @GET("users")
     Call<List<User>> getAllUsers();
-    
+
+
+    @GET("children")
+    Call<List<Kid>> getAllKids();
     
     @POST("meeting_points")
     Call<Response> editMeetingPoints(@Body MeetingPointsBody meetingPointsBody);

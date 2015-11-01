@@ -137,6 +137,6 @@ public class SyncUser extends SugarRecord<SyncUser> implements Serializable, Com
 
     @Override
     public int compareTo(SyncUser o2) {
-        return (o2.name).compareTo(name);
+        return name.compareTo(o2.name);
     }
 }

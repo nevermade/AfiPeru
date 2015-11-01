@@ -70,7 +70,7 @@ public class UserInteractorImpl implements UserInteractor {
                         ArrayList<SyncUser> listav = new ArrayList<>();
 
                         for (SyncUser user : lista) listav.add(user);
-
+                        Collections.sort(listav);
                         presenter.onUsersFound(listav);
                         System.out.println(users.get(0).getName());
 
@@ -90,6 +90,7 @@ public class UserInteractorImpl implements UserInteractor {
             ArrayList<SyncUser> listav = new ArrayList<>();
 
             for (SyncUser user : lista) listav.add(user);
+            Collections.sort(listav);
             presenter.onUsersFound(listav);
 
         }

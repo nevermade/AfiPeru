@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.DownloadedUserInteractor;
+import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
@@ -43,4 +44,5 @@ public interface AfiAppComponent {
         PointsOfReunionInteractor getPointsOfReunionInteractor();
         LoginInteractor getLoginInteractor();
         UserInteractor getUserInteractor();
+        KidInteractor getKidInteractor();
 }
