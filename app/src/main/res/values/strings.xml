@@ -147,6 +147,8 @@
     <string name="marker_info_volunteer">Voluntario: %1$s</string>
 
     <string name="no_address">No se encontró la dirección.</string>
+    <string name="no_my_location">No se pudo acceder a su ubicación.</string>
+    <string name="no_direction">No se pudo encontrar una ruta.</string>
     <string name="choose_address">Elija una dirección.</string>
     <string name="connection_failed">Ocurrió un error en la conexión.</string>
     <string name="save_not_needed">No hay cambios que guardar.</string>

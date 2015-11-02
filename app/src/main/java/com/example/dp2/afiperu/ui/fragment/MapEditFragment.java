@@ -39,15 +39,6 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
 
     @Override
     public void saveSuccessful(){
-        /*for(int i=0; i<markersInfo.size(); i++){
-            MarkerInfo markerInfo = markersInfo.get(i);
-            if(markerInfo.isCreated()){
-                markerInfo.setEnabled(true);
-            }
-        }
-        GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
-        refillMap(map);
-        saved = true;*/
         Toast.makeText(getContext(), getResources().getString(R.string.save_success), Toast.LENGTH_SHORT).show();
         ((DetailActivity)getActivity()).goBack();
     }
@@ -182,23 +173,4 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
         onMarkerClick(m);
         saved = false;
     }
-
-    /*public void updateMarker(Marker marker){
-        for(int i=0; i<markersInfo.size(); i++){
-            MarkerInfo markerInfo = markersInfo.get(i);
-            if(markerInfo.markerId.equals(marker.getId())){
-                LatLng position = marker.getPosition();
-                markerInfo.latitude = (position.latitude);
-                markerInfo.longitude = (position.longitude);
-                markerInfo.setEdited(true);
-                break;
-            }
-        }
-
-        lastMarker = -1;
-        lastMarkerObject = null;
-        if(!onMarkerClick(marker)) { //Incuye setLastMarker(marker)
-            marker.showInfoWindow();
-        }
-    }*/
 }

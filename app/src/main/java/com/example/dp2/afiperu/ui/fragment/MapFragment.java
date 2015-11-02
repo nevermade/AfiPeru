@@ -2,13 +2,17 @@ package com.example.dp2.afiperu.ui.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -17,8 +21,12 @@ import android.widget.TextView;
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.others.GMapV2Direction;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.util.FetchAddressIntentService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -30,6 +38,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import org.w3c.dom.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -39,7 +51,8 @@ import java.util.Locale;
 /**
  * Created by Fernando on 08/10/2015.
  */
-public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapFragment extends BaseFragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
 
     public static final String MARKERS_ARG = "markers_arg";
     public static final String SESSION_ID_ARG = "session_id_arg";
@@ -50,9 +63,13 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     protected int lastMarker = -1;
     protected Marker lastMarkerObject = null;
 
+    private GoogleApiClient client;
+    private Location myLocation;
+    private Polyline lastPolyline;
+
     public boolean sameMarker(Marker marker){
         MarkerInfo markerInfo = getLastMarker();
-        return markerInfo == null ? false : marker.getId().equals(markerInfo.markerId);
+        return markerInfo != null && marker.getId().equals(markerInfo.markerId);
     }
 
     public MarkerInfo getLastMarker(){
@@ -87,6 +104,62 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
         if(geocoder == null){
             geocoder = new Geocoder(getContext(), Locale.getDefault());
         }
+
+        client = new GoogleApiClient.Builder(getContext())
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        ImageView pathIcon = (ImageView)rootView.findViewById(R.id.map_bar_path_icon);
+        pathIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(getLocation()){
+                    final GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+                    if(map != null) {
+                        MarkerInfo marker = getLastMarker();
+                        final LatLng from = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
+                        final LatLng to = new LatLng(marker.latitude, marker.longitude);
+                        final GMapV2Direction md = new GMapV2Direction();
+                        AsyncTask task = new AsyncTask<Object, Integer, Pair<GMapV2Direction, Document>>() {
+                            @Override
+                            protected Pair<GMapV2Direction, Document> doInBackground(Object... params) {
+                                Document doc = md.getDocument(from, to, GMapV2Direction.MODE_DRIVING);
+                                return doc != null ? new Pair<>(md, doc) : null;
+                            }
+                            @Override
+                            protected void onPostExecute(Pair<GMapV2Direction, Document> result){
+                                if(result != null) {
+                                    if(lastPolyline != null){
+                                        lastPolyline.remove();
+                                    }
+                                    ArrayList<LatLng> directionPoint = result.first.getDirection(result.second);
+                                    PolylineOptions rectLine = new PolylineOptions()
+                                            .width(4*getResources().getDisplayMetrics().density)
+                                            .color(Color.BLUE);
+                                    for (LatLng latLng : directionPoint) {
+                                        rectLine.add(latLng);
+                                    }
+                                    lastPolyline = map.addPolyline(rectLine);
+                                }else{
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                    builder.setMessage(R.string.no_direction);
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
+                            }
+                        };
+                        task.execute();
+                    }
+                }else{
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.no_my_location);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
     }
 
     public void refillMap(GoogleMap googleMap){
@@ -123,6 +196,42 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
     }
 
     @Override
+    public void onConnected(Bundle bundle) {
+        Log.d("MyLocation", "connected");
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+        Log.d("MyLocation", "connection suspended");
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        Log.d("MyLocation", "connection failed");
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        client.connect();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if(client.isConnected()) {
+            client.disconnect();
+        }
+    }
+
+    public boolean getLocation(){
+        if(myLocation == null) {
+            myLocation = LocationServices.FusedLocationApi.getLastLocation(client);
+        }
+        return myLocation != null;
+    }
+
+    @Override
     public boolean onMarkerClick(Marker marker){
         boolean sameMarker = sameMarker(marker);
         if(!sameMarker) {
@@ -147,7 +256,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
             marker.showInfoWindow();
         }
 
-        return true;
+        return false; //False porque no consume el evento
     }
 
     @Override
@@ -173,7 +282,8 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
                         options[i] += "\n" + address.getAddressLine(j);
                     }
                 }
-                builder.setTitle(R.string.choose_address).setItems(options, new DialogInterface.OnClickListener() {
+                builder.setNeutralButton(android.R.string.ok, null)
+                        .setTitle(R.string.choose_address).setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         goToAddress(addresses.get(which));

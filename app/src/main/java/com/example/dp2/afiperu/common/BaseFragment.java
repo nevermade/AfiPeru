@@ -38,8 +38,6 @@ public abstract class BaseFragment extends Fragment {
         //injectDependencies();
     }
 
-
-
     public int getFragmentId(){
         if(fragmentId == -1){
             throw new ExceptionInInitializerError("Los BaseFragment necesitan recibir como argumento una constante DetailActivity.FRAGMENT_ como int (pasar con la llave BaseFragment.FRAGMENT_ID_ARG).");
