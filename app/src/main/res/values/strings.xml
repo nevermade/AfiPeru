@@ -133,7 +133,7 @@
     </string-array>
 
     <!-- Repostular -->
-    <string name="confirm_postulate">¿Estás seguro de que quieres postular para el siguiente periodo?</string>
+    <string name="confirm_postulate">¿Estás seguro de que quieres postular a este periodo?</string>
 
     <!-- Mapa -->
     <string name="see_map">Mapa</string>

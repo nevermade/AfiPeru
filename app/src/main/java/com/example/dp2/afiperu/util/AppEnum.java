@@ -32,6 +32,12 @@ public class AppEnum {
 
     }
 
+    public enum ResponseStatus{
+        SUCCESS,
+        ERROR,
+        FAILURE
+    }
+
 
 
 }

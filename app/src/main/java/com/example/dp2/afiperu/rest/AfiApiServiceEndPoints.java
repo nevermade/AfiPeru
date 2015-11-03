@@ -52,4 +52,10 @@ public interface AfiApiServiceEndPoints {
     @PUT("change_password")
     Call<Response> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);
 
+    @FormUrlEncoded
+    @PUT("reapply")
+    Call<Response> applyForPeriod(@Field("period_id")int periodId);
+
+
+
 }

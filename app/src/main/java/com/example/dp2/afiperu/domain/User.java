@@ -29,6 +29,12 @@ public class User implements Serializable, Comparable<User> {
     @SerializedName("actions")
     @Expose
     private List<Action> actions = new ArrayList<Action>();
+    @SerializedName("can_reapply")
+    @Expose
+    private boolean can_reapply;
+    @SerializedName("period")
+    @Expose
+    private Period period;
     @SerializedName("auth_token")
     @Expose
     private String authToken;
@@ -135,6 +141,22 @@ public class User implements Serializable, Comparable<User> {
 
     public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
+    }
+
+    public boolean isCan_reapply() {
+        return can_reapply;
+    }
+
+    public void setCan_reapply(boolean can_reapply) {
+        this.can_reapply = can_reapply;
+    }
+
+    public Period getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(Period period) {
+        this.period = period;
     }
 
     @Override

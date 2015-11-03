@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,21 +36,16 @@ import android.widget.Toast;
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseActivity;
+import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
-import com.example.dp2.afiperu.domain.Location;
-import com.example.dp2.afiperu.domain.PointOfReunion;
-import com.example.dp2.afiperu.interactor.UserInteractorImpl;
-import com.example.dp2.afiperu.others.MarkerInfo;
+import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
-import com.example.dp2.afiperu.syncmodel.SyncLocation;
-import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
-import com.example.dp2.afiperu.syncmodel.SyncSession;
-import com.example.dp2.afiperu.syncmodel.SyncUser;
+import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -64,7 +57,6 @@ import com.example.dp2.afiperu.ui.fragment.DonationFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
-import com.example.dp2.afiperu.ui.fragment.MapFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
@@ -80,6 +72,7 @@ import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.SessionFragment;
+import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 
@@ -96,10 +89,12 @@ import java.util.GregorianCalendar;
 import java.util.Hashtable;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by Fernando on 16/09/2015.
  */
-public class DetailActivity extends BaseActivity {
+public class DetailActivity extends BaseActivity implements MainActivityView {
 
     public static final int FRAGMENT_NOTICIAS = 0;
     public static final int FRAGMENT_BLOG = 1;
@@ -132,6 +127,9 @@ public class DetailActivity extends BaseActivity {
     int toolbarMenu;
 
     int previousBackStackCount;
+    Drawer applyOptionItem;
+    @Inject
+    MainActivityPresenter presenter;
 
     /* Cosas a agregar con cada layout nuevo */
 
@@ -322,7 +320,7 @@ public class DetailActivity extends BaseActivity {
 
         }
         if(user==null || isWebMaster(user.getProfiles())){
-            list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
+            //list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
             list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
             list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
             list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
@@ -334,8 +332,9 @@ public class DetailActivity extends BaseActivity {
             list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
         }else{
-            if(isVolunteer(user.getProfiles()))//si es voluntario puede postular al periodo
-                list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
+            if(isVolunteer(user.getProfiles()) && user.getPeriod()!=null)//si es voluntario puede postular al periodo
+                applyOptionItem=new Drawer(-1, "Postular a " + user.getPeriod().getName(), R.drawable.ic_drawer_postulate);
+                list.add(applyOptionItem);
 
             /**Permisos que todos tienen independiente del perfil**/
             list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
@@ -543,12 +542,15 @@ public class DetailActivity extends BaseActivity {
         this.toolbarMenu = toolbarMenu;
         invalidateOptionsMenu();
     }
-
-    private void tryPostulate(){
+    public void removeApplyOption(){
+        ((DrawerAdapter)mDrawerList.getAdapter()).removeItem(applyOptionItem);
+    }
+    private void tryPostulate(final int position){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if(which == DialogInterface.BUTTON_POSITIVE){
+                    presenter.apply(Constants.loggedUser.getPeriod().getId());
 
                 }else if(which == DialogInterface.BUTTON_NEGATIVE){
 
@@ -726,7 +728,21 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
-        //There isn't dependencies
+        DaggerMainActivityComponent.builder()
+                .afiAppComponent(appComponent)
+                .mainActivityModule(new MainActivityModule(this))
+                .build()
+                .inject(this);
+    }
+
+    @Override
+    public void displayApplySuccessMessage() {
+        Toast.makeText(getBaseContext(), "Has postulado al periodo "+ Constants.loggedUser.getPeriod().getName(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayApplyFailureMessage() {
+        Toast.makeText(getBaseContext(),"No se pudo realizar la postulación",Toast.LENGTH_SHORT).show();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
@@ -734,7 +750,7 @@ public class DetailActivity extends BaseActivity {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             int fragmentId = (Integer)view.getTag();
             if(fragmentId == -1) {
-                tryPostulate();
+                tryPostulate(position);
             }else{
                 selectItem(fragmentId);
             }
@@ -881,6 +897,10 @@ public class DetailActivity extends BaseActivity {
             String query = intent.getStringExtra(SearchManager.QUERY);
             getTopFragment().onSearch(query);
         }
+    }
+
+    private void hideOption(int idItem){
+
     }
 
 

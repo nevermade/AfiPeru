@@ -27,12 +27,17 @@ public class DrawerAdapter extends BaseArrayAdapter<Drawer> {
         icon.setImageResource(item.getIconId());
         name.setText(item.getName());
         convertView.setTag(item.getFragmentId());
-        if(item.getName().equals(convertView.getResources().getString(R.string.menu_postular))){
+        if(item.getFragmentId()==-1){
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 name.setTextColor(convertView.getResources().getColor(R.color.drawer_highlight, null));
             }else{
                 name.setTextColor(convertView.getResources().getColor(R.color.drawer_highlight));
             }
         }
+    }
+
+    public void removeItem(Drawer option){
+        removeItem(option);
+        notifyDataSetChanged();
     }
 }

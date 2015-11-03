@@ -7,6 +7,7 @@ import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.DownloadedUserInteractor;
 import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
+import com.example.dp2.afiperu.interactor.MainActivityInteractor;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PeriodReportInteractor;
@@ -45,4 +46,5 @@ public interface AfiAppComponent {
         LoginInteractor getLoginInteractor();
         UserInteractor getUserInteractor();
         KidInteractor getKidInteractor();
+        MainActivityInteractor getMainActivityInteractor();
 }

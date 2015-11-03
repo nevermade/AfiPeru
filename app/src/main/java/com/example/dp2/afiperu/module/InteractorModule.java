@@ -11,6 +11,8 @@ import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.KidInteractorImpl;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
 import com.example.dp2.afiperu.interactor.LoginInteractorImpl;
+import com.example.dp2.afiperu.interactor.MainActivityInteractor;
+import com.example.dp2.afiperu.interactor.MainActivityInteractorImpl;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractorImpl;
 import com.example.dp2.afiperu.interactor.PaymentListInteractorImpl;
@@ -79,5 +81,10 @@ public class InteractorModule {
     @Provides
     public KidInteractor provideKidInteractor(AfiApiServiceEndPoints service){
         return new KidInteractorImpl(service);
+    }
+
+    @Provides
+    public MainActivityInteractor provideMainActivityInteractor(AfiApiServiceEndPoints service){
+        return new MainActivityInteractorImpl(service);
     }
 }
