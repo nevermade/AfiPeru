@@ -36,4 +36,16 @@ public class LoginPresenter extends BasePresenter {
     public void onLoginFailure(){
         view.displayLoginError();
     }
+
+    public void recoverPass(String email){
+        interactor.recoverPass(email, this);
+    }
+
+    public void onRecoverPassSuccess(){
+
+    }
+
+    public void onRecoverPassFailure(){
+
+    }
 }

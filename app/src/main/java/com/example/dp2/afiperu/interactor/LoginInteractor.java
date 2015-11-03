@@ -7,4 +7,5 @@ import com.example.dp2.afiperu.presenter.LoginPresenter;
  */
 public interface LoginInteractor {
     void login(String username, String password, LoginPresenter presenter);
+    void recoverPass(String email, LoginPresenter presenter);
 }

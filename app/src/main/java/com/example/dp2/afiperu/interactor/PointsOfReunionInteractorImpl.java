@@ -5,7 +5,7 @@ import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
-import com.squareup.okhttp.Response;
+import retrofit.Response;
 
 import java.util.List;
 

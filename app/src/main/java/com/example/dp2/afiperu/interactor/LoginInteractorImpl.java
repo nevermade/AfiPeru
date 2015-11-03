@@ -7,6 +7,7 @@ import com.example.dp2.afiperu.util.AsyncTaskCallBack;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.GenericAsyncTask;
 
+
 import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
@@ -17,7 +18,6 @@ import retrofit.Retrofit;
  */
 public class LoginInteractorImpl implements LoginInteractor {
     AfiApiServiceEndPoints service;
-    Call<User> call;
 
     public LoginInteractorImpl(AfiApiServiceEndPoints service) {
         this.service = service;
@@ -26,7 +26,7 @@ public class LoginInteractorImpl implements LoginInteractor {
     @Override
     public void login(String username, String password, final LoginPresenter presenter) {
         Constants.PROGRESS.show();
-        call= service.login(username,password);
+        Call<User> call= service.login(username,password);
 
         call.enqueue(new Callback<User>() {
 
@@ -50,5 +50,26 @@ public class LoginInteractorImpl implements LoginInteractor {
                 Constants.PROGRESS.dismiss();*/
             }
         });
+    }
+
+    @Override
+    public void recoverPass(String email, LoginPresenter presenter) {
+        Constants.PROGRESS.show();
+        Call<Response> call= service.recoverPass(email);
+        call.enqueue(new Callback<Response>() {
+            @Override
+            public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
+                if(response.body()!=null){
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
+
     }
 }

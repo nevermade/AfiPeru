@@ -7,7 +7,7 @@ import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
-import com.squareup.okhttp.Response;
+import retrofit.Response;
 
 import java.util.List;
 
@@ -26,7 +26,7 @@ import retrofit.http.Part;
  * Created by DABARCA on 21/10/2015.
  */
 public interface AfiApiServiceEndPoints {
-
+    /*** Session Interactor ***/
     @GET("sessions")
     Call<List<Session>> getAllSessions();
 
@@ -42,16 +42,20 @@ public interface AfiApiServiceEndPoints {
     
     @POST("meeting_points")
     Call<Response> editMeetingPoints(@Body MeetingPointsBody meetingPointsBody);
-
+    /*** Login Interactor ***/
     @FormUrlEncoded
     @POST("sign_in")
     Call<User> login(@Field("username") String username, @Field("password") String password);
+    @FormUrlEncoded
+    @PUT("recover_pass")
+    Call<Response> recoverPass(@Field("email")String email);
 
-    /*** Usar Response como respuesta cuando no nos interesa que devuelve el WS***/
+    /*** ChangePassword Interactor ***/
     @FormUrlEncoded
     @PUT("change_password")
     Call<Response> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);
 
+    /*** MainActivityInteractor ***/
     @FormUrlEncoded
     @PUT("reapply")
     Call<Response> applyForPeriod(@Field("period_id")int periodId);

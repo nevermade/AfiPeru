@@ -27,6 +27,7 @@ public class recoverPasswordDialog extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         Toast.makeText(getContext(),"Enviado...",Toast.LENGTH_SHORT).show();
+                        
                     }
                 })
                 .setNegativeButton(getResources().getString(R.string.comment_no), new DialogInterface.OnClickListener() {

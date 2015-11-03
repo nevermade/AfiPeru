@@ -2,7 +2,7 @@ package com.example.dp2.afiperu.interactor;
 
 import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
-import com.squareup.okhttp.Response;
+import retrofit.Response;
 
 import retrofit.Call;
 import retrofit.Callback;
