@@ -39,7 +39,6 @@ import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
-import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.PeopleKids;

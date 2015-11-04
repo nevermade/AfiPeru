@@ -8,11 +8,8 @@ import android.widget.TextView;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.syncmodel.SyncKid;
-import com.example.dp2.afiperu.syncmodel.SyncUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

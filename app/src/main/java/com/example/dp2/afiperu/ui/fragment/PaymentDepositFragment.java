@@ -1,7 +1,6 @@
 package com.example.dp2.afiperu.ui.fragment;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -13,7 +12,6 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerPaymentDepositComponent;
 import com.example.dp2.afiperu.module.PaymentDepositModule;
 import com.example.dp2.afiperu.presenter.PaymentDepositPresenter;
-import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.dialogs.VoucherDateDialog;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentDepositView;
 

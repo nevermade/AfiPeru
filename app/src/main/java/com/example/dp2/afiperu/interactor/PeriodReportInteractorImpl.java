@@ -1,12 +1,8 @@
 package com.example.dp2.afiperu.interactor;
 
-import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.domain.Document;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.GregorianCalendar;
 
 /**
  * Created by Nevermade on 20/10/2015.

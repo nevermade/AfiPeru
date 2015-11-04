@@ -11,23 +11,22 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
+import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Attendance;
 import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.domain.Location;
-import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
+import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
-import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
-import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.fragment.Kids2Fragment;
 import com.example.dp2.afiperu.ui.fragment.KidsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
 import com.example.dp2.afiperu.ui.fragment.MapFragment;
-import com.example.dp2.afiperu.ui.fragment.CommentFragment;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 

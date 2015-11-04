@@ -29,6 +29,7 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
+                Constants.PROGRESS.dismiss();
                 if(response.body().getName()!=null) {
                     User loginResponse = response.body();
                     Constants.TOKEN=loginResponse.getAuthToken();
@@ -38,7 +39,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 }else{
                     presenter.onLoginFailure();
                 }
-                Constants.PROGRESS.dismiss();
+
             }
 
             @Override
@@ -51,21 +52,24 @@ public class LoginInteractorImpl implements LoginInteractor {
 
     @Override
     public void recoverPass(String email, final LoginPresenter presenter) {
-
+        Constants.PROGRESS.show();
         Call<Void> call= service.recoverPass(email);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
+                Constants.PROGRESS.dismiss();
                 if(response.errorBody()==null){
                     presenter.onRecoverPassSuccess();
                 }else{
                     presenter.onRecoverPassFailure();
                 }
 
+
             }
 
             @Override
             public void onFailure(Throwable t) {
+                Constants.PROGRESS.dismiss();
                 presenter.onRecoverPassFailure();
 
             }

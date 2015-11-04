@@ -7,11 +7,8 @@ import android.widget.TextView;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.Session;
-import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

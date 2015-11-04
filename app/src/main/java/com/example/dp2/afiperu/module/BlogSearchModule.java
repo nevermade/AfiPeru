@@ -1,6 +1,5 @@
 package com.example.dp2.afiperu.module;
 
-import android.app.Fragment;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BaseFragment;

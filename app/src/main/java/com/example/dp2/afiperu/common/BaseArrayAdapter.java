@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
-import com.example.dp2.afiperu.common.BaseFragment;
-
 import java.util.List;
 
 /**

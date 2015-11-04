@@ -3,7 +3,6 @@ package com.example.dp2.afiperu.ui.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -19,11 +18,9 @@ import com.example.dp2.afiperu.rest.model.Volunteer;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
-import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
