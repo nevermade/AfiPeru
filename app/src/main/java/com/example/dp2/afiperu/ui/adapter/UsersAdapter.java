@@ -34,13 +34,4 @@ public class UsersAdapter extends BaseArrayAdapter<SyncUser> {
         //score.setText(String.format("%.2f",item.getScore()));
     }
 
-
-    public void updateUsers(ArrayList<SyncUser> users){
-        //System.out.println("Estoy aca 7");
-        if(users!=null){
-            clear();
-            addAll(users);
-            notifyDataSetChanged();
-        }
-    }
 }

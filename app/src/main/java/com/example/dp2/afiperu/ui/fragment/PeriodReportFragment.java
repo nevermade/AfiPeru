@@ -71,7 +71,7 @@ public class PeriodReportFragment extends BaseFragment implements PeriodReportVi
     @Override
     public void displayDocuments(ArrayList<Document> docs) {
         if(docs!=null){
-            adapter.updateDocs(docs);
+            adapter.update(docs);
         }
     }
 }

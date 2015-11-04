@@ -39,14 +39,4 @@ public class PeopleKidsAdapter extends BaseArrayAdapter<SyncKid> {
         else
             gender.setImageResource(R.drawable.ic_female);
     }
-
-
-    public void updateKids(ArrayList<SyncKid> kids){
-        //System.out.println("Estoy aca 7");
-        if(kids!=null){
-            clear();
-            addAll(kids);
-            notifyDataSetChanged();
-        }
-    }
 }

@@ -29,12 +29,6 @@ public class PeriodReportAdapter extends BaseArrayAdapter<Document>{
         this.docs=(ArrayList<Document>)objects;
     }
 
-    public void updateDocs(ArrayList<Document> docs){
-        clear();
-        addAll(docs);
-        notifyDataSetChanged();
-    }
-
     @Override
     public void prepareItemView(View convertView, Document item, int position) {
         ImageView icon = (ImageView) convertView.findViewById(R.id.period_report_item_icon);

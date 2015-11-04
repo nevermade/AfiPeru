@@ -8,6 +8,9 @@ import java.util.List;
 
 public class Document {
 
+    @SerializedName("id")
+    @Expose
+    private Integer id;
     @SerializedName("name")
     @Expose
     private String name;
@@ -16,7 +19,7 @@ public class Document {
     private String uploadDate;
     @SerializedName("size")
     @Expose
-    private Double filesize;
+    private String filesize;
     @SerializedName("url")
     @Expose
     private String url;
@@ -31,6 +34,14 @@ public class Document {
         return name;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -43,11 +54,11 @@ public class Document {
         this.uploadDate = uploadDate;
     }
 
-    public Double getFilesize() {
+    public String getFilesize() {
         return filesize;
     }
 
-    public void setFilesize(Double filesize) {
+    public void setFilesize(String filesize) {
         this.filesize = filesize;
     }
 
