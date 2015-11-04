@@ -38,7 +38,7 @@ public class PeriodReportModule {
 
     @Provides
     public PeriodReportAdapter provideAdapter(Context context, PeriodReportView view){
-        return new PeriodReportAdapter(context, (BaseFragment)view, new ArrayList<Document>());
+        return new PeriodReportAdapter(((BaseFragment)view).getActivity(), (BaseFragment)view, new ArrayList<Document>());
     }
 
 }

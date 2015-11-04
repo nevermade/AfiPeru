@@ -38,7 +38,7 @@ public class BlogSearchModule {
 
     @Provides
     public BlogSearchAdapter provideAdapter(Context context, BlogSearchView view){
-        return new BlogSearchAdapter(context, (BaseFragment)view, new ArrayList<Blog>());
+        return new BlogSearchAdapter(((BaseFragment)view).getActivity(), (BaseFragment)view, new ArrayList<Blog>());
     }
 
 }

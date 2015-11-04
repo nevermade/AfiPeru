@@ -37,6 +37,6 @@ public class SessionModule {
 
     @Provides
     public SessionAdapter provideAdapter(Context context, SessionView view) {
-        return new SessionAdapter(context, (BaseFragment) view, new ArrayList<Session>());
+        return new SessionAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<Session>());
     }
 }
