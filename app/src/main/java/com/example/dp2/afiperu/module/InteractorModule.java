@@ -51,7 +51,7 @@ public class InteractorModule {
     }
 
     @Provides
-    public PaymentListInteractor providePaymentListInteractor(){return new PaymentListInteractorImpl();}
+    public PaymentListInteractor providePaymentListInteractor(AfiApiServiceEndPoints service){return new PaymentListInteractorImpl(service);}
 
     @Provides
     public PeriodReportInteractor providePeriodReportInteractor(){return new PeriodReportInteractorImpl();}

@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.presenter;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
@@ -31,11 +33,11 @@ public class PaymentListPresenter extends BasePresenter {
 
     }
 
-    public ArrayList<Payment> getAllPayments(){
+    public ArrayList<Payment> getAllPayments(Context context){
         ArrayList<Payment> payments=null;
 
         try {
-            payments= interactor.getAllPayments();
+            payments= interactor.getAllPayments(this,context);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -44,4 +46,11 @@ public class PaymentListPresenter extends BasePresenter {
 
         return payments;
     }
+
+
+
+    public void onPaymentsFound(ArrayList<Payment> payments){
+        view.showPayments(payments);
+    }
+
 }

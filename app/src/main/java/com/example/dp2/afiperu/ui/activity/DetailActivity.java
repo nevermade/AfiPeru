@@ -6,7 +6,9 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,8 +20,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +41,9 @@ import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
+import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
+import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
@@ -71,6 +75,7 @@ import com.example.dp2.afiperu.ui.fragment.UsersFragment;
 import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
+import com.example.dp2.afiperu.util.NetworkReceiver;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -121,7 +126,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     Toolbar toolbar;
     int selectedLayout;
     int toolbarMenu;
-
+    private NetworkReceiver receiver = new NetworkReceiver();
     int previousBackStackCount;
     Drawer applyOptionItem;
     @Inject
@@ -264,6 +269,15 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /******************************/
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkReceiver();
+        this.registerReceiver(receiver, filter);
+
+
+
+
         /****dialog de loading****/
         Constants.PROGRESS=new ProgressDialog(this);
         Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -762,14 +776,20 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            this.unregisterReceiver(receiver);
+        }
+    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
+    
     public String getExternalImagesDir(){
         return "/" + getResources().getString(R.string.app_name) + "/Images";
     }

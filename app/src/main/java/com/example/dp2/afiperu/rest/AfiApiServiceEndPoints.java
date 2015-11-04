@@ -2,15 +2,19 @@ package com.example.dp2.afiperu.rest;
 
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Kid;
+import com.example.dp2.afiperu.domain.NewPointOfReunion;
+import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.domain.PaymentCalendar;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
+import retrofit.Response;
 
 import java.util.List;
 
 import retrofit.Call;
+
 import retrofit.http.Body;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -35,7 +39,7 @@ public interface AfiApiServiceEndPoints {
     Call<List<User>> getAllUsers();
 
     @GET("payment_calendar")
-    Call<List<PaymentCalendar>> getAllPaymentCalendar();
+    Call<List<Payment>> getAllPaymentCalendar();
 
     @GET("children")
     Call<List<Kid>> getAllKids();
