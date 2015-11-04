@@ -2,6 +2,7 @@ package com.example.dp2.afiperu.ui.fragment;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +21,7 @@ import com.example.dp2.afiperu.presenter.LoginPresenter;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.viewmodel.LoginView;
 import com.example.dp2.afiperu.util.Constants;
+import com.google.gson.Gson;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +70,10 @@ public class LoginFragment extends BaseFragment implements LoginView {
         activity.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
         activity.hideAppElements(false);
         hideSoftKeyboard();
+        SharedPreferences.Editor editor = ((DetailActivity) getActivity()).getSharedPreferences().edit();
+        Gson gson= new Gson();
+        editor.putString("loggedUser",gson.toJson(Constants.loggedUser));
+        editor.commit();
     }
     @Override
     public void displayLoginError() {

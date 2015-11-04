@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -76,6 +77,8 @@ import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
+import com.google.gson.Gson;
+import com.google.gson.JsonParser;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -129,6 +132,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     private NetworkReceiver receiver = new NetworkReceiver();
     int previousBackStackCount;
     Drawer applyOptionItem;
+    SharedPreferences sharedPreferences;
     @Inject
     MainActivityPresenter presenter;
 
@@ -265,11 +269,15 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             previousBackStackCount = backStackEntryCount;
         }
     };
-
+    public void setUpPreferences(){
+        sharedPreferences=getSharedPreferences("MyPreference",Context.MODE_PRIVATE);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /******************************/
+
+        setUpPreferences();
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         receiver = new NetworkReceiver();
@@ -320,7 +328,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
-        hideAppElements(true);
 
         selectItem(FRAGMENT_LOGIN);
     }
@@ -588,11 +595,20 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         Fragment fragment;
         switch(fragmentId){
             default:
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_LOGIN);
-                fragment = new LoginFragment();
-                fragment.setArguments(args);
-                selectedLayout = fragmentId;
-                changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
+                Gson gson= new Gson();
+                User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
+                if(user==null) {
+                    hideAppElements(true);
+                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_LOGIN);
+                    fragment = new LoginFragment();
+                    fragment.setArguments(args);
+                    selectedLayout = fragmentId;
+                    changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
+                }else{
+                    Constants.loggedUser=user;
+                    setActions(user);
+                    selectItem(FRAGMENT_NOTICIAS);
+                }
                 return;
 
             case FRAGMENT_NOTICIAS:
@@ -880,7 +896,11 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
 
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
 
-
-
+    public void setSharedPreferences(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
 }
