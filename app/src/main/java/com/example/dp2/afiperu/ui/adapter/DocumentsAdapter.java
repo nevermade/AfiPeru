@@ -4,7 +4,6 @@ package com.example.dp2.afiperu.ui.adapter;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +18,7 @@ import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.DownloadedUserFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentsAdapter extends BaseArrayAdapter<Document> {
@@ -42,10 +42,8 @@ public class DocumentsAdapter extends BaseArrayAdapter<Document> {
         menu.setColorFilter(color);
 
         name.setText(item.getName());
-        CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), item.getUploadDate(),
-                DateUtils.DAY_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH);
-        date.setText(convertView.getResources().getString(R.string.documents_size_date, item.getFilesize(), formattedDate));
-        icon.setImageResource(item.getIconId());
+        date.setText(convertView.getResources().getString(R.string.documents_size_date, item.getFilesize(), item.getUploadDate()));
+        icon.setImageResource(DocumentsAdapter.getDocumentIconId(item.getName()));
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +64,7 @@ public class DocumentsAdapter extends BaseArrayAdapter<Document> {
                                     break;
                                 case R.id.docs_menu_check_views:
                                     Toast.makeText(getContext(), "Revisar vistas...", Toast.LENGTH_LONG).show();
-                                    Bundle args= new Bundle();
+                                    Bundle args = new Bundle();
                                     DownloadedUserFragment fragment = new DownloadedUserFragment();
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_USUARIOS_REVISADO);
                                     fragment.setArguments(args);
@@ -79,5 +77,17 @@ public class DocumentsAdapter extends BaseArrayAdapter<Document> {
                 }
             }
         });
+    }
+
+    public static int getDocumentIconId(String name){
+        if(name.endsWith(".doc") || name.endsWith(".docx")){
+            return R.drawable.ic_docs_doc;
+        }else if(name.endsWith(".xls") || name.endsWith(".xlsx")){
+            return R.drawable.ic_docs_xls;
+        }else if(name.endsWith(".pdf")){
+            return R.drawable.ic_docs_pdf;
+        }else{
+            return R.drawable.ic_docs_generic;
+        }
     }
 }

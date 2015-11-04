@@ -32,8 +32,9 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
     @Override
     public final View getView(int position, View convertView, ViewGroup parent){
         if(convertView == null){
-            LayoutInflater inflater = (LayoutInflater) parent.getContext().
-                    getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            //LayoutInflater inflater = (LayoutInflater) parent.getContext().
+            //getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             convertView = inflater.inflate(itemLayout, null);
         }
         prepareItemView(convertView, getItem(position), position);
@@ -44,6 +45,14 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
 
     public void setImage(ImageView v, String URL, String fileName){
         fragment.setImage(v, URL, fileName);
+    }
+
+    public void update(List<T> objects){
+        if(objects != null){
+            clear();
+            addAll(objects);
+            notifyDataSetChanged();
+        }
     }
 
 }

@@ -43,6 +43,6 @@ public class KidModule {
 
     @Provides
     public PeopleKidsAdapter provideAdapter(Context context, KidView view) {
-        return new PeopleKidsAdapter(context, (BaseFragment) view, new ArrayList<SyncKid>());
+        return new PeopleKidsAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<SyncKid>());
     }
 }

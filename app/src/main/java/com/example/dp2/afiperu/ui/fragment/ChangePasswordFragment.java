@@ -14,6 +14,7 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerChangePasswordComponent;
 import com.example.dp2.afiperu.module.ChangePasswordModule;
 import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.adapter.ChangePasswordAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.ChangePasswordView;
 
@@ -106,6 +107,7 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     @Override
     public void displayPasswordChanged() {
         Toast.makeText(getContext(), "Se ha actualizado su contraseña", Toast.LENGTH_SHORT).show();
+        ((DetailActivity)getActivity()).goBack();
     }
 /*
     @Override

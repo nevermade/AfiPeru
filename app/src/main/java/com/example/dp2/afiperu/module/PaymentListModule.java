@@ -38,7 +38,7 @@ public class PaymentListModule {
 
     @Provides
     public PaymentListAdapter provideAdapter(Context context, PaymentListView view){
-        return new PaymentListAdapter(context,(BaseFragment) view, new ArrayList<Payment>());
+        return new PaymentListAdapter(((BaseFragment)view).getActivity(),(BaseFragment) view, new ArrayList<Payment>());
     }
 
 }
