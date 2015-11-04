@@ -7,7 +7,7 @@
     <string name="save_failed">No se pudo guardar</string>
 
     <!--Recuperar contraseña-->
-    <string name="recover_password">Para recuperar su contraseña escriba su correo electronico de registro:</string>
+    <string name="recover_password">Para recuperar su contraseña escriba su correo electrónico:</string>
 
     <!-- Drawer menu -->
     <string name="navigation_drawer_open">Abrir menú</string>

@@ -18,60 +18,57 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseActivity;
+import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
-import com.example.dp2.afiperu.module.MainActivityModule;
+import com.example.dp2.afiperu.domain.News;
+import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
+import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
+import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
-import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
-import com.example.dp2.afiperu.ui.dialogs.recoverPasswordDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
 import com.example.dp2.afiperu.ui.fragment.CalendarFragment;
+import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.DonationFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
+import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
+import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleKidsFragment;
 import com.example.dp2.afiperu.ui.fragment.PeopleTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PeriodReportFragment;
+import com.example.dp2.afiperu.ui.fragment.SessionFragment;
 import com.example.dp2.afiperu.ui.fragment.SettingsFragment;
 import com.example.dp2.afiperu.ui.fragment.UploadPhotosFragment;
 import com.example.dp2.afiperu.ui.fragment.UsersFragment;
-import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
-import com.example.dp2.afiperu.domain.News;
-import com.example.dp2.afiperu.domain.PeopleKids;
-import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
-import com.example.dp2.afiperu.ui.fragment.LoginFragment;
-import com.example.dp2.afiperu.ui.fragment.NewsFragment;
-import com.example.dp2.afiperu.ui.fragment.SessionFragment;
 import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
@@ -762,53 +759,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             }
         }
     }
-    private class RecoverPasswordClickListener implements Button.OnClickListener{
-
-        @Override
-        public void onClick(View v) {
-            //selectItem(2);
-            /*
-            Bundle args = new Bundle();
-            Fragment fragment = new ChangePasswordFragment();
-            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_SUBIR_FOTOS);
-            fragment = new ChangePasswordFragment();
-            fragment.setArguments(args);
-            changeFragment(fragment, "Recuperar contraseña", R.menu.users_menu_toolbar);
-
-            */
-            //DialogFragment newFragment = new KidCommentDialog();
-            DialogFragment dialog = new recoverPasswordDialog();
-            dialog.show(getSupportFragmentManager(), "NoticeDialogFragment");
-            //getFragment().showPopup(newFragment, DetailActivity.DIALOG_TAG_DETAIL_COMMENT);
 
 
-
-            /*
-            Bundle args = new Bundle();
-            ArrayList<DocumentsItem> documents = new ArrayList<>();
-            Fragment fragment = new ChangePasswordFragment();
-            args.putSerializable(ChangePasswordFragment.DOCUMENTS_ARG, documents);
-            */
-            /*
-            Fragment fragment = new DocumentsFragment();
-            args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, null);
-            */
-            /*
-            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
-            fragment.setArguments(args);
-            changeFragment(fragment, "Recuperar contraseña", R.menu.users_menu_toolbar);
-            */
-
-        }
-    }
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        TextView recoverpass;
-        recoverpass = (TextView)findViewById(R.id.button_recoverpass);
-        recoverpass.setOnClickListener(new RecoverPasswordClickListener());
-        super.onPostCreate(savedInstanceState);
-
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -905,9 +857,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
     }
 
-    private void hideOption(int idItem){
-
-    }
 
 
 

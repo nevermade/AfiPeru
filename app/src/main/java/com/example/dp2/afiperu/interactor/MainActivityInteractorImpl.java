@@ -3,7 +3,6 @@ package com.example.dp2.afiperu.interactor;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.util.AppEnum;
-import retrofit.Response;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -22,10 +21,10 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
 
     @Override
     public void applyForPeriod(int idPeriod, final MainActivityPresenter presenter) {
-        Call<Response> call=service.applyForPeriod(idPeriod);
-        call.enqueue(new Callback<Response>() {
+        Call<Void> call=service.applyForPeriod(idPeriod);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
+            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
                 if(response.body()!=null){
                     presenter.onApplied(AppEnum.ResponseStatus.SUCCESS.ordinal());
                 }else {

@@ -6,4 +6,7 @@ package com.example.dp2.afiperu.ui.viewmodel;
 public interface LoginView {
     void showApp(String name);
     void displayLoginError();
+    void displayRecoverPassSuccess();
+    void displayRecoverPassFailure();
+
 }
