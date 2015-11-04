@@ -276,7 +276,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
 
         setContentView(R.layout.base);
-
+        /*
         ArrayList<Drawer> list = new ArrayList<>();
         list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
         list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
@@ -305,6 +305,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         );
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);*/
+
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
         hideAppElements(true);
@@ -374,6 +377,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         );
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
+        mDrawerToggle.syncState();
     }
 
 
@@ -400,10 +404,12 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public void hideAppElements(boolean isGone){
         if(isGone){
             toolbar.setVisibility(View.GONE);
-            mDrawerList.setVisibility(View.GONE);
+            ((android.support.v4.widget.DrawerLayout) findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            //mDrawerList.setVisibility(View.GONE);
         }else{
             toolbar.setVisibility(View.VISIBLE);
-            mDrawerList.setVisibility(View.VISIBLE);
+            ((android.support.v4.widget.DrawerLayout)findViewById(R.id.drawer_layout)).setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            //mDrawerList.setVisibility(View.VISIBLE);
         }
     }
     protected void setNavIcon(boolean noStack) {
@@ -801,7 +807,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         recoverpass = (TextView)findViewById(R.id.button_recoverpass);
         recoverpass.setOnClickListener(new RecoverPasswordClickListener());
         super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
+
     }
 
     @Override
