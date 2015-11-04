@@ -332,10 +332,10 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
         }else{
-            if(isVolunteer(user.getProfiles()) && user.getPeriod()!=null)//si es voluntario puede postular al periodo
-                applyOptionItem=new Drawer(-1, "Postular a " + user.getPeriod().getName(), R.drawable.ic_drawer_postulate);
+            if(isVolunteer(user.getProfiles()) && user.getPeriod()!=null) {//si es voluntario puede postular al periodo
+                applyOptionItem = new Drawer(-1, "Postular a " + user.getPeriod().getName(), R.drawable.ic_drawer_postulate);
                 list.add(applyOptionItem);
-
+            }
             /**Permisos que todos tienen independiente del perfil**/
             list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
             list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
