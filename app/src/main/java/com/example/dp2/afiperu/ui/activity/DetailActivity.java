@@ -6,7 +6,9 @@ import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -75,6 +77,7 @@ import com.example.dp2.afiperu.ui.fragment.SessionFragment;
 import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
+import com.example.dp2.afiperu.util.NetworkReceiver;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -125,7 +128,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     Toolbar toolbar;
     int selectedLayout;
     int toolbarMenu;
-
+    private NetworkReceiver receiver = new NetworkReceiver();
     int previousBackStackCount;
     Drawer applyOptionItem;
     @Inject
@@ -268,6 +271,15 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /******************************/
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        receiver = new NetworkReceiver();
+        this.registerReceiver(receiver, filter);
+
+
+
+
         /****dialog de loading****/
         Constants.PROGRESS=new ProgressDialog(this);
         Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);

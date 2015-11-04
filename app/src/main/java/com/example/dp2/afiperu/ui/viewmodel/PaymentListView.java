@@ -9,4 +9,5 @@ import java.util.ArrayList;
  */
 public interface PaymentListView {
     void displayPayments(ArrayList<Payment> payments);
+    void showPayments(ArrayList<Payment> payments);
 }
