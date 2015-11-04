@@ -821,7 +821,13 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         super.onPostCreate(savedInstanceState);
 
     }
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (receiver != null) {
+            this.unregisterReceiver(receiver);
+        }
+    }
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
