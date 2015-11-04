@@ -1,6 +1,8 @@
 package com.example.dp2.afiperu.domain;
 
 
+import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.rest.model.AttendanceVolunteer;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.orm.dsl.Ignore;
@@ -31,7 +33,12 @@ public class Session implements Serializable, Comparable<Session> {
     @SerializedName("documents")
     @Expose
     private List<Document> documents = new ArrayList<Document>();
-
+    @SerializedName("attendance_children")
+    @Expose
+    private List<AttendanceChild> attendanceChildren = new ArrayList<AttendanceChild>();
+    @SerializedName("attendance_volunteers")
+    @Expose
+    private List<AttendanceVolunteer> attendanceVolunteers = new ArrayList<AttendanceVolunteer>();
     public Session(){};
 
 
@@ -87,6 +94,22 @@ public class Session implements Serializable, Comparable<Session> {
 
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
+    }
+
+    public List<AttendanceChild> getAttendanceChildren() {
+        return attendanceChildren;
+    }
+
+    public void setAttendanceChildren(List<AttendanceChild> attendanceChildren) {
+        this.attendanceChildren = attendanceChildren;
+    }
+
+    public List<AttendanceVolunteer> getAttendanceVolunteers() {
+        return attendanceVolunteers;
+    }
+
+    public void setAttendanceVolunteers(List<AttendanceVolunteer> attendanceVolunteers) {
+        this.attendanceVolunteers = attendanceVolunteers;
     }
 
     @Override

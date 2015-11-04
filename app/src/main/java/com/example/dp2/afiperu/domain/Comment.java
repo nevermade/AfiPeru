@@ -1,14 +1,27 @@
 package com.example.dp2.afiperu.domain;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
  * Created by Nevermade on 30/09/2015.
  */
 public class Comment implements Serializable, Comparable<Comment>{
-    private int iconId;
+    @SerializedName("id")
+    @Expose
+    private Integer iconId;
     private String name;
+    @SerializedName("comment")
+    @Expose
     private String comment;
+    @SerializedName("face")
+    @Expose
+    private Integer face;
+    @SerializedName("volunteer")
+    @Expose
+    private Volunteer volunteer;
     //private String gender;
 
 
@@ -23,6 +36,38 @@ public class Comment implements Serializable, Comparable<Comment>{
 
     public String getComment() {
         return comment;
+    }
+
+    public Integer getIconId() {
+        return iconId;
+    }
+
+    public void setIconId(Integer iconId) {
+        this.iconId = iconId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Integer getFace() {
+        return face;
+    }
+
+    public void setFace(Integer face) {
+        this.face = face;
+    }
+
+    public Volunteer getVolunteer() {
+        return volunteer;
+    }
+
+    public void setVolunteer(Volunteer volunteer) {
+        this.volunteer = volunteer;
     }
 
     @Override
