@@ -3,6 +3,7 @@ package com.example.dp2.afiperu.rest;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
+import com.example.dp2.afiperu.domain.PaymentCalendar;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
@@ -38,6 +39,9 @@ public interface AfiApiServiceEndPoints {
     /*** Users Interactor ***/
     @GET("users")
     Call<List<User>> getAllUsers();
+
+    @GET("payment_calendar")
+    Call<List<PaymentCalendar>> getAllPaymentCalendar();
 
     @GET("children")
     Call<List<Kid>> getAllKids();
