@@ -37,7 +37,7 @@ public class ChangePasswordModule {
 
     @Provides
     public ChangePasswordAdapter provideAdapter(Context context, ChangePasswordView view){
-        return new ChangePasswordAdapter(context, (BaseFragment)view, new ArrayList<Blog>());
+        return new ChangePasswordAdapter(((BaseFragment)view).getActivity(), (BaseFragment)view, new ArrayList<Blog>());
     }
 
 }

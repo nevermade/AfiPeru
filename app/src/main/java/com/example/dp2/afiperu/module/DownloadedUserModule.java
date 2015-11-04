@@ -37,6 +37,6 @@ public class DownloadedUserModule {
 
     @Provides
     public DownloadedUserAdapter provideAdapter(Context context, DownloadedUserView view){
-        return new DownloadedUserAdapter(context, (BaseFragment)view, new ArrayList<User>());
+        return new DownloadedUserAdapter(((BaseFragment)view).getActivity(), (BaseFragment)view, new ArrayList<User>());
     }
 }

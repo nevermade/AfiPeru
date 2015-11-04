@@ -37,6 +37,6 @@ public class DocumentModule {
 
     @Provides
     public DocumentsAdapter provideAdapter(Context context, DocumentView view) {
-        return new DocumentsAdapter(context, (BaseFragment) view, new ArrayList<Document>());
+        return new DocumentsAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<Document>());
     }
 }

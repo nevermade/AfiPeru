@@ -430,21 +430,24 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
     @Override
     public void onBackPressed(){
-        int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
-        boolean noStack = backStackEntryCount == 0;
-        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)){
-            if(noStack){
-                finish();
-            }else{
-                goBack(); //Close drawer
+        if(mDrawerLayout != null) {
+            int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
+            boolean noStack = backStackEntryCount == 0;
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                if (noStack) {
+                    finish();
+                } else {
+                    goBack(); //Close drawer
+                }
+            } else {
+                if (noStack) {
+                    mDrawerLayout.openDrawer(GravityCompat.START); //Open drawer
+                } else if (getTopFragment().tryBack()) {
+                    goBack();
+                }
             }
         }else{
-            if(noStack){
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                //Open drawer
-            }else if(getTopFragment().tryBack()) {
-                goBack();
-            }
+            goBack();
         }
     }
 

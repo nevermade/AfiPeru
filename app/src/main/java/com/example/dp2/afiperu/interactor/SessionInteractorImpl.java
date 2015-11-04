@@ -29,7 +29,7 @@ public class SessionInteractorImpl implements SessionInteractor {
 
     @Override
     public void getAllSessions(final SessionPresenter presenter) {
-        /*ArrayList<Session> sessions = new ArrayList<>();
+        ArrayList<Session> sessions = new ArrayList<>();
         Calendar calendar = new GregorianCalendar(2015, 8, 16, 16, 0);
         Session session = new Session("Cerro el Pino", (int)calendar.getTime().getTime());
         Location location = new Location();
@@ -58,9 +58,9 @@ public class SessionInteractorImpl implements SessionInteractor {
         session.setId(-1);
         session.setPointsOfReunion(pointsOfReunion);
         sessions.add(session);
-        presenter.onSessionFound(sessions);*/
+        presenter.onSessionFound(sessions);
 
-        Call<List<Session>> call = service.getAllSessions();
+        /*Call<List<Session>> call = service.getAllSessions();
         call.enqueue(new Callback<List<Session>>() {
             @Override
             public void onResponse(Response<List<Session>> response, Retrofit retrofit) {
@@ -73,7 +73,7 @@ public class SessionInteractorImpl implements SessionInteractor {
             @Override
             public void onFailure(Throwable t){
             }
-        });
+        });*/
 
 
      }

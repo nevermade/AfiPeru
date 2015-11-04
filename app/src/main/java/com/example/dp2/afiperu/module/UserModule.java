@@ -41,6 +41,6 @@ public class UserModule {
 
     @Provides
     public UsersAdapter provideAdapter(Context context, UserView view) {
-        return new UsersAdapter(context, (BaseFragment) view, new ArrayList<SyncUser>());
+        return new UsersAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<SyncUser>());
     }
 }
