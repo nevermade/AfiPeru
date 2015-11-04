@@ -43,10 +43,8 @@ public class PeriodReportAdapter extends BaseArrayAdapter<Document>{
         //ImageView menu = (ImageView) convertView.findViewById(R.id.docs_item_menu);
 
         name.setText(item.getName());
-        CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), item.getUploadDate(),
-                DateUtils.DAY_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH);
-        date.setText(convertView.getResources().getString(R.string.documents_size_date, item.getFilesize(), formattedDate));
-        icon.setImageResource(item.getIconId());
+        date.setText(convertView.getResources().getString(R.string.documents_size_date, item.getFilesize(), item.getUploadDate()));
+        icon.setImageResource(DocumentsAdapter.getDocumentIconId(item.getName()));
     }
 
 

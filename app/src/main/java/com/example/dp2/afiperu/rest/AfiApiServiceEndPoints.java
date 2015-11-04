@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.rest;
 
+import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
@@ -26,22 +27,29 @@ import retrofit.http.Part;
  * Created by DABARCA on 21/10/2015.
  */
 public interface AfiApiServiceEndPoints {
+    /*** Document Interactor ***/
+    @GET("documents")
+    Call<List<Document>> getDocuments();
+
     /*** Session Interactor ***/
     @GET("sessions")
     Call<List<Session>> getAllSessions();
 
+    /*** Users Interactor ***/
     @GET("users")
     Call<List<User>> getAllUsers();
-
 
     @GET("children")
     Call<List<Kid>> getAllKids();
 
     @GET("locations")
     Call<LocationsBody> getLocations();
-    
+
+    /*** Points of Reunion Interactor ***/
+
     @POST("meeting_points")
     Call<Response> editMeetingPoints(@Body MeetingPointsBody meetingPointsBody);
+
     /*** Login Interactor ***/
     @FormUrlEncoded
     @POST("sign_in")

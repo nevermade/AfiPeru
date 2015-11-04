@@ -4,28 +4,27 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class Document implements Serializable, Comparable<Document> {
-
+public class Document {
 
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("date")
+    @SerializedName("upload_date")
     @Expose
-    private Integer date;
+    private String uploadDate;
     @SerializedName("size")
     @Expose
     private Double filesize;
+    @SerializedName("url")
+    @Expose
+    private String url;
+    @SerializedName("users")
+    @Expose
+    private List<DocumentUser> users;
 
-    private int iconId;
-    private long uploadDate;
-
-    public Document(String name, int iconId, Double filesize, long uploadDate) {
-        this.name = name;
-        this.iconId = iconId;
-        this.filesize = filesize;
-        this.uploadDate = uploadDate;
+    public Document() {
     }
 
     public String getName() {
@@ -36,12 +35,12 @@ public class Document implements Serializable, Comparable<Document> {
         this.name = name;
     }
 
-    public Integer getDate() {
-        return date;
+    public String getUploadDate() {
+        return uploadDate;
     }
 
-    public void setDate(Integer date) {
-        this.date = date;
+    public void setUploadDate(String uploadDate) {
+        this.uploadDate = uploadDate;
     }
 
     public Double getFilesize() {
@@ -52,24 +51,19 @@ public class Document implements Serializable, Comparable<Document> {
         this.filesize = filesize;
     }
 
-    public int getIconId() {
-        return iconId;
+    public String getUrl() {
+        return url;
     }
 
-    public void setIconId(int iconId) {
-        this.iconId = iconId;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public long getUploadDate() {
-        return uploadDate;
+    public List<DocumentUser> getUsers() {
+        return users;
     }
 
-    public void setUploadDate(long uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
-    @Override
-    public int compareTo(Document o2){
-        return Long.valueOf(o2.uploadDate).compareTo(uploadDate);
+    public void setUsers(List<DocumentUser> users) {
+        this.users = users;
     }
 }
