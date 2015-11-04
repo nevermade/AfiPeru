@@ -31,11 +31,9 @@ import java.util.List;
  */
 public class PaymentListAdapter extends BaseArrayAdapter <Payment>{
     Context context;
-    ArrayList<Payment>payments;
     PaymentListView view;
     public PaymentListAdapter(Context context, BaseFragment fragment, List<Payment> objects) {
         super(context, fragment, R.layout.payments_list_item, objects);
-        payments=(ArrayList<Payment>)objects;
         this.context=context;
         this.view=(PaymentListView)fragment;
     }
@@ -81,13 +79,6 @@ public class PaymentListAdapter extends BaseArrayAdapter <Payment>{
         }
     }
 
-    public void updatePayments(ArrayList<Payment>payments){
-        this.payments.clear();
-        for(Payment payment:payments)
-            this.payments.add(payment);
-        notifyDataSetChanged();
-
-    }
     public void showDialog(Activity activity, String title, CharSequence message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 

@@ -72,7 +72,7 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
 
     public void displayPayments(ArrayList<Payment> payments){
 
-        paymentListAdapter.updatePayments(payments);
+        paymentListAdapter.update(payments);
 
     }
 

@@ -46,4 +46,12 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
         fragment.setImage(v, URL, fileName);
     }
 
+    public void update(List<T> objects){
+        if(objects != null){
+            clear();
+            addAll(objects);
+            notifyDataSetChanged();
+        }
+    }
+
 }

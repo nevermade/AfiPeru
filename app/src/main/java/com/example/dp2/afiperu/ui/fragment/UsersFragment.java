@@ -78,7 +78,7 @@ public class UsersFragment extends BaseFragment implements UserView {
     @Override
     public void showUsers(ArrayList<SyncUser> users) {
         //System.out.println("Estoy aca 6");
-        adapter.updateUsers(users);
+        adapter.update(users);
     /*
         UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
 

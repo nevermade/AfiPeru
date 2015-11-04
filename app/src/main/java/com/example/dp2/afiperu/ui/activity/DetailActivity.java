@@ -689,7 +689,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 fragment = new SessionFragment();
                 break;
             case FRAGMENT_DOCUMENTOS:
-                ArrayList<Document> documents = new ArrayList<>();
+                /*ArrayList<Document> documents = new ArrayList<>();
                 calendar = new GregorianCalendar(2015, 8, 22, 15, 21);
                 documents.add(new Document("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, 0.2, calendar.getTime().getTime()));
                 calendar = new GregorianCalendar(2015, 8, 21, 12, 05);
@@ -700,7 +700,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 documents.add(new Document("Material extra 27/09.docx", R.drawable.ic_docs_doc, 0.12, calendar.getTime().getTime()));
                 Collections.sort(documents);
 
-                args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
+                args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);*/
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
                 break;

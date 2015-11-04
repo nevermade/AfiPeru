@@ -67,6 +67,6 @@ public class SessionFragment extends BaseFragment implements SessionView{
 
     @Override
     public void displaySessions(ArrayList<Session> sessions) {
-        adapter.updateSessions(sessions);
+        adapter.update(sessions);
     }
 }

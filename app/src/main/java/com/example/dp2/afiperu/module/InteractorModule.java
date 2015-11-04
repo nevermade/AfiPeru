@@ -5,6 +5,8 @@ import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractorImpl;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractorImpl;
+import com.example.dp2.afiperu.interactor.DocumentInteractor;
+import com.example.dp2.afiperu.interactor.DocumentInteractorImpl;
 import com.example.dp2.afiperu.interactor.DownloadedUserInteractor;
 import com.example.dp2.afiperu.interactor.DownloadedUserInteractorImpl;
 import com.example.dp2.afiperu.interactor.KidInteractor;
@@ -86,5 +88,10 @@ public class InteractorModule {
     @Provides
     public MainActivityInteractor provideMainActivityInteractor(AfiApiServiceEndPoints service){
         return new MainActivityInteractorImpl(service);
+    }
+
+    @Provides
+    public DocumentInteractor provideDocumentInteractor(AfiApiServiceEndPoints service){
+        return new DocumentInteractorImpl(service);
     }
 }

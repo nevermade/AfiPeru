@@ -34,8 +34,6 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
     @Inject
     PeopleKidsAdapter adapter;
 
-
-
     public PeopleKidsFragment() {super(); }
 
 
@@ -71,7 +69,7 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
 
     @Override
     public void showKids(ArrayList<SyncKid> kids) {
-        adapter.updateKids(kids);
+        adapter.update(kids);
     }
 
 
