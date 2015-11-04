@@ -57,8 +57,10 @@
                 android:layout_marginBottom="2dp"
                 />
             <EditText
+                android:id="@+id/voucherDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:editable="false"
                 style="@style/edit_text_reloaded"
                 android:hint="Fecha del Pago"
                 />
