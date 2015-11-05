@@ -596,6 +596,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
                 if(user==null) {
                     hideAppElements(true);
+                    //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_LOGIN);
                     fragment = new LoginFragment();
                     fragment.setArguments(args);
