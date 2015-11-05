@@ -2,20 +2,15 @@ package com.example.dp2.afiperu.interactor;
 
 import android.content.Context;
 
-import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.User;
-import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
-import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import retrofit.Call;
@@ -75,12 +70,17 @@ public class UserInteractorImpl implements UserInteractor {
                         System.out.println(users.get(0).getName());
 
 
-                    } else System.out.println("NULL");
+                    } else {
+                        if (response.errorBody()!=null || users==null)
+                            presenter.onUsersErrorOrFailure();
+                    }
+
+
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
-
+                    presenter.onUsersErrorOrFailure();
                 }
             });
 

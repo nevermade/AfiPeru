@@ -26,14 +26,16 @@ public class ChangePasswordInteractorImpl implements ChangePasswordInteractor {
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                if(response!=null){
-                    presenter.onChangePassword();
+                if(response.errorBody()==null){
+                    presenter.onPasswordChangedSuccess();
+                }else{
+                    presenter.onPasswordChangedError();
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                presenter.onPasswordChangedFailure();
             }
         });
     }

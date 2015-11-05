@@ -1,7 +1,5 @@
 package com.example.dp2.afiperu.interactor;
 
-import android.util.Log;
-
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
@@ -64,17 +62,18 @@ public class SessionInteractorImpl implements SessionInteractor {
 
                 if(response.errorBody()==null) {
                     ArrayList<Session> sessions = (ArrayList<Session>) response.body();
-
                     if (sessions != null)
                         presenter.onSessionFound(sessions);
+                    else
+                        presenter.onSessionErrorOrFailure();
                 }else{
-                    Log.d("JUAS","juas");
+                    presenter.onSessionErrorOrFailure();
                 }
             }
 
             @Override
             public void onFailure(Throwable t){
-                Log.d("JUAS","juas");
+                presenter.onSessionErrorOrFailure();
             }
         });
 

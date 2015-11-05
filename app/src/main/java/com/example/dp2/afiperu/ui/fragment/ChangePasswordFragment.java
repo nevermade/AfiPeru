@@ -31,7 +31,7 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
 
     EditText currentPassword;
     EditText newPassword;
-
+    EditText newPasswordRepeat;
     private boolean[] isFavorite;
 
     ListView blogsList;
@@ -62,11 +62,17 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
         Button chanPwd=(Button)rootView.findViewById(R.id.changepassword);
         currentPassword=(EditText)rootView.findViewById(R.id.actpassword);
         newPassword=(EditText)rootView.findViewById(R.id.newpassword);
-
+        newPasswordRepeat=(EditText)rootView.findViewById(R.id.newpassword2);
         chanPwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.changePassword(currentPassword.getText().toString(),newPassword.getText().toString());
+                String cPwd=currentPassword.getText().toString();
+                String nPwd=newPassword.getText().toString();
+                String nPWdR=newPasswordRepeat.getText().toString();
+                if(nPwd.equals(nPWdR))
+                    presenter.changePassword(cPwd,nPwd);
+                else
+                    Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -105,10 +111,23 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     }
 
     @Override
-    public void displayPasswordChanged() {
+    public void displayPasswordChangedSuccess() {
         Toast.makeText(getContext(), "Se ha actualizado su contraseña", Toast.LENGTH_SHORT).show();
         ((DetailActivity)getActivity()).goBack();
     }
+
+    @Override
+    public void displayPasswordChangedError() {
+        Toast.makeText(getContext(), "Su contraseña actual es errónea", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void displayPasswordChangedFailure() {
+        Toast.makeText(getContext(), "No se pudo cambiar su contraseña", Toast.LENGTH_SHORT).show();
+        ((DetailActivity)getActivity()).goBack();
+    }
+
+
 /*
     @Override
     public void displayFoundBlogs(ArrayList<Blog> blogs) {

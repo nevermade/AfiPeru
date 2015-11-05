@@ -38,4 +38,8 @@ public class SessionPresenter extends BasePresenter{
         if(sessions!=null)
             view.displaySessions(sessions);
     }
+
+    public void onSessionErrorOrFailure(){
+        view.displaySessionsErrorOrFailure();
+    }
 }

@@ -28,13 +28,22 @@ public class ChangePasswordPresenter extends BasePresenter{
 
     }
 
-    public void onChangePassword(){
-        view.displayPasswordChanged();
+    public void onPasswordChangedSuccess(){
+        view.displayPasswordChangedSuccess();
     }
 
     public void changePassword(String currentPw,String newPw){
-        interactor.changePassword(currentPw,newPw,this);
+        interactor.changePassword(currentPw, newPw, this);
     }
+
+    public void onPasswordChangedError(){
+        view.displayPasswordChangedError();
+    }
+
+    public void onPasswordChangedFailure(){
+        view.displayPasswordChangedFailure();
+    }
+
 /*
 
 

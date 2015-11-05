@@ -10,4 +10,5 @@ import java.util.ArrayList;
 public interface SessionView {
 
     void displaySessions(ArrayList<Session> sessions);
+    void displaySessionsErrorOrFailure();
 }

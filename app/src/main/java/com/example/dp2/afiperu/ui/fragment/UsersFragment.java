@@ -90,6 +90,7 @@ public class UsersFragment extends BaseFragment implements UserView {
         */
     }
 
+
     public void getLocations(){
         presenter.getLocations();
     }
@@ -113,6 +114,11 @@ public class UsersFragment extends BaseFragment implements UserView {
         args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_MAPA);
         mapFragment.setArguments(args);
         addFragmentToStack(mapFragment, DetailActivity.FRAGMENT_MAPA);
+    }
+
+    @Override
+    public void displayErrorOrFailure() {
+        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
 }

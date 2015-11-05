@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -79,7 +80,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
         editor.putString("loggedUser", gson.toJson(Constants.loggedUser));
         editor.commit();
         getView().getViewTreeObserver().removeGlobalOnLayoutListener(layoutListener);
-        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
     @Override
     public void displayLoginError() {

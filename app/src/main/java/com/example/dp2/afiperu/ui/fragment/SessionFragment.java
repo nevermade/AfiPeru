@@ -74,4 +74,9 @@ public class SessionFragment extends BaseFragment implements SessionView{
         adapter.update(sessions);
         rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
+
+    @Override
+    public void displaySessionsErrorOrFailure() {
+        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+    }
 }
