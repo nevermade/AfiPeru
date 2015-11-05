@@ -14,7 +14,6 @@ import com.example.dp2.afiperu.module.PaymentListModule;
 import com.example.dp2.afiperu.presenter.PaymentListPresenter;
 import com.example.dp2.afiperu.ui.adapter.PaymentListAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentListView;
-import com.google.android.gms.wallet.Payments;
 
 import java.util.ArrayList;
 
