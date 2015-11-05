@@ -21,8 +21,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,9 +42,7 @@ import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
-import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Drawer;
-import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
@@ -78,7 +76,6 @@ import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -606,6 +603,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
                 }else{
                     Constants.loggedUser=user;
+                    Constants.TOKEN=user.getAuthToken();
                     setActions(user);
                     selectItem(FRAGMENT_NOTICIAS);
                 }
