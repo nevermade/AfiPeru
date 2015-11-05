@@ -31,7 +31,7 @@ public class UsersFragment extends BaseFragment implements UserView {
     UserPresenter presenter;
     @Inject
     UsersAdapter adapter;
-
+    View rootView;
     public UsersFragment() {
         super();
     }
@@ -49,6 +49,8 @@ public class UsersFragment extends BaseFragment implements UserView {
         UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
         System.out.println("Estoy aca");
         */
+        this.rootView=rootView;
+        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
         blogsList.setAdapter(adapter);
         blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
@@ -75,7 +77,10 @@ public class UsersFragment extends BaseFragment implements UserView {
     @Override
     public void showUsers(ArrayList<SyncUser> users) {
         //System.out.println("Estoy aca 6");
+
         adapter.update(users);
+        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+
     /*
         UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
 
