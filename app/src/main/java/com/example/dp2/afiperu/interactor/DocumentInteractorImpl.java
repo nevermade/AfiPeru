@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.util.Log;
+
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.presenter.DocumentPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
@@ -24,7 +26,6 @@ public class DocumentInteractorImpl implements DocumentInteractor {
 
     @Override
     public void getDocuments(final DocumentPresenter presenter) {
-
         Call<List<Document>> call = service.getDocuments();
         call.enqueue(new Callback<List<Document>>() {
             @Override
@@ -39,7 +40,21 @@ public class DocumentInteractorImpl implements DocumentInteractor {
             public void onFailure(Throwable t){
             }
         });
-
-
      }
+
+    @Override
+    public void recordVisualization(Integer documentId){
+        Call<Void> call = service.recordVisualization(documentId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                Log.d("docs", "ok");
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Log.d("docs", null, t);
+            }
+        });
+    }
 }

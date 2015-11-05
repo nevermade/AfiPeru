@@ -23,6 +23,7 @@ import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
+import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.Kids2Fragment;
 import com.example.dp2.afiperu.ui.fragment.KidsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
@@ -171,6 +172,14 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, fragmentId);
                                     mapFragment.setArguments(args);
                                     getFragment().addFragmentToStack(mapFragment, fragmentId);
+                                    break;
+                                case R.id.sessions_menu_docs:
+                                    DocumentsFragment docsFragment = new DocumentsFragment();
+                                    args = new Bundle();
+                                    args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, item.getDocuments());
+                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DOCUMENTOS);
+                                    docsFragment.setArguments(args);
+                                    getFragment().addFragmentToStack(docsFragment, DetailActivity.FRAGMENT_DOCUMENTOS);
                                     break;
                             }
                             return true;

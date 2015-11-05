@@ -30,11 +30,15 @@ public class DocumentPresenter extends BasePresenter{
 
     }
 
-    public void getDocuments(){
+    public void getAllDocuments(){
         interactor.getDocuments(this);
     }
 
     public void onDocumentFound(ArrayList<Document> documents){
         view.displayDocuments(documents);
+    }
+
+    public void recordVisualization(Integer documentId){
+        interactor.recordVisualization(documentId);
     }
 }

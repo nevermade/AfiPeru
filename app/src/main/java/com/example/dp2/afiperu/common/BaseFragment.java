@@ -59,6 +59,10 @@ public abstract class BaseFragment extends Fragment {
         return true;
     }
 
+    public final void downloadFile(String URL, String fileName, boolean overwrite){
+        ((DetailActivity)getContext()).setDownloadFile(URL, fileName, overwrite);
+    }
+
     public final void setImage(ImageView v, String URL, String fileName){
         ((DetailActivity)getContext()).setImage(v, URL, fileName);
     }
