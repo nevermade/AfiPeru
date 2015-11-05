@@ -21,6 +21,7 @@ import com.example.dp2.afiperu.domain.Location;
 import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.others.MarkerInfo;
+import com.example.dp2.afiperu.rest.model.AttendanceVolunteer;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.ui.fragment.Kids2Fragment;
@@ -104,6 +105,9 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     break;
                                 case R.id.sessions_menu_attendance:
                                     args = new Bundle();
+                                    List<AttendanceVolunteer> restvolunteers = item.getAttendanceVolunteers();
+                                    ArrayList<AttendanceVolunteer> realvol = new ArrayList<AttendanceVolunteer>();
+                                    for (AttendanceVolunteer av : restvolunteers) realvol.add(av);
                                     ArrayList<Attendance> volunteers = new ArrayList<>();
                                     volunteers.add(new Attendance(
                                             2001,
@@ -137,8 +141,9 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                             2001,
                                             "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
                                             "Luis Incio", false));
+                                    Collections.sort(realvol);
                                     Collections.sort(volunteers);
-                                    args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, volunteers);
+                                    args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, realvol);
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_ASISTENCIA);
                                     AttendanceFragment attendanceFragment = new AttendanceFragment();
                                     attendanceFragment.setArguments(args);

@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.module;
 
+import com.example.dp2.afiperu.interactor.AttendanceInteractor;
+import com.example.dp2.afiperu.interactor.AttendanceInteractorImpl;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractorImpl;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
@@ -92,5 +94,12 @@ public class InteractorModule {
     @Provides
     public DocumentInteractor provideDocumentInteractor(AfiApiServiceEndPoints service){
         return new DocumentInteractorImpl(service);
+    }
+
+
+
+    @Provides
+    public AttendanceInteractor provideAttendanceInteractor(AfiApiServiceEndPoints service){
+        return new AttendanceInteractorImpl(service);
     }
 }

@@ -2,6 +2,7 @@ package com.example.dp2.afiperu;
 
 import android.content.Context;
 
+import com.example.dp2.afiperu.interactor.AttendanceInteractor;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.DocumentInteractor;
@@ -49,4 +50,5 @@ public interface AfiAppComponent {
         KidInteractor getKidInteractor();
         MainActivityInteractor getMainActivityInteractor();
         DocumentInteractor getDocumentInteractor();
+        AttendanceInteractor getAttendanceInteractor();
 }

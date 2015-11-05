@@ -3,21 +3,19 @@ package com.example.dp2.afiperu.rest.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Nevermade on 03/11/2015.
+ * Created by Fernando on 30/10/2015.
  */
-public class AttendanceVolunteer implements Serializable, Comparable<AttendanceVolunteer> {
+public class RestVolunteer {
     @SerializedName("id")
     @Expose
     private Integer id;
-    @SerializedName("volunteer")
-    @Expose
-    private Volunteer volunteer;
     @SerializedName("attended")
     @Expose
-    private Boolean attended;
+    private Integer attended;
     @SerializedName("rating")
     @Expose
     private Integer rating;
@@ -46,27 +44,9 @@ public class AttendanceVolunteer implements Serializable, Comparable<AttendanceV
     /**
      *
      * @return
-     * The volunteer
-     */
-    public Volunteer getVolunteer() {
-        return volunteer;
-    }
-
-    /**
-     *
-     * @param volunteer
-     * The volunteer
-     */
-    public void setVolunteer(Volunteer volunteer) {
-        this.volunteer = volunteer;
-    }
-
-    /**
-     *
-     * @return
      * The attended
      */
-    public Boolean getAttended() {
+    public Integer getAttended() {
         return attended;
     }
 
@@ -75,7 +55,7 @@ public class AttendanceVolunteer implements Serializable, Comparable<AttendanceV
      * @param attended
      * The attended
      */
-    public void setAttended(Boolean attended) {
+    public void setAttended(Integer attended) {
         this.attended = attended;
     }
 
@@ -115,9 +95,5 @@ public class AttendanceVolunteer implements Serializable, Comparable<AttendanceV
         this.comment = comment;
     }
 
-    @Override
-    public int compareTo(AttendanceVolunteer another) {
-        return (volunteer.getNames()).compareTo(another.volunteer.getNames());
 
-    }
 }

@@ -5,6 +5,7 @@ import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
+import com.example.dp2.afiperu.rest.model.AttendanceBody;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 
@@ -47,6 +48,11 @@ public interface AfiApiServiceEndPoints {
 
     @POST("meeting_points")
     Call<Void> editMeetingPoints(@Body MeetingPointsBody meetingPointsBody);
+
+    /* Attendance */
+    @POST("roll_call")
+    Call<Void> editAttendance(@Body AttendanceBody attendanceBody);
+
     /*** Login Interactor ***/
     @FormUrlEncoded
     @POST("sign_in")
