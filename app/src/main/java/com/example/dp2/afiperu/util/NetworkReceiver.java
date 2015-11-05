@@ -28,7 +28,7 @@ public class NetworkReceiver extends BroadcastReceiver {
         if (networkInfo != null && (networkInfo.getType() == ConnectivityManager.TYPE_WIFI || networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)) {
             //Aca poner el codigo de sincronizacion
 
-
+            
 
 
             Toast.makeText(context, "Sincronizando...", Toast.LENGTH_SHORT).show();
