@@ -41,6 +41,10 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
 
     public abstract void prepareItemView(View convertView, T item, int position);
 
+    public void downloadFile(String URL, String fileName, boolean overwrite){
+        fragment.downloadFile(URL, fileName, overwrite);
+    }
+
     public void setImage(ImageView v, String URL, String fileName){
         fragment.setImage(v, URL, fileName);
     }

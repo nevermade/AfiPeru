@@ -32,7 +32,7 @@ public class Session implements Serializable, Comparable<Session> {
     @Ignore
     @SerializedName("documents")
     @Expose
-    private List<Document> documents = new ArrayList<Document>();
+    private ArrayList<Document> documents = new ArrayList<Document>();
     @SerializedName("attendance_children")
     @Expose
     private List<AttendanceChild> attendanceChildren = new ArrayList<AttendanceChild>();
@@ -88,11 +88,11 @@ public class Session implements Serializable, Comparable<Session> {
         this.pointsOfReunion = pointsOfReunion;
     }
 
-    public List<Document> getDocuments() {
+    public ArrayList<Document> getDocuments() {
         return documents;
     }
 
-    public void setDocuments(List<Document> documents) {
+    public void setDocuments(ArrayList<Document> documents) {
         this.documents = documents;
     }
 

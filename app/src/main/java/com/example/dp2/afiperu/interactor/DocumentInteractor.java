@@ -7,4 +7,5 @@ import com.example.dp2.afiperu.presenter.DocumentPresenter;
  */
 public interface DocumentInteractor {
     void getDocuments(DocumentPresenter presenter);
+    void recordVisualization(Integer documentId);
 }

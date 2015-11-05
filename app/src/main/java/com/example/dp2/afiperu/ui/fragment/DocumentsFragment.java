@@ -15,7 +15,7 @@ import com.example.dp2.afiperu.presenter.DocumentPresenter;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DocumentView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -29,7 +29,7 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
     @Inject
     DocumentsAdapter adapter;
 
-    //public static final String DOCUMENTS_ARG = "docs_arg";
+    public static final String DOCUMENTS_ARG = "documents_arg";
 
     public DocumentsFragment(){
         super();
@@ -46,7 +46,12 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
         docsList.setAdapter(adapter);
         docsList.setEmptyView(rootView.findViewById(R.id.empty_docs_list));
 
-        presenter.getDocuments();
+        List<Document> documents = (List<Document>)args.getSerializable(DOCUMENTS_ARG);
+        if(documents != null){
+            displayDocuments(documents);
+        } else {
+            presenter.getAllDocuments();
+        }
     }
 
     @Override
@@ -63,8 +68,12 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
                 .inject(this);
     }
 
+    public void recordVisualization(Integer documentId){
+        presenter.recordVisualization(documentId);
+    }
+
     @Override
-    public void displayDocuments(ArrayList<Document> sessions) {
-        adapter.update(sessions);
+    public void displayDocuments(List<Document> documents) {
+        adapter.update(documents);
     }
 }

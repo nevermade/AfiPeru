@@ -18,6 +18,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
+import retrofit.http.Path;
 
 /**
  * Created by DABARCA on 21/10/2015.
@@ -26,6 +27,9 @@ public interface AfiApiServiceEndPoints {
     /*** Document Interactor ***/
     @GET("documents")
     Call<List<Document>> getDocuments();
+
+    @POST("documents/{id}/visualizations")
+    Call<Void> recordVisualization(@Path("id") Integer documentId);
 
     /*** Session Interactor ***/
     @GET("sessions")

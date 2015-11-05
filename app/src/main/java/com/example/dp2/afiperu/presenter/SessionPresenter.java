@@ -35,6 +35,7 @@ public class SessionPresenter extends BasePresenter{
     }
 
     public void onSessionFound(ArrayList<Session> sessions){
-        view.displaySessions(sessions);
+        if(sessions!=null)
+            view.displaySessions(sessions);
     }
 }

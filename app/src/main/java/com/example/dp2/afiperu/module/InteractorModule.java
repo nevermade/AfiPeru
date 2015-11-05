@@ -8,8 +8,6 @@ import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractorImpl;
 import com.example.dp2.afiperu.interactor.DocumentInteractor;
 import com.example.dp2.afiperu.interactor.DocumentInteractorImpl;
-import com.example.dp2.afiperu.interactor.DownloadedUserInteractor;
-import com.example.dp2.afiperu.interactor.DownloadedUserInteractorImpl;
 import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.KidInteractorImpl;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
@@ -57,9 +55,6 @@ public class InteractorModule {
 
     @Provides
     public PeriodReportInteractor providePeriodReportInteractor(){return new PeriodReportInteractorImpl();}
-
-    @Provides
-    public DownloadedUserInteractor provideDownloadedUserInteractor(){return new DownloadedUserInteractorImpl();}
 
     @Provides
     public SessionInteractor provideSessionInteractor(AfiApiServiceEndPoints service){

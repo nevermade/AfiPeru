@@ -3,10 +3,12 @@ package com.example.dp2.afiperu.domain;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by Nevermade on 27/10/2015.
  */
-public class Profile {
+public class Profile implements Serializable {
     @SerializedName("id")
     @Expose
     private Integer id;

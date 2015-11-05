@@ -3,12 +3,13 @@ package com.example.dp2.afiperu.domain;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by Fernando on 03/11/2015.
  */
-public class DocumentUser {
+public class DocumentUser implements Serializable {
 
     public DocumentUser() {
     }
@@ -27,7 +28,7 @@ public class DocumentUser {
     private String username;
     @SerializedName("profiles")
     @Expose
-    private List<Profile> profiles;
+    private ArrayList<Profile> profiles;
     @SerializedName("seen")
     @Expose
     private Integer seen;
@@ -64,11 +65,11 @@ public class DocumentUser {
         this.username = username;
     }
 
-    public List<Profile> getProfiles() {
+    public ArrayList<Profile> getProfiles() {
         return profiles;
     }
 
-    public void setProfiles(List<Profile> profiles) {
+    public void setProfiles(ArrayList<Profile> profiles) {
         this.profiles = profiles;
     }
 
