@@ -18,7 +18,6 @@ import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.DownloadedUserFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentsAdapter extends BaseArrayAdapter<Document> {

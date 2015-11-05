@@ -3,14 +3,10 @@ package com.example.dp2.afiperu.module;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.User;
-import com.example.dp2.afiperu.interactor.LoginInteractor;
 import com.example.dp2.afiperu.interactor.UserInteractor;
-import com.example.dp2.afiperu.presenter.LoginPresenter;
 import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
-import com.example.dp2.afiperu.ui.viewmodel.LoginView;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
 import java.util.ArrayList;

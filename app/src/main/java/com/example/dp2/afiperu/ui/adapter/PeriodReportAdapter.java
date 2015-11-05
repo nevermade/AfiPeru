@@ -1,7 +1,6 @@
 package com.example.dp2.afiperu.ui.adapter;
 
 import android.content.Context;
-import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

@@ -9,10 +9,10 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerSessionComponent;
+import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.module.SessionModule;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.ui.viewmodel.SessionView;
 
 import java.util.ArrayList;

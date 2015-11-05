@@ -1,13 +1,8 @@
 package com.example.dp2.afiperu.interactor;
 
-import com.example.dp2.afiperu.domain.NewPointOfReunion;
-import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
-import retrofit.Response;
-
-import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -25,12 +20,12 @@ public class PointsOfReunionInteractorImpl implements PointsOfReunionInteractor 
 
     @Override
     public void editPointsOfReunion(final PointsOfReunionPresenter presenter, MeetingPointsBody body) {
-        Call<Response> result = service.editMeetingPoints(body);
+        Call<Void> result = service.editMeetingPoints(body);
 
-        result.enqueue(new Callback<Response>() {
+        result.enqueue(new Callback<Void>() {
 
             @Override
-            public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
+            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
                 if(response.body() != null) {
                     presenter.saveSuccessful();
                 }else{

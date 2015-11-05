@@ -42,10 +42,10 @@ public class LoginPresenter extends BasePresenter {
     }
 
     public void onRecoverPassSuccess(){
-
+        view.displayRecoverPassSuccess();
     }
 
     public void onRecoverPassFailure(){
-
+        view.displayRecoverPassFailure();
     }
 }

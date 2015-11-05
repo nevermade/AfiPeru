@@ -11,12 +11,8 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerKidComponent;
 import com.example.dp2.afiperu.module.KidModule;
 import com.example.dp2.afiperu.presenter.KidPresenter;
-import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncKid;
-import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.adapter.PeopleKidsAdapter;
-import com.example.dp2.afiperu.domain.PeopleKids;
-import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.KidView;
 
 import java.util.ArrayList;

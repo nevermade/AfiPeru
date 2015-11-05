@@ -15,7 +15,7 @@ public class AttendanceVolunteer {
     private Volunteer volunteer;
     @SerializedName("attended")
     @Expose
-    private Integer attended;
+    private Boolean attended;
     @SerializedName("rating")
     @Expose
     private Integer rating;
@@ -64,7 +64,7 @@ public class AttendanceVolunteer {
      * @return
      * The attended
      */
-    public Integer getAttended() {
+    public Boolean getAttended() {
         return attended;
     }
 
@@ -73,7 +73,7 @@ public class AttendanceVolunteer {
      * @param attended
      * The attended
      */
-    public void setAttended(Integer attended) {
+    public void setAttended(Boolean attended) {
         this.attended = attended;
     }
 

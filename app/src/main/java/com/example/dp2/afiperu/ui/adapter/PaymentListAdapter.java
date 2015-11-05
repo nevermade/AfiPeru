@@ -23,7 +23,6 @@ import com.example.dp2.afiperu.util.EnumMapping;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,7 +56,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <Payment>{
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog((Activity) convertView.getContext(),"Método de Pago","Seleccione un método de pago.");
+                showDialog((Activity) convertView.getContext(), "Método de Pago", "Seleccione un método de pago.");
             }
         });
 

@@ -3,10 +3,7 @@ package com.example.dp2.afiperu.interactor;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.LoginPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
-import com.example.dp2.afiperu.util.AsyncTaskCallBack;
 import com.example.dp2.afiperu.util.Constants;
-import com.example.dp2.afiperu.util.GenericAsyncTask;
-
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -32,6 +29,7 @@ public class LoginInteractorImpl implements LoginInteractor {
 
             @Override
             public void onResponse(Response<User> response, Retrofit retrofit) {
+                Constants.PROGRESS.dismiss();
                 if(response.body().getName()!=null) {
                     User loginResponse = response.body();
                     Constants.TOKEN=loginResponse.getAuthToken();
@@ -41,7 +39,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                 }else{
                     presenter.onLoginFailure();
                 }
-                Constants.PROGRESS.dismiss();
+
             }
 
             @Override
@@ -53,20 +51,26 @@ public class LoginInteractorImpl implements LoginInteractor {
     }
 
     @Override
-    public void recoverPass(String email, LoginPresenter presenter) {
+    public void recoverPass(String email, final LoginPresenter presenter) {
         Constants.PROGRESS.show();
-        Call<Response> call= service.recoverPass(email);
-        call.enqueue(new Callback<Response>() {
+        Call<Void> call= service.recoverPass(email);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
-                if(response.body()!=null){
-
+            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
+                Constants.PROGRESS.dismiss();
+                if(response.errorBody()==null){
+                    presenter.onRecoverPassSuccess();
+                }else{
+                    presenter.onRecoverPassFailure();
                 }
+
 
             }
 
             @Override
             public void onFailure(Throwable t) {
+                Constants.PROGRESS.dismiss();
+                presenter.onRecoverPassFailure();
 
             }
         });

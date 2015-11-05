@@ -9,6 +9,7 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.util.Constants;
 
 /**
  * Created by Fernando on 19/10/2015.
@@ -42,6 +43,9 @@ public class SettingsFragment extends BaseFragment {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Constants.loggedUser=null;
+                ((DetailActivity) getActivity()).getSharedPreferences().edit().remove("loggedUser").commit();
+                ((DetailActivity) getActivity()).selectItem(DetailActivity.FRAGMENT_LOGIN);
             }
         });
     }

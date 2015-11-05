@@ -11,7 +11,6 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerDocumentComponent;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.module.DocumentModule;
-import com.example.dp2.afiperu.module.SessionModule;
 import com.example.dp2.afiperu.presenter.DocumentPresenter;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DocumentView;

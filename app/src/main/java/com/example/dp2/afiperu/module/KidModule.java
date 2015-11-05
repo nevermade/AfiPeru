@@ -4,16 +4,10 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.interactor.KidInteractor;
-import com.example.dp2.afiperu.interactor.UserInteractor;
 import com.example.dp2.afiperu.presenter.KidPresenter;
-import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncKid;
-import com.example.dp2.afiperu.syncmodel.SyncUser;
-import com.example.dp2.afiperu.ui.adapter.KidAdapter;
 import com.example.dp2.afiperu.ui.adapter.PeopleKidsAdapter;
-import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.KidView;
-import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
 import java.util.ArrayList;
 

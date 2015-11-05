@@ -3,18 +3,11 @@ package com.example.dp2.afiperu.interactor;
 import android.content.Context;
 
 import com.example.dp2.afiperu.domain.Payment;
-import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.PaymentListPresenter;
-import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
-import com.example.dp2.afiperu.syncmodel.SyncUser;
-import com.example.dp2.afiperu.util.AppEnum;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import retrofit.Call;

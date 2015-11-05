@@ -2,7 +2,6 @@ package com.example.dp2.afiperu.interactor;
 
 import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
-import retrofit.Response;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -23,10 +22,10 @@ public class ChangePasswordInteractorImpl implements ChangePasswordInteractor {
 
     @Override
     public void changePassword(String currentPw, String newPw, final ChangePasswordPresenter presenter) {
-        Call<Response> call= service.changePassword(currentPw,newPw);
-        call.enqueue(new Callback<Response>() {
+        Call<Void> call= service.changePassword(currentPw,newPw);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(retrofit.Response<Response> response, Retrofit retrofit) {
+            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
                 if(response!=null){
                     presenter.onChangePassword();
                 }
