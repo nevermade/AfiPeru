@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,8 +38,11 @@ public class LoginFragment extends BaseFragment implements LoginView {
     @Inject
     LoginPresenter presenter;
 
-
-
+    EditText username;
+    EditText password;
+    TextView recoverpass;
+    ViewTreeObserver.OnGlobalLayoutListener layoutListener;
+    View rootView;
     public LoginFragment(){
         super();
     }
@@ -72,8 +76,10 @@ public class LoginFragment extends BaseFragment implements LoginView {
         hideSoftKeyboard();
         SharedPreferences.Editor editor = ((DetailActivity) getActivity()).getSharedPreferences().edit();
         Gson gson= new Gson();
-        editor.putString("loggedUser",gson.toJson(Constants.loggedUser));
+        editor.putString("loggedUser", gson.toJson(Constants.loggedUser));
         editor.commit();
+        getView().getViewTreeObserver().removeGlobalOnLayoutListener(layoutListener);
+        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
     @Override
     public void displayLoginError() {
@@ -91,12 +97,26 @@ public class LoginFragment extends BaseFragment implements LoginView {
     }
 
     @Override
-    public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
+    public void prepareView(final View rootView, Bundle args, Bundle savedInstanceState) {
 
         Button loginBtn = (Button) rootView.findViewById(R.id.login_btn);
-        final EditText username = (EditText) rootView.findViewById(R.id.login_username);
-        final EditText password = (EditText) rootView.findViewById(R.id.login_password);
-        TextView recoverpass = (TextView)rootView.findViewById(R.id.button_recoverpass);
+        username = (EditText) rootView.findViewById(R.id.login_username);
+        password = (EditText) rootView.findViewById(R.id.login_password);
+        recoverpass = (TextView)rootView.findViewById(R.id.button_recoverpass);
+
+        layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int defHeihgt=rootView.getRootView().getHeight();
+                int heightDiff = defHeihgt - rootView.getHeight();
+                if (heightDiff > defHeihgt*0.20) { // if more than 100 pixels, its probably a keyboard...
+                    recoverpass.setVisibility(View.GONE);
+                }else
+                    recoverpass.setVisibility(View.VISIBLE);
+            }
+        };
+
+        rootView.getViewTreeObserver().addOnGlobalLayoutListener(layoutListener);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

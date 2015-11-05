@@ -47,8 +47,9 @@ public class SessionFragment extends BaseFragment implements SessionView{
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_sessions_list));
-
         presenter.getAllSessions();
+
+
     }
 
     @Override
