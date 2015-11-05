@@ -3,6 +3,7 @@ package com.example.dp2.afiperu.ui.activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,8 +22,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -192,17 +193,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             case FRAGMENT_PERSONAS:
                 switch(item.getItemId()){
                     case R.id.people_menu_map:
-                        /*MapFragment mapFragment = new MapFragment();
-                        Bundle args = new Bundle();
-                        ArrayList<MarkerInfo> markers = new ArrayList<>();
-                        markers.add(new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-                        markers.add(new MarkerInfo(-1, -12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
-                        markers.add(new MarkerInfo(-1, -12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-                        markers.add(new MarkerInfo(-1, -12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
-                        args.putSerializable(MapFragment.MARKERS_ARG, markers);
-                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_MAPA);
-                        mapFragment.setArguments(args);
-                        addFragment(mapFragment, getTitle(FRAGMENT_MAPA), getMenu(FRAGMENT_MAPA));*/
                         ((PeopleTabFragment)topFragment).getUsersFragment().getLocations();
                         break;
                 }
@@ -259,7 +249,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             if(backStackEntryCount < previousBackStackCount) {
                 //Se sacó un elemento
                 BaseFragment fragment = getTopFragment();
-                setTitle(getTitle(fragment.getFragmentId()));
+                Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+                toolbar.setTitle(getTitle(fragment.getFragmentId()));
                 toolbarMenu = getMenu(fragment.getFragmentId());
                 invalidateOptionsMenu();
             }
@@ -280,15 +271,11 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         receiver = new NetworkReceiver();
         this.registerReceiver(receiver, filter);
 
-
-
-
         /****dialog de loading****/
         Constants.PROGRESS=new ProgressDialog(this);
         Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         Constants.PROGRESS.setTitle(getResources().getString(R.string.loading));
         Constants.PROGRESS.setMessage(getResources().getString(R.string.please_wait));
-
 
         setContentView(R.layout.base);
         /*
@@ -717,18 +704,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 fragment = new SessionFragment();
                 break;
             case FRAGMENT_DOCUMENTOS:
-                /*ArrayList<Document> documents = new ArrayList<>();
-                calendar = new GregorianCalendar(2015, 8, 22, 15, 21);
-                documents.add(new Document("Guía de actividades 27/09.pdf", R.drawable.ic_docs_pdf, 0.2, calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 21, 12, 05);
-                documents.add(new Document("Materiales para 27/09.xlsx", R.drawable.ic_docs_xls, 1.2, calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 18, 13, 14);
-                documents.add(new Document("Documento sin ícono", R.drawable.ic_docs_generic, 0.13, calendar.getTime().getTime()));
-                calendar = new GregorianCalendar(2015, 8, 22, 15, 24);
-                documents.add(new Document("Material extra 27/09.docx", R.drawable.ic_docs_doc, 0.12, calendar.getTime().getTime()));
-                Collections.sort(documents);
-
-                args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);*/
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
                 fragment = new DocumentsFragment();
                 break;
@@ -809,6 +784,35 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         return "/" + getResources().getString(R.string.app_name) + "/Images";
     }
 
+    public String getExternalFilesDir(){
+        return "/" + getResources().getString(R.string.app_name) + "/Files";
+    }
+
+    public void setDownloadFile(String URL, String title, boolean overwrite){
+        String path = Environment.getExternalStorageDirectory() + getExternalFilesDir() + "/" + title;
+        File file = new File(path);
+        String finalPath;
+        if(overwrite || !file.exists()){
+            finalPath = path;
+        }else{
+            int extensionIndex = path.length() - 1;
+            while(extensionIndex >= 0 && path.charAt(extensionIndex) != '.'){
+                extensionIndex--;
+            }
+            int i=0;
+            do{
+                i++;
+                if(extensionIndex >= 0){
+                    finalPath = path.substring(0, extensionIndex) + "(" + i + ")" + path.substring(extensionIndex, path.length());
+                }else{
+                    finalPath = path + "(" + i + ")";
+                }
+            }while((new File(finalPath)).exists());
+        }
+        DownloadFileTask task = new DownloadFileTask(this);
+        task.execute(URL, finalPath);
+    }
+
     public void setImage(ImageView v, String URL, String title){
         String path = Environment.getExternalStorageDirectory() + getExternalImagesDir() + "/" + title;
         File file = new File(path);
@@ -816,26 +820,71 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             v.setImageURI(Uri.parse(path));
             Log.d("imgs", "Uri set to ImageView already there: " + path);
         }else{
-            AsyncTask task = new DownloadImageTask(v);
-            task.execute(this, URL, path);
+            DownloadImageTask task = new DownloadImageTask(this, v);
+            task.execute(URL, path);
             Log.d("imgs", "Task created for:" + title);
         }
     }
 
-    public static class DownloadImageTask extends AsyncTask<Object, Void, String>{
-        ImageView view;
-
-        public DownloadImageTask(ImageView view){
-            this.view = view;
+    public static class DownloadFileTask extends AsyncTask<String, Void, String>{
+        DetailActivity activity;
+        public DownloadFileTask(DetailActivity activity){
+            this.activity = activity;
         }
 
         @Override
-        protected String doInBackground(Object... args){
-            DetailActivity activity = (DetailActivity)args[0];
-            String url = (String)args[1];
-            String path = (String)args[2];
+        protected String doInBackground(String... args){
+            String url = args[0];
+            String path = args[1];
 
-            return activity.downloadImage(url, path);
+            return activity.downloadFile(url, path);
+        }
+
+        @Override
+        protected void onPostExecute(String uriResult){
+            super.onPostExecute(uriResult);
+            if(uriResult != null) {
+                String MIMEType;
+                if(uriResult.endsWith(".pdf")){
+                    MIMEType = "application/pdf";
+                }else if(uriResult.endsWith(".doc")){
+                    MIMEType = "application/doc";
+                }else if(uriResult.endsWith(".docx")){
+                    MIMEType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+                }else if(uriResult.endsWith(".xls")){
+                    MIMEType = "application/vnd.ms-excel";
+                }else if(uriResult.endsWith(".xlsx")){
+                    MIMEType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                }else{
+                    MIMEType = null;
+                }
+
+                try {
+                    if(MIMEType == null){
+                        throw new ActivityNotFoundException();
+                    }
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse("file://" + uriResult), MIMEType);
+                    activity.startActivity(intent);
+                }catch (ActivityNotFoundException e){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                    builder.setMessage(
+                                activity.getResources().getString(R.string.no_application_to_open_file,
+                                    activity.getResources().getString(R.string.app_name)))
+                            .setNeutralButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        }
+    }
+
+    public static class DownloadImageTask extends DownloadFileTask{
+        ImageView view;
+
+        public DownloadImageTask(DetailActivity activity, ImageView view){
+            super(activity);
+            this.view = view;
         }
 
         @Override
@@ -848,7 +897,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
     }
 
-    public String downloadImage(String strUrl, String path){
+    public String downloadFile(String strUrl, String path){
         try{
             URL url = new URL(strUrl);
             HttpURLConnection urlConn = (HttpURLConnection)url.openConnection();

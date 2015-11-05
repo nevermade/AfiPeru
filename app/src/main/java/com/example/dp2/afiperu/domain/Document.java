@@ -3,9 +3,10 @@ package com.example.dp2.afiperu.domain;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import java.io.Serializable;
+import java.util.ArrayList;
 
-public class Document {
+public class Document implements Serializable {
 
     @SerializedName("id")
     @Expose
@@ -24,7 +25,7 @@ public class Document {
     private String url;
     @SerializedName("users")
     @Expose
-    private List<DocumentUser> users;
+    private ArrayList<DocumentUser> users;
 
     public Document() {
     }
@@ -69,11 +70,11 @@ public class Document {
         this.url = url;
     }
 
-    public List<DocumentUser> getUsers() {
+    public ArrayList<DocumentUser> getUsers() {
         return users;
     }
 
-    public void setUsers(List<DocumentUser> users) {
+    public void setUsers(ArrayList<DocumentUser> users) {
         this.users = users;
     }
 }
