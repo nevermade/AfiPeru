@@ -17,11 +17,13 @@ import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
+import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.DownloadedUserFragment;
 import com.example.dp2.afiperu.util.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
@@ -72,7 +74,9 @@ public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
                                 case R.id.docs_menu_check_views:
                                     Bundle args = new Bundle();
                                     DownloadedUserFragment fragment = new DownloadedUserFragment();
-                                    args.putSerializable(DownloadedUserFragment.LIST_ARG, docItem.getUsers());
+                                    ArrayList<SyncDocumentUser> users = new ArrayList<>();
+                                    users.addAll(docItem.queryUsers());
+                                    args.putSerializable(DownloadedUserFragment.LIST_ARG, users);
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_USUARIOS_REVISADO);
                                     fragment.setArguments(args);
                                     getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_USUARIOS_REVISADO);

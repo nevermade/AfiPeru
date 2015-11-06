@@ -44,13 +44,12 @@ public class DocumentInteractorImpl implements DocumentInteractor {
                         SyncDocumentUser.deleteAll(SyncDocumentUser.class);
                         for(Document document : result){
                             SyncDocument doc = SyncDocument.fromDocument(document);
-                            //doc.save();
+                            doc.save();
                             for(DocumentUser user : document.getUsers()){
                                 SyncDocumentUser docUser = new SyncDocumentUser(user.getId(), user.getName(), user.getLastName(),
                                         user.getUsername(), user.getSeen());
                                 docUser.setDocument(doc);
                                 docUser.save();
-                                doc.getUsers().add(docUser);
                             }
                             doc.save();
                         }
