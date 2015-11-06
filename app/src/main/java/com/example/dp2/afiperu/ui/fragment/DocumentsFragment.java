@@ -50,7 +50,8 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
 
         List<Document> documents = (List<Document>)args.getSerializable(DOCUMENTS_ARG);
         if(documents != null){
-            displayDocuments(SyncDocument.fromDocument(documents));
+            adapter.update(SyncDocument.fromDocument(documents));
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
         } else {
             presenter.getAllDocuments(getContext());
         }

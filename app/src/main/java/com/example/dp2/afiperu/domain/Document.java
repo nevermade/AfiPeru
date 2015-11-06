@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Document implements Serializable {
 
-    @SerializedName("docId")
+    @SerializedName("id")
     @Expose
     private Integer docId;
     @SerializedName("name")

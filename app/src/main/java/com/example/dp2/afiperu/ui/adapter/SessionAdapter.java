@@ -66,7 +66,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                 if (v.getId() == R.id.sessions_item_menu) {
                     PopupMenu popup = new PopupMenu(getContext(), v);
                     popup.getMenuInflater().inflate(R.menu.sessions_menu_afi, popup.getMenu());
-                    if(!hasAttendancePermission())
+                    if(!AppEnum.EnumAction.ATTENDANCE_AND_QUALIFICATION.hasPermission())
                         popup.getMenu().findItem(R.id.sessions_menu_attendance).setVisible(false);
 
                     popup.show();
@@ -156,7 +156,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     Location location = item.getLocation();
                                     List<PointOfReunion> pointsOfReunion = item.getPointsOfReunion();
                                     ArrayList<MarkerInfo> markers = new ArrayList<>();
-                                    boolean hasEditMapPermission = hasEditMapPermission();
+                                    boolean hasEditMapPermission = AppEnum.EnumAction.CREATE_OR_EDIT_POINTS_OF_REUNION.hasPermission();
                                     markers.add(new MarkerInfo(location));
                                     for(PointOfReunion pointOfReunion : pointsOfReunion){
                                         if(pointOfReunion.getSelected() == 1 || hasEditMapPermission) {
@@ -193,21 +193,5 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                 }
             }
         });
-    }
-
-    private boolean hasAttendancePermission(){
-        for(Action a : Constants.loggedUser.getActions()){
-            if(a.getId()== AppEnum.EnumAction.ASSISTANCE.getNumVal())
-                return true;
-        }
-        return false;
-    }
-
-    private boolean hasEditMapPermission(){
-        for(Action a : Constants.loggedUser.getActions()){
-            if(a.getId()== AppEnum.EnumAction.CREATE_OR_EDIT_POINTS_OF_REUNION.getNumVal())
-                return true;
-        }
-        return false;
     }
 }

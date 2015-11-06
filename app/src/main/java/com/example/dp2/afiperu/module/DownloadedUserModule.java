@@ -3,8 +3,7 @@ package com.example.dp2.afiperu.module;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.DocumentUser;
-import com.example.dp2.afiperu.domain.User;
+import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
 import com.example.dp2.afiperu.ui.adapter.DownloadedUserAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DownloadedUserView;
 
@@ -31,6 +30,6 @@ public class DownloadedUserModule {
 
     @Provides
     public DownloadedUserAdapter provideAdapter(Context context, DownloadedUserView view){
-        return new DownloadedUserAdapter(((BaseFragment)view).getActivity(), (BaseFragment)view, new ArrayList<DocumentUser>());
+        return new DownloadedUserAdapter(((BaseFragment)view).getActivity(), (BaseFragment)view, new ArrayList<SyncDocumentUser>());
     }
 }

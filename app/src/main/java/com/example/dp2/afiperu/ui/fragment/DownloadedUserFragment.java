@@ -9,8 +9,8 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerDownloadedUserComponent;
-import com.example.dp2.afiperu.domain.DocumentUser;
 import com.example.dp2.afiperu.module.DownloadedUserModule;
+import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
 import com.example.dp2.afiperu.ui.adapter.DownloadedUserAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DownloadedUserView;
 
@@ -51,12 +51,12 @@ public class DownloadedUserFragment extends BaseFragment implements DownloadedUs
         list.setAdapter(adapter);
         list.setEmptyView(rootView.findViewById(R.id.empty_download_list));
 
-        ArrayList<DocumentUser> users = (ArrayList<DocumentUser>)args.getSerializable(LIST_ARG);
+        ArrayList<SyncDocumentUser> users = (ArrayList<SyncDocumentUser>)args.getSerializable(LIST_ARG);
         displayDownloadedUsers(users);
     }
 
     @Override
-    public void displayDownloadedUsers(ArrayList<DocumentUser> users) {
+    public void displayDownloadedUsers(ArrayList<SyncDocumentUser> users) {
         adapter.update(users);
     }
 }

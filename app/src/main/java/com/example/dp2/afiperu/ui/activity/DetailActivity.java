@@ -43,7 +43,6 @@ import com.example.dp2.afiperu.common.BaseActivity;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.AFIEvent;
-import com.example.dp2.afiperu.domain.Action;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.News;
@@ -280,37 +279,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         Constants.PROGRESS.setMessage(getResources().getString(R.string.please_wait));
 
         setContentView(R.layout.base);
-        /*
-        ArrayList<Drawer> list = new ArrayList<>();
-        list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
-        list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
-        list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
-        list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
-        list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
-        list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
-        list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
-        list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
-        list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
-        list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
-        list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
-        //list.add(new Drawer(FRAGMENT_LOGIN, getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
-
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        mDrawerList.setAdapter(new DrawerAdapter(this, list));
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this,  mDrawerLayout, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        );
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        getSupportFragmentManager().addOnBackStackChangedListener(backStackListener);
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-        toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);*/
 
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
@@ -319,13 +287,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     public void setActions(User user){
-        ArrayList<Action> actions=null;
-        ArrayList<Drawer> list=list = new ArrayList<>();
-        if(user!=null) {
-           actions = (ArrayList<Action>) user.getActions();
-
-        }
-        if(user==null || isWebMaster(user.getProfiles())){
+        ArrayList<Drawer> list = new ArrayList<>();
+        /*if(user==null || isWebMaster(user.getProfiles())){
             //list.add(new Drawer(-1, getResources().getString(R.string.menu_postular), R.drawable.ic_drawer_postulate));
             list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
             list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
@@ -337,32 +300,30 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
             list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
-        }else{
-            if(isVolunteer(user.getProfiles()) && user.getPeriod()!=null) {//si es voluntario puede postular al periodo
+        }else{*/
+            if(isVolunteer(user.getProfiles()) && user.isCanReapply() == 1 && user.getPeriod()!=null) {//si es voluntario puede postular al periodo
                 applyOptionItem = new Drawer(-1, "Postular a " + user.getPeriod().getName(), R.drawable.ic_drawer_postulate);
                 list.add(applyOptionItem);
             }
-            /**Permisos que todos tienen independiente del perfil**/
             list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
             list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
-            list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
+            if(AppEnum.EnumAction.LIST_USERS.hasPermission(user)){
+                list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
+            }
+            if(AppEnum.EnumAction.SESSION_AND_DOCUMENTS.hasPermission(user)){
+                list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
+                list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
+            }
             list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
-
-
-            for(Action a:actions){
-                if(a.getId()== AppEnum.EnumAction.LIST_USERS.getNumVal())
-                    list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
-                if(a.getId()==AppEnum.EnumAction.SESSION_AND_DOCUMENTS.getNumVal()){
-                    list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
-                    list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
-                }
-                if(a.getId()==AppEnum.EnumAction.LIST_PERIOD_REPORT.getNumVal())
-                    list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
-                if(a.getId()==AppEnum.EnumAction.PAYMENT.getNumVal())
-                    list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
+            if(AppEnum.EnumAction.PAYMENT.hasPermission(user)){
+                list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
+            }
+            list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
+            if(AppEnum.EnumAction.LIST_PERIOD_REPORT.hasPermission(user)){
+                list.add(new Drawer(FRAGMENT_REPORTES_PADRINOS, getTitle(FRAGMENT_REPORTES_PADRINOS), R.drawable.ic_reports));
             }
             list.add(new Drawer(FRAGMENT_CONFIGURACIÓN, getTitle(FRAGMENT_CONFIGURACIÓN), R.drawable.ic_settings));
-        }
+        //}
 
         //list.add(new Drawer(FRAGMENT_LOGIN, getTitle(FRAGMENT_LOGIN), R.drawable.ic_drawer_news)); //Temporal
 
@@ -465,6 +426,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         if(toolbarMenu != 0){
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(toolbarMenu, menu);
+            if(toolbarMenu == R.menu.people_menu_toolbar && AppEnum.EnumAction.LIST_SCHOOL_AND_VOLUNTEER.hasPermission()){
+                menu.findItem(R.id.people_menu_map).setVisible(false);
+            }
 
             //Search view
             final int menuItem;

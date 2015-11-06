@@ -17,8 +17,7 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
     private String uploadDate;
     private String filesize;
     private String url;
-    @Ignore
-    private ArrayList<DocumentUser> users;
+    private ArrayList<SyncDocumentUser> users;
 
     public SyncDocument() {
     }
@@ -29,6 +28,7 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
         this.uploadDate = uploadDate;
         this.filesize = filesize;
         this.url = url;
+        this.users = new ArrayList<>();
     }
 
     public String getName() {
@@ -39,10 +39,6 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
         return docId;
     }
 
-    public void setDocId(Integer docId) {
-        this.docId = docId;
-    }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -51,37 +47,21 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
         return uploadDate;
     }
 
-    public void setUploadDate(String uploadDate) {
-        this.uploadDate = uploadDate;
-    }
-
     public String getFilesize() {
         return filesize;
-    }
-
-    public void setFilesize(String filesize) {
-        this.filesize = filesize;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public ArrayList<DocumentUser> getUsers() {
+    public ArrayList<SyncDocumentUser> getUsers() {
         return users;
-    }
-
-    public void setUsers(ArrayList<DocumentUser> users) {
-        this.users = users;
     }
 
     @Override
     public int compareTo(SyncDocument o2){
-        return docId.compareTo(o2.docId);
+        return o2.docId.compareTo(docId);
     }
 
     public static SyncDocument fromDocument(Document document){

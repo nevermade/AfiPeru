@@ -1,5 +1,8 @@
 package com.example.dp2.afiperu.util;
 
+import com.example.dp2.afiperu.domain.Action;
+import com.example.dp2.afiperu.domain.User;
+
 /**
  * Created by Nevermade on 18/10/2015.
  */
@@ -11,16 +14,14 @@ public class AppEnum {
     }
 
     public enum EnumAction{
-        SESSION_AND_DOCUMENTS(12),
+        SESSION_AND_DOCUMENTS(15),
         CREATE_OR_EDIT_POINTS_OF_REUNION(13),
-        LIST_POINTS_OF_REUNION(14),
-        ASSISTANCE(16),
+        ATTENDANCE_AND_QUALIFICATION(16),
         LIST_USERS(35),
         LIST_PERIOD_REPORT(21),
         PAYMENT(24),
         LIST_SCHOOL_AND_VOLUNTEER(28),
-        LIST_COMMENTS(33),
-        ATTENDANCE_AND_QUALIFICATION(16);
+        LIST_COMMENTS(33);
 
         private int numVal;
 
@@ -30,6 +31,18 @@ public class AppEnum {
 
         public int getNumVal() {
             return numVal;
+        }
+
+        public boolean hasPermission(){
+            return hasPermission(Constants.loggedUser);
+        }
+
+        public boolean hasPermission(User user){
+            for(Action a : Constants.loggedUser.getActions()){
+                if(a.getId()== getNumVal())
+                    return true;
+            }
+            return false;
         }
 
     }

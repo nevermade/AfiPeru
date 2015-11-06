@@ -1,6 +1,6 @@
 package com.example.dp2.afiperu.ui.viewmodel;
 
-import com.example.dp2.afiperu.domain.DocumentUser;
+import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
 
 import java.util.ArrayList;
 
@@ -9,5 +9,5 @@ import java.util.ArrayList;
  */
 public interface DownloadedUserView {
 
-    void displayDownloadedUsers(ArrayList<DocumentUser> users);
+    void displayDownloadedUsers(ArrayList<SyncDocumentUser> users);
 }

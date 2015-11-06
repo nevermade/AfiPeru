@@ -34,7 +34,7 @@ public class User implements Serializable, Comparable<User> {
     private List<Action> actions = new ArrayList<Action>();
     @SerializedName("can_reapply")
     @Expose
-    private Integer can_reapply;
+    private Integer canReapply;
     @SerializedName("period")
     @Expose
     private Period period;
@@ -146,12 +146,12 @@ public class User implements Serializable, Comparable<User> {
         this.profiles = profiles;
     }
 
-    public Integer isCan_reapply() {
-        return can_reapply;
+    public Integer isCanReapply() {
+        return canReapply;
     }
 
-    public void setCan_reapply(Integer can_reapply) {
-        this.can_reapply = can_reapply;
+    public void setCanReapply(Integer can_reapply) {
+        this.canReapply = can_reapply;
     }
 
     public Period getPeriod() {

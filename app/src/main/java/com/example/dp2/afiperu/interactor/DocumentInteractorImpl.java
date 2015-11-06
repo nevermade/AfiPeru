@@ -4,9 +4,11 @@ import android.content.Context;
 import android.util.Log;
 
 import com.example.dp2.afiperu.domain.Document;
+import com.example.dp2.afiperu.domain.DocumentUser;
 import com.example.dp2.afiperu.presenter.DocumentPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
+import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
 import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.ArrayList;
@@ -39,8 +41,17 @@ public class DocumentInteractorImpl implements DocumentInteractor {
 
                     if (result != null) {
                         SyncDocument.deleteAll(SyncDocument.class);
+                        SyncDocumentUser.deleteAll(SyncDocumentUser.class);
                         for(Document document : result){
                             SyncDocument doc = SyncDocument.fromDocument(document);
+                            //doc.save();
+                            for(DocumentUser user : document.getUsers()){
+                                SyncDocumentUser docUser = new SyncDocumentUser(user.getId(), user.getName(), user.getLastName(),
+                                        user.getUsername(), user.getSeen());
+                                docUser.setDocument(doc);
+                                docUser.save();
+                                doc.getUsers().add(docUser);
+                            }
                             doc.save();
                         }
                         List<SyncDocument> documents = SyncDocument.listAll(SyncDocument.class);
