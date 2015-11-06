@@ -21,6 +21,7 @@ import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -31,7 +32,6 @@ public class UsersFragment extends BaseFragment implements UserView {
     UserPresenter presenter;
     @Inject
     UsersAdapter adapter;
-    View rootView;
     public UsersFragment() {
         super();
     }
@@ -44,19 +44,12 @@ public class UsersFragment extends BaseFragment implements UserView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
-        /*
-        ArrayList<User> users = (ArrayList<User>) args.getSerializable(USER_ARG);
-        UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
-        System.out.println("Estoy aca");
-        */
-        this.rootView=rootView;
         rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
         blogsList.setAdapter(adapter);
         blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
+
         presenter.getAllUsers(getContext());
-        //ArrayList<User> u2 = presenter.getAllUsers();
-        //Toast
     }
 
     @Override
@@ -75,21 +68,10 @@ public class UsersFragment extends BaseFragment implements UserView {
 
 
     @Override
-    public void showUsers(ArrayList<SyncUser> users) {
-        //System.out.println("Estoy aca 6");
-
+    public void showUsers(List<SyncUser> users) {
         adapter.update(users);
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
-
-    /*
-        UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
-
-        ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
-        blogsList.setAdapter(adapter);
-        blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
-        */
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
-
 
     public void getLocations(){
         presenter.getLocations();
@@ -100,10 +82,6 @@ public class UsersFragment extends BaseFragment implements UserView {
         MapFragment mapFragment = new MapFragment();
         Bundle args = new Bundle();
         ArrayList<MarkerInfo> markers = new ArrayList<>();
-        /*markers.add(new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-        markers.add(new MarkerInfo(-1, -12.0767993, -77.0811531, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));
-        markers.add(new MarkerInfo(-1, -12.0587955, -77.0815501, MarkerInfo.MARKER_KIND_INFO_SCHOOL, null));
-        markers.add(new MarkerInfo(-1, -12.067451, -77.061305, MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, "Luis"));*/
         for(School school : locations.getSchools()){
             markers.add(new MarkerInfo(-1, school.getLatitude(), school.getLongitude(), MarkerInfo.MARKER_KIND_INFO_SCHOOL, school.getName()));
         }
@@ -118,7 +96,7 @@ public class UsersFragment extends BaseFragment implements UserView {
 
     @Override
     public void displayErrorOrFailure() {
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
 }

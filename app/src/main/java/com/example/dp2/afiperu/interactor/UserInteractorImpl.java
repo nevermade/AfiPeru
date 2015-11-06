@@ -23,26 +23,13 @@ import retrofit.Retrofit;
  */
 public class UserInteractorImpl implements UserInteractor {
     AfiApiServiceEndPoints service;
-    //public UserInteractorImpl(){}
-    NetworkManager networkManager = new NetworkManager();
     public UserInteractorImpl(AfiApiServiceEndPoints service) {
         this.service = service;
     }
 
-
     @Override
-    public ArrayList<User> getAllUsers(final UserPresenter presenter, Context context) {
-
-
-        //System.out.println("Estoy aca 4");
-        /*
-        ArrayList<User> us = new ArrayList<>();
-        User u = new User("1",1,"Luis","Barcena","navarro","Miembro de AFI",4.0,false);
-        us.add(u);
-        presenter.onUsersFound(us);
-        */
-        if (networkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
-            ArrayList<User> users2 = null;
+    public void getAllUsers(final UserPresenter presenter, Context context) {
+        if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
             Call<List<User>> call = service.getAllUsers();
             call.enqueue(new Callback<List<User>>() {
                 @Override
@@ -62,20 +49,11 @@ public class UserInteractorImpl implements UserInteractor {
                         }
 
                         List<SyncUser> lista = SyncUser.listAll(SyncUser.class);
-                        ArrayList<SyncUser> listav = new ArrayList<>();
-
-                        for (SyncUser user : lista) listav.add(user);
-                        Collections.sort(listav);
-                        presenter.onUsersFound(listav);
-                        System.out.println(users.get(0).getName());
-
-
+                        Collections.sort(lista);
+                        presenter.onUsersFound(lista);
                     } else {
-                        if (response.errorBody()!=null || users==null)
-                            presenter.onUsersErrorOrFailure();
+                        presenter.onUsersErrorOrFailure();
                     }
-
-
                 }
 
                 @Override
@@ -85,21 +63,14 @@ public class UserInteractorImpl implements UserInteractor {
             });
 
         }else{// Si no tengo conexion
-
             List<SyncUser> lista = SyncUser.listAll(SyncUser.class);
-            ArrayList<SyncUser> listav = new ArrayList<>();
-
-            for (SyncUser user : lista) listav.add(user);
-            Collections.sort(listav);
-            presenter.onUsersFound(listav);
-
+            Collections.sort(lista);
+            presenter.onUsersFound(lista);
         }
-
-        return null;
     }
 
     @Override
-    public LocationsBody getLocations(final UserPresenter presenter) {
+    public void getLocations(final UserPresenter presenter) {
         Call<LocationsBody> locations = service.getLocations();
         locations.enqueue(new Callback<LocationsBody>() {
             @Override
@@ -112,6 +83,5 @@ public class UserInteractorImpl implements UserInteractor {
 
             }
         });
-        return null;
     }
 }

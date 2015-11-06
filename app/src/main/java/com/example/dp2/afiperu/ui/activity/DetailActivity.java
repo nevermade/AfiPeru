@@ -50,6 +50,7 @@ import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
+import com.example.dp2.afiperu.rest.model.LoginUser;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -316,7 +317,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         selectItem(FRAGMENT_LOGIN);
     }
 
-    public void setActions(User user){
+    public void setActions(LoginUser user){
         ArrayList<Action> actions=null;
         ArrayList<Drawer> list=list = new ArrayList<>();
         if(user!=null) {
@@ -580,7 +581,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         switch(fragmentId){
             default:
                 Gson gson= new Gson();
-                User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
+                LoginUser user = gson.fromJson(sharedPreferences.getString("loggedUser",null),LoginUser.class);
                 if(user==null) {
                     hideAppElements(true);
                     //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

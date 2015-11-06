@@ -6,6 +6,7 @@ import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.interactor.DocumentInteractor;
 import com.example.dp2.afiperu.presenter.DocumentPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DocumentView;
 
@@ -37,6 +38,6 @@ public class DocumentModule {
 
     @Provides
     public DocumentsAdapter provideAdapter(Context context, DocumentView view) {
-        return new DocumentsAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<Document>());
+        return new DocumentsAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<SyncDocument>());
     }
 }

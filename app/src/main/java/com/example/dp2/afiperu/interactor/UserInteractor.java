@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface UserInteractor {
 
-    ArrayList<User> getAllUsers(UserPresenter userPresenter, Context context);
+    void getAllUsers(UserPresenter userPresenter, Context context);
 
-    LocationsBody getLocations(UserPresenter userPresenter);
+    void getLocations(UserPresenter userPresenter);
 }

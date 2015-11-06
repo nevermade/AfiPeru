@@ -11,12 +11,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Document;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.DownloadedUserFragment;
@@ -24,14 +24,14 @@ import com.example.dp2.afiperu.util.Constants;
 
 import java.util.List;
 
-public class DocumentsAdapter extends BaseArrayAdapter<Document> {
+public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
 
-    public DocumentsAdapter(Context context, BaseFragment fragment, List<Document> objects) {
+    public DocumentsAdapter(Context context, BaseFragment fragment, List<SyncDocument> objects) {
         super(context, fragment, R.layout.documents_list_item, objects);
     }
 
     @Override
-    public void prepareItemView(View convertView, final Document docItem, int position) {
+    public void prepareItemView(View convertView, final SyncDocument docItem, int position) {
         ImageView icon = (ImageView) convertView.findViewById(R.id.docs_item_icon);
         TextView name = (TextView) convertView.findViewById(R.id.docs_item_name);
         TextView date = (TextView) convertView.findViewById(R.id.docs_item_size_date);
@@ -63,11 +63,11 @@ public class DocumentsAdapter extends BaseArrayAdapter<Document> {
                                     Intent intent = new Intent(Intent.ACTION_VIEW);
                                     intent.setData(Uri.parse(Constants.URL + docItem.getUrl()));
                                     getFragment().startActivity(intent);
-                                    ((DocumentsFragment)getFragment()).recordVisualization(docItem.getId());
+                                    ((DocumentsFragment)getFragment()).recordVisualization(docItem.getDocId());
                                     break;
                                 case R.id.docs_menu_download:
                                     downloadFile(Constants.URL + docItem.getUrl(), docItem.getName(), false);
-                                    ((DocumentsFragment)getFragment()).recordVisualization(docItem.getId());
+                                    ((DocumentsFragment)getFragment()).recordVisualization(docItem.getDocId());
                                     break;
                                 case R.id.docs_menu_check_views:
                                     Bundle args = new Bundle();

@@ -25,8 +25,6 @@ import retrofit.Retrofit;
  */
 public class KidInteractorImpl implements KidInteractor {
     AfiApiServiceEndPoints service;
-    Call<Kid> call;
-    NetworkManager networkManager = new NetworkManager();
     public KidInteractorImpl(AfiApiServiceEndPoints service) {
         this.service = service;
     }
@@ -46,7 +44,7 @@ public class KidInteractorImpl implements KidInteractor {
         presenter.onUsersFound(us);*/
 
 
-        if (networkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
+        if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
             //ArrayList<User> users2 = null;
             System.out.println("Estoy aca 91");
             Call<List<Kid>> call = service.getAllKids();

@@ -1,11 +1,14 @@
 package com.example.dp2.afiperu.presenter;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.common.BasePresenter;
-import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.interactor.DocumentInteractor;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.viewmodel.DocumentView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DABARCA on 21/10/2015.
@@ -30,12 +33,16 @@ public class DocumentPresenter extends BasePresenter{
 
     }
 
-    public void getAllDocuments(){
-        interactor.getDocuments(this);
+    public void getAllDocuments(Context context){
+        interactor.getDocuments(this, context);
     }
 
-    public void onDocumentFound(ArrayList<Document> documents){
+    public void onDocumentFound(List<SyncDocument> documents){
         view.displayDocuments(documents);
+    }
+
+    public void onFailure(){
+        view.onFailure();
     }
 
     public void recordVisualization(Integer documentId){

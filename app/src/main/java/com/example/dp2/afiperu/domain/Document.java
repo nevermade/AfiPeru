@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public class Document implements Serializable {
 
-    @SerializedName("id")
+    @SerializedName("docId")
     @Expose
-    private Integer id;
+    private Integer docId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -34,12 +34,12 @@ public class Document implements Serializable {
         return name;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getDocId() {
+        return docId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setDocId(Integer docId) {
+        this.docId = docId;
     }
 
     public void setName(String name) {

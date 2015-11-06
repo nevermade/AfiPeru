@@ -1,6 +1,6 @@
 package com.example.dp2.afiperu.ui.viewmodel;
 
-import com.example.dp2.afiperu.domain.Document;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
 
 import java.util.List;
 
@@ -9,5 +9,6 @@ import java.util.List;
  */
 public interface DocumentView {
 
-    void displayDocuments(List<Document> sessions);
+    void displayDocuments(List<SyncDocument> sessions);
+    void onFailure();
 }

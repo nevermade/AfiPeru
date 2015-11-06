@@ -42,7 +42,7 @@ public class Kid2Adapter extends BaseArrayAdapter<Kid> {
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (v.getId() == R.id.sessions_item_menu) {
+                //if (v.getDocId() == R.id.sessions_item_menu) {
                 //if(layout == R.layout.comments) {
                 Bundle args = new Bundle();
                 ArrayList<Comment> comments = new ArrayList<>();
