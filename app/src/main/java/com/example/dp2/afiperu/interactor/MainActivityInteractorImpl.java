@@ -25,7 +25,7 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                if(response.body()!=null){
+                if(response.body()==null){
                     presenter.onApplied(AppEnum.ResponseStatus.SUCCESS.ordinal());
                 }else {
                     presenter.onApplied(AppEnum.ResponseStatus.ERROR.ordinal());

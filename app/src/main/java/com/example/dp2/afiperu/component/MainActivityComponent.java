@@ -4,7 +4,7 @@ import com.example.dp2.afiperu.ActivityScope;
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
-import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
 
 import dagger.Component;
 
@@ -18,7 +18,7 @@ import dagger.Component;
 )
 public interface MainActivityComponent {
 
-    void inject(MainActivityView view);
+    void inject(DetailActivity view);
     MainActivityPresenter getPresenter();
 
 }

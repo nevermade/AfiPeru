@@ -11,14 +11,16 @@ public class AppEnum {
     }
 
     public enum EnumAction{
-        SESSION_AND_DOCUMENTS(15),
-        CREATE_POINTS_OF_REUNION(13),
+        SESSION_AND_DOCUMENTS(12),
+        CREATE_OR_EDIT_POINTS_OF_REUNION(13),
         LIST_POINTS_OF_REUNION(14),
         ASSISTANCE(16),
-        LIST_USERS(31),
-        LIST_PERIOD_REPORT(20),
-        PAYMENT(21),
-        LIST_SCHOOL_VOLUNTEER(28);
+        LIST_USERS(35),
+        LIST_PERIOD_REPORT(21),
+        PAYMENT(24),
+        LIST_SCHOOL_AND_VOLUNTEER(28),
+        LIST_COMMENTS(33),
+        ATTENDANCE_AND_QUALIFICATION(16);
 
         private int numVal;
 

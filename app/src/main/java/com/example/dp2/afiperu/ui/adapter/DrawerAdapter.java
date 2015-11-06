@@ -37,7 +37,7 @@ public class DrawerAdapter extends BaseArrayAdapter<Drawer> {
     }
 
     public void removeItem(Drawer option){
-        removeItem(option);
+        remove(option);
         notifyDataSetChanged();
     }
 }

@@ -13,6 +13,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.DialogFragment;
@@ -22,8 +23,8 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +34,7 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
@@ -50,7 +52,6 @@ import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
-import com.example.dp2.afiperu.rest.model.LoginUser;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -317,7 +318,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         selectItem(FRAGMENT_LOGIN);
     }
 
-    public void setActions(LoginUser user){
+    public void setActions(User user){
         ArrayList<Action> actions=null;
         ArrayList<Drawer> list=list = new ArrayList<>();
         if(user!=null) {
@@ -554,7 +555,14 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         invalidateOptionsMenu();
     }
     public void removeApplyOption(){
-        ((DrawerAdapter)mDrawerList.getAdapter()).removeItem(applyOptionItem);
+        TextView name = (TextView)findViewById(R.id.drawer_list_item_name);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            name.setTextColor(getResources().getColor(R.color.dark_text, null));
+        }else{
+            name.setTextColor(getResources().getColor(R.color.dark_text));
+        }
+        ((DrawerAdapter) mDrawerList.getAdapter()).removeItem(applyOptionItem);
+
     }
     private void tryPostulate(final int position){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -581,7 +589,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         switch(fragmentId){
             default:
                 Gson gson= new Gson();
-                LoginUser user = gson.fromJson(sharedPreferences.getString("loggedUser",null),LoginUser.class);
+                User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
                 if(user==null) {
                     hideAppElements(true);
                     //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);

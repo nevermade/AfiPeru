@@ -205,7 +205,7 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
 
     private boolean hasEditMapPermission(){
         for(Action a : Constants.loggedUser.getActions()){
-            if(a.getId()== AppEnum.EnumAction.CREATE_POINTS_OF_REUNION.getNumVal())
+            if(a.getId()== AppEnum.EnumAction.CREATE_OR_EDIT_POINTS_OF_REUNION.getNumVal())
                 return true;
         }
         return false;

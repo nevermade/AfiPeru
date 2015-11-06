@@ -23,6 +23,9 @@ public class User implements Serializable, Comparable<User> {
     @SerializedName("username")
     @Expose
     private String nickName;
+    @SerializedName("email")
+    @Expose
+    private String email;
     @SerializedName("profiles")
     @Expose
     private List<Profile> profiles = new ArrayList<Profile>();
@@ -31,7 +34,7 @@ public class User implements Serializable, Comparable<User> {
     private List<Action> actions = new ArrayList<Action>();
     @SerializedName("can_reapply")
     @Expose
-    private boolean can_reapply;
+    private Integer can_reapply;
     @SerializedName("period")
     @Expose
     private Period period;
@@ -143,11 +146,11 @@ public class User implements Serializable, Comparable<User> {
         this.profiles = profiles;
     }
 
-    public boolean isCan_reapply() {
+    public Integer isCan_reapply() {
         return can_reapply;
     }
 
-    public void setCan_reapply(boolean can_reapply) {
+    public void setCan_reapply(Integer can_reapply) {
         this.can_reapply = can_reapply;
     }
 
@@ -157,6 +160,14 @@ public class User implements Serializable, Comparable<User> {
 
     public void setPeriod(Period period) {
         this.period = period;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

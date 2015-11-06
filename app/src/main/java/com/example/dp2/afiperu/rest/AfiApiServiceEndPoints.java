@@ -7,7 +7,6 @@ import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.rest.model.AttendanceBody;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
-import com.example.dp2.afiperu.rest.model.LoginUser;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 
 import java.util.List;
@@ -61,7 +60,7 @@ public interface AfiApiServiceEndPoints {
     /*** Login Interactor ***/
     @FormUrlEncoded
     @POST("sign_in")
-    Call<LoginUser> login(@Field("username") String username, @Field("password") String password);
+    Call<User> login(@Field("username") String username, @Field("password") String password);
     @FormUrlEncoded
     @POST("recover_password")
     Call<Void> recoverPass(@Field("email")String email);
@@ -73,7 +72,7 @@ public interface AfiApiServiceEndPoints {
 
     /*** MainActivityInteractor ***/
     @FormUrlEncoded
-    @PUT("reapply")
+    @POST("reapply")
     Call<Void> applyForPeriod(@Field("period_id")int periodId);
 
 
