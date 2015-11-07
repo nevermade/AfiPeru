@@ -8,5 +8,8 @@ public interface MainActivityView{
     void displayApplySuccessMessage();
     void displayApplyFailureMessage();
     void removeApplyOption();
+    void saveUserToSharedPreferences();
+    void loadUserFromSharedPreferences();
+    void selectItem(int fragmentId);
 
 }

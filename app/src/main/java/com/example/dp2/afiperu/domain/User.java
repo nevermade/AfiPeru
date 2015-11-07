@@ -47,6 +47,25 @@ public class User implements Serializable, Comparable<User> {
     private double score;
     private boolean hasDownloaded;
 
+    private String usernameLog;
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return usernameLog;
+    }
+
+    public void setUsername(String username) {
+        this.usernameLog = username;
+    }
+
     public User(String nickName, int cod, String name, String lastName, String secondLastName, String profile, double score, boolean hasDownloaded) {
         this.nickName = nickName;
         this.cod = cod;

@@ -1,9 +1,12 @@
 package com.example.dp2.afiperu.presenter;
 
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.interactor.MainActivityInteractor;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
+import com.example.dp2.afiperu.util.Constants;
 
 /**
  * Created by DABARCA on 03/11/2015.
@@ -38,7 +41,20 @@ public class MainActivityPresenter extends BasePresenter {
         }
     }
 
+    public void validateUser(String username, String password){
+        interactor.validateUser(username,password,this);
+    }
 
+    public void onUserValidateSuccess(User user){
+        Constants.loggedUser= user;
+        view.saveUserToSharedPreferences();
+        view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
+    }
+
+    public void onUserValidateFailure(){
+        view.loadUserFromSharedPreferences();
+        view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
+    }
     @Override
     public void onStart() {
 

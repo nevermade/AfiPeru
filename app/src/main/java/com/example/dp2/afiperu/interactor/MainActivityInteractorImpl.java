@@ -1,11 +1,14 @@
 package com.example.dp2.afiperu.interactor;
 
+import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.util.AppEnum;
+import com.example.dp2.afiperu.util.Constants;
 
 import retrofit.Call;
 import retrofit.Callback;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 
@@ -38,5 +41,36 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
             }
         });
 
+    }
+
+    @Override
+    public void validateUser(final String username, final String password, final MainActivityPresenter presenter) {
+        Constants.PROGRESS.show();
+        Call<User> call= service.login(username,password);
+        
+        call.enqueue(new Callback<User>() {
+
+            @Override
+            public void onResponse(Response<User> response, Retrofit retrofit) {
+                Constants.PROGRESS.dismiss();
+                if(response.body().getName()!=null) {
+                    User loginResponse = response.body();
+                    Constants.TOKEN=loginResponse.getAuthToken();
+                    Constants.loggedUser=loginResponse;
+                    Constants.loggedUser.setUsername(username);
+                    Constants.loggedUser.setPassword(password);
+
+                    presenter.onUserValidateSuccess(loginResponse);
+                }else{
+                    presenter.onUserValidateFailure();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                presenter.onUserValidateFailure();
+            }
+        });
     }
 }

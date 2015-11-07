@@ -527,6 +527,20 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
         ((DrawerAdapter) mDrawerList.getAdapter()).removeItem(applyOptionItem);
 
+
+    }
+
+    public void saveUserToSharedPreferences(){
+        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        Gson gson= new Gson();
+        editor.putString("loggedUser", gson.toJson(Constants.loggedUser));
+        editor.commit();
+    }
+
+    public void loadUserFromSharedPreferences(){
+        Gson gson= new Gson();
+        User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
+        Constants.loggedUser=user;
     }
     private void tryPostulate(final int position){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -563,6 +577,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     selectedLayout = fragmentId;
                     changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
                 }else{
+                    presenter.validateUser(user.getUsername(),user.getPassword());
                     Constants.loggedUser=user;
                     Constants.TOKEN=user.getAuthToken();
                     setActions(user);

@@ -14,14 +14,16 @@ public abstract class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        injectDependencies();
 
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        injectDependencies();
+        //injectDependencies();
     }
+
 
     private void injectDependencies() {
         setUpComponent(AfiApp.getApp(this).getComponent());

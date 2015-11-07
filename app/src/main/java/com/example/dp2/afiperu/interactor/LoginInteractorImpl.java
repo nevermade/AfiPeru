@@ -21,7 +21,7 @@ public class LoginInteractorImpl implements LoginInteractor {
     }
 
     @Override
-    public void login(String username, String password, final LoginPresenter presenter) {
+    public void login(final String username, final String password, final LoginPresenter presenter) {
         Constants.PROGRESS.show();
         Call<User> call= service.login(username,password);
 
@@ -34,6 +34,8 @@ public class LoginInteractorImpl implements LoginInteractor {
                     User loginResponse = response.body();
                     Constants.TOKEN=loginResponse.getAuthToken();
                     Constants.loggedUser=loginResponse;
+                    Constants.loggedUser.setUsername(username);
+                    Constants.loggedUser.setPassword(password);
 
                     presenter.onLoginSuccess(loginResponse.getName());
                 }else{
