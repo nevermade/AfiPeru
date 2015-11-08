@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.dp2.afiperu.interactor.AttendanceInteractor;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
+import com.example.dp2.afiperu.interactor.CommentInteractor;
+import com.example.dp2.afiperu.interactor.CommentKidInteractor;
 import com.example.dp2.afiperu.interactor.DocumentInteractor;
 import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
@@ -49,4 +51,6 @@ public interface AfiAppComponent {
         MainActivityInteractor getMainActivityInteractor();
         DocumentInteractor getDocumentInteractor();
         AttendanceInteractor getAttendanceInteractor();
+        CommentKidInteractor getCommentKidInteractor();
+        CommentInteractor getCommentInteractor();
 }

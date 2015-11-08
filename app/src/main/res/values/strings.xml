@@ -99,6 +99,10 @@
     <string name="search_no">Cancelar</string>
     <string name="comment_yes">Comentar</string>
     <string name="comment_no">Cancelar</string>
+    <string name="insert_comment">Ingrese su comentario</string>
+    <string name="number_of_sessions">Sesiones</string>
+    <string name="sex_male">Masculino</string>
+    <string name="sex_female">Femenino</string>
 
     <!-- Subir fotos -->
     <string name="upload_photos_menu_gallery">Elegir foto de la galería</string>

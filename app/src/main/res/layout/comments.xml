@@ -12,45 +12,85 @@
         android:layout_centerHorizontal="true"
         android:orientation="vertical"
         android:layout_marginTop="@dimen/margin_top">
-
         <TextView
-            android:id="@+id/comments_item_name"
+            android:id="@+id/comments_kid_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="                      Julio Castilllo"
+            android:layout_gravity="center_horizontal"
+            android:text="Julio Castillo"
             android:textAppearance="@style/text_appearance_large_dark"
             />
-        <TextView
-            android:id="@+id/comments_subheader"
+        <RelativeLayout
+            android:layout_marginTop="@dimen/margin_top"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="    Genero:                  Edad:              Sesiones:"
-            android:textAppearance="@style/text_appearance_medium_dark_soft"
-
-            />
-        <TextView
-            android:id="@+id/comments_kid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="  Masculino                 2 años                    12"
-            android:textAppearance="@style/text_appearance_medium_dark_soft"
-
-            />
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="@dimen/margin_small">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/text_appearance_medium_dark_soft"
+                    android:text="@string/search_sex"/>
+                <TextView
+                    android:id="@+id/comments_kid_gender"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/text_appearance_medium_dark_soft"
+                    android:text="@string/sex_male"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_centerHorizontal="true">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/text_appearance_medium_dark_soft"
+                    android:text="@string/search_age"/>
+                <TextView
+                    android:id="@+id/comments_kid_age"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/text_appearance_medium_dark_soft"
+                    android:text="@string/kids_age"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_alignParentRight="true"
+                android:paddingRight="@dimen/margin_small">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/text_appearance_medium_dark_soft"
+                    android:text="@string/number_of_sessions"/>
+                <TextView
+                    android:id="@+id/comments_kid_sessions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/text_appearance_medium_dark_soft"
+                    android:text="12"/>
+            </LinearLayout>
+        </RelativeLayout>
         <TextView
             android:id="@+id/comments_subtittle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="\n                       Comentarios:"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_top"
+            android:text="Comentarios:"
             android:textAppearance="@style/text_appearance_large_dark"
-
             />
-
     </LinearLayout>
-
     <ListView
         android:id="@+id/comments_list"
         android:layout_alignParentBottom="@id/comments_header"
@@ -61,7 +101,8 @@
         android:id="@+id/empty_comments_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:text="@string/comments_none"
-        android:textSize="19sp"
+        android:textAppearance="@style/text_appearance_large_dark"
         android:visibility="gone"/>
 </RelativeLayout>

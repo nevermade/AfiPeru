@@ -3,22 +3,38 @@ package com.example.dp2.afiperu.ui.fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.component.DaggerCommentComponent;
 import com.example.dp2.afiperu.domain.Comment;
+import com.example.dp2.afiperu.domain.Kid;
+import com.example.dp2.afiperu.module.CommentModule;
+import com.example.dp2.afiperu.presenter.CommentPresenter;
+import com.example.dp2.afiperu.rest.model.AttendanceChild;
 import com.example.dp2.afiperu.ui.adapter.CommentAdapter;
+import com.example.dp2.afiperu.ui.viewmodel.CommentView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by Fernando on 23/09/2015.
  */
-public class CommentFragment extends BaseFragment {
+public class CommentFragment extends BaseFragment implements CommentView {
 
-    public static final String COMMENT_ARG = "comment_arg";
+    @Inject
+    CommentPresenter presenter;
+    @Inject
+    CommentAdapter adapter;
+
+    public static final String KID_ARG = "kid_arg";
 
     public CommentFragment(){
         super();
@@ -31,12 +47,24 @@ public class CommentFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<Comment> comments = (ArrayList<Comment>)args.getSerializable(COMMENT_ARG);
-        CommentAdapter adapter = new CommentAdapter(getContext(), this, comments);
+
+        TextView name = (TextView)rootView.findViewById(R.id.comments_kid_name);
+        TextView gender = (TextView)rootView.findViewById(R.id.comments_kid_gender);
+        TextView age = (TextView)rootView.findViewById(R.id.comments_kid_age);
+        TextView sessions = (TextView)rootView.findViewById(R.id.comments_kid_sessions);
 
         ListView newsList = (ListView)rootView.findViewById(R.id.comments_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_comments_list));
+
+        Kid child = (Kid)args.getSerializable(KID_ARG);
+        name.setText(child.getNames() + " " + child.getLastName());
+        gender.setText(child.getGender() == 0 ? getResources().getString(R.string.sex_male)
+                : getResources().getString(R.string.sex_female));
+        age.setText(getResources().getString(R.string.kids_age, child.getAge()));
+        sessions.setText(child.getSessions().toString());
+
+        presenter.getAllComments(getContext(), child.getId());
     }
 
     @Override
@@ -46,7 +74,17 @@ public class CommentFragment extends BaseFragment {
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
+        DaggerCommentComponent.builder()
+                .afiAppComponent(appComponent)
+                .commentModule(new CommentModule(this))
+                .build()
+                .inject(this);
+    }
 
+    @Override
+    public void showComments(List<Comment> comments){
+        Collections.sort(comments);
+        adapter.update(comments);
     }
 
 }

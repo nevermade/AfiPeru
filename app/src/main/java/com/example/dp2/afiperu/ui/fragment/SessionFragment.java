@@ -29,7 +29,6 @@ public class SessionFragment extends BaseFragment implements SessionView{
     @Inject
     SessionAdapter adapter;
 
-    View rootView;
     //public static final String SESSION_ARG = "session_arg";
 
     public SessionFragment(){
@@ -43,16 +42,12 @@ public class SessionFragment extends BaseFragment implements SessionView{
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        //ArrayList<SessionResponse> sessions = (ArrayList<SessionResponse>)args.getSerializable(SESSION_ARG);
-        this.rootView=rootView;
         rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_sessions_list));
 
         presenter.getAllSessions();
-
-
     }
 
     @Override
@@ -72,11 +67,11 @@ public class SessionFragment extends BaseFragment implements SessionView{
     @Override
     public void displaySessions(ArrayList<Session> sessions) {
         adapter.update(sessions);
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
     @Override
     public void displaySessionsErrorOrFailure() {
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 }

@@ -28,11 +28,4 @@
             android:singleLine="true"
             android:layout_marginRight="25dp"/>
     </LinearLayout>
-    <ImageView
-        android:id="@+id/kids_item_menu2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:src="@android:drawable/checkbox_on_background"/>
 </RelativeLayout>

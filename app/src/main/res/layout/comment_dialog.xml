@@ -4,58 +4,41 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:background="@color/main_background">
-
-
-    <TextView
-        android:id="@+id/empty_blogs_list"
+    <LinearLayout
+        android:id="@+id/faces"
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="@string/blogs_none"
-        android:textAppearance="@style/text_appearance_large_dark"
-        android:visibility="gone"/>
-
-
-    <ImageButton
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp">
+        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginLeft="41dp"
-            android:id="@+id/carita1"
-
-            android:background="@drawable/happy"
-        style="@android:style/MediaButton" />
-
-    <ImageButton
+            android:layout_marginRight="100dp"
+            android:id="@+id/happy_face"
+            android:src="@drawable/happy_off" />
+        <ImageView
             android:layout_width="50dp"
-        android:layout_height="50dp"
-            android:id="@+id/carita2"
-
-
-            android:background="@drawable/sad"
-        android:layout_alignTop="@+id/carita1"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText" />
-
+            android:layout_height="50dp"
+            android:id="@+id/sad_face"
+            android:src="@drawable/sad_off" />
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/text_appearance_large_dark"
-        android:text="Inserte su comentario"
-        android:id="@+id/textView"
-        android:layout_below="@+id/carita1"
-        android:layout_alignLeft="@+id/carita1"
-        android:layout_alignStart="@+id/carita1"
-        android:layout_marginTop="39dp" />
-
+        android:text="@string/insert_comment"
+        android:id="@+id/comment_dialog_message"
+        android:layout_below="@id/faces"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/carita1"
-        android:layout_marginBottom="40dp"/>
-
+        android:id="@+id/comment_dialog_text"
+        android:layout_below="@+id/comment_dialog_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"/>
 </RelativeLayout>

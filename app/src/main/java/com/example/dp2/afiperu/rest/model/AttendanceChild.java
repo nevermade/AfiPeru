@@ -5,13 +5,12 @@ import com.example.dp2.afiperu.domain.Kid;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * Created by Nevermade on 03/11/2015.
  */
-public class AttendanceChild {
+public class AttendanceChild implements Serializable, Comparable<AttendanceChild> {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -21,9 +20,9 @@ public class AttendanceChild {
     @SerializedName("commented")
     @Expose
     private Integer commented;
-    @SerializedName("comments")
+    @SerializedName("comment")
     @Expose
-    private List<Comment> comments = new ArrayList<Comment>();
+    private Comment comment;
 
     /**
      *
@@ -84,16 +83,21 @@ public class AttendanceChild {
      * @return
      * The comments
      */
-    public List<Comment> getComments() {
-        return comments;
+    public Comment getComment() {
+        return comment;
     }
 
     /**
      *
-     * @param comments
+     * @param comment
      * The comments
      */
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
+    public void setComment(Comment comment) {
+        this.comment = comment;
+    }
+
+    @Override
+    public int compareTo(AttendanceChild another) {
+        return child.compareTo(another.child);
     }
 }

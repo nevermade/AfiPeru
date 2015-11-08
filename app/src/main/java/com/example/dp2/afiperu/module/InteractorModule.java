@@ -6,6 +6,10 @@ import com.example.dp2.afiperu.interactor.BlogSearchInteractor;
 import com.example.dp2.afiperu.interactor.BlogSearchInteractorImpl;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractorImpl;
+import com.example.dp2.afiperu.interactor.CommentInteractor;
+import com.example.dp2.afiperu.interactor.CommentInteractorImpl;
+import com.example.dp2.afiperu.interactor.CommentKidInteractor;
+import com.example.dp2.afiperu.interactor.CommentKidInteractorImpl;
 import com.example.dp2.afiperu.interactor.DocumentInteractor;
 import com.example.dp2.afiperu.interactor.DocumentInteractorImpl;
 import com.example.dp2.afiperu.interactor.KidInteractor;
@@ -91,10 +95,18 @@ public class InteractorModule {
         return new DocumentInteractorImpl(service);
     }
 
-
-
     @Provides
     public AttendanceInteractor provideAttendanceInteractor(AfiApiServiceEndPoints service){
         return new AttendanceInteractorImpl(service);
+    }
+
+    @Provides
+    public CommentKidInteractor provideCommentKidInteractor(AfiApiServiceEndPoints service){
+        return new CommentKidInteractorImpl(service);
+    }
+
+    @Provides
+    public CommentInteractor provideCommentInteractor(AfiApiServiceEndPoints service){
+        return new CommentInteractorImpl(service);
     }
 }

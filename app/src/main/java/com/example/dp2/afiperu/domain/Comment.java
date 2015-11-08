@@ -11,47 +11,37 @@ import java.io.Serializable;
 public class Comment implements Serializable, Comparable<Comment>{
     @SerializedName("id")
     @Expose
-    private Integer iconId;
-    private String name;
-    @SerializedName("comment")
+    private Integer commentId;
+    @SerializedName("session_id")
     @Expose
-    private String comment;
+    private Integer sessionId;
+    @SerializedName("message")
+    @Expose
+    private String message;
     @SerializedName("face")
     @Expose
     private Integer face;
-    @SerializedName("volunteer")
+    @SerializedName("author")
     @Expose
-    private Volunteer volunteer;
-    //private String gender;
+    private User author;
 
-
-    public Comment(String name, String comment) {
-        this.name = name;
-        this.comment = comment;
-        //  this.gender = gender;
-//        this.iconId = iconId;
+    public Comment() {
     }
 
-    public String getName() { return name; }
-
-    public String getComment() {
-        return comment;
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public Integer getIconId() {
-        return iconId;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
-    public void setIconId(Integer iconId) {
-        this.iconId = iconId;
+    public String getMessage() {
+        return message;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Integer getFace() {
@@ -62,17 +52,24 @@ public class Comment implements Serializable, Comparable<Comment>{
         this.face = face;
     }
 
-    public Volunteer getVolunteer() {
-        return volunteer;
+    public Integer getSessionId() {
+        return sessionId;
     }
 
-    public void setVolunteer(Volunteer volunteer) {
-        this.volunteer = volunteer;
+    public void setSessionId(Integer sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     @Override
-    public int compareTo(Comment another) {
-        return Long.valueOf(another.name).compareTo(Long.valueOf(name));
+    public int compareTo(Comment o2){
+        return o2.sessionId.compareTo(sessionId);
     }
-/**/
 }

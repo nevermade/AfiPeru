@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Kid implements Serializable, Comparable<Kid> {
     @SerializedName("id")
@@ -22,6 +23,12 @@ public class Kid implements Serializable, Comparable<Kid> {
     @SerializedName("gender")
     @Expose
     private Integer gender;
+    @SerializedName("sessions")
+    @Expose
+    private Integer sessions;
+    @SerializedName("comments")
+    @Expose
+    private List<Comment> comments;
 
     /**
      *
@@ -117,6 +124,22 @@ public class Kid implements Serializable, Comparable<Kid> {
      */
     public void setGender(Integer gender) {
         this.gender = gender;
+    }
+
+    public Integer getSessions() {
+        return sessions;
+    }
+
+    public void setSessions(Integer sessions) {
+        this.sessions = sessions;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 
     @Override

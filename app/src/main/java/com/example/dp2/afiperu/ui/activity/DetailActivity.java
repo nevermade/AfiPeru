@@ -586,35 +586,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 return;
 
             case FRAGMENT_NOTICIAS:
-//                isNetworkConnected();
-/*
-                SyncUser su = new SyncUser();
-                su.setName("A ver");
-                su.save();
-                Toast.makeText(getBaseContext(),"Success",Toast.LENGTH_SHORT).show();
-                */
-                /*
-                SyncSession se = new SyncSession();
-                se.setName("Sesion1");
-                SyncPointOfReunion pr = new SyncPointOfReunion();
-                pr.setLongitude(2.2);
-                pr.setLatitude(2.2);
-
-                pr.save();
-                SyncLocation lo = new SyncLocation();
-                lo.setLongitude(4.4);
-                lo.setLatitude(4.4);
-
-                se.getPointsOfReunion().add(pr);
-                se.setLocation(lo);
-
-                se.save();
-                pr.setSession(se);
-                lo.setSession(se);
-                pr.save();
-                lo.save();
-                Toast.makeText(getBaseContext(),se.getId().toString() + " IDD",Toast.LENGTH_SHORT).show();
-                */
                 ArrayList<News> news = new ArrayList<>();
                 Calendar calendar = new GregorianCalendar(2015, 8, 25, 0, 31);
                 news.add(new News(

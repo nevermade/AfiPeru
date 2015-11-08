@@ -35,6 +35,15 @@ public interface AfiApiServiceEndPoints {
     @GET("sessions")
     Call<List<Session>> getAllSessions();
 
+    /***Comment Interactor ***/
+    @GET("children/{id}")
+    Call<Kid> getKidAndComments(@Path("id") Integer kidId);
+
+    /*** CommentKid Interactor ***/
+    @FormUrlEncoded
+    @POST("attendance_children/{id}/comments")
+    Call<Void> makeComment(@Path("id") Integer kidId, @Field("message") String message, @Field("face") Integer face);
+
     /*** Users Interactor ***/
     @GET("users")
     Call<List<User>> getAllUsers();
