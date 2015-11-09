@@ -10,12 +10,18 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -77,6 +83,7 @@ import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
+import com.google.android.gms.maps.Projection;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -135,6 +142,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Inject
     MainActivityPresenter presenter;
 
+    private int REQUEST_IMAGE_CAPTURE =1;
+    private int REQUEST_IMAGE_GALLERY =2;
     /* Cosas a agregar con cada layout nuevo */
 
     public String getTitle(int fragmentId){
@@ -215,6 +224,40 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                         break;
                 }
                 break;
+
+            case FRAGMENT_SUBIR_FOTOS:
+                switch(item.getItemId()){
+                    case R.id.upload_photos_menu_gallery:/*
+                        Hashtable<Long, AFIEvent> events = new Hashtable<>();
+                        Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
+                        Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
+                        events.put(dateNoTime.getTime().getTime(),
+                                new AFIEvent("Av. Antonio Alarco 497", dateWithTime.getTime().getTime(), "Sesión 1"));
+                        Bundle args = new Bundle();
+                        args.putSerializable(CalendarFragment.EVENTS_ARG, events);
+                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CALENDARIO);
+                        BaseFragment calendarFragment = new CalendarFragment();
+                        calendarFragment.setArguments(args);
+                        addFragment(calendarFragment, getTitle(FRAGMENT_CALENDARIO), getMenu(FRAGMENT_CALENDARIO));
+                        */
+                        Intent getPictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        if (getPictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(getPictureIntent, REQUEST_IMAGE_GALLERY);
+                        }
+                        break;
+                    case R.id.upload_photos_menu_camera:
+
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                        }
+
+
+
+                        //Toast.makeText(DetailActivity.this, "Camara", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                break;
             case FRAGMENT_MAPA_EDITABLE:
                 MapEditFragment mapEditFragment = (MapEditFragment)topFragment;
                 switch(item.getItemId()){
@@ -226,6 +269,43 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            //mImageView.setImageBitmap(imageBitmap);
+            ImageView iv = (ImageView) findViewById(R.id.photo_pic);
+            iv.setImageBitmap(imageBitmap);
+            float opacity =1;
+            iv.setAlpha(opacity);
+            TextView tv = (TextView) findViewById(R.id.no_photo_text);
+            tv.setText("");
+
+        }else  if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK){
+            Uri uri = data.getData();
+            String [] projection = {MediaStore.Images.Media.DATA};
+            Cursor cursor = getContentResolver().query(uri,projection,null,null,null);
+            cursor.moveToFirst();
+            int columIndex = cursor.getColumnIndex(projection[0]);
+            String filePath = cursor.getString(columIndex);
+            cursor.close();
+            Bitmap imageBitmap = (Bitmap) BitmapFactory.decodeFile(filePath);
+            Drawable d =  new BitmapDrawable(imageBitmap);
+            ImageView iv = (ImageView) findViewById(R.id.photo_pic);
+            iv.setImageDrawable(d);
+            float opacity =1;
+            iv.setAlpha(opacity);
+            TextView tv = (TextView) findViewById(R.id.no_photo_text);
+            tv.setText("");
+         }
+    }
+
+
+
+
+
 
     /* Cosas que casi no deberían cambiar */
 

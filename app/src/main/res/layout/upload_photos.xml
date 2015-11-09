@@ -12,8 +12,8 @@
         android:layout_centerVertical="true">
         <ImageView
             android:id="@+id/photo_pic"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="400dp"
+            android:layout_height="400dp"
             android:alpha="0.15"
             android:src="@drawable/no_photo"/>
         <TextView
@@ -24,7 +24,11 @@
             android:layout_alignBottom="@id/photo_pic"
             android:gravity="center"
             android:textAppearance="@style/text_appearance_medium_dark"
-            android:text="@string/no_photo_message"/>
+            android:text="@string/no_photo_message"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft  ="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight  ="true"/>
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
