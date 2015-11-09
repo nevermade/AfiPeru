@@ -14,6 +14,7 @@ import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.SessionView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.List;
 
@@ -40,11 +41,12 @@ public class SessionFragment extends BaseFragment implements SessionView{
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView newsList = (ListView)rootView.findViewById(R.id.sessions_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_sessions_list));
-
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
         presenter.getAllSessions(getContext());
     }
 
@@ -65,11 +67,15 @@ public class SessionFragment extends BaseFragment implements SessionView{
     @Override
     public void displaySessions(List<SyncSession> sessions) {
         adapter.update(sessions);
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void displaySessionsErrorOrFailure() {
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 }

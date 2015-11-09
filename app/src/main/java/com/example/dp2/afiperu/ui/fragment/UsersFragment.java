@@ -19,6 +19,7 @@ import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +45,12 @@ public class UsersFragment extends BaseFragment implements UserView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
         blogsList.setAdapter(adapter);
         blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
-
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
         presenter.getAllUsers(getContext());
     }
 
@@ -70,7 +72,9 @@ public class UsersFragment extends BaseFragment implements UserView {
     @Override
     public void showUsers(List<SyncUser> users) {
         adapter.update(users);
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
     public void getLocations(){
@@ -96,7 +100,9 @@ public class UsersFragment extends BaseFragment implements UserView {
 
     @Override
     public void displayErrorOrFailure() {
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
 }

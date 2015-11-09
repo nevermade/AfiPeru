@@ -14,6 +14,7 @@ import com.example.dp2.afiperu.presenter.KidPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncKid;
 import com.example.dp2.afiperu.ui.adapter.PeopleKidsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.KidView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,13 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView peopleKidsList = (ListView)rootView.findViewById(R.id.people_kids_list);
         peopleKidsList.setAdapter(adapter);
         peopleKidsList.setEmptyView(rootView.findViewById(R.id.empty_people_kids_list));
 
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
         presenter.getAllKids(getContext());
     }
 
@@ -66,12 +69,16 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
     @Override
     public void showKids(List<SyncKid> kids) {
         adapter.update(kids);
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onFailure(){
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
 }

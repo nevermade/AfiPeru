@@ -93,7 +93,6 @@ public class SessionAdapter extends BaseArrayAdapter<SyncSession> {
                                     Collections.sort(children);
                                     args = new Bundle();
                                     args.putSerializable(CommentKidFragment.KIDS_ARG, children);
-                                    args.putInt(CommentKidFragment.SESSION_ID_ARG, item.getSessionId());
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
                                     CommentKidFragment kidsFragment = new CommentKidFragment();
                                     kidsFragment.setArguments(args);

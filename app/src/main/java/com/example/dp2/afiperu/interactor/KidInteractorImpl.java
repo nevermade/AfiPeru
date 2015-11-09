@@ -31,27 +31,24 @@ public class KidInteractorImpl implements KidInteractor {
 
 
     @Override
-    public ArrayList<Kid> getAllKids(final KidPresenter presenter, Context context) {
+    public void getAllKids(final KidPresenter presenter, Context context) {
         if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
             Call<List<Kid>> call = service.getAllKids();
             call.enqueue(new Callback<List<Kid>>() {
                 @Override
                 public void onResponse(Response<List<Kid>> response, Retrofit retrofit) {
-                    ArrayList<Kid> kids = (ArrayList<Kid>) response.body();
+                    List<Kid> kids = response.body();
 
                     if (kids != null) {
-                        SyncKid.deleteAll(SyncKid.class);
+                        SyncKid.deleteAll(SyncKid.class, "attendance_child = 0");
                         for (Kid kid : kids) {
                             SyncKid su = SyncKid.fromKid(kid);
                             su.save();
                         }
 
-                        List<SyncKid> lista = SyncKid.listAll(SyncKid.class);
-                        ArrayList<SyncKid> listav = new ArrayList<>();
-
-                        for (SyncKid kid : lista) listav.add(kid);
-                        Collections.sort(listav);
-                        presenter.onUsersFound(listav);
+                        List<SyncKid> lista = SyncKid.find(SyncKid.class, "attendance_child = 0");
+                        Collections.sort(lista);
+                        presenter.onUsersFound(lista);
                     }else{
                         presenter.onFailure();
                     }
@@ -62,13 +59,10 @@ public class KidInteractorImpl implements KidInteractor {
                     presenter.onFailure();
                 }
             });
-
         }else{// Si no tengo conexion
-            List<SyncKid> lista = SyncKid.listAll(SyncKid.class);
+            List<SyncKid> lista = SyncKid.find(SyncKid.class, "attendance_child = 0");
             Collections.sort(lista);
             presenter.onUsersFound(lista);
         }
-
-        return null;
     }
 }

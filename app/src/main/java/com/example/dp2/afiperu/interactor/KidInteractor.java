@@ -14,5 +14,5 @@ import java.util.ArrayList;
  */
 public interface KidInteractor {
 
-    ArrayList<Kid> getAllKids(KidPresenter kidPresenter, Context context);
+    void getAllKids(KidPresenter kidPresenter, Context context);
 }

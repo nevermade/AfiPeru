@@ -23,6 +23,10 @@ public class SyncAttendanceChild extends SugarRecord<SyncAttendanceChild> implem
         this.session = 0;
     }
 
+    public Integer getAttendanceChildId() {
+        return attendanceChildId;
+    }
+
     public SyncKid getKid() {
         return kid;
     }

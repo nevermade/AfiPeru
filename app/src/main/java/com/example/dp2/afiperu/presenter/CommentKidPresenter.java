@@ -31,7 +31,7 @@ public class CommentKidPresenter extends BasePresenter{
 
     }
 
-    public void makeComment(Context context, Integer sessionId, Integer kidId, Integer face, String message){
-        interactor.makeComment(context, sessionId, kidId, face, message);
+    public void makeComment(Context context, Integer attendanceChildId, Integer face, String message){
+        interactor.makeComment(context, attendanceChildId, face, message);
     }
 }

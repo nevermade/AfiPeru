@@ -15,6 +15,7 @@ import com.example.dp2.afiperu.presenter.DocumentPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DocumentView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,10 +45,13 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView docsList = (ListView)rootView.findViewById(R.id.docs_list);
         docsList.setAdapter(adapter);
         docsList.setEmptyView(rootView.findViewById(R.id.empty_docs_list));
+
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
 
         ArrayList<SyncDocument> documents = (ArrayList<SyncDocument>)args.getSerializable(DOCUMENTS_ARG);
         if(documents != null){
@@ -79,11 +83,15 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
     @Override
     public void displayDocuments(List<SyncDocument> documents) {
         adapter.update(documents);
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onFailure(){
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 }

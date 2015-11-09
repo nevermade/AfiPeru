@@ -44,7 +44,7 @@ public class KidPresenter extends BasePresenter {
         view.onFailure();
     }
 
-    public ArrayList<Kid> getAllKids(Context context){
-        return interactor.getAllKids(this, context);
+    public void getAllKids(Context context){
+        interactor.getAllKids(this, context);
     }
 }

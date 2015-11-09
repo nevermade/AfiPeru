@@ -118,6 +118,10 @@ public class SessionInteractorImpl implements SessionInteractor {
                     presenter.onSessionErrorOrFailure();
                 }
             });
+        }else{
+            List<SyncSession> sessions = SyncSession.listAll(SyncSession.class);
+            Collections.sort(sessions);
+            presenter.onSessionFound(sessions);
         }
      }
 }
