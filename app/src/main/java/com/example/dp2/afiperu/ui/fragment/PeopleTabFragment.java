@@ -17,14 +17,15 @@ import com.example.dp2.afiperu.common.BasePresenter;
  */
 public class PeopleTabFragment extends BaseFragment {
 
-    private final Fragment[] tabs = new Fragment[2];
+    private final BaseFragment[] tabs = new BaseFragment[2];
 
     public PeopleTabFragment(){
         super();
     }
 
     public boolean showingUsers(){
-        return true;
+        final ViewPager pager = (ViewPager)getView().findViewById(R.id.pager);
+        return pager.getCurrentItem() == 0;
     }
 
     @Override
@@ -91,6 +92,15 @@ public class PeopleTabFragment extends BaseFragment {
 
     public UsersFragment getUsersFragment(){
         return (UsersFragment)tabs[0];
+    }
+
+    @Override
+    public void onSearch(String query){
+        if(showingUsers()){
+            tabs[0].onSearch(query);
+        }else{
+            tabs[1].onSearch(query);
+        }
     }
 
 }

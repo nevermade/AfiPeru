@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ListView;
 
@@ -12,9 +13,7 @@ import com.example.dp2.afiperu.component.DaggerUserComponent;
 import com.example.dp2.afiperu.module.UserModule;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.presenter.UserPresenter;
-import com.example.dp2.afiperu.rest.model.LocationsBody;
-import com.example.dp2.afiperu.rest.model.School;
-import com.example.dp2.afiperu.rest.model.Volunteer;
+import com.example.dp2.afiperu.syncmodel.SyncSchoolAddress;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.adapter.UsersAdapter;
@@ -78,19 +77,18 @@ public class UsersFragment extends BaseFragment implements UserView {
     }
 
     public void getLocations(){
-        presenter.getLocations();
+        presenter.getLocations(getContext());
     }
 
     @Override
-    public void showLocations(LocationsBody locations){
+    public void showLocations(List<SyncSchoolAddress> locations){
         MapFragment mapFragment = new MapFragment();
         Bundle args = new Bundle();
         ArrayList<MarkerInfo> markers = new ArrayList<>();
-        for(School school : locations.getSchools()){
-            markers.add(new MarkerInfo(-1, school.getLatitude(), school.getLongitude(), MarkerInfo.MARKER_KIND_INFO_SCHOOL, school.getName()));
-        }
-        for(Volunteer volunteer : locations.getVolunteers()){
-            markers.add(new MarkerInfo(-1, volunteer.getLatitude(), volunteer.getLongitude(), MarkerInfo.MARKER_KIND_INFO_VOLUNTEER, volunteer.getNames() + " " + volunteer.getLastName()));
+        for(SyncSchoolAddress address : locations){
+            markers.add(new MarkerInfo(-1, address.getLatitude(), address.getLongitude(),
+                    address.getType() == SyncSchoolAddress.TYPE_SCHOOL ? MarkerInfo.MARKER_KIND_INFO_SCHOOL : MarkerInfo.MARKER_KIND_INFO_VOLUNTEER,
+                    address.getName()));
         }
         args.putSerializable(MapFragment.MARKERS_ARG, markers);
         args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_MAPA);
@@ -99,10 +97,24 @@ public class UsersFragment extends BaseFragment implements UserView {
     }
 
     @Override
+    public void onLocationsFailure(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(R.string.no_locations).setNeutralButton(android.R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
     public void displayErrorOrFailure() {
         if(getView() != null) {
             getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onSearch(String query){
+        //ACÁ HAZ TU BÚSQUEDA SIMPLE
+        int a = 0;
     }
 
 }

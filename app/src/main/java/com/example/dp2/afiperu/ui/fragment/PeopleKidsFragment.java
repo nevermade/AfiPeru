@@ -81,4 +81,10 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
         }
     }
 
+    @Override
+    public void onSearch(String query){
+        //ACÁ HAZ TU BÚSQUEDA SIMPLE
+        int a = 0;
+    }
+
 }

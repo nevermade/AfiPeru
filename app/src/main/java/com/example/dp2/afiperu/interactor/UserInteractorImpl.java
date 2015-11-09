@@ -6,6 +6,9 @@ import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.UserPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
+import com.example.dp2.afiperu.rest.model.School;
+import com.example.dp2.afiperu.rest.model.Volunteer;
+import com.example.dp2.afiperu.syncmodel.SyncSchoolAddress;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.util.NetworkManager;
 
@@ -28,7 +31,7 @@ public class UserInteractorImpl implements UserInteractor {
     }
 
     @Override
-    public void getAllUsers(final UserPresenter presenter, Context context) {
+    public void getAllUsers(Context context, final UserPresenter presenter) {
         if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
             Call<List<User>> call = service.getAllUsers();
             call.enqueue(new Callback<List<User>>() {
@@ -70,18 +73,39 @@ public class UserInteractorImpl implements UserInteractor {
     }
 
     @Override
-    public void getLocations(final UserPresenter presenter) {
-        Call<LocationsBody> locations = service.getLocations();
-        locations.enqueue(new Callback<LocationsBody>() {
-            @Override
-            public void onResponse(Response<LocationsBody> response, Retrofit retrofit) {
-                presenter.onLocationsFound(response.body());
-            }
+    public void getLocations(Context context, final UserPresenter presenter) {
+        if(NetworkManager.isNetworkConnected(context)) {
+            Call<LocationsBody> locations = service.getLocations();
+            locations.enqueue(new Callback<LocationsBody>() {
+                @Override
+                public void onResponse(Response<LocationsBody> response, Retrofit retrofit) {
+                    LocationsBody result = response.body();
+                    if(result != null && !result.getSchools().isEmpty() && !result.getVolunteers().isEmpty()) {
+                        SyncSchoolAddress.deleteAll(SyncSchoolAddress.class);
+                        for(School school : result.getSchools()){
+                            SyncSchoolAddress address = SyncSchoolAddress.fromSchool(school);
+                            address.save();
+                        }
+                        for(Volunteer volunteer : result.getVolunteers()){
+                            SyncSchoolAddress addess = SyncSchoolAddress.fromVolunteer(volunteer);
+                            addess.save();
+                        }
 
-            @Override
-            public void onFailure(Throwable t) {
+                        List<SyncSchoolAddress> addresses = SyncSchoolAddress.listAll(SyncSchoolAddress.class);
+                        presenter.onLocationsFound(addresses);
+                    }else{
+                        presenter.onLocationsFailure();
+                    }
+                }
 
-            }
-        });
+                @Override
+                public void onFailure(Throwable t) {
+                    presenter.onLocationsFailure();
+                }
+            });
+        }else{
+            List<SyncSchoolAddress> addresses = SyncSchoolAddress.listAll(SyncSchoolAddress.class);
+            presenter.onLocationsFound(addresses);
+        }
     }
 }

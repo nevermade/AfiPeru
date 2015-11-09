@@ -60,6 +60,7 @@ import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
+import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
 import com.example.dp2.afiperu.ui.fragment.CalendarFragment;
@@ -506,71 +507,80 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         if(toolbarMenu != 0){
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(toolbarMenu, menu);
-            if(toolbarMenu == R.menu.people_menu_toolbar && AppEnum.EnumAction.LIST_SCHOOL_AND_VOLUNTEER.hasPermission()){
+            if(toolbarMenu == R.menu.people_menu_toolbar && !AppEnum.EnumAction.LIST_SCHOOL_AND_VOLUNTEER.hasPermission()){
                 menu.findItem(R.id.people_menu_map).setVisible(false);
             }
 
             //Search view
-            final int menuItem;
-            final String dialogTag;
-            final Class<?> dialogFragmentClass;
-            switch(toolbarMenu){
-                case R.menu.people_menu_toolbar:
-                    menuItem = R.id.people_menu_search;
-                    dialogTag = DIALOG_TAG_SEARCH_KIDS;
-                    dialogFragmentClass = KidSearchDialog.class;
-                    break;
-                /*case R.menu.people_menu_toolbar:
-                    menuItem = R.id.people_menu_search;
-                    if(((PeopleTabFragment)getTopFragment()).showingUsers()){
-                        dialogTag = DIALOG_TAG_SEARCH_USERS;
-                        dialogFragmentClass = UserSearchDialog.class;
-                    }else{
-                        dialogTag = DIALOG_TAG_SEARCH_KIDS;
-                        dialogFragmentClass = KidSearchDialog.class;
-                    }
-                    break;*/
-                case R.menu.comments_menu_toolbar:
-                    menuItem = R.id.comments_menu_search;
-                    dialogTag = DIALOG_TAG_SEARCH_COMMENTS;
-                    dialogFragmentClass = CommentSearchDialog.class;
-                    break;
-                case R.menu.map_menu_toolbar:
-                case R.menu.map_edit_menu_toolbar:
-                    menuItem = R.id.map_menu_search;
-                    dialogTag = null;
-                    dialogFragmentClass = null;
-                    break;
-                default:
-                    menuItem = 0;
-                    dialogTag = null;
-                    dialogFragmentClass = null;
-                    break;
-            }
-            if(menuItem != 0) {
+            if(toolbarMenu == R.menu.people_menu_toolbar){
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                SearchView searchView = (SearchView) menu.findItem(menuItem).getActionView();
+                SearchView searchView = (SearchView) menu.findItem(R.id.people_menu_search).getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
 
-                if(dialogFragmentClass != null) {
-                    LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
-                    ImageView plusIcon = new ImageView(this);
-                    plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
-                    plusIcon.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                DialogFragment dialog = (DialogFragment) dialogFragmentClass.newInstance();
-                                dialog.show(getSupportFragmentManager(), dialogTag);
-                            } catch (InstantiationException e) {
-                                Log.e("", "", e);
-                            } catch (IllegalAccessException e) {
-                                Log.e("", "", e);
-                            }
+                LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                ImageView plusIcon = new ImageView(this);
+                plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
+                plusIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(((PeopleTabFragment)getTopFragment()).showingUsers()){
+                            DialogFragment dialog = new UserSearchDialog();
+                            dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);
+                        }else{
+                            DialogFragment dialog = new KidSearchDialog();
+                            dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);
                         }
-                    });
-                    parent.addView(plusIcon);
+                    }
+                });
+                parent.addView(plusIcon);
+            }else {
+                final int menuItem;
+                final String dialogTag;
+                final Class<?> dialogFragmentClass;
+                switch (toolbarMenu) {
+                    case R.menu.comments_menu_toolbar:
+                        menuItem = R.id.comments_menu_search;
+                        dialogTag = DIALOG_TAG_SEARCH_COMMENTS;
+                        dialogFragmentClass = CommentSearchDialog.class;
+                        break;
+                    case R.menu.map_menu_toolbar:
+                    case R.menu.map_edit_menu_toolbar:
+                        menuItem = R.id.map_menu_search;
+                        dialogTag = null;
+                        dialogFragmentClass = null;
+                        break;
+                    default:
+                        menuItem = 0;
+                        dialogTag = null;
+                        dialogFragmentClass = null;
+                        break;
+                }
+                if (menuItem != 0) {
+                    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                    SearchView searchView = (SearchView) menu.findItem(menuItem).getActionView();
+                    SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+                    searchView.setSearchableInfo(searchableInfo);
+
+                    if (dialogFragmentClass != null) {
+                        LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                        ImageView plusIcon = new ImageView(this);
+                        plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
+                        plusIcon.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    DialogFragment dialog = (DialogFragment) dialogFragmentClass.newInstance();
+                                    dialog.show(getSupportFragmentManager(), dialogTag);
+                                } catch (InstantiationException e) {
+                                    Log.e("", "", e);
+                                } catch (IllegalAccessException e) {
+                                    Log.e("", "", e);
+                                }
+                            }
+                        });
+                        parent.addView(plusIcon);
+                    }
                 }
             }
         }

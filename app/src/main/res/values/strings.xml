@@ -151,6 +151,8 @@
     <string name="marker_info_school">Colegio: %1$s</string>
     <string name="marker_info_volunteer">Voluntario: %1$s</string>
 
+    <string name="no_locations">No se encontraron colegios ni voluntarios.</string>
+
     <string name="no_address">No se encontró la dirección.</string>
     <string name="no_my_location">No se pudo acceder a su ubicación.</string>
     <string name="no_direction">No se pudo encontrar una ruta.</string>

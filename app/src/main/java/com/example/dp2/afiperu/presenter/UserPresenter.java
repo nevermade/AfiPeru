@@ -3,7 +3,7 @@ package com.example.dp2.afiperu.presenter;
 import android.content.Context;
 
 import com.example.dp2.afiperu.interactor.UserInteractor;
-import com.example.dp2.afiperu.rest.model.LocationsBody;
+import com.example.dp2.afiperu.syncmodel.SyncSchoolAddress;
 import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
@@ -30,14 +30,18 @@ public class UserPresenter {
     }
 
     public void getAllUsers(Context context){
-        interactor.getAllUsers(this,context);
+        interactor.getAllUsers(context, this);
     }
 
-    public void onLocationsFound(LocationsBody locations){
+    public void onLocationsFound(List<SyncSchoolAddress> locations){
         view.showLocations(locations);
     }
 
-    public void getLocations(){
-        interactor.getLocations(this);
+    public void onLocationsFailure(){
+        view.onLocationsFailure();
+    }
+
+    public void getLocations(Context context){
+        interactor.getLocations(context, this);
     }
 }
