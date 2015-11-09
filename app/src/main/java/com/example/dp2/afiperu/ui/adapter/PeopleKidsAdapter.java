@@ -27,7 +27,7 @@ public class PeopleKidsAdapter extends BaseArrayAdapter<SyncKid> {
         TextView age=(TextView)convertView.findViewById(R.id.people_kids_item_age);
         ImageView gender=(ImageView)convertView.findViewById(R.id.people_kids_item_gender_pic);
 
-        name.setText(item.getNames()+" "+item.getLastName());
+        name.setText(item.getNames());
         age.setText(String.valueOf(item.getAge()));
         if(item.getGender()==null) {
         }

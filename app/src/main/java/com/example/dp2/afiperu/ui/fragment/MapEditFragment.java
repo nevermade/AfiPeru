@@ -11,10 +11,10 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.component.DaggerPointsOfReunionComponent;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
-import com.example.dp2.afiperu.domain.PointOfReunion;
 import com.example.dp2.afiperu.module.PointsOfReunionModule;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.viewmodel.PointsOfReunionView;
 import com.google.android.gms.maps.GoogleMap;
@@ -52,7 +52,7 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
     }
 
     public void save(){
-        ArrayList<PointOfReunion> previousPoints = new ArrayList<>();
+        ArrayList<SyncPointOfReunion> previousPoints = new ArrayList<>();
         ArrayList<NewPointOfReunion> newPoints = new ArrayList<>();
         for(MarkerInfo marker : markersInfo){
             if(marker.isCreated()){
@@ -65,7 +65,7 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
                 previousPoints.add(marker.toPointOfReunion());
             }
         }
-        presenter.editMeetingPoints(sessionId, previousPoints, newPoints);
+        presenter.editMeetingPoints(sessionId, SyncPointOfReunion.toPointOfReunion(previousPoints), newPoints);
     }
 
     public void trySave(){

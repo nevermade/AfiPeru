@@ -16,6 +16,7 @@ import com.example.dp2.afiperu.ui.adapter.PeopleKidsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.KidView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -40,12 +41,11 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        //ArrayList<SyncKid> peopleKids = (ArrayList<SyncKid>)args.getSerializable(PEOPLE_KIDS_ARG);
-        //PeopleKidsAdapter adapter = new PeopleKidsAdapter(getContext(), this, peopleKids);
-
+        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         ListView peopleKidsList = (ListView)rootView.findViewById(R.id.people_kids_list);
         peopleKidsList.setAdapter(adapter);
         peopleKidsList.setEmptyView(rootView.findViewById(R.id.empty_people_kids_list));
+
         presenter.getAllKids(getContext());
     }
 
@@ -64,9 +64,14 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
     }
 
     @Override
-    public void showKids(ArrayList<SyncKid> kids) {
+    public void showKids(List<SyncKid> kids) {
         adapter.update(kids);
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
+    @Override
+    public void onFailure(){
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+    }
 
 }

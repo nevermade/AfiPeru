@@ -22,7 +22,7 @@ public class CommentKidInteractorImpl implements CommentKidInteractor {
     }
 
     @Override
-    public void makeComment(Context context, Integer kidId, Integer face, String message){
+    public void makeComment(Context context, Integer sessionId, Integer kidId, Integer face, String message){
         //Grabar localmente
         if(NetworkManager.isNetworkConnected(context)) {
             Call<Void> call = service.makeComment(kidId, message, face);

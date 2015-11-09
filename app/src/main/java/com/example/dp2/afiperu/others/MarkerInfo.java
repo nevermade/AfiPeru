@@ -3,11 +3,12 @@ package com.example.dp2.afiperu.others;
 import android.content.res.Resources;
 
 import com.example.dp2.afiperu.R;
-import com.example.dp2.afiperu.domain.Location;
-import com.example.dp2.afiperu.domain.PointOfReunion;
+import com.example.dp2.afiperu.syncmodel.SyncLocation;
+import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -109,24 +110,21 @@ public class MarkerInfo implements Serializable {
     }
 
     //Sólo para sesiones
-    public MarkerInfo(Location location){
+    public MarkerInfo(SyncLocation location){
         this(-1, location.getLatitude(), location.getLongitude(), MARKER_KIND_SESSION_ADDRESS, null);
     }
-    public MarkerInfo(PointOfReunion pointOfReunion, boolean selected){
-        this(pointOfReunion.getId(), pointOfReunion.getLatitude(), pointOfReunion.getLongitude(),
+    public MarkerInfo(SyncPointOfReunion pointOfReunion, boolean selected){
+        this(pointOfReunion.getPointId(), pointOfReunion.getLatitude(), pointOfReunion.getLongitude(),
                 selected ? MARKER_KIND_SESSION_REUNION_ENABLED : MARKER_KIND_SESSION_REUNION_DISABLED, null);
     }
     public MarkerInfo(LatLng point){
         this(-1, point.latitude, point.longitude, MARKER_KIND_SESSION_REUNION_CREATED, null);
     }
 
-    public PointOfReunion toPointOfReunion(){
+    public SyncPointOfReunion toPointOfReunion(){
         if(markerKind == MARKER_KIND_SESSION_REUNION_ENABLED || markerKind == MARKER_KIND_SESSION_REUNION_DISABLED) {
-            PointOfReunion point = new PointOfReunion();
-            point.setId(pointId);
-            point.setLatitude(latitude);
-            point.setLongitude(longitude);
-            point.setSelected(markerKind == MARKER_KIND_SESSION_REUNION_ENABLED ? 1 : 0);
+            SyncPointOfReunion point = new SyncPointOfReunion(pointId, latitude, longitude,
+                    markerKind == MARKER_KIND_SESSION_REUNION_ENABLED ? 1 : 0);
             return point;
         }
         return null;

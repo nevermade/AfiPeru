@@ -9,32 +9,33 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
-import com.example.dp2.afiperu.domain.Comment;
-import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.ui.dialogs.KidCommentDialog;
 import com.example.dp2.afiperu.ui.fragment.CommentKidFragment;
+import com.example.dp2.afiperu.util.Constants;
 
 import java.util.List;
 
-public class CommentKidAdapter extends BaseArrayAdapter<AttendanceChild> {
+public class CommentKidAdapter extends BaseArrayAdapter<SyncAttendanceChild> {
 
-    public CommentKidAdapter(Context context, BaseFragment fragment, List<AttendanceChild> objects) {
+    public CommentKidAdapter(Context context, BaseFragment fragment, List<SyncAttendanceChild> objects) {
         super(context, fragment, R.layout.kid_list_item, objects);
     }
 
     @Override
-    public void prepareItemView(View convertView, final AttendanceChild item, int position) {
+    public void prepareItemView(View convertView, final SyncAttendanceChild item, int position) {
         TextView name = (TextView) convertView.findViewById(R.id.kids_item_name);
         TextView age = (TextView) convertView.findViewById(R.id.kids_item_date);
         final ImageView check = (ImageView) convertView.findViewById(R.id.kids_item_menu);
 
-        name.setText(item.getChild().getNames() + " " + item.getChild().getLastName());
-        age.setText(convertView.getResources().getString(R.string.kids_age, item.getChild().getAge()));
+        name.setText(item.getKid().getNames());
+        age.setText(convertView.getResources().getString(R.string.kids_age, item.getKid().getAge()));
 
-        check.setImageResource(item.getCommented() == 1 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
+        check.setImageResource(item.getComment() != null ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,11 +44,10 @@ public class CommentKidAdapter extends BaseArrayAdapter<AttendanceChild> {
                 DialogFragment newFragment = new KidCommentDialog(){
                     @Override
                     public void acceptComment(int face, String message){
-                        ((CommentKidFragment)getFragment()).makeComment(item.getChild().getId(), face, message);
+                        ((CommentKidFragment)getFragment()).makeComment(item.getKid().getKidId(), face, message);
                         check.setImageResource(R.drawable.ic_checked_checkbox);
-                        Comment comment = new Comment();
-                        comment.setFace(face);
-                        comment.setMessage(message);
+                        SyncComment comment = new SyncComment(message, face,
+                                Constants.loggedUser.getName() + " " + Constants.loggedUser.getLastName());
                         item.setComment(comment);
                     }
                 };

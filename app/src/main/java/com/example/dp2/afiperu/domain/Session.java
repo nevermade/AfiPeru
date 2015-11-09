@@ -21,7 +21,7 @@ public class Session implements Serializable, Comparable<Session> {
     private String name;
     @SerializedName("date")
     @Expose
-    private Integer date;
+    private Long date;
     @SerializedName("location")
     @Expose
     private Location location;
@@ -39,14 +39,8 @@ public class Session implements Serializable, Comparable<Session> {
     @SerializedName("attendance_volunteers")
     @Expose
     private List<AttendanceVolunteer> attendanceVolunteers = new ArrayList<AttendanceVolunteer>();
-    public Session(){};
 
-
-    public Session(String name, Integer date) {
-   
-        this.name = name;
-        this.date = date;
-    }
+    public Session(){}
 
     public Integer getId() {
         return id;
@@ -64,11 +58,11 @@ public class Session implements Serializable, Comparable<Session> {
         this.name = name;
     }
 
-    public Integer getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
@@ -114,7 +108,7 @@ public class Session implements Serializable, Comparable<Session> {
 
     @Override
     public int compareTo(Session o2){
-        return Integer.valueOf(o2.date).compareTo(date);
+        return o2.date.compareTo(date);
     }
 
 

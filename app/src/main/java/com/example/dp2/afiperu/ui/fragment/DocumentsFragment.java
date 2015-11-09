@@ -16,6 +16,7 @@ import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.DocumentView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -48,9 +49,9 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
         docsList.setAdapter(adapter);
         docsList.setEmptyView(rootView.findViewById(R.id.empty_docs_list));
 
-        List<Document> documents = (List<Document>)args.getSerializable(DOCUMENTS_ARG);
+        ArrayList<SyncDocument> documents = (ArrayList<SyncDocument>)args.getSerializable(DOCUMENTS_ARG);
         if(documents != null){
-            adapter.update(SyncDocument.fromDocument(documents));
+            adapter.update(documents);
             rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
         } else {
             presenter.getAllDocuments(getContext());

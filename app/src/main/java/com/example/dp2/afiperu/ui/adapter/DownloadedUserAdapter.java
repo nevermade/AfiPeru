@@ -31,7 +31,7 @@ public class DownloadedUserAdapter extends BaseArrayAdapter<SyncDocumentUser> {
         TextView code= (TextView)convertView.findViewById(R.id.downloaded_user_item_code);
         ImageView checkbox= (ImageView)convertView.findViewById(R.id.downloaded_user_item_checkbox);
 
-        name.setText(item.getName() + " " + item.getLastName());
+        name.setText(item.getNames());
         code.setText(item.getUsername());
         checkbox.setImageResource(getDrawable(item.getSeen() == 1));
     }

@@ -12,6 +12,7 @@ import com.example.dp2.afiperu.component.DaggerCommentKidComponent;
 import com.example.dp2.afiperu.module.CommentKidModule;
 import com.example.dp2.afiperu.presenter.CommentKidPresenter;
 import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
 import com.example.dp2.afiperu.ui.adapter.CommentKidAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.CommentKidView;
 
@@ -30,6 +31,9 @@ public class CommentKidFragment extends BaseFragment implements CommentKidView {
     CommentKidAdapter adapter;
 
     public static final String KIDS_ARG = "kids_arg";
+    public static final String SESSION_ID_ARG = "session_id_arg";
+
+    private int sessionId;
 
     public CommentKidFragment(){
         super();
@@ -42,7 +46,8 @@ public class CommentKidFragment extends BaseFragment implements CommentKidView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<AttendanceChild> children = (ArrayList<AttendanceChild>)args.getSerializable(KIDS_ARG);
+        ArrayList<SyncAttendanceChild> children = (ArrayList<SyncAttendanceChild>)args.getSerializable(KIDS_ARG);
+        sessionId = args.getInt(SESSION_ID_ARG);
 
         ListView newsList = (ListView)rootView.findViewById(R.id.kids_list);
         newsList.setAdapter(adapter);
@@ -66,7 +71,7 @@ public class CommentKidFragment extends BaseFragment implements CommentKidView {
     }
 
     public void makeComment(int kidId, int face, String message){
-        presenter.makeComment(getContext(), kidId, face, message);
+        presenter.makeComment(getContext(), sessionId, kidId, face, message);
     }
 
 }

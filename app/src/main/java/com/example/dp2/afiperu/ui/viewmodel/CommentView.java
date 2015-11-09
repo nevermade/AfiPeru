@@ -1,6 +1,6 @@
 package com.example.dp2.afiperu.ui.viewmodel;
 
-import com.example.dp2.afiperu.domain.Comment;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 
 import java.util.List;
 
@@ -8,5 +8,6 @@ import java.util.List;
  * Created by Fernando on 07/11/2015.
  */
 public interface CommentView {
-    void showComments(List<Comment> comments);
+    void showComments(List<SyncComment> comments);
+    void onFailure();
 }

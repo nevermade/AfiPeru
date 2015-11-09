@@ -1,11 +1,13 @@
 package com.example.dp2.afiperu.presenter;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.common.BasePresenter;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.viewmodel.SessionView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by DABARCA on 21/10/2015.
@@ -30,11 +32,11 @@ public class SessionPresenter extends BasePresenter{
 
     }
 
-    public void getAllSessions(){
-        interactor.getAllSessions(this);
+    public void getAllSessions(Context context){
+        interactor.getAllSessions(context, this);
     }
 
-    public void onSessionFound(ArrayList<Session> sessions){
+    public void onSessionFound(List<SyncSession> sessions){
         if(sessions!=null)
             view.displaySessions(sessions);
     }

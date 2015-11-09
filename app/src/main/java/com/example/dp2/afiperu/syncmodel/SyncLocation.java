@@ -4,60 +4,31 @@ package com.example.dp2.afiperu.syncmodel;
  * Created by Nevermade on 21/10/2015.
  */
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.example.dp2.afiperu.domain.Location;
 import com.orm.SugarRecord;
-
 
 public class SyncLocation extends SugarRecord<SyncLocation>{
 
     private Double latitude;
     private Double longitude;
-    private SyncSession session;
+    private Integer session;
 
     public SyncLocation(){}
+    public SyncLocation(Double latitude, Double longitude, Integer session) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.session = session;
+    }
 
-    /**
-     *
-     * @return
-     * The latitude
-     */
     public Double getLatitude() {
         return latitude;
     }
 
-    /**
-     *
-     * @param latitude
-     * The latitude
-     */
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    /**
-     *
-     * @return
-     * The longitude
-     */
     public Double getLongitude() {
         return longitude;
     }
 
-    /**
-     *
-     * @param longitude
-     * The longitude
-     */
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public SyncSession getSession() {
-        return session;
-    }
-
-    public void setSession(SyncSession session) {
-        this.session = session;
+    public static SyncLocation fromLocation(Location location, Integer session){
+        return new SyncLocation(location.getLatitude(), location.getLongitude(), session);
     }
 }

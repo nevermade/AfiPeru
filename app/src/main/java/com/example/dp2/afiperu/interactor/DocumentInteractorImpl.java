@@ -46,12 +46,10 @@ public class DocumentInteractorImpl implements DocumentInteractor {
                             SyncDocument doc = SyncDocument.fromDocument(document);
                             doc.save();
                             for(DocumentUser user : document.getUsers()){
-                                SyncDocumentUser docUser = new SyncDocumentUser(user.getId(), user.getName(), user.getLastName(),
-                                        user.getUsername(), user.getSeen());
+                                SyncDocumentUser docUser = SyncDocumentUser.fromDocumentUser(user);
                                 docUser.setDocument(doc);
                                 docUser.save();
                             }
-                            doc.save();
                         }
                         List<SyncDocument> documents = SyncDocument.listAll(SyncDocument.class);
                         Collections.sort(documents);
@@ -63,6 +61,7 @@ public class DocumentInteractorImpl implements DocumentInteractor {
 
                 @Override
                 public void onFailure(Throwable t) {
+                    presenter.onFailure();
                 }
             });
         }else{
