@@ -79,12 +79,16 @@
                 android:text="Av. Antonio Alarco 497"/>
         </RelativeLayout>
     </LinearLayout>
-    <CalendarView
-        android:id="@+id/calendar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/calendar_event_info"
-        android:firstDayOfWeek="2"
-        android:weekDayTextAppearance="@style/text_appearance_small_dark"
-        android:dateTextAppearance="@style/text_appearance_small_dark_soft"/>
+        android:layout_height="match_parent"
+        android:layout_above="@id/calendar_event_info">
+        <CalendarView
+            android:id="@+id/calendar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:firstDayOfWeek="2"
+            android:weekDayTextAppearance="@style/text_appearance_small_dark"
+            android:dateTextAppearance="@style/text_appearance_small_dark_soft"/>
+    </RelativeLayout>
 </RelativeLayout>
