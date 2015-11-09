@@ -3,8 +3,8 @@ package com.example.dp2.afiperu.presenter;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BasePresenter;
-import com.example.dp2.afiperu.domain.Comment;
 import com.example.dp2.afiperu.interactor.CommentInteractor;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.viewmodel.CommentView;
 
 import java.util.List;
@@ -36,7 +36,11 @@ public class CommentPresenter extends BasePresenter{
         interactor.getKidAndComment(this, context, kidId);
     }
 
-    public void showComments(List<Comment> comments){
+    public void showComments(List<SyncComment> comments){
         view.showComments(comments);
+    }
+
+    public void onFailure(){
+        view.onFailure();
     }
 }

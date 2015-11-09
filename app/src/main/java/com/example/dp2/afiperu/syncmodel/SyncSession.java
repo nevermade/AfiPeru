@@ -1,68 +1,35 @@
 package com.example.dp2.afiperu.syncmodel;
 
-
-import com.example.dp2.afiperu.domain.Document;
-import com.example.dp2.afiperu.others.MarkerInfo;
+import com.example.dp2.afiperu.domain.Session;
 import com.orm.SugarRecord;
-import com.orm.dsl.Ignore;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SyncSession extends SugarRecord<SyncSession> implements Serializable, Comparable<SyncSession> {
 
-
     private Integer sessionId;
-
     private String name;
-
-    private Integer date;
-
+    private Long date;
     private SyncLocation location;
 
-    @Ignore
-    private List<SyncPointOfReunion> pointsOfReunion = new ArrayList<SyncPointOfReunion>();
-    @Ignore
-
-    private List<Document> documents = new ArrayList<Document>();
-
-
-    @Ignore
-    private ArrayList<MarkerInfo> markers;
-
-    public SyncSession(){};
-
-
-    public SyncSession(String name, Integer date, ArrayList<MarkerInfo> markers) {
-   
+    public SyncSession(){}
+    public SyncSession(Integer sessionId, String name, Long date) {
+        this.sessionId = sessionId;
         this.name = name;
         this.date = date;
-        this.markers = markers;
     }
 
     public Integer getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(Integer sessionId) {
-        this.sessionId = sessionId;
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getDate() {
+    public Long getDate() {
         return date;
-    }
-
-    public void setDate(Integer date) {
-        this.date = date;
     }
 
     public SyncLocation getLocation() {
@@ -73,28 +40,26 @@ public class SyncSession extends SugarRecord<SyncSession> implements Serializabl
         this.location = location;
     }
 
-    public List<SyncPointOfReunion> getPointsOfReunion() {
-        //return pointsOfReunion;
-        return SyncPointOfReunion.find(SyncPointOfReunion.class, "session = ?", String.valueOf(this.getId()));
-        //return Book.find(Book.class, "author = ?", new String{author.getId()})
+    public List<SyncPointOfReunion> queryPointsOfReunion() {
+        return SyncPointOfReunion.find(SyncPointOfReunion.class, "session = ?", String.valueOf(this.getSessionId()));
     }
 
-    public void setPointsOfReunion(List<SyncPointOfReunion> pointOfReunion) {
-        this.pointsOfReunion = pointOfReunion;
+    public List<SyncDocument> queryDocuments(){
+        return SyncDocument.find(SyncDocument.class, "session = ?", String.valueOf(this.getSessionId()));
     }
 
-    public List<Document> getDocuments() {
-        return documents;
-    }
-
-    public void setDocuments(List<Document> documents) {
-        this.documents = documents;
+    public List<SyncAttendanceChild> queryAttendanceChildren(){
+        return SyncAttendanceChild.find(SyncAttendanceChild.class, "session = ?", String.valueOf(this.getSessionId()));
     }
 
     @Override
     public int compareTo(SyncSession o2){
-        return Integer.valueOf(o2.date).compareTo(date);
+        return o2.date.compareTo(date);
     }
 
+    public static SyncSession fromSession(Session session){
+        SyncSession result = new SyncSession(session.getId(), session.getName(), session.getDate());
+        return result;
+    }
 
 }

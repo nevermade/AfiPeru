@@ -3,9 +3,9 @@ package com.example.dp2.afiperu.module;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.SessionView;
 
@@ -37,6 +37,6 @@ public class SessionModule {
 
     @Provides
     public SessionAdapter provideAdapter(Context context, SessionView view) {
-        return new SessionAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<Session>());
+        return new SessionAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<SyncSession>());
     }
 }

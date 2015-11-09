@@ -9,6 +9,7 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
 import com.example.dp2.afiperu.ui.adapter.ViewCommentsAdapter;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ViewCommentsFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<AttendanceChild> kids = (ArrayList<AttendanceChild>)args.getSerializable(KIDS_ARG);
+        ArrayList<SyncAttendanceChild> kids = (ArrayList<SyncAttendanceChild>)args.getSerializable(KIDS_ARG);
         ViewCommentsAdapter adapter = new ViewCommentsAdapter(getContext(), this, kids);
 
         ListView newsList = (ListView)rootView.findViewById(R.id.kids2_list);

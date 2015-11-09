@@ -13,6 +13,7 @@ import com.example.dp2.afiperu.ui.viewmodel.KidView;
 import com.example.dp2.afiperu.ui.viewmodel.UserView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Nevermade on 23/10/2015.
@@ -35,29 +36,15 @@ public class KidPresenter extends BasePresenter {
     public void onStop() {
 
     }
-/*
-    public void login(String username, String password){
-        interactor.login(username,password,this);
+    public void onUsersFound(List<SyncKid> kids){
+        view.showKids(kids);
     }
 
-    */
-    public void onGetAllKidSuccess(ArrayList<SyncKid> kids){
-        view.showKids(kids);
-    }
-    public void onUsersFound(ArrayList<SyncKid> kids){
-        //System.out.println("Estoy aca 5");
-        view.showKids(kids);
+    public void onFailure(){
+        view.onFailure();
     }
 
     public ArrayList<Kid> getAllKids(Context context){
-
-        //System.out.println("Estoy aca 3");
         return interactor.getAllKids(this, context);
     }
-/*
-    public void onLoginFailure(){
-        view.displayLoginError();
-    }
-
-    */
 }

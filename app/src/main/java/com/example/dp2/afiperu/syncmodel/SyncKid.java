@@ -1,117 +1,61 @@
 package com.example.dp2.afiperu.syncmodel;
 
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.example.dp2.afiperu.domain.Kid;
 import com.orm.SugarRecord;
 
 import java.io.Serializable;
 
 public class SyncKid extends SugarRecord<SyncKid> implements Serializable, Comparable<SyncKid> {
 
-    private Integer kidId;
+    private Integer attendanceChild;
 
+    private Integer kidId;
     private String names;
-    private String lastName;
     private Integer age;
     private Integer gender;
-
+    private Integer sessions;
 
     public SyncKid(){}
+    private SyncKid(Integer kidId, String names, Integer age, Integer gender, Integer sessions) {
+        this.kidId = kidId;
+        this.names = names;
+        this.age = age;
+        this.gender = gender;
+        this.sessions = sessions;
+        this.attendanceChild = 0;
+    }
 
-
-    /**
-     *
-     * @return
-     * The id
-     */
     public Integer getKidId() {
         return kidId;
     }
 
-    /**
-     *
-     * @param id
-     * The id
-     */
-    public void setKidId(Integer id) {
-        this.kidId = kidId;
-    }
-
-    /**
-     *
-     * @return
-     * The names
-     */
     public String getNames() {
         return names;
     }
 
-    /**
-     *
-     * @param names
-     * The names
-     */
-    public void setNames(String names) {
-        this.names = names;
-    }
-
-    /**
-     *
-     * @return
-     * The lastName
-     */
-    public String getLastName() {
-        return lastName;
-    }
-
-    /**
-     *
-     * @param lastName
-     * The last_name
-     */
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    /**
-     *
-     * @return
-     * The age
-     */
     public Integer getAge() {
         return age;
     }
 
-    /**
-     *
-     * @param age
-     * The age
-     */
-    public void setAge(Integer age) {
-        this.age = age;
-    }
-
-    /**
-     *
-     * @return
-     * The gender
-     */
     public Integer getGender() {
         return gender;
     }
 
-    /**
-     *
-     * @param gender
-     * The gender
-     */
-    public void setGender(Integer gender) {
-        this.gender = gender;
+    public Integer getSessions() {
+        return sessions;
+    }
+
+    public void setAttendanceChild(Integer attendanceChild) {
+        this.attendanceChild = attendanceChild;
     }
 
     @Override
     public int compareTo(SyncKid o2){
         return names.compareTo(o2.names);
+    }
+
+    public static SyncKid fromKid(Kid kid){
+        return new SyncKid(kid.getId(), kid.getNames() + " " + kid.getLastName(), kid.getAge(), kid.getGender(),
+                kid.getSessions());
     }
 }

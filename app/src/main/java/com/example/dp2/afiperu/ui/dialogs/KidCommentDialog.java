@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.domain.Comment;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.adapter.CommentKidAdapter;
 import com.example.dp2.afiperu.ui.fragment.CommentKidFragment;
 
@@ -28,7 +29,7 @@ public class KidCommentDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Bundle args = getArguments();
-        Comment comment = (Comment)args.getSerializable(COMMENT_ARG);
+        SyncComment comment = (SyncComment)args.getSerializable(COMMENT_ARG);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();

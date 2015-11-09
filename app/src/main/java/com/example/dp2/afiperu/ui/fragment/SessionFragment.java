@@ -9,13 +9,13 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerSessionComponent;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.module.SessionModule;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.SessionView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -28,8 +28,6 @@ public class SessionFragment extends BaseFragment implements SessionView{
     SessionPresenter presenter;
     @Inject
     SessionAdapter adapter;
-
-    //public static final String SESSION_ARG = "session_arg";
 
     public SessionFragment(){
         super();
@@ -47,7 +45,7 @@ public class SessionFragment extends BaseFragment implements SessionView{
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_sessions_list));
 
-        presenter.getAllSessions();
+        presenter.getAllSessions(getContext());
     }
 
     @Override
@@ -65,7 +63,7 @@ public class SessionFragment extends BaseFragment implements SessionView{
     }
 
     @Override
-    public void displaySessions(ArrayList<Session> sessions) {
+    public void displaySessions(List<SyncSession> sessions) {
         adapter.update(sessions);
         getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }

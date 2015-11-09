@@ -3,9 +3,9 @@ package com.example.dp2.afiperu.module;
 import android.content.Context;
 
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.Comment;
 import com.example.dp2.afiperu.interactor.CommentInteractor;
 import com.example.dp2.afiperu.presenter.CommentPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.adapter.CommentAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.CommentView;
 
@@ -37,6 +37,6 @@ public class CommentModule {
 
     @Provides
     public CommentAdapter provideAdapter(Context context, CommentView view) {
-        return new CommentAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<Comment>());
+        return new CommentAdapter(((BaseFragment)view).getActivity(), (BaseFragment) view, new ArrayList<SyncComment>());
     }
 }

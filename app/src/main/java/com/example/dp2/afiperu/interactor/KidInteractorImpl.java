@@ -32,21 +32,7 @@ public class KidInteractorImpl implements KidInteractor {
 
     @Override
     public ArrayList<Kid> getAllKids(final KidPresenter presenter, Context context) {
-/*
-
-
-        ArrayList<SyncKid> us = new ArrayList<>();
-        SyncKid u = new SyncKid();
-        u.setGender(0);
-        u.setAge(15);
-        u.setNames("Gilberto");
-        us.add(u);
-        presenter.onUsersFound(us);*/
-
-
         if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
-            //ArrayList<User> users2 = null;
-            System.out.println("Estoy aca 91");
             Call<List<Kid>> call = service.getAllKids();
             call.enqueue(new Callback<List<Kid>>() {
                 @Override
@@ -56,11 +42,7 @@ public class KidInteractorImpl implements KidInteractor {
                     if (kids != null) {
                         SyncKid.deleteAll(SyncKid.class);
                         for (Kid kid : kids) {
-                            SyncKid su = new SyncKid();
-                            su.setNames(kid.getNames());
-                            su.setLastName(kid.getLastName());
-                            su.setAge(kid.getAge());
-                            su.setGender(kid.getGender());
+                            SyncKid su = SyncKid.fromKid(kid);
                             su.save();
                         }
 
@@ -70,27 +52,21 @@ public class KidInteractorImpl implements KidInteractor {
                         for (SyncKid kid : lista) listav.add(kid);
                         Collections.sort(listav);
                         presenter.onUsersFound(listav);
-                        //System.out.println(users.get(0).getName());
-
-
-                    } else System.out.println("NULL KIDS");
+                    }else{
+                        presenter.onFailure();
+                    }
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
-
+                    presenter.onFailure();
                 }
             });
 
         }else{// Si no tengo conexion
-
             List<SyncKid> lista = SyncKid.listAll(SyncKid.class);
-            ArrayList<SyncKid> listav = new ArrayList<>();
-
-            for (SyncKid kid : lista) listav.add(kid);
-            Collections.sort(listav);
-            presenter.onUsersFound(listav);
-
+            Collections.sort(lista);
+            presenter.onUsersFound(lista);
         }
 
         return null;

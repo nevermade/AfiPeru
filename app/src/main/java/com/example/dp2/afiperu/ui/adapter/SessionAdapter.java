@@ -17,10 +17,14 @@ import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Attendance;
 import com.example.dp2.afiperu.domain.Location;
 import com.example.dp2.afiperu.domain.PointOfReunion;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.rest.model.AttendanceChild;
 import com.example.dp2.afiperu.rest.model.AttendanceVolunteer;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
+import com.example.dp2.afiperu.syncmodel.SyncLocation;
+import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
@@ -34,14 +38,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SessionAdapter extends BaseArrayAdapter<Session> {
+public class SessionAdapter extends BaseArrayAdapter<SyncSession> {
 
-    public SessionAdapter(Context context, BaseFragment fragment, List<Session> objects) {
+    public SessionAdapter(Context context, BaseFragment fragment, List<SyncSession> objects) {
         super(context, fragment, R.layout.session_list_item, objects);
     }
 
     @Override
-    public void prepareItemView(View convertView, final Session item, int position) {
+    public void prepareItemView(View convertView, final SyncSession item, int position) {
         TextView name = (TextView) convertView.findViewById(R.id.sessions_item_name);
         TextView date = (TextView) convertView.findViewById(R.id.sessions_item_date);
         ImageView menu = (ImageView) convertView.findViewById(R.id.sessions_item_menu);
@@ -73,8 +77,8 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch(menuItem.getItemId()){
                                 case R.id.sessions_menu_show_comments:
-                                    ArrayList<AttendanceChild> children = new ArrayList<>();
-                                    children.addAll(item.getAttendanceChildren());
+                                    ArrayList<SyncAttendanceChild> children = new ArrayList<>();
+                                    children.addAll(item.queryAttendanceChildren());
                                     Collections.sort(children);
                                     Bundle args = new Bundle();
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
@@ -85,18 +89,19 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     break;
                                 case R.id.sessions_menu_comment:
                                     children = new ArrayList<>();
-                                    children.addAll(item.getAttendanceChildren());
+                                    children.addAll(item.queryAttendanceChildren());
                                     Collections.sort(children);
                                     args = new Bundle();
                                     args.putSerializable(CommentKidFragment.KIDS_ARG, children);
+                                    args.putInt(CommentKidFragment.SESSION_ID_ARG, item.getSessionId());
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
                                     CommentKidFragment kidsFragment = new CommentKidFragment();
                                     kidsFragment.setArguments(args);
                                     getFragment().addFragmentToStack(kidsFragment, DetailActivity.FRAGMENT_COMENTARIOS);
                                     break;
                                 case R.id.sessions_menu_attendance:
-                                    args = new Bundle();
-                                    List<AttendanceVolunteer> restvolunteers = item.getAttendanceVolunteers();
+                                    /*args = new Bundle();
+                                    List<AttendanceVolunteer> restvolunteers = item.queryAttendanceVolunteers();
                                     ArrayList<AttendanceVolunteer> realvol = new ArrayList<AttendanceVolunteer>();
                                     for (AttendanceVolunteer av : restvolunteers) realvol.add(av);
                                     ArrayList<Attendance> volunteers = new ArrayList<>();
@@ -138,23 +143,23 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_ASISTENCIA);
                                     AttendanceFragment attendanceFragment = new AttendanceFragment();
                                     attendanceFragment.setArguments(args);
-                                    getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);
+                                    getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);*/
                                     break;
                                 case R.id.sessions_menu_map:
                                     MapFragment mapFragment;
                                     args = new Bundle();
-                                    Location location = item.getLocation();
-                                    List<PointOfReunion> pointsOfReunion = item.getPointsOfReunion();
+                                    SyncLocation location = item.getLocation();
+                                    List<SyncPointOfReunion> pointsOfReunion = item.queryPointsOfReunion();
                                     ArrayList<MarkerInfo> markers = new ArrayList<>();
                                     boolean hasEditMapPermission = AppEnum.EnumAction.CREATE_OR_EDIT_POINTS_OF_REUNION.hasPermission();
                                     markers.add(new MarkerInfo(location));
-                                    for(PointOfReunion pointOfReunion : pointsOfReunion){
+                                    for(SyncPointOfReunion pointOfReunion : pointsOfReunion){
                                         if(pointOfReunion.getSelected() == 1 || hasEditMapPermission) {
                                             markers.add(new MarkerInfo(pointOfReunion, pointOfReunion.getSelected() == 1));
                                         }
                                     }
                                     args.putSerializable(MapFragment.MARKERS_ARG, markers);
-                                    args.putInt(MapFragment.SESSION_ID_ARG, item.getId());
+                                    args.putInt(MapFragment.SESSION_ID_ARG, item.getSessionId());
 
                                     int fragmentId;
                                     if(hasEditMapPermission){ //Si es editable
@@ -170,8 +175,10 @@ public class SessionAdapter extends BaseArrayAdapter<Session> {
                                     break;
                                 case R.id.sessions_menu_docs:
                                     DocumentsFragment docsFragment = new DocumentsFragment();
+                                    ArrayList<SyncDocument> documents = new ArrayList<>();
+                                    documents.addAll(item.queryDocuments());
                                     args = new Bundle();
-                                    args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, item.getDocuments());
+                                    args.putSerializable(DocumentsFragment.DOCUMENTS_ARG, documents);
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DOCUMENTOS);
                                     docsFragment.setArguments(args);
                                     getFragment().addFragmentToStack(docsFragment, DetailActivity.FRAGMENT_DOCUMENTOS);

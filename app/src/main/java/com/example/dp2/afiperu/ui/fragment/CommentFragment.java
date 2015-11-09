@@ -10,16 +10,13 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerCommentComponent;
-import com.example.dp2.afiperu.domain.Comment;
-import com.example.dp2.afiperu.domain.Kid;
 import com.example.dp2.afiperu.module.CommentModule;
 import com.example.dp2.afiperu.presenter.CommentPresenter;
-import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
+import com.example.dp2.afiperu.syncmodel.SyncKid;
 import com.example.dp2.afiperu.ui.adapter.CommentAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.CommentView;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,6 +44,7 @@ public class CommentFragment extends BaseFragment implements CommentView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
+        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
 
         TextView name = (TextView)rootView.findViewById(R.id.comments_kid_name);
         TextView gender = (TextView)rootView.findViewById(R.id.comments_kid_gender);
@@ -57,14 +55,14 @@ public class CommentFragment extends BaseFragment implements CommentView {
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_comments_list));
 
-        Kid child = (Kid)args.getSerializable(KID_ARG);
-        name.setText(child.getNames() + " " + child.getLastName());
+        SyncKid child = (SyncKid)args.getSerializable(KID_ARG);
+        name.setText(child.getNames());
         gender.setText(child.getGender() == 0 ? getResources().getString(R.string.sex_male)
                 : getResources().getString(R.string.sex_female));
         age.setText(getResources().getString(R.string.kids_age, child.getAge()));
         sessions.setText(child.getSessions().toString());
 
-        presenter.getAllComments(getContext(), child.getId());
+        presenter.getAllComments(getContext(), child.getKidId());
     }
 
     @Override
@@ -82,9 +80,14 @@ public class CommentFragment extends BaseFragment implements CommentView {
     }
 
     @Override
-    public void showComments(List<Comment> comments){
-        Collections.sort(comments);
+    public void showComments(List<SyncComment> comments){
         adapter.update(comments);
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onFailure(){
+        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
     }
 
 }
