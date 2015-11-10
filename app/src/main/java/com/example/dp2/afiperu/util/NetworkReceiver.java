@@ -7,10 +7,18 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.widget.Toast;
 
+import com.example.dp2.afiperu.R;
+import com.example.dp2.afiperu.presenter.MainActivityPresenter;
+import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
+
+import java.util.List;
+
 /**
  * Created by Usuario on 04/11/2015.
  */
-
 
 public class NetworkReceiver extends BroadcastReceiver {
 
@@ -23,18 +31,23 @@ public class NetworkReceiver extends BroadcastReceiver {
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = conn.getActiveNetworkInfo();
 
-
         if (networkInfo != null && (networkInfo.getType() == ConnectivityManager.TYPE_WIFI || networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)) {
-            //Aca poner el codigo de sincronizacion
+            if(Constants.loggedUser != null) {
+                MainActivityPresenter presenter = ((DetailActivity) context).getPresenter();
 
-            
-
-
-            Toast.makeText(context, "Sincronizando...", Toast.LENGTH_SHORT).show();
-
-
+                //Sincronizar
+                List<SyncComment> comments = SyncComment.find(SyncComment.class, "needsync = ?", "1");
+                if (!comments.isEmpty()) {
+                    Toast.makeText(context, context.getString(R.string.sync_comments), Toast.LENGTH_SHORT).show();
+                    for (SyncComment comment : comments) {
+                        List<SyncAttendanceChild> child = SyncAttendanceChild.find(SyncAttendanceChild.class, "attendance_child_id = ?",
+                                String.valueOf(comment.getAttendanceChild()));
+                        presenter.makeComment(context, child.get(0), comment);
+                    }
+                }
+            }
         } else {
-            Toast.makeText(context, "Modo offline activado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.offline), Toast.LENGTH_SHORT).show();
         }
     }
 

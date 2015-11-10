@@ -44,11 +44,11 @@ public class CommentKidAdapter extends BaseArrayAdapter<SyncAttendanceChild> {
                 DialogFragment newFragment = new KidCommentDialog(){
                     @Override
                     public void acceptComment(int face, String message){
-                        ((CommentKidFragment)getFragment()).makeComment(item.getAttendanceChildId(), face, message);
-                        check.setImageResource(R.drawable.ic_checked_checkbox);
                         SyncComment comment = new SyncComment(message, face,
                                 Constants.loggedUser.getName() + " " + Constants.loggedUser.getLastName());
                         item.setComment(comment);
+                        ((CommentKidFragment)getFragment()).makeComment(item, comment);
+                        check.setImageResource(R.drawable.ic_checked_checkbox);
                     }
                 };
                 newFragment.setArguments(args);

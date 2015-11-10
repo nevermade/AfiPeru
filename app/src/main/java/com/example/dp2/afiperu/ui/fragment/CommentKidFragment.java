@@ -13,6 +13,7 @@ import com.example.dp2.afiperu.module.CommentKidModule;
 import com.example.dp2.afiperu.presenter.CommentKidPresenter;
 import com.example.dp2.afiperu.rest.model.AttendanceChild;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.adapter.CommentKidAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.CommentKidView;
 
@@ -68,8 +69,8 @@ public class CommentKidFragment extends BaseFragment implements CommentKidView {
                 .inject(this);
     }
 
-    public void makeComment(int attendanceChildId, int face, String message){
-        presenter.makeComment(getContext(), attendanceChildId, face, message);
+    public void makeComment(SyncAttendanceChild child, SyncComment comment){
+        presenter.makeComment(getContext(), child, comment);
     }
 
 }

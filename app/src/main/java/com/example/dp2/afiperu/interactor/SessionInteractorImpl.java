@@ -22,7 +22,6 @@ import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -62,8 +61,7 @@ public class SessionInteractorImpl implements SessionInteractor {
                         SyncLocation.deleteAll(SyncLocation.class, "session != ?", "0");
                         SyncAttendanceChild.deleteAll(SyncAttendanceChild.class);
                         SyncKid.deleteAll(SyncKid.class, "attendance_child != ?", "0");
-                        SyncComment.deleteAll(SyncComment.class, "author_names = ?",
-                                Constants.loggedUser.getName() + " " + Constants.loggedUser.getLastName());
+                        SyncComment.deleteAll(SyncComment.class, "attendance_child != ?", "0");
                         //SyncAttendanceVolunteer.deleteAll(SyncAttendanceVolunteer.class);
 
                         for(Session session : result){
@@ -97,6 +95,8 @@ public class SessionInteractorImpl implements SessionInteractor {
                                 SyncComment comment = SyncComment.fromComment(c);
                                 if(comment != null) {
                                     comment.setSession(ses.getSessionId());
+                                    comment.setAttendanceChild(attendanceChild.getId());
+                                    comment.setKidId(k.getId());
                                     comment.save();
                                 }
                                 SyncAttendanceChild child = new SyncAttendanceChild(attendanceChild.getId(), kid, comment);

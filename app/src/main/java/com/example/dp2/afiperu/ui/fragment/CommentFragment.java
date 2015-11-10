@@ -16,6 +16,7 @@ import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.syncmodel.SyncKid;
 import com.example.dp2.afiperu.ui.adapter.CommentAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.CommentView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.List;
 
@@ -44,8 +45,6 @@ public class CommentFragment extends BaseFragment implements CommentView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
-
         TextView name = (TextView)rootView.findViewById(R.id.comments_kid_name);
         TextView gender = (TextView)rootView.findViewById(R.id.comments_kid_gender);
         TextView age = (TextView)rootView.findViewById(R.id.comments_kid_age);
@@ -62,6 +61,9 @@ public class CommentFragment extends BaseFragment implements CommentView {
         age.setText(getResources().getString(R.string.kids_age, child.getAge()));
         sessions.setText(child.getSessions().toString());
 
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
         presenter.getAllComments(getContext(), child.getKidId());
     }
 
@@ -82,12 +84,16 @@ public class CommentFragment extends BaseFragment implements CommentView {
     @Override
     public void showComments(List<SyncComment> comments){
         adapter.update(comments);
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onFailure(){
-        getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
 }

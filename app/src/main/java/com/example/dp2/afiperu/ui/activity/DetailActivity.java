@@ -143,6 +143,10 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Inject
     MainActivityPresenter presenter;
 
+    public MainActivityPresenter getPresenter(){
+        return presenter;
+    }
+
     private int REQUEST_IMAGE_CAPTURE =1;
     private int REQUEST_IMAGE_GALLERY =2;
     /* Cosas a agregar con cada layout nuevo */

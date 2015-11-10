@@ -39,6 +39,10 @@ public class SyncAttendanceChild extends SugarRecord<SyncAttendanceChild> implem
         this.comment = comment;
     }
 
+    public Integer getSession() {
+        return session;
+    }
+
     public void setSession(Integer session) {
         this.session = session;
     }

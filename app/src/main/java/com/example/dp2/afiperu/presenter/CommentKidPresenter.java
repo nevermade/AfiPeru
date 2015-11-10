@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.interactor.CommentKidInteractor;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.viewmodel.CommentKidView;
 
 import java.util.List;
@@ -31,7 +33,7 @@ public class CommentKidPresenter extends BasePresenter{
 
     }
 
-    public void makeComment(Context context, Integer attendanceChildId, Integer face, String message){
-        interactor.makeComment(context, attendanceChildId, face, message);
+    public void makeComment(Context context, SyncAttendanceChild child, SyncComment comment){
+        interactor.makeComment(context, child, comment);
     }
 }

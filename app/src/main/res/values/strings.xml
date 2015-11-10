@@ -189,4 +189,9 @@
 
     <!--Downloaded Users-->
     <string name="downloaded_users">Descargas de voluntarios</string>
+
+    <!--Sincronización-->
+    <string name="sync_comments">Sincronizando comentarios...</string>
+    <string name="sync_attendance">Sincronizando asistencia...</string>
+    <string name="offline">Modo offline activado</string>
 </resources>

@@ -15,10 +15,14 @@ import java.util.List;
 public class SyncComment extends SugarRecord<SyncComment> implements Serializable, Comparable<SyncComment> {
 
     private Integer session;
+    private Integer attendanceChild;
+    private Integer kidId;
 
     private String message;
     private Integer face;
     private String authorNames;
+
+    private Integer needsync;
 
     public SyncComment(){}
     public SyncComment(String message, Integer face, String authorNames) {
@@ -26,6 +30,8 @@ public class SyncComment extends SugarRecord<SyncComment> implements Serializabl
         this.face = face;
         this.authorNames = authorNames;
         this.session = 0;
+        this.attendanceChild = 0;
+        this.needsync = 0;
     }
 
     public String getMessage() {
@@ -40,8 +46,28 @@ public class SyncComment extends SugarRecord<SyncComment> implements Serializabl
         return authorNames;
     }
 
+    public Integer getSession() {
+        return session;
+    }
+
     public void setSession(Integer session) {
         this.session = session;
+    }
+
+    public Integer getAttendanceChild() {
+        return attendanceChild;
+    }
+
+    public void setAttendanceChild(Integer attendanceChild) {
+        this.attendanceChild = attendanceChild;
+    }
+
+    public void setKidId(Integer kidId) {
+        this.kidId = kidId;
+    }
+
+    public void setNeedsync(Integer needsync) {
+        this.needsync = needsync;
     }
 
     public int compareTo(SyncComment o2){
@@ -63,13 +89,5 @@ public class SyncComment extends SugarRecord<SyncComment> implements Serializabl
             }
             return new SyncComment(comment.getMessage(), comment.getFace(), user.getName() + " " + user.getLastName());
         }
-    }
-
-    public static List<SyncComment> fromComment(List<Comment> comments){
-        ArrayList<SyncComment> result = new ArrayList<>();
-        for(Comment comment : comments){
-            result.add(SyncComment.fromComment(comment));
-        }
-        return result;
     }
 }
