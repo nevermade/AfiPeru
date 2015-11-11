@@ -58,7 +58,16 @@ import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
-import com.example.dp2.afiperu.syncmodel.*;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
+import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
+import com.example.dp2.afiperu.syncmodel.SyncKid;
+import com.example.dp2.afiperu.syncmodel.SyncLocation;
+import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
+import com.example.dp2.afiperu.syncmodel.SyncSchoolAddress;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
+import com.example.dp2.afiperu.syncmodel.SyncUser;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -628,7 +637,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     public void loadUserFromSharedPreferences(){
         Gson gson= new Gson();
-        User user = gson.fromJson(PreferenceManager.getDefaultSharedPreferences(this).getString("loggedUser", null),User.class);
+        User user = gson.fromJson(PreferenceManager.getDefaultSharedPreferences(this).getString("loggedUser", null), User.class);
         Constants.loggedUser=user;
     }
 

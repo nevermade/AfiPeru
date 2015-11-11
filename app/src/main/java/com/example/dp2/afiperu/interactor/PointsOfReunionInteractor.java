@@ -5,8 +5,6 @@ import android.content.Context;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 
-import java.util.List;
-
 /**
  * Created by DABARCA on 21/10/2015.
  */
