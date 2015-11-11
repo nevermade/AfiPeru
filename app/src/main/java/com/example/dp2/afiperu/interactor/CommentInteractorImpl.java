@@ -50,7 +50,8 @@ public class CommentInteractorImpl implements CommentInteractor {
                             comment.setNeedsync(0);
                             //El comentario no debe perder la referencia a AttendanceChild en caso sea del mismo usuario
                             for(SyncComment ownComment : ownComments){
-                                if(ownComment.getSession().equals(c.getSessionId())){
+                                if(ownComment.getSession().equals(c.getSessionId())
+                                        && ownComment.getAuthorId().equals(c.getAuthor().getCod())){
                                     comment.setAttendanceChild(ownComment.getAttendanceChild());
                                     break;
                                 }

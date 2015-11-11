@@ -59,7 +59,7 @@ public class MainActivityPresenter extends BasePresenter {
         Constants.loggedUser.setUsername(username);
         Constants.loggedUser.setPassword(password);
         view.saveUserToSharedPreferences();
-        view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
+        //view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
     }
 
     public void onUserValidateFailure(Context context){
@@ -72,7 +72,7 @@ public class MainActivityPresenter extends BasePresenter {
 
     public void onUserCantValidate(){
         view.loadUserFromSharedPreferences();
-        view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
+        //view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
     }
 
     public void makeComment(Context context, SyncAttendanceChild child, SyncComment comment){

@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.util;
 
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 
@@ -9,7 +10,7 @@ import com.example.dp2.afiperu.ui.activity.DetailActivity;
  */
 public class UtilClass {
     public static void clearApplicationData(DetailActivity app){
-        SharedPreferences.Editor editor = app.getSharedPreferences().edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(app).edit();
         editor.clear();
         editor.commit();
     }

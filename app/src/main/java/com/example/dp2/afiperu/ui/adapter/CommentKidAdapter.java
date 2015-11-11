@@ -45,7 +45,8 @@ public class CommentKidAdapter extends BaseArrayAdapter<SyncAttendanceChild> {
                     @Override
                     public void acceptComment(int face, String message){
                         SyncComment comment = new SyncComment(message, face,
-                                Constants.loggedUser.getName() + " " + Constants.loggedUser.getLastName());
+                                Constants.loggedUser.getName() + " " + Constants.loggedUser.getLastName(),
+                                Constants.loggedUser.getCod());
                         item.setComment(comment);
                         ((CommentKidFragment)getFragment()).makeComment(item, comment);
                         check.setImageResource(R.drawable.ic_checked_checkbox);

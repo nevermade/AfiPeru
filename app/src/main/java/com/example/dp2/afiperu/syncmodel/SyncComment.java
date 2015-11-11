@@ -21,14 +21,16 @@ public class SyncComment extends SugarRecord<SyncComment> implements Serializabl
     private String message;
     private Integer face;
     private String authorNames;
+    private Integer authorId;
 
     private Integer needsync;
 
     public SyncComment(){}
-    public SyncComment(String message, Integer face, String authorNames) {
+    public SyncComment(String message, Integer face, String authorNames, Integer authorId) {
         this.message = message;
         this.face = face;
         this.authorNames = authorNames;
+        this.authorId = authorId;
         this.session = 0;
         this.attendanceChild = 0;
         this.needsync = 0;
@@ -44,6 +46,10 @@ public class SyncComment extends SugarRecord<SyncComment> implements Serializabl
 
     public String getAuthorNames() {
         return authorNames;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
     }
 
     public Integer getSession() {
@@ -87,7 +93,8 @@ public class SyncComment extends SugarRecord<SyncComment> implements Serializabl
             if(user == null){
                 user = Constants.loggedUser;
             }
-            return new SyncComment(comment.getMessage(), comment.getFace(), user.getName() + " " + user.getLastName());
+            return new SyncComment(comment.getMessage(), comment.getFace(), user.getName() + " " + user.getLastName(),
+                    user.getCod());
         }
     }
 }

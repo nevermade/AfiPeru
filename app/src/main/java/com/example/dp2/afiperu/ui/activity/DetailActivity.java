@@ -168,7 +168,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             case FRAGMENT_LOGIN: id = R.string.app_name; break;
             case FRAGMENT_DETALLE_NOTICIAS: id = R.string.menu_noticias; break;
             case FRAGMENT_ASISTENCIA: id = R.string.title_asistencia; break;
-            case FRAGMENT_COMENTARIOS: id = R.string.title_comentarios; break;
+            case FRAGMENT_COMENTARIOS:
+            case FRAGMENT_LISTA_COMENTARIOS:
+                id = R.string.title_comentarios; break;
             case FRAGMENT_USUARIOS_REVISADO: id = R.string.menu_documentos; break;
             case FRAGMENT_DETALLE_BLOG: id = R.string.menu_blog; break;
             case FRAGMENT_MAPA:
