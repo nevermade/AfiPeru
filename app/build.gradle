@@ -44,4 +44,8 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-web:2.2.1'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.1'
+
+    // paypal sdk
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
 }
