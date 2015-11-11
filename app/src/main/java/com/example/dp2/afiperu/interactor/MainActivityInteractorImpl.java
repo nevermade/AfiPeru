@@ -1,10 +1,13 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -44,33 +47,31 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
     }
 
     @Override
-    public void validateUser(final String username, final String password, final MainActivityPresenter presenter) {
-        Constants.PROGRESS.show();
-        Call<User> call= service.login(username,password);
-        
-        call.enqueue(new Callback<User>() {
-
-            @Override
-            public void onResponse(Response<User> response, Retrofit retrofit) {
-                Constants.PROGRESS.dismiss();
-                if(response.body().getName()!=null) {
+    public void validateUser(final Context context, final String username, final String password, final MainActivityPresenter presenter) {
+        if(NetworkManager.isNetworkConnected(context)) {
+            Constants.PROGRESS.show();
+            Call<User> call = service.login(username, password);
+            call.enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Response<User> response, Retrofit retrofit) {
                     User loginResponse = response.body();
-                    Constants.TOKEN=loginResponse.getAuthToken();
-                    Constants.loggedUser=loginResponse;
-                    Constants.loggedUser.setUsername(username);
-                    Constants.loggedUser.setPassword(password);
-
-                    presenter.onUserValidateSuccess(loginResponse);
-                }else{
-                    presenter.onUserValidateFailure();
+                    if (loginResponse != null && loginResponse.getName() != null) {
+                        Constants.TOKEN = loginResponse.getAuthToken();
+                        presenter.onUserValidateSuccess(loginResponse, username, password);
+                    } else {
+                        presenter.onUserValidateFailure(context);
+                    }
+                    Constants.PROGRESS.dismiss();
                 }
 
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                presenter.onUserValidateFailure();
-            }
-        });
+                @Override
+                public void onFailure(Throwable t) {
+                    presenter.onUserCantValidate();
+                    Constants.PROGRESS.dismiss();
+                }
+            });
+        }else{
+            presenter.onUserCantValidate();
+        }
     }
 }

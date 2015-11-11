@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -57,6 +58,7 @@ import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
+import com.example.dp2.afiperu.syncmodel.*;
 import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
@@ -84,7 +86,6 @@ import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
-import com.google.android.gms.maps.Projection;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -139,7 +140,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     private NetworkReceiver receiver = new NetworkReceiver();
     int previousBackStackCount;
     Drawer applyOptionItem;
-    SharedPreferences sharedPreferences;
     @Inject
     MainActivityPresenter presenter;
 
@@ -280,14 +280,12 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mImageView.setImageBitmap(imageBitmap);
             ImageView iv = (ImageView) findViewById(R.id.photo_pic);
             iv.setImageBitmap(imageBitmap);
             float opacity =1;
             iv.setAlpha(opacity);
             TextView tv = (TextView) findViewById(R.id.no_photo_text);
             tv.setText("");
-
         }else  if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK){
             Uri uri = data.getData();
             String [] projection = {MediaStore.Images.Media.DATA};
@@ -296,8 +294,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             int columIndex = cursor.getColumnIndex(projection[0]);
             String filePath = cursor.getString(columIndex);
             cursor.close();
-            Bitmap imageBitmap = (Bitmap) BitmapFactory.decodeFile(filePath);
-            Drawable d =  new BitmapDrawable(imageBitmap);
+            Bitmap imageBitmap = BitmapFactory.decodeFile(filePath);
+            Drawable d = new BitmapDrawable(getResources(), imageBitmap);
             ImageView iv = (ImageView) findViewById(R.id.photo_pic);
             iv.setImageDrawable(d);
             float opacity =1;
@@ -306,11 +304,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             tv.setText("");
          }
     }
-
-
-
-
-
 
     /* Cosas que casi no deberían cambiar */
 
@@ -343,15 +336,11 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             previousBackStackCount = backStackEntryCount;
         }
     };
-    public void setUpPreferences(){
-        sharedPreferences=getSharedPreferences("MyPreference",Context.MODE_PRIVATE);
-    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         /******************************/
-
-        setUpPreferences();
 
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         receiver = new NetworkReceiver();
@@ -612,6 +601,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         this.toolbarMenu = toolbarMenu;
         invalidateOptionsMenu();
     }
+
+    @Override
     public void removeApplyOption(){
         TextView name = (TextView)findViewById(R.id.drawer_list_item_name);
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -624,19 +615,40 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
     }
 
+    @Override
     public void saveUserToSharedPreferences(){
-        SharedPreferences.Editor editor = getSharedPreferences().edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(this).edit();
         Gson gson= new Gson();
         editor.putString("loggedUser", gson.toJson(Constants.loggedUser));
         editor.commit();
     }
 
+    @Override
     public void loadUserFromSharedPreferences(){
         Gson gson= new Gson();
-        User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
+        User user = gson.fromJson(PreferenceManager.getDefaultSharedPreferences(this).getString("loggedUser", null),User.class);
         Constants.loggedUser=user;
     }
-    private void tryPostulate(final int position){
+
+    @Override
+    public void logOff(){
+        Constants.loggedUser = null;
+        PreferenceManager.getDefaultSharedPreferences(this).edit().remove("loggedUser").commit();
+        selectItem(DetailActivity.FRAGMENT_LOGIN);
+
+        SyncAttendanceChild.deleteAll(SyncAttendanceChild.class);
+        SyncComment.deleteAll(SyncComment.class);
+        SyncDocument.deleteAll(SyncDocument.class);
+        SyncDocumentUser.deleteAll(SyncDocumentUser.class);
+        SyncKid.deleteAll(SyncKid.class);
+        SyncLocation.deleteAll(SyncLocation.class);
+        SyncPointOfReunion.deleteAll(SyncPointOfReunion.class);
+        SyncSchoolAddress.deleteAll(SyncSchoolAddress.class);
+        SyncSession.deleteAll(SyncSession.class);
+        SyncUser.deleteAll(SyncUser.class);
+    }
+
+    private void tryPostulate(){
         DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -655,13 +667,14 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         alert.show();
     }
 
+    @Override
     public void selectItem(int fragmentId){
         Bundle args = new Bundle();
         Fragment fragment;
         switch(fragmentId){
             default:
                 Gson gson= new Gson();
-                User user = gson.fromJson(sharedPreferences.getString("loggedUser",null),User.class);
+                User user = gson.fromJson(PreferenceManager.getDefaultSharedPreferences(this).getString("loggedUser", null),User.class);
                 if(user==null) {
                     hideAppElements(true);
                     //getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
@@ -671,7 +684,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     selectedLayout = fragmentId;
                     changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
                 }else{
-                    presenter.validateUser(user.getUsername(),user.getPassword());
+                    presenter.validateUser(this, user.getUsername(),user.getPassword());
                     Constants.loggedUser=user;
                     Constants.TOKEN=user.getAuthToken();
                     setActions(user);
@@ -812,7 +825,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             int fragmentId = (Integer)view.getTag();
             if(fragmentId == -1) {
-                tryPostulate(position);
+                tryPostulate();
             }else{
                 selectItem(fragmentId);
             }
@@ -994,14 +1007,5 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             String query = intent.getStringExtra(SearchManager.QUERY);
             getTopFragment().onSearch(query);
         }
-    }
-
-
-    public SharedPreferences getSharedPreferences() {
-        return sharedPreferences;
-    }
-
-    public void setSharedPreferences(SharedPreferences sharedPreferences) {
-        this.sharedPreferences = sharedPreferences;
     }
 }

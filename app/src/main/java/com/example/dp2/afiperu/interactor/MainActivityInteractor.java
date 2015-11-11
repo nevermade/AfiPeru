@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 
 /**
@@ -7,7 +9,7 @@ import com.example.dp2.afiperu.presenter.MainActivityPresenter;
  */
 public interface MainActivityInteractor {
     void applyForPeriod(int idPeriod, MainActivityPresenter presenter);
-    void validateUser(String username,String password,MainActivityPresenter presenter);
+    void validateUser(Context context, String username,String password,MainActivityPresenter presenter);
 
 
 }
