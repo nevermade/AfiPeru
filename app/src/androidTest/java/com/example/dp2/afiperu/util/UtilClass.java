@@ -14,4 +14,11 @@ public class UtilClass {
         editor.clear();
         editor.commit();
     }
+    public static void makeTestSleep(int timeInMilis){
+        try {
+            Thread.sleep(timeInMilis);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
