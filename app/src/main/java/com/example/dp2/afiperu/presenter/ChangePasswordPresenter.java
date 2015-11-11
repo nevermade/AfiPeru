@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.presenter;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.interactor.ChangePasswordInteractor;
 import com.example.dp2.afiperu.ui.viewmodel.ChangePasswordView;
@@ -32,8 +34,8 @@ public class ChangePasswordPresenter extends BasePresenter{
         view.displayPasswordChangedSuccess();
     }
 
-    public void changePassword(String currentPw,String newPw){
-        interactor.changePassword(currentPw, newPw, this);
+    public void changePassword(Context context, String currentPw,String newPw){
+        interactor.changePassword(context, currentPw, newPw, this);
     }
 
     public void onPasswordChangedError(){

@@ -45,7 +45,7 @@ public class DocumentPresenter extends BasePresenter{
         view.onFailure();
     }
 
-    public void recordVisualization(Integer documentId){
-        interactor.recordVisualization(documentId);
+    public void recordVisualization(Context context, Integer documentId){
+        interactor.recordVisualization(context, documentId);
     }
 }

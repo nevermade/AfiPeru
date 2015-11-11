@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.DownloadedUserFragment;
 import com.example.dp2.afiperu.util.Constants;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +64,26 @@ public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.docs_menu_view:
-                                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                                    intent.setData(Uri.parse(Constants.URL + docItem.getUrl()));
-                                    getFragment().startActivity(intent);
-                                    ((DocumentsFragment)getFragment()).recordVisualization(docItem.getDocId());
+                                    if(NetworkManager.isNetworkConnected(getContext())) {
+                                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                                        intent.setData(Uri.parse(Constants.URL + docItem.getUrl()));
+                                        getFragment().startActivity(intent);
+                                        ((DocumentsFragment) getFragment()).recordVisualization(docItem.getDocId());
+                                    }else if(docItem.getLastUri() != null){
+                                        ((DetailActivity)getFragment().getActivity()).openFile(docItem.getLastUri());
+                                    }else{
+                                        showNoInternetMessage();
+                                    }
                                     break;
                                 case R.id.docs_menu_download:
-                                    downloadFile(Constants.URL + docItem.getUrl(), docItem.getName(), false);
-                                    ((DocumentsFragment)getFragment()).recordVisualization(docItem.getDocId());
+                                    if(NetworkManager.isNetworkConnected(getContext())) {
+                                        downloadDocument(docItem, Constants.URL + docItem.getUrl());
+                                        ((DocumentsFragment) getFragment()).recordVisualization(docItem.getDocId());
+                                    }else if(docItem.getLastUri() != null){
+                                        ((DetailActivity)getFragment().getActivity()).openFile(docItem.getLastUri());
+                                    }else{
+                                        showNoInternetMessage();
+                                    }
                                     break;
                                 case R.id.docs_menu_check_views:
                                     Bundle args = new Bundle();
@@ -100,5 +114,12 @@ public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
         }else{
             return R.drawable.ic_docs_generic;
         }
+    }
+
+    public void showNoInternetMessage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(R.string.no_internet).setNeutralButton(android.R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

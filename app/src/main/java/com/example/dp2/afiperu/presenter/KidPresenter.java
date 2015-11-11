@@ -47,4 +47,8 @@ public class KidPresenter extends BasePresenter {
     public void getAllKids(Context context){
         interactor.getAllKids(this, context);
     }
+
+    public void queryKids(Context context,String query){
+        interactor.queryKids(this, context,query);
+    }
 }

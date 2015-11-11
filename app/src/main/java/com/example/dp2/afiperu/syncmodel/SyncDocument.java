@@ -10,11 +10,14 @@ import java.util.List;
 public class SyncDocument extends SugarRecord<SyncDocument> implements Serializable, Comparable<SyncDocument> {
 
     private Integer session;
+
     private Integer docId;
     private String name;
     private String uploadDate;
     private String filesize;
     private String url;
+
+    private String lastUri;
 
     public SyncDocument(){}
     public SyncDocument(Integer docId, String name, String uploadDate, String filesize, String url) {
@@ -48,6 +51,14 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
 
     public void setSession(Integer session) {
         this.session = session;
+    }
+
+    public String getLastUri() {
+        return lastUri;
+    }
+
+    public void setLastUri(String lastUri) {
+        this.lastUri = lastUri;
     }
 
     public List<SyncDocumentUser> queryUsers(){

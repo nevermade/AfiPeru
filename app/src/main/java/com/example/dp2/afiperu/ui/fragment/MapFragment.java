@@ -328,15 +328,17 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, Goo
 
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData){
-            TextView addressText = (TextView)MapFragment.this.getView().findViewById(R.id.map_address_text);
-            String text;
-            if(resultCode == FetchAddressIntentService.RESULT_SUCCESS){
-                text = resultData.getString(FetchAddressIntentService.ADDRESS_RESULT_ARG);
-            }else{
-                text = "";
+            if(MapFragment.this.getView() != null) {
+                TextView addressText = (TextView) MapFragment.this.getView().findViewById(R.id.map_address_text);
+                String text;
+                if (resultCode == FetchAddressIntentService.RESULT_SUCCESS) {
+                    text = resultData.getString(FetchAddressIntentService.ADDRESS_RESULT_ARG);
+                } else {
+                    text = "";
+                }
+                addressText.setText(text);
+                marker.address = text;
             }
-            addressText.setText(text);
-            marker.address = text;
         }
     }
 
