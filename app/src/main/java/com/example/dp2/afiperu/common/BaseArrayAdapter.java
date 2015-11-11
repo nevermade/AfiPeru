@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
+
 import java.util.List;
 
 /**
@@ -41,6 +43,10 @@ public abstract class BaseArrayAdapter<T> extends ArrayAdapter<T> {
 
     public void downloadFile(String URL, String fileName, boolean overwrite){
         fragment.downloadFile(URL, fileName, overwrite);
+    }
+
+    public void downloadDocument(SyncDocument document, String URL){
+        fragment.downloadDocument(document, URL);
     }
 
     public void setImage(ImageView v, String URL, String fileName){

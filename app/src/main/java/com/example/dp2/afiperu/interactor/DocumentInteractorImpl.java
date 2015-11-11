@@ -72,18 +72,21 @@ public class DocumentInteractorImpl implements DocumentInteractor {
      }
 
     @Override
-    public void recordVisualization(Integer documentId){
-        Call<Void> call = service.recordVisualization(documentId);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Response<Void> response, Retrofit retrofit) {
-                Log.d("docs", "ok");
-            }
+    public void recordVisualization(Context context, final Integer documentId){
+        if(NetworkManager.isNetworkConnected(context)) {
+            Call<Void> call = service.recordVisualization(documentId);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Response<Void> response, Retrofit retrofit) {
+                    if(response.body() != null){
+                    }
+                }
 
-            @Override
-            public void onFailure(Throwable t) {
-                Log.d("docs", null, t);
-            }
-        });
+                @Override
+                public void onFailure(Throwable t) {
+                }
+            });
+        }else{
+        }
     }
 }

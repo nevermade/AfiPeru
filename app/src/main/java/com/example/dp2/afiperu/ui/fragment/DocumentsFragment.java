@@ -76,8 +76,8 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
                 .inject(this);
     }
 
-    public void recordVisualization(Integer documentId){
-        presenter.recordVisualization(documentId);
+    public void recordVisualization(Integer document){
+        presenter.recordVisualization(getContext(), document);
     }
 
     @Override

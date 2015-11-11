@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
@@ -22,7 +21,6 @@ import javax.inject.Inject;
 
 
 public class ChangePasswordFragment extends BaseFragment implements ChangePasswordView {
-    public static final String BLOG_ARG = "blog_arg";
 
     @Inject
     ChangePasswordAdapter changePasswordAdapter;
@@ -32,9 +30,6 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     EditText currentPassword;
     EditText newPassword;
     EditText newPasswordRepeat;
-    private boolean[] isFavorite;
-
-    ListView blogsList;
 
     public ChangePasswordFragment(){
         super();
@@ -47,18 +42,6 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        //blogSearchPresenter.getAllArtists();
-        //BlogsAdapter adapter = new BlogsAdapter(getContext(), this, blogs);
-/*
-        blogsList = (ListView)rootView.findViewById(R.id.blogs_list);
-        blogsList.setAdapter(blogSearchAdapter);
-        blogsList.setEmptyView(rootView.findViewById(R.id.empty_blogs_list));
-
-        isFavorite = new boolean[blogSearchAdapter.getCount()];
-        for(int i=0; i<isFavorite.length; i++){
-            isFavorite[i] = blogSearchAdapter.getItem(i).isFavorite();
-        }
-        */
         Button chanPwd=(Button)rootView.findViewById(R.id.changepassword);
         currentPassword=(EditText)rootView.findViewById(R.id.actpassword);
         newPassword=(EditText)rootView.findViewById(R.id.newpassword);
@@ -70,14 +53,13 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
                 String nPwd=newPassword.getText().toString();
                 String nPWdR=newPasswordRepeat.getText().toString();
                 if(nPwd.equals(nPWdR))
-                    presenter.changePassword(cPwd,nPwd);
+                    presenter.changePassword(getContext(), cPwd, nPwd);
                 else
                     Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
             }
         });
 
     }
-
 
     @Override
     protected BasePresenter getPresenter() {
@@ -92,18 +74,6 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
                 .build()
                 .inject(this);
     }
-
-    public boolean toggleFavorite(int position){
-        isFavorite[position] = !isFavorite[position];
-        return isFavorite[position];
-    }
-
-/*
-    @Override
-    public void setupList() {
-        //blogsList.setAdapter(blogSearchAdapter);
-    }
-*/
 
     @Override
     public void setupAdapter() {
@@ -126,20 +96,4 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
         Toast.makeText(getContext(), "No se pudo cambiar su contraseña", Toast.LENGTH_SHORT).show();
         ((DetailActivity)getActivity()).goBack();
     }
-
-
-/*
-    @Override
-    public void displayFoundBlogs(ArrayList<Blog> blogs) {
-
-
-        blogSearchAdapter.updateBlogs(blogs);
-
-    }
-
-    @Override
-    public void displayEmptyList() {
-
-    }
-    */
 }

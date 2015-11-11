@@ -12,6 +12,7 @@ import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.rest.model.AttendanceChild;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
 import com.example.dp2.afiperu.syncmodel.SyncComment;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 
 import java.util.List;
