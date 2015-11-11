@@ -1,25 +1,32 @@
 package com.example.dp2.afiperu.tests;
 
-import com.example.dp2.afiperu.common.BaseTest;
-import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.views.LoginView;
 
 import org.junit.Before;
 import org.junit.Test;
 /**
  * Created by DABARCA on 05/11/2015.
  */
-public class LoginTest extends BaseTest{
+public class LoginTest {
 
-    private DetailActivity activity;
+    LoginView view;
 
-    //Código que se ejecutara antes de cada test.Nota: Existe una anotación llamda @BeforeClass que se ejecuta una vez por en toda la clase.
+
     @Before
     public void beforeTest(){
-
+        view=new LoginView();
     }
 
     @Test
-    public void loginTest(){
+    public void loginFailure(){
+        view.sendUsername("00000000");
+        view.sendPassword("afi_password");
+        view.clickLoginButton();
+        view.assertLoginSuccesful();
+    }
+
+    @Test
+    public void loginSuccesful(){
 
     }
 
