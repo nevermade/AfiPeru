@@ -66,8 +66,8 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
 
                 @Override
                 public void onFailure(Throwable t) {
-                    presenter.onUserCantValidate();
                     Constants.PROGRESS.dismiss();
+                    presenter.onUserCantValidate();
                 }
             });
         }else{
