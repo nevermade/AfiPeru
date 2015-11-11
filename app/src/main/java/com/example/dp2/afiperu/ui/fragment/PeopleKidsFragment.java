@@ -84,6 +84,11 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
     @Override
     public void onSearch(String query){
         //ACÁ HAZ TU BÚSQUEDA SIMPLE
+        if (query.contentEquals("")) {
+            presenter.getAllKids(getContext());
+        }
+        else
+        presenter.queryKids(getContext(),query);
         int a = 0;
     }
 

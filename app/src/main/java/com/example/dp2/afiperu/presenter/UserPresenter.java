@@ -33,6 +33,10 @@ public class UserPresenter {
         interactor.getAllUsers(context, this);
     }
 
+    public void queryUsers(Context context,String query){
+        interactor.queryUsers(context, this , query);
+    }
+
     public void onLocationsFound(List<SyncSchoolAddress> locations){
         view.showLocations(locations);
     }

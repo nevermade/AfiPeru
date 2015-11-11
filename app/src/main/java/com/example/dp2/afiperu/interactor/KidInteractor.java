@@ -15,4 +15,5 @@ import java.util.ArrayList;
 public interface KidInteractor {
 
     void getAllKids(KidPresenter kidPresenter, Context context);
+    void queryKids(KidPresenter kidPresenter, Context context,String query);
 }

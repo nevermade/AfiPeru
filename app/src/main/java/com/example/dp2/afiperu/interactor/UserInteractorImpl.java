@@ -108,4 +108,68 @@ public class UserInteractorImpl implements UserInteractor {
             presenter.onLocationsFound(addresses);
         }
     }
+
+    @Override
+    public void queryUsers(Context context,final UserPresenter presenter,final String query) {
+        if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
+            Call<List<User>> call = service.getAllUsers();
+            call.enqueue(new Callback<List<User>>() {
+                @Override
+                public void onResponse(Response<List<User>> response, Retrofit retrofit) {
+                    ArrayList<User> users = (ArrayList<User>) response.body();
+
+                    if (users != null) {
+                        SyncUser.deleteAll(SyncUser.class);
+                        for (User user : users) {
+                            SyncUser su = new SyncUser();
+                            su.setName(user.getName());
+                            su.setLastName(user.getLastName());
+                            su.setSecondLastName(user.getSecondLastName());
+                            su.setNickName(user.getNickName());
+                            su.setProfile(user.getProfiles().get(0).getName());
+                            su.save();
+                        }
+
+                        List<SyncUser> lista = SyncUser.listAll(SyncUser.class);
+
+                        List<SyncUser> listafinal = new ArrayList<SyncUser>();
+                        for (SyncUser item : lista){
+                            String fullname = item.getName()+ " "+item.getLastName();
+                            if (fullname.toLowerCase().contains(query)){
+                                listafinal.add(item);
+                            }
+                        }
+
+
+
+                        Collections.sort(listafinal);
+                        presenter.onUsersFound(listafinal);
+                    } else {
+                        presenter.onUsersErrorOrFailure();
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    presenter.onUsersErrorOrFailure();
+                }
+            });
+
+        }else{// Si no tengo conexion
+            List<SyncUser> lista = SyncUser.listAll(SyncUser.class);
+
+
+            List<SyncUser> listafinal = new ArrayList<SyncUser>();
+            for (SyncUser item : lista){
+                String fullname = item.getName()+ " "+item.getLastName();
+                if (fullname.toLowerCase().contains(query)){
+                    listafinal.add(item);
+                }
+            }
+
+
+            Collections.sort(listafinal);
+            presenter.onUsersFound(listafinal);
+        }
+    }
 }

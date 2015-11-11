@@ -114,6 +114,11 @@ public class UsersFragment extends BaseFragment implements UserView {
     @Override
     public void onSearch(String query){
         //ACÁ HAZ TU BÚSQUEDA SIMPLE
+        if (query.contentEquals("") ){
+            presenter.getAllUsers(getContext());
+        }
+            else
+            presenter.queryUsers(getContext(),query);
         int a = 0;
     }
 
