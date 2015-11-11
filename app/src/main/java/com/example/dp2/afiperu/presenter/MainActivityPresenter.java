@@ -1,7 +1,9 @@
 package com.example.dp2.afiperu.presenter;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 
+import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.interactor.CommentKidInteractor;
@@ -48,17 +50,27 @@ public class MainActivityPresenter extends BasePresenter {
         }
     }
 
-    public void validateUser(String username, String password){
-        interactor.validateUser(username,password,this);
+    public void validateUser(Context context, String username, String password){
+        interactor.validateUser(context, username, password, this);
     }
 
-    public void onUserValidateSuccess(User user){
-        Constants.loggedUser= user;
+    public void onUserValidateSuccess(User user, String username, String password){
+        Constants.loggedUser = user;
+        Constants.loggedUser.setUsername(username);
+        Constants.loggedUser.setPassword(password);
         view.saveUserToSharedPreferences();
         view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
     }
 
-    public void onUserValidateFailure(){
+    public void onUserValidateFailure(Context context){
+        view.logOff();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(R.string.cant_verify_user).setNeutralButton(android.R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void onUserCantValidate(){
         view.loadUserFromSharedPreferences();
         view.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
     }

@@ -3,7 +3,9 @@ package com.example.dp2.afiperu.ui.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -71,35 +73,38 @@ public class LoginFragment extends BaseFragment implements LoginView {
     public void showApp(String name) {
         DetailActivity activity = ((DetailActivity) getActivity());
         activity.setActions(Constants.loggedUser);
-        Toast.makeText(activity.getApplicationContext(), "Bienvenido "+ name, Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity.getApplicationContext(), getResources().getString(R.string.welcome, name), Toast.LENGTH_SHORT).show();
         activity.selectItem(DetailActivity.FRAGMENT_NOTICIAS);
         activity.hideAppElements(false);
         hideSoftKeyboard();
-        SharedPreferences.Editor editor = ((DetailActivity) getActivity()).getSharedPreferences().edit();
+        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
         Gson gson= new Gson();
         editor.putString("loggedUser", gson.toJson(Constants.loggedUser));
         editor.commit();
-        getView().getViewTreeObserver().removeGlobalOnLayoutListener(layoutListener);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            getView().getViewTreeObserver().removeOnGlobalLayoutListener(layoutListener);
+        }else{
+            getView().getViewTreeObserver().removeGlobalOnLayoutListener(layoutListener);
+        }
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
     @Override
     public void displayLoginError() {
-        Toast.makeText(getContext(), "Usuario o contraseña inválido", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getResources().getString(R.string.wrong_username_or_password), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayRecoverPassSuccess() {
-        Toast.makeText(getContext(), "Se ha enviado una nueva contraseña a su correo", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getResources().getString(R.string.recover_password_confirm), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void displayRecoverPassFailure() {
-        Toast.makeText(getContext(), "No se puedo reestablecer su contraseña", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getResources().getString(R.string.recover_password_failure), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void prepareView(final View rootView, Bundle args, Bundle savedInstanceState) {
-
         Button loginBtn = (Button) rootView.findViewById(R.id.login_btn);
         username = (EditText) rootView.findViewById(R.id.login_username);
         password = (EditText) rootView.findViewById(R.id.login_password);
@@ -108,9 +113,9 @@ public class LoginFragment extends BaseFragment implements LoginView {
         layoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                int defHeihgt=rootView.getRootView().getHeight();
-                int heightDiff = defHeihgt - rootView.getHeight();
-                if (heightDiff > defHeihgt*0.20) { // if more than 100 pixels, its probably a keyboard...
+                int defHeight=rootView.getRootView().getHeight();
+                int heightDiff = defHeight - rootView.getHeight();
+                if (heightDiff > defHeight*0.20) { // Si hay más de 100 píxeles, probablemente sea un teclado...
                     recoverpass.setVisibility(View.GONE);
                 }else
                     recoverpass.setVisibility(View.VISIBLE);
@@ -121,19 +126,19 @@ public class LoginFragment extends BaseFragment implements LoginView {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                presenter.login(username.getText().toString(), password.getText().toString());
+                presenter.login(getContext(), username.getText().toString(), password.getText().toString());
             }
         });
         recoverpass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final View dView=getActivity().getLayoutInflater().inflate(R.layout.recover_password, null);
+                final View dView = getActivity().getLayoutInflater().inflate(R.layout.recover_password, null);
 
                 final AlertDialog d = new AlertDialog.Builder(getContext())
                         .setView(dView)
                         .setTitle("Recuperar contraseña")
-                        .setPositiveButton("Aceptar", null) //Set to null. We override the onclick
-                        .setNegativeButton("Cancelar", null)
+                        .setPositiveButton(android.R.string.ok, null) //Set to null. We override the onclick
+                        .setNegativeButton(android.R.string.cancel, null)
                         .create();
                 d.getWindow().setBackgroundDrawableResource(R.color.main_background);
                 d.show();
@@ -142,7 +147,7 @@ public class LoginFragment extends BaseFragment implements LoginView {
                     public void onClick(View v) {
                         String email = ((EditText) dView.findViewById(R.id.txtEmail)).getText().toString();
                         if (isValid(email)) {
-                            presenter.recoverPass(email);
+                            presenter.recoverPass(getContext(), email);
                             d.dismiss();
                         }
                     }

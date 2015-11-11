@@ -14,23 +14,25 @@ public class AppEnum {
     }
 
     public enum EnumAction{
-        SESSION_AND_DOCUMENTS(15),
+        SESSION_AND_DOCUMENTS(12, 15),
         CREATE_OR_EDIT_POINTS_OF_REUNION(13),
         ATTENDANCE_AND_QUALIFICATION(16),
         LIST_USERS(35),
-        LIST_PERIOD_REPORT(21),
+        LIST_PERIOD_REPORT(21, 39),
         PAYMENT(24),
         LIST_SCHOOL_AND_VOLUNTEER(28),
         LIST_COMMENTS(33);
 
         private int numVal;
+        private int numVal2;
 
         EnumAction(int numVal) {
             this.numVal = numVal;
+            this.numVal2 = -1;
         }
-
-        public int getNumVal() {
-            return numVal;
+        EnumAction(int numVal, int numVal2){
+            this.numVal = numVal;
+            this.numVal2 = numVal2;
         }
 
         public boolean hasPermission(){
@@ -38,9 +40,12 @@ public class AppEnum {
         }
 
         public boolean hasPermission(User user){
-            for(Action a : Constants.loggedUser.getActions()){
-                if(a.getId()== getNumVal())
+            for(Action a : user.getActions()){
+                if(a.getId()== numVal) {
                     return true;
+                }else if(numVal2 != -1 && a.getId() == numVal2) {
+                    return true;
+                }
             }
             return false;
         }

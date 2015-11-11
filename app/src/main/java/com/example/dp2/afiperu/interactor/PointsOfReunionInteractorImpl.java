@@ -1,8 +1,11 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -19,25 +22,29 @@ public class PointsOfReunionInteractorImpl implements PointsOfReunionInteractor 
     }
 
     @Override
-    public void editPointsOfReunion(final PointsOfReunionPresenter presenter, MeetingPointsBody body) {
-        Call<Void> result = service.editMeetingPoints(body);
+    public void editPointsOfReunion(Context context, final PointsOfReunionPresenter presenter, MeetingPointsBody body) {
+        if(NetworkManager.isNetworkConnected(context)) {
+            Call<Void> result = service.editMeetingPoints(body);
 
-        result.enqueue(new Callback<Void>() {
+            result.enqueue(new Callback<Void>() {
 
-            @Override
-            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                if(response.body() != null) {
-                    presenter.saveSuccessful();
-                }else{
+                @Override
+                public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
+                    if (response.body() != null) {
+                        presenter.saveSuccessful();
+                    } else {
+                        presenter.saveFailed();
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
                     presenter.saveFailed();
                 }
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                presenter.saveFailed();
-            }
-        });
+            });
+        }else{
+            presenter.onNoInternet(context);
+        }
     }
 
 }

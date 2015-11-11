@@ -5,9 +5,17 @@
     <string name="please_wait">Espere unos segundos</string>
     <string name="save_success">Se guardó con éxito</string>
     <string name="save_failed">No se pudo guardar</string>
+    <string name="no_internet">Se necesita conexión a Internet para realizar esta operación.</string>
 
     <!--Recuperar contraseña-->
     <string name="recover_password">Para recuperar su contraseña escriba su correo electrónico:</string>
+
+    <string name="welcome">Bienvenido, %s</string>
+    <string name="wrong_username_or_password">Usuario o contraseña inválido</string>
+    <string name="recover_password_confirm">Se ha enviado una nueva contraseña a su correo</string>
+    <string name="recover_password_failure">No se puedo reestablecer su contraseña</string>
+    <string name="cant_verify_user">No se pudo verificar su usuario. Intente ingresar nuevamente.</string>
+    <string name="data_not_synced">Hay información que no se ha sincronizado porque no hay conexión a Internet. Si cierra sesión, esta información se perderá. ¿Desea continuar?</string>
 
     <!-- Drawer menu -->
     <string name="navigation_drawer_open">Abrir menú</string>

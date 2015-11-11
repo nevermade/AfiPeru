@@ -1,6 +1,8 @@
 package com.example.dp2.afiperu.ui.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 
@@ -8,8 +10,10 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
-import com.example.dp2.afiperu.util.Constants;
+
+import java.util.List;
 
 /**
  * Created by Fernando on 19/10/2015.
@@ -43,9 +47,31 @@ public class SettingsFragment extends BaseFragment {
         signOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Constants.loggedUser=null;
-                ((DetailActivity) getActivity()).getSharedPreferences().edit().remove("loggedUser").commit();
-                ((DetailActivity) getActivity()).selectItem(DetailActivity.FRAGMENT_LOGIN);
+                boolean needSync = false;
+                List<SyncComment> comments = SyncComment.find(SyncComment.class, "needsync = ?", "1");
+                if(!comments.isEmpty()){
+                    needSync = true;
+                }
+
+                if(needSync){
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(which == DialogInterface.BUTTON_POSITIVE){
+                                ((DetailActivity) getActivity()).logOff();
+                            }else if(which == DialogInterface.BUTTON_NEGATIVE){
+                            }
+                        }
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.data_not_synced)
+                            .setPositiveButton(android.R.string.yes, dialogClickListener)
+                            .setNegativeButton(android.R.string.no, dialogClickListener);
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }else {
+                    ((DetailActivity) getActivity()).logOff();
+                }
             }
         });
     }

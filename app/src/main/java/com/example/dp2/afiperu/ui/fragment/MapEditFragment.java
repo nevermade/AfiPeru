@@ -65,7 +65,7 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
                 previousPoints.add(marker.toPointOfReunion());
             }
         }
-        presenter.editMeetingPoints(sessionId, SyncPointOfReunion.toPointOfReunion(previousPoints), newPoints);
+        presenter.editMeetingPoints(getContext(), sessionId, SyncPointOfReunion.toPointOfReunion(previousPoints), newPoints);
     }
 
     public void trySave(){
@@ -86,6 +86,7 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if(which == DialogInterface.BUTTON_POSITIVE){
+                        save();
                         ((DetailActivity)getContext()).goBack();
                     }else if(which == DialogInterface.BUTTON_NEGATIVE){
                         ((DetailActivity)getContext()).goBack();

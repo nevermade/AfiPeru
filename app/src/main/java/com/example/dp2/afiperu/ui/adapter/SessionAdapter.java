@@ -68,6 +68,8 @@ public class SessionAdapter extends BaseArrayAdapter<SyncSession> {
                 if (v.getId() == R.id.sessions_item_menu) {
                     PopupMenu popup = new PopupMenu(getContext(), v);
                     popup.getMenuInflater().inflate(R.menu.sessions_menu_afi, popup.getMenu());
+                    if(!AppEnum.EnumAction.LIST_COMMENTS.hasPermission())
+                        popup.getMenu().findItem(R.id.sessions_menu_show_comments).setVisible(false);
                     if(!AppEnum.EnumAction.ATTENDANCE_AND_QUALIFICATION.hasPermission())
                         popup.getMenu().findItem(R.id.sessions_menu_attendance).setVisible(false);
 

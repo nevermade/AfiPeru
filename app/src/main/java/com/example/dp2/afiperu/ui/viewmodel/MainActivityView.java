@@ -11,5 +11,6 @@ public interface MainActivityView{
     void saveUserToSharedPreferences();
     void loadUserFromSharedPreferences();
     void selectItem(int fragmentId);
+    void logOff();
 
 }

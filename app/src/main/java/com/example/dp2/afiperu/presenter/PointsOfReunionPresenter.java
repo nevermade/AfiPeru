@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.presenter;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.domain.NewPointOfReunion;
 import com.example.dp2.afiperu.domain.PointOfReunion;
@@ -32,12 +34,12 @@ public class PointsOfReunionPresenter extends BasePresenter {
 
     }
 
-    public void editMeetingPoints(int sessionId, List<PointOfReunion> previousPoints, List<NewPointOfReunion> newPoints){
+    public void editMeetingPoints(Context context, int sessionId, List<PointOfReunion> previousPoints, List<NewPointOfReunion> newPoints){
         MeetingPointsBody body = new MeetingPointsBody();
         body.setSessionId(sessionId);
         body.setPreviousPoints(previousPoints);
         body.setNewPoints(newPoints);
-        interactor.editPointsOfReunion(this, body);
+        interactor.editPointsOfReunion(context, this, body);
     }
 
     public void saveSuccessful(){
