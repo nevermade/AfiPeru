@@ -1,7 +1,10 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -18,26 +21,28 @@ public class ChangePasswordInteractorImpl implements ChangePasswordInteractor {
         this.service = service;
     }
 
-
-
     @Override
-    public void changePassword(String currentPw, String newPw, final ChangePasswordPresenter presenter) {
-        Call<Void> call= service.changePassword(currentPw,newPw);
-        call.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                if(response.errorBody()==null){
-                    presenter.onPasswordChangedSuccess();
-                }else{
-                    presenter.onPasswordChangedError();
+    public void changePassword(Context context, String currentPw, String newPw, final ChangePasswordPresenter presenter) {
+        if(NetworkManager.isNetworkConnected(context)) {
+            Call<Void> call = service.changePassword(currentPw, newPw);
+            call.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
+                    if (response.errorBody() == null) {
+                        presenter.onPasswordChangedSuccess();
+                    } else {
+                        presenter.onPasswordChangedError();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                presenter.onPasswordChangedFailure();
-            }
-        });
+                @Override
+                public void onFailure(Throwable t) {
+                    presenter.onPasswordChangedFailure();
+                }
+            });
+        }else{
+            presenter.onNoInternet(context);
+        }
     }
 
 

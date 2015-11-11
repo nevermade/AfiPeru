@@ -1,5 +1,7 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
 
@@ -13,5 +15,5 @@ public interface ChangePasswordInteractor {
     /*
     ArrayList<Blog> getAllBlogs();*/
 
-    void changePassword(String currentPw, String newPw,ChangePasswordPresenter presenter);
+    void changePassword(Context context, String currentPw, String newPw,ChangePasswordPresenter presenter);
 }

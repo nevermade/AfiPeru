@@ -17,6 +17,7 @@ import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.viewmodel.PointsOfReunionView;
+import com.example.dp2.afiperu.util.NetworkManager;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -128,17 +129,21 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
         deleteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (lastMarkerObject != null) {
-                    MarkerInfo marker = getLastMarker();
-                    if(marker.isCreated()){
-                        markersInfo.remove(marker);
-                        GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
-                        refillMap(map);
-                    }else {
-                        marker.toggleEnabled();
-                        lastMarkerObject.setIcon(getLastMarker().getColoredIcon());
+                if (NetworkManager.isNetworkConnected(getContext())) {
+                    if (lastMarkerObject != null) {
+                        MarkerInfo marker = getLastMarker();
+                        if (marker.isCreated()) {
+                            markersInfo.remove(marker);
+                            GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+                            refillMap(map);
+                        } else {
+                            marker.toggleEnabled();
+                            lastMarkerObject.setIcon(getLastMarker().getColoredIcon());
+                        }
+                        saved = false;
                     }
-                    saved = false;
+                }else{
+                    showNoInternetMessage();
                 }
             }
         });
@@ -164,14 +169,25 @@ public class MapEditFragment extends MapFragment implements PointsOfReunionView,
 
     @Override
     public void onMapLongClick(LatLng point){
-        GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
-        MarkerInfo marker = new MarkerInfo(point);
-        Marker m = map.addMarker(new MarkerOptions().position(point)
-                .title(marker.getTitle(getResources()))
-                .icon(marker.getColoredIcon()));
-        marker.markerId = m.getId();
-        markersInfo.add(marker);
-        onMarkerClick(m);
-        saved = false;
+        if(NetworkManager.isNetworkConnected(getContext())) {
+            GoogleMap map = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment)).getMap();
+            MarkerInfo marker = new MarkerInfo(point);
+            Marker m = map.addMarker(new MarkerOptions().position(point)
+                    .title(marker.getTitle(getResources()))
+                    .icon(marker.getColoredIcon()));
+            marker.markerId = m.getId();
+            markersInfo.add(marker);
+            onMarkerClick(m);
+            saved = false;
+        }else{
+            showNoInternetMessage();
+        }
+    }
+
+    public void showNoInternetMessage(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(R.string.no_internet).setNeutralButton(android.R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

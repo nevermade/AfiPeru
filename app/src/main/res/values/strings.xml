@@ -61,6 +61,7 @@
     <string name="documents_menu_search">Buscar documentos</string>
     <string name="search_doc_title">Título del documento</string>
     <string name="no_application_to_open_file">El documento se ha descargado en la carpeta %s/Files, pero no cuenta con una aplicación apropiada para abrirlo.</string>
+    <string name="file_not_found">No se encontró el archivo.</string>
 
     <!-- Noticias -->
     <string name="news_none">No se encontraron noticias.</string>

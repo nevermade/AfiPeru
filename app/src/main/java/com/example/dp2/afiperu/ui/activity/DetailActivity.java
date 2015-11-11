@@ -865,8 +865,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         return "/" + getResources().getString(R.string.app_name) + "/Files";
     }
 
-    public void setDownloadFile(String URL, String title, boolean overwrite){
-        String path = Environment.getExternalStorageDirectory() + getExternalFilesDir() + "/" + title;
+    public String getPath(String path, boolean overwrite){
         File file = new File(path);
         String finalPath;
         if(overwrite || !file.exists()){
@@ -886,7 +885,20 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 }
             }while((new File(finalPath)).exists());
         }
+        return finalPath;
+    }
+
+    public void setDownloadFile(String URL, String title, boolean overwrite){
+        String path = Environment.getExternalStorageDirectory() + getExternalFilesDir() + "/" + title;
+        String finalPath = getPath(path, overwrite);
         DownloadFileTask task = new DownloadFileTask(this);
+        task.execute(URL, finalPath);
+    }
+
+    public void setDownloadDocument(SyncDocument doc, String URL){
+        String path = Environment.getExternalStorageDirectory() + getExternalFilesDir() + "/" + doc.getName();
+        String finalPath = getPath(path, false);
+        DownloadDocumentTask task = new DownloadDocumentTask(this, doc);
         task.execute(URL, finalPath);
     }
 
@@ -921,37 +933,35 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         protected void onPostExecute(String uriResult){
             super.onPostExecute(uriResult);
             if(uriResult != null) {
-                String MIMEType;
-                if(uriResult.endsWith(".pdf")){
-                    MIMEType = "application/pdf";
-                }else if(uriResult.endsWith(".doc")){
-                    MIMEType = "application/doc";
-                }else if(uriResult.endsWith(".docx")){
-                    MIMEType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-                }else if(uriResult.endsWith(".xls")){
-                    MIMEType = "application/vnd.ms-excel";
-                }else if(uriResult.endsWith(".xlsx")){
-                    MIMEType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-                }else{
-                    MIMEType = null;
-                }
-
-                try {
-                    if(MIMEType == null){
-                        throw new ActivityNotFoundException();
-                    }
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setDataAndType(Uri.parse("file://" + uriResult), MIMEType);
-                    activity.startActivity(intent);
-                }catch (ActivityNotFoundException e){
+                boolean openedFile = activity.openFile(uriResult);
+                if(!openedFile){
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     builder.setMessage(
-                                activity.getResources().getString(R.string.no_application_to_open_file,
+                            activity.getResources().getString(R.string.no_application_to_open_file,
                                     activity.getResources().getString(R.string.app_name)))
                             .setNeutralButton(android.R.string.ok, null);
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }
+            }
+        }
+    }
+
+    public static class DownloadDocumentTask extends DownloadFileTask{
+        SyncDocument doc;
+
+        public DownloadDocumentTask(DetailActivity activity, SyncDocument doc){
+            super(activity);
+            this.doc = doc;
+        }
+
+        @Override
+        protected void onPostExecute(String uriResult){
+            super.onPostExecute(uriResult);
+            if(uriResult != null) {
+                Log.d("docs", "Uri set to SyncDocument just downloaded: " + uriResult);
+                doc.setLastUri(uriResult);
+                doc.save();
             }
         }
     }
@@ -1005,6 +1015,46 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             Log.e("imgs", "", e);
         }
         return null;
+    }
+
+    public boolean openFile(String uri){
+        File file = new File(uri);
+        if(file.exists()) {
+            String MIMEType;
+            if (uri.endsWith(".pdf")) {
+                MIMEType = "application/pdf";
+            } else if (uri.endsWith(".doc")) {
+                MIMEType = "application/doc";
+            } else if (uri.endsWith(".docx")) {
+                MIMEType = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+            } else if (uri.endsWith(".xls")) {
+                MIMEType = "application/vnd.ms-excel";
+            } else if (uri.endsWith(".xlsx")) {
+                MIMEType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            } else {
+                MIMEType = null;
+            }
+
+            try {
+                if (MIMEType == null) {
+                    throw new ActivityNotFoundException();
+                }
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.parse("file://" + uri), MIMEType);
+                startActivity(intent);
+                return true;
+            } catch (ActivityNotFoundException e) {
+                return false;
+            }
+        }else{
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(
+                    getResources().getString(R.string.file_not_found))
+                    .setNeutralButton(android.R.string.ok, null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return true;
+        }
     }
 
     @Override

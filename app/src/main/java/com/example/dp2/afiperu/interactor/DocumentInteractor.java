@@ -9,5 +9,5 @@ import com.example.dp2.afiperu.presenter.DocumentPresenter;
  */
 public interface DocumentInteractor {
     void getDocuments(DocumentPresenter presenter, Context context);
-    void recordVisualization(Integer documentId);
+    void recordVisualization(Context context, Integer documentId);
 }

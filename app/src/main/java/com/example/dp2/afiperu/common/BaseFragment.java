@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.example.dp2.afiperu.AfiApp;
 import com.example.dp2.afiperu.AfiAppComponent;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 
 /**
@@ -61,6 +62,10 @@ public abstract class BaseFragment extends Fragment {
 
     public final void downloadFile(String URL, String fileName, boolean overwrite){
         ((DetailActivity)getContext()).setDownloadFile(URL, fileName, overwrite);
+    }
+
+    public final void downloadDocument(SyncDocument document, String URL){
+        ((DetailActivity)getContext()).setDownloadDocument(document, URL);
     }
 
     public final void setImage(ImageView v, String URL, String fileName){
