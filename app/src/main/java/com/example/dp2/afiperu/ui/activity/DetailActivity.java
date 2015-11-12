@@ -518,9 +518,11 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             //Search view
             if(toolbarMenu == R.menu.people_menu_toolbar){
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                SearchView searchView = (SearchView) menu.findItem(R.id.people_menu_search).getActionView();
+                final SearchView searchView = (SearchView) menu.findItem(R.id.people_menu_search).getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
+
+
                 searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                     @Override
                     public boolean onClose() {
@@ -623,7 +625,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     public void removeApplyOption(){
         TextView name = (TextView)findViewById(R.id.drawer_list_item_name);
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             name.setTextColor(getResources().getColor(R.color.dark_text, null));
         }else{
             name.setTextColor(getResources().getColor(R.color.dark_text));
@@ -830,7 +832,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
     @Override
     public void displayApplySuccessMessage() {
-        Toast.makeText(getBaseContext(), "Has postulado al periodo "+ Constants.loggedUser.getPeriod().getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "Has postulado al periodo " + Constants.loggedUser.getPeriod().getName(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

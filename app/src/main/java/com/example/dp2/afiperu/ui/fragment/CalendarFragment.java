@@ -39,6 +39,7 @@ public class CalendarFragment extends BaseFragment {
         events = (Hashtable<Long, AFIEvent>)args.getSerializable(EVENTS_ARG);
 
         CalendarView calendar = (CalendarView)rootView.findViewById(R.id.calendar);
+
         calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
