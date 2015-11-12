@@ -51,14 +51,20 @@ public interface AfiApiServiceEndPoints {
     @GET("users")
     Call<List<User>> getAllUsers();
 
-    @GET("payment_calendar")
-    Call<List<Payment>> getAllPaymentCalendar();
-
     @GET("children")
     Call<List<Kid>> getAllKids();
 
     @GET("locations")
     Call<LocationsBody> getLocations();
+
+    /*** Payment List Interactor ***/
+    @GET("payment_calendar")
+    Call<List<Payment>> getAllPaymentCalendar();
+
+    /*** Payment Deposit Interactor ***/
+    @FormUrlEncoded
+    @POST("payment")
+    Call<Void> registerBankPayment(@Field("fee_id") String feeId, @Field("voucher_code") String voucherCode, @Field("date") Double date);
 
     /*** Points of Reunion Interactor ***/
 

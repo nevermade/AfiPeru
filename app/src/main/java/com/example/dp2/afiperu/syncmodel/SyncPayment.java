@@ -15,6 +15,7 @@ public class SyncPayment extends SugarRecord<SyncPayment> implements Serializabl
     private Long dueDate;
     private Integer amount;
 
+    public SyncPayment(){}
     private SyncPayment(Integer feeId, Integer status, Long dueDate, Integer amount) {
         this.feeId = feeId;
         this.status = status;
@@ -39,7 +40,7 @@ public class SyncPayment extends SugarRecord<SyncPayment> implements Serializabl
     }
 
     public static SyncPayment fromPayment(Payment payment){
-        return new SyncPayment(payment.getFeeId(), payment.getStatus(), payment.getDueDate(), payment.getAmount());
+        return new SyncPayment(payment.getFeeId(), payment.getStatus(), payment.getDueDate()*1000, payment.getAmount());
     }
 
     public int compareTo(SyncPayment o2){

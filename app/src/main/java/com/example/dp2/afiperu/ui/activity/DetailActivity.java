@@ -401,10 +401,10 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
                 list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
             }
-            if(isVolunteerOrAfiMember(user.getProfiles())) {
+            if(!isOnlyGodfather(user.getProfiles())) {
                 list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
             }
-            if(AppEnum.EnumAction.PAYMENT.hasPermission(user)){
+            if(AppEnum.EnumAction.PAYMENT.hasPermission(user) && isGodfather(user.getProfiles())){
                 list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             }
             list.add(new Drawer(FRAGMENT_DONACIONES, getTitle(FRAGMENT_DONACIONES), R.drawable.ic_donations));
@@ -433,17 +433,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         mDrawerToggle.syncState();
     }
 
-    public boolean isVolunteerOrAfiMember(List<Profile> profiles){
-        if(profiles!=null){
-            for(Profile p:profiles){
-                if(p.getId()==3 || p.getId() == 2)
-                    return true;
-            }
-        }
-
-        return false;
-    }
-
     public boolean isVolunteer(List<Profile> profiles){
         if(profiles!=null){
             for(Profile p:profiles){
@@ -453,6 +442,21 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
 
         return false;
+    }
+
+    public boolean isGodfather(List<Profile> profiles){
+        if(profiles!=null){
+            for(Profile p:profiles){
+                if(p.getId()==4)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean isOnlyGodfather(List<Profile> profiles){
+        return profiles != null && profiles.size() == 1 && profiles.get(0).getId() == 4;
     }
 
     public boolean isWebMaster(List<Profile> profiles){

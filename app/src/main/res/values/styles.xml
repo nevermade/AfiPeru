@@ -23,9 +23,18 @@
         <item name="android:colorControlHighlight" tools:targetApi="21">@color/edit_text_underline_highlight</item>
     </style>
 
+    <style name="button_large">
+        <item name="android:textAppearance">@style/text_appearance_giant_light</item>
+        <item name="android:background">@drawable/payment_register_deposit_button</item>
+    </style>
+
     <style name="text_appearance_giant_dark">
         <item name="android:textSize">@dimen/text_size_giant</item>
         <item name="android:textColor">@color/dark_text</item>
+    </style>
+    <style name="text_appearance_giant_light">
+        <item name="android:textSize">@dimen/text_size_giant</item>
+        <item name="android:textColor">@color/light_text</item>
     </style>
     <style name="text_appearance_large_dark">
         <item name="android:textSize">@dimen/text_size_large</item>

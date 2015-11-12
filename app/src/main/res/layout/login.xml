@@ -71,21 +71,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="25dp"
-                    android:text="Iniciar Sesión"
-                    android:textColor="#FFFFFF"
-                    android:textAppearance="@style/text_appearance_small_dark"
-                    android:textAllCaps="false"
-                    android:textSize="25sp"
-                    android:background="@drawable/payment_register_deposit_button"/>
+                    android:text="@string/login_btn_enter"
+                    style="@style/button_large"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
     <TextView
         android:id="@+id/button_recoverpass"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:text="¿Olvidaste tu contraseña?"
         android:textAppearance="@style/text_appearance_medium_dark_soft"
         android:fontFamily="sans-serif-dark"

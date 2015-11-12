@@ -64,24 +64,24 @@ public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
                         public boolean onMenuItemClick(MenuItem item) {
                             switch (item.getItemId()) {
                                 case R.id.docs_menu_view:
-                                    if(NetworkManager.isNetworkConnected(getContext())) {
+                                    if (NetworkManager.isNetworkConnected(getContext())) {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
                                         intent.setData(Uri.parse(Constants.URL + docItem.getUrl()));
                                         getFragment().startActivity(intent);
                                         ((DocumentsFragment) getFragment()).recordVisualization(docItem.getDocId());
-                                    }else if(docItem.getLastUri() != null){
-                                        ((DetailActivity)getFragment().getActivity()).openFile(docItem.getLastUri());
-                                    }else{
+                                    } else if (docItem.getLastUri() != null) {
+                                        ((DetailActivity) getFragment().getActivity()).openFile(docItem.getLastUri());
+                                    } else {
                                         showNoInternetMessage();
                                     }
                                     break;
                                 case R.id.docs_menu_download:
-                                    if(NetworkManager.isNetworkConnected(getContext())) {
+                                    if (NetworkManager.isNetworkConnected(getContext())) {
                                         downloadDocument(docItem, Constants.URL + docItem.getUrl());
                                         ((DocumentsFragment) getFragment()).recordVisualization(docItem.getDocId());
-                                    }else if(docItem.getLastUri() != null){
-                                        ((DetailActivity)getFragment().getActivity()).openFile(docItem.getLastUri());
-                                    }else{
+                                    } else if (docItem.getLastUri() != null) {
+                                        ((DetailActivity) getFragment().getActivity()).openFile(docItem.getLastUri());
+                                    } else {
                                         showNoInternetMessage();
                                     }
                                     break;

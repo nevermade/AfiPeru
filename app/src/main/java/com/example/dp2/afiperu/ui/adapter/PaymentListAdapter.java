@@ -18,7 +18,10 @@ import com.example.dp2.afiperu.syncmodel.SyncPayment;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.PaymentDepositFragment;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Nevermade on 18/10/2015.
@@ -30,16 +33,14 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
     }
 
     @Override
-    public void prepareItemView(final View convertView, SyncPayment item, int position) {
+    public void prepareItemView(final View convertView, final SyncPayment item, int position) {
         TextView expirationDate = (TextView)convertView.findViewById(R.id.payment_item_expirationDate);
         TextView mount= (TextView)convertView.findViewById(R.id.payment_item_mount);
         TextView state= (TextView)convertView.findViewById(R.id.payment_item_state);
         TextView none= (TextView)convertView.findViewById(R.id.payment_item_none);
         Button payBtn= (Button)convertView.findViewById(R.id.payment_item_action);
 
-        CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), item.getDueDate(),
-                DateUtils.MINUTE_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH);
-        expirationDate.setText(formattedDate);
+        expirationDate.setText((new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date(item.getDueDate()))));
         mount.setText(String.valueOf(item.getAmount()));
         String stateText;
         switch(item.getStatus()){
@@ -55,7 +56,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                showDialog(item.getFeeId());
             }
         });
 
@@ -77,21 +78,23 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         }
     }
 
-    public void showDialog() {
+    public void showDialog(final int feeId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getContext().getString(R.string.payment_method))
                 .setMessage(getContext().getString(R.string.payment_method_prompt))
-                .setNeutralButton("Depósito", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.payment_method_deposit, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Bundle args = new Bundle();
                         PaymentDepositFragment fragment = new PaymentDepositFragment();
+                        args.putInt(PaymentDepositFragment.FEE_ID_ARG, feeId);
                         args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
                         fragment.setArguments(args);
                         getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
                     }
                 })
-                .setNeutralButton("PayPal", null);
+                .setNeutralButton(R.string.payment_method_paypal, null)
+                .setNegativeButton(android.R.string.cancel, null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

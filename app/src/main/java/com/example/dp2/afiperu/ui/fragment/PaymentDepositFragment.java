@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -25,12 +26,15 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
     @Inject
     PaymentDepositPresenter presenter;
 
+    public static final String FEE_ID_ARG = "fee_id_arg";
+
+    private int feeId;
+
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        feeId = args.getInt(FEE_ID_ARG);
 
-        //if (title != null) builder.setTitle(title);
-        EditText vouchDate = (EditText)rootView.findViewById(R.id.voucherDate);
+        TextView vouchDate = (TextView)rootView.findViewById(R.id.payment_deposit_date);
         vouchDate.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -38,22 +42,7 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
                 VoucherDateDialog vd = new VoucherDateDialog();
                 vd.show(getFragmentManager(),"Voucher Date");
             }
-        });/*
-        builder.setMessage("Holi");
-        builder.setPositiveButton("Depósito", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Bundle args= new Bundle();
-                PaymentDepositFragment fragment = new PaymentDepositFragment();
-                args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
-                fragment.setArguments(args);
-                getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
-            }
         });
-        builder.setNegativeButton("PayPal", null);
-
-        builder.show();
-        */
     }
 
     @Override

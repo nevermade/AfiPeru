@@ -1,82 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_background"
-    android:padding="35dp">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Nro. Voucher:"
-        style="@style/text_appearance_medium_dark_soft"
-        android:layout_marginBottom="2dp"
-        />
+    android:background="@color/main_background">
     <EditText
-        android:layout_width="match_parent"
+        android:id="@+id/payment_deposit_voucher"
+        android:layout_marginTop="@dimen/margin_top"
+        android:layout_width="@dimen/edit_text_large"
         android:layout_height="wrap_content"
-        style="@style/edit_text_reloaded"
-        android:hint="Voucher"
+        style="@style/edit_text"
+        android:hint="@string/voucher"
+        android:layout_gravity="center_horizontal"
         />
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp">
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="0.4"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_medium">
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Monto:"
-                style="@style/text_appearance_medium_dark_soft"
-                android:layout_marginBottom="2dp"
-
-                />
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/edit_text_reloaded"
-                android:hint="Monto"
-                android:layout_marginRight="5dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="0.6"
+            android:textAppearance="@style/text_appearance_large_dark"
+            android:text="@string/nuevo_sol"/>
+        <EditText
+            android:id="@+id/payment_deposit_amount"
+            android:layout_width="@dimen/edit_text_small"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Fecha:"
-                style="@style/text_appearance_medium_dark_soft"
-                android:layout_marginBottom="2dp"
-                />
-            <EditText
-                android:id="@+id/voucherDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:editable="false"
-                style="@style/edit_text_reloaded"
-                android:hint="Fecha del Pago"
-                />
-        </LinearLayout>
+            style="@style/edit_text"
+            android:hint="@string/amount"/>
+        <TextView
+            android:id="@+id/payment_deposit_date"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/text_appearance_medium_dark_soft"
+            android:text="dd/MM/yyyy"/>
     </LinearLayout>
-
     <Button
-        android:layout_width="match_parent"
+        android:id="@+id/payment_deposit_btn"
+        android:layout_width="@dimen/button_large"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="Registrar Pago"
-        android:textColor="#FFFFFF"
-        android:textSize="20dp"
-        android:textAllCaps="false"
-        android:fontFamily="sans-serif-light"
-        android:background="@drawable/payment_register_deposit_button"
-        />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_large"
+        android:text="@string/payment_btn2"
+        style="@style/button_large"/>
 
 </LinearLayout>
