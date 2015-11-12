@@ -6,6 +6,7 @@ import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.util.UtilClass;
 import com.example.dp2.afiperu.views.BaseView;
 import com.example.dp2.afiperu.views.LoginView;
+import com.example.dp2.afiperu.views.MakeCommentView;
 import com.example.dp2.afiperu.views.SessionView;
 
 import org.junit.After;
@@ -24,19 +25,27 @@ public class MakeCommentTest {
     LoginView loginView;
     BaseView baseView;
     SessionView sessionView;
+    MakeCommentView makeCommentView;
     @Before
     public void beforeTest() {
         loginView = new LoginView();
         baseView= new BaseView();
         sessionView=new SessionView();
-    }
+        makeCommentView=new MakeCommentView();
 
-    @Test
-    public void makeCommentTest(){
         loginView.login("00000000", "afi_password");
         baseView.openDrawer();
         baseView.clickOnSessionMenu();
         sessionView.clickOnSessionListMenu();
+        sessionView.clickOnMakeCommentItemMenu();
+    }
+
+    @Test
+    public void makeCommentTest(){
+        makeCommentView.clickOnChildItem();
+        makeCommentView.makeComment("Luis se la come");
+        makeCommentView.clickOnCommentBtn();
+        UtilClass.makeTestSleep(2000);
     }
 
     @After
