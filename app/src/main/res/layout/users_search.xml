@@ -58,10 +58,14 @@
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_profile"/>
         <TextView
+            android:id="@+id/combo_perfil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:editable = "true"
+            android:clickable="true"
             android:textAppearance="@style/text_appearance_medium_dark_soft"
             android:text="@string/search_profile_options_any"/>
     </RelativeLayout>

@@ -103,4 +103,14 @@ public class PeopleTabFragment extends BaseFragment {
         }
     }
 
+
+    @Override
+    public void onCloseSearch(){
+        if(showingUsers()){
+            tabs[0].onCloseSearch();
+        }else{
+            tabs[1].onCloseSearch();
+        }
+    }
+
 }
