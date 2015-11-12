@@ -160,6 +160,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     private int REQUEST_IMAGE_GALLERY =2;
     /* Cosas a agregar con cada layout nuevo */
 
+
+
     public String getTitle(int fragmentId){
         int id = 0;
         switch(fragmentId){
@@ -533,7 +535,14 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 SearchView searchView = (SearchView) menu.findItem(R.id.people_menu_search).getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
-
+                searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                    @Override
+                    public boolean onClose() {
+                        System.out.print("holi2");
+                        Toast.makeText(getBaseContext(),"holi",Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
                 LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
                 ImageView plusIcon = new ImageView(this);
                 plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
