@@ -23,7 +23,7 @@ import retrofit.http.Path;
 /**
  * Created by DABARCA on 21/10/2015.
  */
-public interface AfiApiServiceEndPoints {
+public interface  AfiApiServiceEndPoints {
     /*** Document Interactor ***/
     @GET("documents")
     Call<List<Document>> getDocuments();

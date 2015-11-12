@@ -48,8 +48,8 @@ public class InteractorModule {
         return new ChangePasswordInteractorImpl(service);
     }
     @Provides
-    public PaymentDepositInteractor providePaymentDepositInteractor(){
-        return new PaymentDepositInteractorImpl();
+    public PaymentDepositInteractor providePaymentDepositInteractor(AfiApiServiceEndPoints service){
+        return new PaymentDepositInteractorImpl(service);
     }
 
     @Provides
