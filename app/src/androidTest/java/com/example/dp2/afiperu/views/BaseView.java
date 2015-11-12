@@ -27,10 +27,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
  */
 public class BaseView {
     ViewInteraction btnSessionMenu;
+    ViewInteraction btnPaymentMenu;
     ViewInteraction drawer;
 
     public BaseView(){
         btnSessionMenu=onView(Matchers.allOf(withId(R.id.drawer_list_item_name),hasSibling(withText("Sesiones"))));
+        btnPaymentMenu=onView(Matchers.allOf(withId(R.id.drawer_list_item_name),hasSibling(withText("Pagos"))));
         drawer=onView(withId(R.id.drawer_layout));
     }
     public void openDrawer(){
@@ -40,5 +42,7 @@ public class BaseView {
     public void clickOnSessionMenu(){
         btnSessionMenu.perform(click());
     }
+
+    public void clickOnPaymentMenu(){btnPaymentMenu.perform(click());}
 
 }
