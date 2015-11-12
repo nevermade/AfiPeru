@@ -113,4 +113,15 @@ public class PeopleTabFragment extends BaseFragment {
         }
     }
 
+
+    @Override
+    public void onUserAdvancedSearch(String name, String nrodoc, String perfil){
+        if(showingUsers()){
+            tabs[0].onUserAdvancedSearch(name,nrodoc,perfil);
+        }else{
+            tabs[1].onUserAdvancedSearch(name,nrodoc,perfil);
+        }
+    }
+
+
 }

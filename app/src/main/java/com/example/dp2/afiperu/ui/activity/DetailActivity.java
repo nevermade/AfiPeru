@@ -583,26 +583,23 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     public void onClick(View v) {
                         if(((PeopleTabFragment)getTopFragment()).showingUsers()){
 
-                            showAdvancedSearchUsers();
-
-                            /*
-                            DialogFragment dialog = new UserSearchDialog();
-                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailActivity.this);
+                            showAdvancedSearchUsers();/*
                             LayoutInflater inflater = getLayoutInflater();
-                            builder.setPositiveButton(R.string.search_yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    // Send the positive button event back to the host activity
-                                    //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
-                                    Toast.makeText(getBaseContext(),"Holi23",Toast.LENGTH_SHORT);
-                                }
-                            });
-                            View viw = inflater.inflate(R.layout.users_search, null);
-                            TextView comboPerfil = (TextView) viw.findViewById(R.id.combo_perfil);
+                            View vi = inflater.inflate(R.layout.users_search, null);
+                            final TextView name = (TextView)vi.findViewById(R.id.user_fullname);
+                            final TextView nrodoc = (TextView)vi.findViewById(R.id.user_nrodoc);
+                            final TextView perfil = (TextView)vi.findViewById(R.id.combo_perfil);
 
+                            DialogFragment dialog = new UserSearchDialog(){
+                              @Override
+                               public void onClickDialog(){
+
+                                  Fragment f = getTopFragment();
+                                  f.getActivity();
+                                  DetailActivity.this.getTopFragment().onUserAdvancedSearch((String) name.getText(), (String) nrodoc.getText(), (String) perfil.getText());
+                              }
+                            };
                             dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);
-
-                            comboPerfil.setText("Holi");
-
 */
 
                         }else{
@@ -668,15 +665,17 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public void showAdvancedSearchUsers(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View v = inflater.inflate(R.layout.users_search, null);
+        final View v = inflater.inflate(R.layout.users_search, null);
         builder.setView(v)
                 .setTitle(R.string.users_menu_search)
-                .setPositiveButton(/*R.string.search_yes*/"Buscar2",  new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.search_yes,  new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // Send the positive button event back to the host activity
                         //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
-                        System.out.println("Holi123");
-                        Toast.makeText(getBaseContext(),"Holi123",Toast.LENGTH_SHORT);
+                        TextView name = (TextView)v.findViewById(R.id.user_fullname);
+                        TextView nrodoc = (TextView)v.findViewById(R.id.user_nrodoc);
+                        TextView perfil = (TextView)v.findViewById(R.id.combo_perfil);
+                        getTopFragment().onUserAdvancedSearch(name.getText().toString(), nrodoc.getText().toString(), perfil.getText().toString());
                     }
                 }).setNegativeButton(R.string.search_no, null);
 
@@ -685,17 +684,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         options[0]="Miembro AFI";
         options[1]="Voluntario";
         options[2]="Padrino";
-        options[3]="Cualquiera";/*
-        builder.setNeutralButton(android.R.string.ok, null)
-                .setTitle(R.string.choose_address).setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //goToAddress(addresses.get(which));
-            }
-        });
-*/      final TextView comboPerfil = (TextView)v.findViewById(R.id.combo_perfil);
-        //comboPerfil.setText("Holi");
-
+        options[3]="Cualquiera";      final TextView comboPerfil = (TextView)v.findViewById(R.id.combo_perfil);
 
         comboPerfil.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,6 +19,7 @@
             android:text="@string/search_name"/>
         <EditText
             android:layout_width="@dimen/edit_text_medium"
+            android:id="@+id/user_fullname"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -39,6 +40,7 @@
             android:text="@string/search_doc_number"/>
         <EditText
             android:layout_width="@dimen/edit_text_medium"
+            android:id="@+id/user_nrodoc"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"

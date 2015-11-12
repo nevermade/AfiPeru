@@ -24,7 +24,15 @@ public class UserSearchDialog extends DialogFragment {
         View v = inflater.inflate(R.layout.users_search, null);
         builder.setView(v)
                 .setTitle(R.string.users_menu_search)
-                .setPositiveButton(R.string.search_yes, null).setNegativeButton(R.string.search_no, null);
+                .setPositiveButton(R.string.search_yes,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Send the positive button event back to the host activity
+                        //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
+                        onClickDialog();
+                        //System.out.println("Holi123");
+                        //Toast.makeText(getBaseContext(),"Holi23",Toast.LENGTH_SHORT);
+                    }
+                }).setNegativeButton(R.string.search_no, null);
 
 
         final String[] options = new String[4];
@@ -74,5 +82,12 @@ public class UserSearchDialog extends DialogFragment {
 
         return result;
     }
+
+
+    public void onClickDialog(){
+
+    }
+
+
 
 }
