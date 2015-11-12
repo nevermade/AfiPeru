@@ -33,8 +33,8 @@ public class DocumentPresenter extends BasePresenter{
 
     }
 
-    public void getAllDocuments(Context context){
-        interactor.getDocuments(this, context);
+    public void getAllDocuments(Context context, Integer isReport){
+        interactor.getDocuments(this, context, isReport);
     }
 
     public void onDocumentFound(List<SyncDocument> documents){

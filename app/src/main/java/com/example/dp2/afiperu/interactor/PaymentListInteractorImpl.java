@@ -5,6 +5,8 @@ import android.content.Context;
 import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.presenter.PaymentListPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.syncmodel.SyncPayment;
+import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -26,49 +28,35 @@ public class PaymentListInteractorImpl implements PaymentListInteractor {
         this.service = service;
     }
 
-    public PaymentListInteractorImpl(final PaymentListPresenter presenter, Context context) {
-    }
-
     @Override
-    public ArrayList<Payment> getAllPayments(final PaymentListPresenter presenter, Context context) throws ParseException {
-        Call<List<Payment>> call = service.getAllPaymentCalendar();
-        call.enqueue(new Callback<List<Payment>>() {
-            @Override
-            public void onResponse(Response<List<Payment>> response, Retrofit retrofit) {
-                ArrayList<Payment> payments = (ArrayList<Payment>) response.body();
-                presenter.onPaymentsFound(payments);
-            }
-/*
-                if (payments != null) {
-                    SyncUser.deleteAll(SyncUser.class);
-                    for (User user : users) {
-                        SyncUser su = new SyncUser();
-                        su.setName(user.getName());
-                        su.setLastName(user.getLastName());
-                        su.setSecondLastName(user.getSecondLastName());
-                        su.setNickName(user.getNickName());
-                        su.setProfile(user.getProfiles().get(0).getName());
-                        su.save();
+    public void getAllPayments(final PaymentListPresenter presenter, Context context) {
+        if(NetworkManager.isNetworkConnected(context)) {
+            Call<List<Payment>> call = service.getAllPaymentCalendar();
+            call.enqueue(new Callback<List<Payment>>() {
+                @Override
+                public void onResponse(Response<List<Payment>> response, Retrofit retrofit) {
+                    ArrayList<Payment> result = (ArrayList<Payment>) response.body();
+                    if(result != null) {
+                        SyncPayment.deleteAll(SyncPayment.class);
+                        for(Payment payment : result){
+                            SyncPayment pay = SyncPayment.fromPayment(payment);
+                            pay.save();
+                        }
+
+                        List<SyncPayment> payments = SyncPayment.listAll(SyncPayment.class);
+                        presenter.onPaymentsFound(payments);
+                    }else{
+                        presenter.onPaymentsNotFound();
                     }
-
-                    List<SyncUser> lista = SyncUser.listAll(SyncUser.class);
-                    ArrayList<SyncUser> listav = new ArrayList<>();
-
-                    for (SyncUser user : lista) listav.add(user);
-                    Collections.sort(listav);
-                    presenter.onUsersFound(listav);
-                    System.out.println(users.get(0).getName());
-
-
-                } else System.out.println("NULL");
-            }
-*/
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
-
-        return null;
+                }
+                @Override
+                public void onFailure(Throwable t) {
+                    presenter.onPaymentsNotFound();
+                }
+            });
+        }else{
+            List<SyncPayment> payments = SyncPayment.listAll(SyncPayment.class);
+            presenter.onPaymentsFound(payments);
+        }
     }
 }

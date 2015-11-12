@@ -401,7 +401,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 list.add(new Drawer(FRAGMENT_SESIONES, getTitle(FRAGMENT_SESIONES), R.drawable.ic_drawer_sessions));
                 list.add(new Drawer(FRAGMENT_DOCUMENTOS, getTitle(FRAGMENT_DOCUMENTOS), R.drawable.ic_drawer_docs));
             }
-            list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
+            if(isVolunteerOrAfiMember(user.getProfiles())) {
+                list.add(new Drawer(FRAGMENT_SUBIR_FOTOS, getTitle(FRAGMENT_SUBIR_FOTOS), R.drawable.ic_drawer_upload_photos));
+            }
             if(AppEnum.EnumAction.PAYMENT.hasPermission(user)){
                 list.add(new Drawer(FRAGMENT_PAGOS, getTitle(FRAGMENT_PAGOS), R.drawable.ic_drawer_payments));
             }
@@ -431,6 +433,16 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         mDrawerToggle.syncState();
     }
 
+    public boolean isVolunteerOrAfiMember(List<Profile> profiles){
+        if(profiles!=null){
+            for(Profile p:profiles){
+                if(p.getId()==3 || p.getId() == 2)
+                    return true;
+            }
+        }
+
+        return false;
+    }
 
     public boolean isVolunteer(List<Profile> profiles){
         if(profiles!=null){
