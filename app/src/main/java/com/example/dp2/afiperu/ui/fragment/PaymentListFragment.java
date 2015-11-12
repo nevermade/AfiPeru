@@ -9,13 +9,14 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerPaymentListComponent;
-import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.module.PaymentListModule;
 import com.example.dp2.afiperu.presenter.PaymentListPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncPayment;
 import com.example.dp2.afiperu.ui.adapter.PaymentListAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentListView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -33,23 +34,13 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        /*blogSearchPresenter.getAllArtists();
-        //BlogsAdapter adapter = new BlogsAdapter(getContext(), this, blogs);
-
-        blogsList = (ListView)rootView.findViewById(R.id.blogs_list);
-        blogsList.setAdapter(blogSearchAdapter);
-        blogsList.setEmptyView(rootView.findViewById(R.id.empty_blogs_list));
-
-        isFavorite = new boolean[blogSearchAdapter.getCount()];
-        for(int i=0; i<isFavorite.length; i++){
-            isFavorite[i] = blogSearchAdapter.getItem(i).isFavorite();
-        }*/
-        paymentListPresenter.getAllPayments(getContext());
         ListView paymentList=(ListView)rootView.findViewById(R.id.payment_list);
         paymentList.setAdapter(paymentListAdapter);
         paymentList.setEmptyView(rootView.findViewById(R.id.empty_payments_list));
-
-
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
+        paymentListPresenter.getAllPayments(getContext());
     }
 
     @Override
@@ -66,31 +57,18 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
         return null;
     }
 
-    public void displayPayments(ArrayList<Payment> payments){
-
+    public void displayPayments(List<SyncPayment> payments){
         paymentListAdapter.update(payments);
-
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
     @Override
-    public void showPayments(ArrayList<Payment> payments) {
-        paymentListAdapter.update(payments);
-    }
-
-
     public void displayNoPaymentsFound(){
-
-    }
-    public void showUsers(ArrayList<Payment> payments) {
-        //System.out.println("Estoy aca 6");
-        paymentListAdapter.update(payments);
-    /*
-        UsersAdapter adapter = new UsersAdapter(getContext(), this, users);
-
-        ListView blogsList = (ListView) rootView.findViewById(R.id.users_list);
-        blogsList.setAdapter(adapter);
-        blogsList.setEmptyView(rootView.findViewById(R.id.empty_users_list));
-        */
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
 }

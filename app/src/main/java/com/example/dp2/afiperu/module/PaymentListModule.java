@@ -6,6 +6,7 @@ import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.presenter.PaymentListPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncPayment;
 import com.example.dp2.afiperu.ui.adapter.PaymentListAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentListView;
 
@@ -38,7 +39,7 @@ public class PaymentListModule {
 
     @Provides
     public PaymentListAdapter provideAdapter(Context context, PaymentListView view){
-        return new PaymentListAdapter(((BaseFragment)view).getActivity(),(BaseFragment) view, new ArrayList<Payment>());
+        return new PaymentListAdapter(((BaseFragment)view).getActivity(),(BaseFragment) view, new ArrayList<SyncPayment>());
     }
 
 }

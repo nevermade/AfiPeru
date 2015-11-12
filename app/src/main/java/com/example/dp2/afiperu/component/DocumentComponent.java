@@ -6,6 +6,7 @@ import com.example.dp2.afiperu.module.DocumentModule;
 import com.example.dp2.afiperu.presenter.DocumentPresenter;
 import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
+import com.example.dp2.afiperu.ui.fragment.PeriodReportFragment;
 
 import dagger.Component;
 
@@ -19,6 +20,7 @@ import dagger.Component;
 )
 public interface DocumentComponent {
     void inject(DocumentsFragment fragment);
+    void inject(PeriodReportFragment fragment);
     DocumentsAdapter getAdapter();
     DocumentPresenter getPresenter();
 }

@@ -28,6 +28,9 @@ public interface AfiApiServiceEndPoints {
     @GET("documents")
     Call<List<Document>> getDocuments();
 
+    @GET("activity_reports")
+    Call<List<Document>> getPeriodReports();
+
     @POST("documents/{id}/visualizations")
     Call<Void> recordVisualization(@Path("id") Integer documentId);
 

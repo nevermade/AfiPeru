@@ -193,6 +193,17 @@
     <string name="payment_none">No se encontró ningún pago</string>
     <string name="payment_deposit">Depósito</string>
 
+    <string name="payment_status_expired">Vencido</string>
+    <string name="payment_status_pending">Pendiente</string>
+    <string name="payment_status_approved">Pagado</string>
+    <string name="payment_status_approval_pending">Por aprobar</string>
+    <string name="payment_btn">Pagar</string>
+
+    <string name="payment_method">Método de pago</string>
+    <string name="payment_method_prompt">Seleccione un método de pago.</string>
+    <string name="payment_method_deposit">Depósito</string>
+    <string name="payment_method_paypal">PayPal</string>
+
     <!-- period -->
     <string name="period">Periodo</string>
 

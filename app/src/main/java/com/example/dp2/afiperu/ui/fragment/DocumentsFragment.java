@@ -58,7 +58,7 @@ public class DocumentsFragment extends BaseFragment implements DocumentView {
             adapter.update(documents);
             rootView.findViewById(R.id.progress_bar).setVisibility(View.GONE);
         } else {
-            presenter.getAllDocuments(getContext());
+            presenter.getAllDocuments(getContext(), 0);
         }
     }
 
