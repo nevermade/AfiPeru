@@ -56,6 +56,11 @@ public abstract class BaseFragment extends Fragment {
 
     }
 
+
+    public void onCloseSearch(){
+
+    }
+
     public boolean tryBack(){
         return true;
     }

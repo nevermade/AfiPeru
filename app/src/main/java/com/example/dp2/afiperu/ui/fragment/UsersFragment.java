@@ -122,4 +122,14 @@ public class UsersFragment extends BaseFragment implements UserView {
         int a = 0;
     }
 
+
+    @Override
+    public void onCloseSearch(){
+        //ACÁ HAZ TU BÚSQUEDA SIMPLE
+
+            presenter.getAllUsers(getContext());
+
+        int a = 0;
+    }
+
 }

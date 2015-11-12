@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.ui.activity;
 
+import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -27,12 +28,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -507,6 +510,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public static final String DIALOG_TAG_SEARCH_KIDS = "search_kids";
     public static final String DIALOG_TAG_DETAIL_COMMENT = "detail_comment";
 
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         menu.clear();
@@ -523,16 +527,37 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 final SearchView searchView = (SearchView) menu.findItem(R.id.people_menu_search).getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
+                //searchView.set
+                MenuItem menuItem = (MenuItem) menu.findItem(R.id.people_menu_search);
 
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                if (currentapiVersion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    if (menuItem != null) {
+                        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                            @Override
+                            public boolean onMenuItemActionExpand(MenuItem item) {
 
-                searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-                    @Override
-                    public boolean onClose() {
-                        System.out.print("holi2");
-                        Toast.makeText(getBaseContext(),"holi",Toast.LENGTH_SHORT).show();
-                        return false;
+                                return true;
+                            }
+
+                            @Override
+                            public boolean onMenuItemActionCollapse(MenuItem item) {
+                                getTopFragment().onCloseSearch();
+                                return true;
+                            }
+                        });
+                        MenuItemCompat.setActionView(menuItem, searchView);
                     }
-                });
+                }else {
+                    searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                        @Override
+                        public boolean onClose() {
+                            System.out.print("holi2");
+                            Toast.makeText(getBaseContext(), "holi", Toast.LENGTH_SHORT).show();
+                            return true;
+                        }
+                    });
+                }
                 LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
                 ImageView plusIcon = new ImageView(this);
                 plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
@@ -540,8 +565,29 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     @Override
                     public void onClick(View v) {
                         if(((PeopleTabFragment)getTopFragment()).showingUsers()){
+
+                            showAdvancedSearchUsers();
+
+                            /*
                             DialogFragment dialog = new UserSearchDialog();
+                            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailActivity.this);
+                            LayoutInflater inflater = getLayoutInflater();
+                            builder.setPositiveButton(R.string.search_yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    // Send the positive button event back to the host activity
+                                    //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
+                                    Toast.makeText(getBaseContext(),"Holi23",Toast.LENGTH_SHORT);
+                                }
+                            });
+                            View viw = inflater.inflate(R.layout.users_search, null);
+                            TextView comboPerfil = (TextView) viw.findViewById(R.id.combo_perfil);
+
                             dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);
+
+                            comboPerfil.setText("Holi");
+
+*/
+
                         }else{
                             DialogFragment dialog = new KidSearchDialog();
                             dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);
@@ -601,6 +647,71 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
         return true;
     }
+
+    public void showAdvancedSearchUsers(){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View v = inflater.inflate(R.layout.users_search, null);
+        builder.setView(v)
+                .setTitle(R.string.users_menu_search)
+                .setPositiveButton(/*R.string.search_yes*/"Buscar2",  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Send the positive button event back to the host activity
+                        //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
+                        System.out.println("Holi123");
+                        Toast.makeText(getBaseContext(),"Holi123",Toast.LENGTH_SHORT);
+                    }
+                }).setNegativeButton(R.string.search_no, null);
+
+
+        final String[] options = new String[4];
+        options[0]="Miembro AFI";
+        options[1]="Voluntario";
+        options[2]="Padrino";
+        options[3]="Cualquiera";/*
+        builder.setNeutralButton(android.R.string.ok, null)
+                .setTitle(R.string.choose_address).setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //goToAddress(addresses.get(which));
+            }
+        });
+*/      final TextView comboPerfil = (TextView)v.findViewById(R.id.combo_perfil);
+        //comboPerfil.setText("Holi");
+
+
+        comboPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //System.out.println("comboclick");
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailActivity.this);
+                builder.setTitle("Elija un perfil")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                comboPerfil.setText(options[which]);
+                            }
+                        });
+                android.app.AlertDialog result = builder.create();
+
+                result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+                result.show();
+            }
+        });
+
+
+        android.app.AlertDialog result = builder.create();
+
+
+
+        //comboPerfil.
+        //Background color
+        result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+
+        result.show();
+    }
+
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
         FragmentManager fragmentManager = getSupportFragmentManager();

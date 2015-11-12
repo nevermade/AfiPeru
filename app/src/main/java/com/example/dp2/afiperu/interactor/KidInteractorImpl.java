@@ -68,44 +68,7 @@ public class KidInteractorImpl implements KidInteractor {
 
     @Override
     public void queryKids(final KidPresenter presenter, Context context, final String query) {
-        if (NetworkManager.isNetworkConnected(context)) { // Si tengo conexion a internet
-            Call<List<Kid>> call = service.getAllKids();
-            call.enqueue(new Callback<List<Kid>>() {
-                @Override
-                public void onResponse(Response<List<Kid>> response, Retrofit retrofit) {
-                    List<Kid> kids = response.body();
 
-                    if (kids != null) {
-                        SyncKid.deleteAll(SyncKid.class, "attendance_child = 0");
-                        for (Kid kid : kids) {
-                            SyncKid su = SyncKid.fromKid(kid);
-                            su.save();
-                        }
-
-
-                        List<SyncKid> lista = SyncKid.find(SyncKid.class, "attendance_child = 0");
-
-
-
-                        List<SyncKid> listafinal = new ArrayList<SyncKid>();
-                        for (SyncKid item : lista){
-                            if (item.getNames().toLowerCase().contains(query)){
-                                listafinal.add(item);
-                            }
-                        }
-                        Collections.sort(listafinal);
-                        presenter.onUsersFound(listafinal);
-                    }else{
-                        presenter.onFailure();
-                    }
-                }
-
-                @Override
-                public void onFailure(Throwable t) {
-                    presenter.onFailure();
-                }
-            });
-        }else{// Si no tengo conexion
             List<SyncKid> lista = SyncKid.find(SyncKid.class, "attendance_child = 0");
 
             List<SyncKid> listafinal = new ArrayList<SyncKid>();
@@ -118,6 +81,6 @@ public class KidInteractorImpl implements KidInteractor {
 
             Collections.sort(listafinal);
             presenter.onUsersFound(listafinal);
-        }
+
     }
 }

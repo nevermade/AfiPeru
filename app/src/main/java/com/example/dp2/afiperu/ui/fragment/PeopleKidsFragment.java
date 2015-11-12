@@ -91,5 +91,13 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
         presenter.queryKids(getContext(),query);
         int a = 0;
     }
+    @Override
+    public void onCloseSearch(){
+        //ACÁ HAZ TU BÚSQUEDA SIMPLE
+
+        presenter.getAllKids(getContext());
+
+        int a = 0;
+    }
 
 }
