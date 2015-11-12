@@ -8,25 +8,26 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
-import com.example.dp2.afiperu.component.DaggerPeriodReportComponent;
-import com.example.dp2.afiperu.domain.Document;
-import com.example.dp2.afiperu.module.PeriodReportModule;
-import com.example.dp2.afiperu.presenter.PeriodReportPresenter;
-import com.example.dp2.afiperu.ui.adapter.PeriodReportAdapter;
-import com.example.dp2.afiperu.ui.viewmodel.PeriodReportView;
+import com.example.dp2.afiperu.component.DaggerDocumentComponent;
+import com.example.dp2.afiperu.module.DocumentModule;
+import com.example.dp2.afiperu.presenter.DocumentPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncDocument;
+import com.example.dp2.afiperu.ui.adapter.DocumentsAdapter;
+import com.example.dp2.afiperu.ui.viewmodel.DocumentView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
 /**
  * Created by Nevermade on 20/10/2015.
  */
-public class PeriodReportFragment extends BaseFragment implements PeriodReportView {
+public class PeriodReportFragment extends BaseFragment implements DocumentView {
     @Inject
-    PeriodReportPresenter presenter;
+    DocumentPresenter presenter;
     @Inject
-    PeriodReportAdapter adapter;
+    DocumentsAdapter adapter;
 
     @Override
     public int getLayout() {
@@ -35,9 +36,9 @@ public class PeriodReportFragment extends BaseFragment implements PeriodReportVi
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
-        DaggerPeriodReportComponent.builder()
+        DaggerDocumentComponent.builder()
                 .afiAppComponent(appComponent)
-                .periodReportModule(new PeriodReportModule(this))
+                .documentModule(new DocumentModule(this))
                 .build()
                 .inject(this);
     }
@@ -49,29 +50,29 @@ public class PeriodReportFragment extends BaseFragment implements PeriodReportVi
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        /*blogSearchPresenter.getAllArtists();
-        //BlogsAdapter adapter = new BlogsAdapter(getContext(), this, blogs);
+        ListView docsList = (ListView)rootView.findViewById(R.id.docs_list);
+        docsList.setAdapter(adapter);
+        docsList.setEmptyView(rootView.findViewById(R.id.empty_docs_list));
 
-        blogsList = (ListView)rootView.findViewById(R.id.blogs_list);
-        blogsList.setAdapter(blogSearchAdapter);
-        blogsList.setEmptyView(rootView.findViewById(R.id.empty_blogs_list));
+        if(NetworkManager.isNetworkConnected(getContext())){
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+        }
 
-        isFavorite = new boolean[blogSearchAdapter.getCount()];
-        for(int i=0; i<isFavorite.length; i++){
-            isFavorite[i] = blogSearchAdapter.getItem(i).isFavorite();
-        }*/
-        ListView list = (ListView)rootView.findViewById(R.id.docs_list);
-        list.setAdapter(adapter);
-        list.setEmptyView(rootView.findViewById(R.id.empty_docs_list));
-
-        presenter.getAllDocuments();
-
+        presenter.getAllDocuments(getContext(), 1);
     }
 
     @Override
-    public void displayDocuments(ArrayList<Document> docs) {
-        if(docs!=null){
-            adapter.update(docs);
+    public void displayDocuments(List<SyncDocument> documents) {
+        adapter.update(documents);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onFailure(){
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
     }
 }

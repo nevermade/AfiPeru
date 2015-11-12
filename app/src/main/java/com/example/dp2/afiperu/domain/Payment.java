@@ -1,42 +1,71 @@
 package com.example.dp2.afiperu.domain;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 /**
  * Created by Nevermade on 17/10/2015.
  */
 public class Payment {
-    int state;
-    double mount;
-    Date expirationDate;
 
-    public Payment(int state, double mount, Date expirationDate) {
-        this.state = state;
-        this.mount = mount;
-        this.expirationDate = expirationDate;
+    @SerializedName("fee_id")
+    @Expose
+    private Integer feeId;
+    @SerializedName("amount")
+    @Expose
+    private Integer amount;
+    @SerializedName("due_date")
+    @Expose
+    private Long dueDate;
+    @SerializedName("fee_number")
+    @Expose
+    private Integer feeNumber;
+    @SerializedName("status")
+    @Expose
+    private Integer status;
+
+    public Payment() {
     }
 
-    public int getState() {
-        return state;
+    public Integer getFeeId() {
+        return feeId;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setFeeId(Integer feeId) {
+        this.feeId = feeId;
     }
 
-    public Date getExpirationDate() {
-        return expirationDate;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
-    public double getMount() {
-        return mount;
+    public Long getDueDate() {
+        return dueDate;
     }
 
-    public void setMount(double mount) {
-        this.mount = mount;
+    public void setDueDate(Long dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Integer getFeeNumber() {
+        return feeNumber;
+    }
+
+    public void setFeeNumber(Integer feeNumber) {
+        this.feeNumber = feeNumber;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

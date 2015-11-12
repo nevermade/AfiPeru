@@ -7,11 +7,6 @@ import com.example.dp2.afiperu.domain.User;
  * Created by Nevermade on 18/10/2015.
  */
 public class AppEnum {
-    public enum EnumPaymentState {
-        PAYED,
-        PENDING,
-        EXPIRATED
-    }
 
     public enum EnumAction{
         SESSION_AND_DOCUMENTS(12, 15),

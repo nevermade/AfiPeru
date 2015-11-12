@@ -31,27 +31,36 @@ public class DocumentInteractorImpl implements DocumentInteractor {
     }
 
     @Override
-    public void getDocuments(final DocumentPresenter presenter, Context context) {
+    public void getDocuments(final DocumentPresenter presenter, Context context, final Integer isReport) {
         if(NetworkManager.isNetworkConnected(context)) {
-            Call<List<Document>> call = service.getDocuments();
+            Call<List<Document>> call;
+            if(isReport == 0) {
+                call = service.getDocuments();
+            }else{
+                call = service.getPeriodReports();
+            }
             call.enqueue(new Callback<List<Document>>() {
                 @Override
                 public void onResponse(Response<List<Document>> response, Retrofit retrofit) {
                     ArrayList<Document> result = (ArrayList<Document>) response.body();
 
                     if (result != null) {
-                        SyncDocument.deleteAll(SyncDocument.class);
-                        SyncDocumentUser.deleteAll(SyncDocumentUser.class);
+                        SyncDocument.deleteAll(SyncDocument.class, "is_report = ?", String.valueOf(isReport));
+                        if(isReport == 0) {
+                            SyncDocumentUser.deleteAll(SyncDocumentUser.class);
+                        }
                         for(Document document : result){
-                            SyncDocument doc = SyncDocument.fromDocument(document);
+                            SyncDocument doc = SyncDocument.fromDocument(document, isReport);
                             doc.save();
-                            for(DocumentUser user : document.getUsers()){
-                                SyncDocumentUser docUser = SyncDocumentUser.fromDocumentUser(user);
-                                docUser.setDocument(doc);
-                                docUser.save();
+                            if(isReport == 0) {
+                                for (DocumentUser user : document.getUsers()) {
+                                    SyncDocumentUser docUser = SyncDocumentUser.fromDocumentUser(user);
+                                    docUser.setDocument(doc);
+                                    docUser.save();
+                                }
                             }
                         }
-                        List<SyncDocument> documents = SyncDocument.listAll(SyncDocument.class);
+                        List<SyncDocument> documents = SyncDocument.find(SyncDocument.class, "is_report = ?", String.valueOf(isReport));
                         Collections.sort(documents);
                         presenter.onDocumentFound(documents);
                     }else{
@@ -65,7 +74,7 @@ public class DocumentInteractorImpl implements DocumentInteractor {
                 }
             });
         }else{
-            List<SyncDocument> documents = SyncDocument.listAll(SyncDocument.class);
+            List<SyncDocument> documents = SyncDocument.find(SyncDocument.class, "is_report = ?", String.valueOf(isReport));
             Collections.sort(documents);
             presenter.onDocumentFound(documents);
         }

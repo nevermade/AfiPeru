@@ -16,16 +16,18 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
     private String uploadDate;
     private String filesize;
     private String url;
+    private Integer isReport;
 
     private String lastUri;
 
     public SyncDocument(){}
-    public SyncDocument(Integer docId, String name, String uploadDate, String filesize, String url) {
+    public SyncDocument(Integer docId, String name, String uploadDate, String filesize, String url, Integer isReport) {
         this.docId = docId;
         this.name = name;
         this.uploadDate = uploadDate;
         this.filesize = filesize;
         this.url = url;
+        this.isReport = isReport;
         this.session = 0;
     }
 
@@ -70,8 +72,8 @@ public class SyncDocument extends SugarRecord<SyncDocument> implements Serializa
         return o2.docId.compareTo(docId);
     }
 
-    public static SyncDocument fromDocument(Document document){
+    public static SyncDocument fromDocument(Document document, Integer isReport){
         return new SyncDocument(document.getDocId(), document.getName(), document.getUploadDate(), document.getFilesize(),
-                document.getUrl());
+                document.getUrl(), isReport);
     }
 }

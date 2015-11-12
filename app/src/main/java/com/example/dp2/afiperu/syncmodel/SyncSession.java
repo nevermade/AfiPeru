@@ -58,7 +58,7 @@ public class SyncSession extends SugarRecord<SyncSession> implements Serializabl
     }
 
     public static SyncSession fromSession(Session session){
-        SyncSession result = new SyncSession(session.getId(), session.getName(), session.getDate());
+        SyncSession result = new SyncSession(session.getId(), session.getName(), session.getDate()*1000);
         return result;
     }
 

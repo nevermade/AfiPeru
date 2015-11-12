@@ -49,11 +49,6 @@ public class SessionInteractorImpl implements SessionInteractor {
                 public void onResponse(Response<List<Session>> response, Retrofit retrofit) {
                     List<Session> result = response.body();
                     if(result != null) {
-                        //Adjust date
-                        for(Session session : result){
-                            session.setDate(session.getDate()*1000);
-                        }
-
                         SyncSession.deleteAll(SyncSession.class);
                         SyncDocument.deleteAll(SyncDocument.class, "session != ?", "0");
                         SyncDocumentUser.deleteAll(SyncDocumentUser.class, "session != ?", "0");
@@ -76,7 +71,7 @@ public class SessionInteractorImpl implements SessionInteractor {
                                 point.save();
                             }
                             for(Document document : session.getDocuments()){
-                                SyncDocument doc = SyncDocument.fromDocument(document);
+                                SyncDocument doc = SyncDocument.fromDocument(document, 0);
                                 doc.setSession(ses.getSessionId());
                                 doc.save();
                                 for(DocumentUser user : document.getUsers()){

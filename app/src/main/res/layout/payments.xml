@@ -3,41 +3,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-
-    <LinearLayout
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/table_header"
-        android:orientation="horizontal">
-        <TextView
-            android:text="@string/payment_header_expiration_date"
-            style="@style/table_payment_header_items"
-            />
-        <TextView
-            android:text="@string/payment_header_mount"
-            style="@style/table_payment_header_items"
-            />
-        <TextView
-            android:text="@string/payment_header_state"
-            style="@style/table_payment_header_items"
-            />
-        <TextView
-            android:text="@string/payment_header_action"
-            style="@style/table_payment_header_items"
-            />
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/table_header"
+            android:orientation="horizontal">
+            <TextView
+                android:text="@string/payment_header_expiration_date"
+                style="@style/table_payment_header_items"
+                />
+            <TextView
+                android:text="@string/payment_header_mount"
+                style="@style/table_payment_header_items"
+                />
+            <TextView
+                android:text="@string/payment_header_state"
+                style="@style/table_payment_header_items"
+                />
+            <TextView
+                android:text="@string/payment_header_action"
+                style="@style/table_payment_header_items"
+                />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/payment_list"
+            android:layout_width="match_parent"
+            android:divider="@color/list_view_divider"
+            android:dividerHeight="1dp"
+            android:layout_height="fill_parent"/>
     </LinearLayout>
-    <ListView
-        android:id="@+id/payment_list"
-        android:layout_width="match_parent"
-        android:divider="@color/list_view_divider"
-        android:dividerHeight="1dp"
-        android:layout_height="fill_parent"/>
-</LinearLayout>
     <TextView
         android:id="@+id/empty_payments_list"
         android:layout_width="wrap_content"
@@ -46,4 +45,16 @@
         android:text="@string/payment_none"
         android:textAppearance="@style/text_appearance_large_dark"
         android:visibility="gone"/>
+    <RelativeLayout
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_background"
+        android:visibility="gone">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
 </RelativeLayout>

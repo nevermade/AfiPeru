@@ -22,8 +22,6 @@ import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractorImpl;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PaymentListInteractorImpl;
-import com.example.dp2.afiperu.interactor.PeriodReportInteractor;
-import com.example.dp2.afiperu.interactor.PeriodReportInteractorImpl;
 import com.example.dp2.afiperu.interactor.PointsOfReunionInteractor;
 import com.example.dp2.afiperu.interactor.PointsOfReunionInteractorImpl;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
@@ -56,9 +54,6 @@ public class InteractorModule {
 
     @Provides
     public PaymentListInteractor providePaymentListInteractor(AfiApiServiceEndPoints service){return new PaymentListInteractorImpl(service);}
-
-    @Provides
-    public PeriodReportInteractor providePeriodReportInteractor(){return new PeriodReportInteractorImpl();}
 
     @Provides
     public SessionInteractor provideSessionInteractor(AfiApiServiceEndPoints service){
