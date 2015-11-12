@@ -525,6 +525,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public static final String DIALOG_TAG_SEARCH_USERS = "search_users";
     public static final String DIALOG_TAG_SEARCH_KIDS = "search_kids";
     public static final String DIALOG_TAG_DETAIL_COMMENT = "detail_comment";
+    public static final String DIALOG_TAG_DATE = "pick_date";
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
@@ -665,7 +666,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     public void showAdvancedSearchUsers(){
-        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View v = inflater.inflate(R.layout.users_search, null);
         builder.setView(v)
@@ -717,7 +718,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         });
 
 
-        android.app.AlertDialog result = builder.create();
+        AlertDialog result = builder.create();
 
 
 

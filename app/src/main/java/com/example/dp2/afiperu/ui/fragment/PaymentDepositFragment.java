@@ -1,10 +1,12 @@
 package com.example.dp2.afiperu.ui.fragment;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -13,8 +15,13 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.component.DaggerPaymentDepositComponent;
 import com.example.dp2.afiperu.module.PaymentDepositModule;
 import com.example.dp2.afiperu.presenter.PaymentDepositPresenter;
-import com.example.dp2.afiperu.ui.dialogs.VoucherDateDialog;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.ui.dialogs.DatePickerDialog;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentDepositView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.inject.Inject;
 
@@ -34,15 +41,61 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
         feeId = args.getInt(FEE_ID_ARG);
 
-        TextView vouchDate = (TextView)rootView.findViewById(R.id.payment_deposit_date);
+        final EditText voucher = (EditText)rootView.findViewById(R.id.payment_deposit_voucher);
+        final TextView vouchDate = (TextView)rootView.findViewById(R.id.payment_deposit_date);
         vouchDate.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
-                VoucherDateDialog vd = new VoucherDateDialog();
-                vd.show(getFragmentManager(),"Voucher Date");
+                DatePickerDialog vd = new DatePickerDialog(){
+                    @Override
+                    public void confirm(int day, int month, int year) {
+                        vouchDate.setText(String.format("%02d/%02d/%d", day, month, year));
+                    }
+                };
+                vd.show(getFragmentManager(), DetailActivity.DIALOG_TAG_DATE);
             }
         });
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        vouchDate.setText(format.format(new Date()));
+
+        Button button = (Button)rootView.findViewById(R.id.payment_deposit_btn);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String voucherCode = voucher.getText().toString();
+                if(voucherCode.isEmpty()) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.voucher_code_missing).setNeutralButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }else {
+                    long date = getDate(vouchDate.getText().toString());
+                    if (System.currentTimeMillis() <= date) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                        builder.setMessage(R.string.payment_date_wrong).setNeutralButton(android.R.string.ok, null);
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    } else {
+                        presenter.registerBankPayment(getContext(), feeId, voucherCode, date);
+                    }
+                }
+            }
+        });
+    }
+
+    public long getDate(String text){
+        //Milisegundos
+        String[] numbers = text.split("/");
+        int day = Integer.parseInt(numbers[0]);
+        int month = Integer.parseInt(numbers[1]);
+        int year = Integer.parseInt(numbers[2]);
+        return (new GregorianCalendar(year, month-1, day)).getTimeInMillis();
+    }
+
+    @Override
+    public void onPaymentSuccess(){
+        Toast.makeText(getContext(), getResources().getString(R.string.payment_success), Toast.LENGTH_SHORT).show();
+        ((DetailActivity)getActivity()).goBack();
     }
 
     @Override

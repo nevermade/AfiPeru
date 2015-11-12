@@ -23,14 +23,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/text_appearance_large_dark"
-            android:text="@string/nuevo_sol"/>
-        <EditText
-            android:id="@+id/payment_deposit_amount"
-            android:layout_width="@dimen/edit_text_small"
-            android:layout_height="wrap_content"
-            style="@style/edit_text"
-            android:hint="@string/amount"/>
+            android:textAppearance="@style/text_appearance_medium_dark"
+            android:text="@string/payment_date"/>
         <TextView
             android:id="@+id/payment_deposit_date"
             android:layout_marginLeft="@dimen/margin_large"

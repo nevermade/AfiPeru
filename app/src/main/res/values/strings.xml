@@ -52,6 +52,8 @@
 
     <string name="search_generic">Buscar</string>
 
+    <string name="pick_date">Seleccionar fecha</string>
+
     <!-- Documentos -->
     <string name="documents_none">No se encontraron documentos.</string>
     <string name="documents_size_date">%1$s - %2$s</string>
@@ -206,9 +208,12 @@
     <string name="payment_method_paypal">PayPal</string>
 
     <string name="voucher">Nro. Voucher</string>
-    <string name="amount">Monto</string>
-    <string name="payment_date">Fecha del pago</string>
-    <string name="nuevo_sol">S/.</string>
+    <string name="payment_date">Fecha del pago:</string>
+
+    <string name="payment_success">Se realizó el pago con éxito</string>
+    <string name="payment_failure">No se pudo realizar el pago</string>
+    <string name="payment_date_wrong">No puede seleccionar una fecha después de la actual</string>
+    <string name="voucher_code_missing">Introduzca un número de voucher</string>
 
     <!-- period -->
     <string name="period">Periodo</string>
