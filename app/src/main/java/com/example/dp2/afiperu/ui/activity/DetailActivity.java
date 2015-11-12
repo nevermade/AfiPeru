@@ -160,6 +160,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     private int REQUEST_IMAGE_GALLERY =2;
     /* Cosas a agregar con cada layout nuevo */
 
+
+
     public String getTitle(int fragmentId){
         int id = 0;
         switch(fragmentId){
