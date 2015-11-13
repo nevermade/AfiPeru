@@ -30,7 +30,7 @@ public class PaymentDepositInteractorImpl implements PaymentDepositInteractor {
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Response<Void> response, Retrofit retrofit) {
-                    if(response.body() != null){
+                    if(response.raw().code() == 200){
                         presenter.onPaymentSuccess();
                     }else{
                         presenter.onPaymentFailure(context);

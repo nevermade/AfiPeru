@@ -43,7 +43,7 @@ public class MakeCommentTest {
     @Test
     public void makeCommentTest(){
         makeCommentView.clickOnChildItem();
-        makeCommentView.makeComment("Luis se la come");
+        makeCommentView.makeComment("Buen comportamiento");
         makeCommentView.clickOnCommentBtn();
         UtilClass.makeTestSleep(2000);
     }

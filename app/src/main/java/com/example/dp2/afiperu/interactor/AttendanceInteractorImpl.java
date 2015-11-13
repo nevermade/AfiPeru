@@ -3,10 +3,8 @@ package com.example.dp2.afiperu.interactor;
 import android.content.Context;
 
 import com.example.dp2.afiperu.presenter.AttendancePresenter;
-import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.AttendanceBody;
-import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
 import com.example.dp2.afiperu.rest.model.RestVolunteer;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceVolunteer;
 import com.example.dp2.afiperu.util.NetworkManager;
@@ -46,11 +44,11 @@ public class AttendanceInteractorImpl implements AttendanceInteractor {
                 rv.add(r);
             }
             body.setVolunteers(rv);
-            Call<Void> result = service.editAttendance(sessionId, body);
+            Call<Void> result = service.editAttendance(body);
             result.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                    if (response.body() != null) {
+                    if (response.raw().code() == 200) {
                         for(SyncAttendanceVolunteer volunteer : volunteers){
                             volunteer.setNeedsync(0);
                             volunteer.save();

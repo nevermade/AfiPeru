@@ -77,7 +77,7 @@ public class SyncAttendanceVolunteer extends SugarRecord<SyncAttendanceVolunteer
     }
 
     public static SyncAttendanceVolunteer fromAttendanceVolunteer(AttendanceVolunteer volunteer){
-        return new SyncAttendanceVolunteer(volunteer.getId(),
+        return new SyncAttendanceVolunteer(volunteer.getVolunteer().getId(),
                 volunteer.getVolunteer().getNames() + " " + volunteer.getVolunteer().getLastName(),
                 volunteer.getAttended() ? 1 : 0, volunteer.getRating(), volunteer.getComment());
     }
