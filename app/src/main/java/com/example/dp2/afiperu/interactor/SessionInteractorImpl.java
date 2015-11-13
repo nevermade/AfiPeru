@@ -125,4 +125,11 @@ public class SessionInteractorImpl implements SessionInteractor {
             presenter.onSessionFound(sessions);
         }
      }
+
+    @Override
+    public void getAllSessionsCalendar(Context context, SessionPresenter presenter) {
+        List<SyncSession> sessions = SyncSession.listAll(SyncSession.class);
+        Collections.sort(sessions);
+        presenter.onSessionFoundCalendar(sessions);
+    }
 }

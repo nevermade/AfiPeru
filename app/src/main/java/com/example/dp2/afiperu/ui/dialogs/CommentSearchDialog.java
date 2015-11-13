@@ -45,6 +45,27 @@ public abstract class CommentSearchDialog extends DialogFragment {
         from.setOnClickListener(listener);
         final TextView to = (TextView)view.findViewById(R.id.comments_search_to);
         to.setOnClickListener(listener);
+        final String[] options = new String[2];
+        options[0]= "Más antiguo";
+        options[1]= "Más actual";
+        final TextView order = (TextView)view.findViewById(R.id.comments_search_order);
+        order.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Ordenar por")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                order.setText(options[which]);
+                            }
+                        });
+                AlertDialog result = builder.create();
+
+                result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+                result.show();
+            }
+        });
+
 
         builder.setView(view)
                 .setTitle(R.string.search_title_comments)
@@ -54,7 +75,8 @@ public abstract class CommentSearchDialog extends DialogFragment {
                         String authorOrContent = editText.getText().toString();
                         long fromDate = DatePickerDialog.getDate(getContext(), from.getText().toString());
                         long toDate = DatePickerDialog.getDate(getContext(), to.getText().toString());
-                        search(authorOrContent, fromDate, toDate);
+                        String orderBy = order.getText().toString();
+                        search(authorOrContent, fromDate, toDate,orderBy);
                     }
                 }).setNegativeButton(R.string.search_no, null);
         AlertDialog result = builder.create();
@@ -65,6 +87,6 @@ public abstract class CommentSearchDialog extends DialogFragment {
         return result;
     }
 
-    public abstract void search(String authorOrContent, long fromDate, long toDate);
+    public abstract void search(String authorOrContent, long fromDate, long toDate, String orderBy);
 
 }

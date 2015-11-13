@@ -33,7 +33,7 @@ public class CommentFragment extends BaseFragment implements CommentView {
     CommentAdapter adapter;
 
     public static final String KID_ARG = "kid_arg";
-
+    public int kidid = 0;
     public CommentFragment(){
         super();
     }
@@ -45,6 +45,7 @@ public class CommentFragment extends BaseFragment implements CommentView {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
+
         TextView name = (TextView)rootView.findViewById(R.id.comments_kid_name);
         TextView gender = (TextView)rootView.findViewById(R.id.comments_kid_gender);
         TextView age = (TextView)rootView.findViewById(R.id.comments_kid_age);
@@ -55,6 +56,7 @@ public class CommentFragment extends BaseFragment implements CommentView {
         newsList.setEmptyView(rootView.findViewById(R.id.empty_comments_list));
 
         SyncKid child = (SyncKid)args.getSerializable(KID_ARG);
+        kidid=child.getKidId();
         name.setText(child.getNames());
         gender.setText(child.getGender() == 0 ? getResources().getString(R.string.sex_male)
                 : getResources().getString(R.string.sex_female));
@@ -94,6 +96,17 @@ public class CommentFragment extends BaseFragment implements CommentView {
         if(getView() != null) {
             getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
+    }
+    @Override
+    public void onSearch(String query){
+        presenter.queryKidAndComment(getContext(),kidid,query,-1,-1,"Más actual");
+    }
+
+
+
+    @Override
+    public void onCommentAdvancedSearch(String authorOrContent, long fromDate, long toDate, String orderBy){
+        presenter.queryKidAndComment(getContext(),kidid,authorOrContent,fromDate,toDate,orderBy);
     }
 
 }
