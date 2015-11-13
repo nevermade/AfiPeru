@@ -135,9 +135,9 @@ public class UsersFragment extends BaseFragment implements UserView {
 
     @Override
     public void onUserAdvancedSearch(String name, String nrodoc, String perfil){
-        System.out.println(name);
-        System.out.println(nrodoc);
-        System.out.println(perfil);
+
+
+        presenter.queryAdvancedUsers(getContext(),name,nrodoc,perfil);
     }
 
 }

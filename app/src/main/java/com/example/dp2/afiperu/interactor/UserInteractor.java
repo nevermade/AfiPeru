@@ -14,4 +14,6 @@ public interface UserInteractor {
     void getLocations(Context context, UserPresenter presenter);
 
     void queryUsers(Context context, UserPresenter presenter,String query);
+
+    void queryAdvancedUsers(Context context, UserPresenter presenter,String name,String nrodoc, String Perfil);
 }

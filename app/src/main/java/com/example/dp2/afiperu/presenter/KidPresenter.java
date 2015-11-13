@@ -49,6 +49,11 @@ public class KidPresenter extends BasePresenter {
     }
 
     public void queryKids(Context context,String query){
-        interactor.queryKids(this, context,query);
+        interactor.queryKids(this, context, query);
+    }
+
+
+    public void queryAdvancedKids(Context context,String name, String edadini,String edadfin, String genero){
+        interactor.queryAdvancedKid(context,this,name,edadini,edadfin,genero);
     }
 }

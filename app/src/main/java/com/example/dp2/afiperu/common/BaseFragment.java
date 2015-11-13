@@ -58,7 +58,9 @@ public abstract class BaseFragment extends Fragment {
     public void onUserAdvancedSearch(String name,String nrodoc, String perfil){
 
     }
+    public void onKidAdvancedSearch(String name,String edadini, String edadfin,String genero){
 
+    }
     public void onCloseSearch(){
 
     }

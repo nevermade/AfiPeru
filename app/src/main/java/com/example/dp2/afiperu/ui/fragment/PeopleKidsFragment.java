@@ -100,4 +100,14 @@ public class PeopleKidsFragment extends BaseFragment implements KidView{
         int a = 0;
     }
 
+
+
+    @Override
+    public void onKidAdvancedSearch(String name, String edadini, String edadfin, String genero){
+        //ACÁ HAZ TU BÚSQUEDA SIMPLE
+        presenter.queryAdvancedKids(getContext(),name,edadini,edadfin,genero);
+
+        int a = 0;
+    }
+
 }

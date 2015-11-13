@@ -34,7 +34,11 @@ public class UserPresenter {
     }
 
     public void queryUsers(Context context,String query){
-        interactor.queryUsers(context, this , query);
+        interactor.queryUsers(context, this, query);
+    }
+
+    public void queryAdvancedUsers(Context context,String name, String nrodoc, String perfil){
+        interactor.queryAdvancedUsers(context, this , name,nrodoc,perfil);
     }
 
     public void onLocationsFound(List<SyncSchoolAddress> locations){

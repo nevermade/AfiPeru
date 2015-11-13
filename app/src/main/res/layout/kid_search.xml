@@ -20,6 +20,7 @@
             android:text="@string/search_name"/>
         <EditText
             android:layout_width="@dimen/edit_text_medium"
+            android:id="@+id/kid_fullname"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -42,6 +43,7 @@
             android:id="@+id/kid_search_age_to"
             android:layout_width="@dimen/edit_text_small"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:theme="@style/edit_text"
@@ -49,6 +51,7 @@
         <TextView
             android:id="@+id/kid_search_age_tag_to"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/kid_search_age_to"
             android:layout_centerVertical="true"
@@ -60,6 +63,7 @@
             android:id="@+id/kid_search_age_from"
             android:layout_width="@dimen/edit_text_small"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:layout_toLeftOf="@id/kid_search_age_tag_to"
             android:layout_centerVertical="true"
             android:theme="@style/edit_text"
@@ -67,6 +71,7 @@
         <TextView
             android:id="@+id/kid_search_age_tag_from"
             android:layout_width="wrap_content"
+
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/kid_search_age_from"
             android:layout_centerVertical="true"
@@ -88,9 +93,11 @@
             android:text="@string/search_sex"/>
         <TextView
             android:layout_width="wrap_content"
+            android:id="@+id/kid_gender"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+
             android:textAppearance="@style/text_appearance_medium_dark_soft"
             android:text="@string/search_profile_options_any"/>
     </RelativeLayout>

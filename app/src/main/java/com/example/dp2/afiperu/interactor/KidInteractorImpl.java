@@ -83,4 +83,67 @@ public class KidInteractorImpl implements KidInteractor {
             presenter.onUsersFound(listafinal);
 
     }
+
+    @Override
+    public void queryAdvancedKid(Context context, KidPresenter presenter, String name, String edadini, String edadfin, String genero) {
+        List<SyncKid> lista = SyncKid.find(SyncKid.class, "attendance_child = 0");
+        Integer edadfrom=0;
+        Integer edadto=200;
+        Integer gender = 2;
+        try {
+            edadfrom = Integer.parseInt(edadini);
+
+        }catch (Exception e){
+
+        }
+
+
+        try {
+
+            edadto = Integer.parseInt(edadfin);
+
+        }catch (Exception e){
+
+        }
+        try {
+
+            if (genero.contentEquals("Cualquier"))
+                gender = 2;
+            else if (genero.contentEquals("Masculino"))
+                gender = 0;
+            else gender = 1;
+        }catch (Exception e){
+
+        }
+
+
+        List<SyncKid> listafinal = new ArrayList<SyncKid>();
+        for (SyncKid item : lista){
+            String fullname = item.getNames();
+            boolean bName = fullname.toLowerCase().contains(name.toLowerCase());
+            boolean bEdadini;
+            if (edadini.contentEquals("")) edadfrom=0;
+            bEdadini= edadfrom <= item.getAge();
+
+            boolean bEdadfin;
+            if (edadfin.contentEquals(""))
+                edadto=200;
+            bEdadfin= edadto >= item.getAge();
+
+
+            boolean bGender;
+            if (gender==2) bGender=true;
+            else if (gender==item.getGender()) bGender=true;
+            else bGender=false;
+
+            //boolean
+            if (bName&&bEdadini&&bEdadfin&&bGender){
+                listafinal.add(item);
+            }
+        }
+
+
+        Collections.sort(listafinal);
+        presenter.onUsersFound(listafinal);
+    }
 }

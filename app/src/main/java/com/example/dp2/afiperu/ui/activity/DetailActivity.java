@@ -583,28 +583,14 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     public void onClick(View v) {
                         if(((PeopleTabFragment)getTopFragment()).showingUsers()){
 
-                            showAdvancedSearchUsers();/*
-                            LayoutInflater inflater = getLayoutInflater();
-                            View vi = inflater.inflate(R.layout.users_search, null);
-                            final TextView name = (TextView)vi.findViewById(R.id.user_fullname);
-                            final TextView nrodoc = (TextView)vi.findViewById(R.id.user_nrodoc);
-                            final TextView perfil = (TextView)vi.findViewById(R.id.combo_perfil);
-
-                            DialogFragment dialog = new UserSearchDialog(){
-                              @Override
-                               public void onClickDialog(){
-
-                                  Fragment f = getTopFragment();
-                                  f.getActivity();
-                                  DetailActivity.this.getTopFragment().onUserAdvancedSearch((String) name.getText(), (String) nrodoc.getText(), (String) perfil.getText());
-                              }
-                            };
-                            dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);
-*/
+                            showAdvancedSearchUsers();
 
                         }else{
+                            showAdvancedSearchKids();
+                            /*
                             DialogFragment dialog = new KidSearchDialog();
                             dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);
+                            */
                         }
                     }
                 });
@@ -697,6 +683,67 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                                 // The 'which' argument contains the index position
                                 // of the selected item
                                 comboPerfil.setText(options[which]);
+                            }
+                        });
+                android.app.AlertDialog result = builder.create();
+
+                result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+                result.show();
+            }
+        });
+
+
+        AlertDialog result = builder.create();
+
+
+
+        //comboPerfil.
+        //Background color
+        result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+
+        result.show();
+    }
+
+
+    public void showAdvancedSearchKids(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        final View v = inflater.inflate(R.layout.kid_search, null);
+        builder.setView(v)
+                .setTitle(R.string.search_title_kids)
+                .setPositiveButton(R.string.search_yes,  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Send the positive button event back to the host activity
+                        //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
+
+                        TextView name = (TextView)v.findViewById(R.id.kid_fullname);
+                        TextView edadini = (TextView)v.findViewById(R.id.kid_search_age_from);
+                        TextView edadfin = (TextView)v.findViewById(R.id.kid_search_age_to);
+                        TextView genero = (TextView)v.findViewById(R.id.kid_gender);
+
+                        getTopFragment().onKidAdvancedSearch(name.getText().toString(), edadini.getText().toString(), edadfin.getText().toString(),genero.getText().toString());
+                    }
+                }).setNegativeButton(R.string.search_no, null);
+
+
+        final String[] options = new String[3];
+        options[0]="Masculino";
+        options[1]="Femenino";
+        options[2]="Cualquiera";
+        final TextView comboGender = (TextView)v.findViewById(R.id.kid_gender);
+
+        comboGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //System.out.println("comboclick");
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailActivity.this);
+                builder.setTitle("Elija un genero")
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // The 'which' argument contains the index position
+                                // of the selected item
+                                comboGender.setText(options[which]);
                             }
                         });
                 android.app.AlertDialog result = builder.create();

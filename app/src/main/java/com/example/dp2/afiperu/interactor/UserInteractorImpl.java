@@ -128,4 +128,30 @@ public class UserInteractorImpl implements UserInteractor {
             presenter.onUsersFound(listafinal);
 
     }
+
+    @Override
+    public void queryAdvancedUsers(Context context,final UserPresenter presenter,final String name, final String nrodoc, String perfil) {
+
+        List<SyncUser> lista = SyncUser.listAll(SyncUser.class);
+
+
+        List<SyncUser> listafinal = new ArrayList<SyncUser>();
+        for (SyncUser item : lista){
+
+            String fullname = item.getName()+ " "+item.getLastName();
+            boolean bName = fullname.toLowerCase().contains(name.toLowerCase());
+            boolean bNrodoc = item.getNickName().toLowerCase().contains(nrodoc);
+            if (perfil.contentEquals("Cualquiera")) perfil="";
+
+            boolean bPerfil = item.getProfile().toLowerCase().contains(perfil.toLowerCase());
+            if (bName&&bNrodoc&&bPerfil){
+                listafinal.add(item);
+            }
+        }
+
+
+        Collections.sort(listafinal);
+        presenter.onUsersFound(listafinal);
+
+    }
 }

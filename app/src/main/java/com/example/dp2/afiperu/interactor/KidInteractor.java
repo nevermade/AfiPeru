@@ -16,4 +16,5 @@ public interface KidInteractor {
 
     void getAllKids(KidPresenter kidPresenter, Context context);
     void queryKids(KidPresenter kidPresenter, Context context,String query);
+    void queryAdvancedKid(Context context, KidPresenter presenter,String name,String edadini, String edadfin, String genero);
 }
