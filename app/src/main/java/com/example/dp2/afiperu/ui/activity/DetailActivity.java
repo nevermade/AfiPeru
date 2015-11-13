@@ -634,8 +634,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     public void onClick(View v) {
                         CommentSearchDialog dialog = new CommentSearchDialog() {
                             @Override
-                            public void search(String authorOrContent, long fromDate, long toDate) {
-                                getTopFragment().onCommentAdvancedSearch(authorOrContent, fromDate, toDate);
+                            public void search(String authorOrContent, long fromDate, long toDate,String orderBy) {
+                                getTopFragment().onCommentAdvancedSearch(authorOrContent, fromDate, toDate,orderBy);
                             }
                         };
                         dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);

@@ -9,4 +9,5 @@ import com.example.dp2.afiperu.presenter.CommentPresenter;
  */
 public interface CommentInteractor {
     void getKidAndComment(final CommentPresenter presenter, Context context, Integer kidId);
+    void queryKidAndComment(final CommentPresenter presenter, Context context,Integer kidId, String autorcomment,long datefrom, long dateto,String orderBy);
 }
