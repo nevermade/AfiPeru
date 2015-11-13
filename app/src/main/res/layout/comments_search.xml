@@ -18,6 +18,7 @@
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_author_content"/>
         <EditText
+            android:id="@+id/comments_search_text"
             android:layout_width="@dimen/edit_text_medium"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -37,18 +38,19 @@
             android:layout_marginRight="@dimen/edit_text_medium"
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_from"/>
-        <EditText
-            android:layout_width="@dimen/edit_text_medium"
+        <TextView
+            android:id="@+id/comments_search_from"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:theme="@style/edit_text"
-            android:editable="false"/>
+            android:text="@string/no_date_selected"
+            android:textAppearance="@style/text_appearance_medium_dark_soft"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_tiny">
+        android:layout_marginTop="@dimen/margin_medium">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,18 +59,19 @@
             android:layout_marginRight="@dimen/edit_text_medium"
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_to"/>
-        <EditText
-            android:layout_width="@dimen/edit_text_medium"
+        <TextView
+            android:id="@+id/comments_search_to"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:theme="@style/edit_text"
-            android:editable="false"/>
+            android:text="@string/no_date_selected"
+            android:textAppearance="@style/text_appearance_medium_dark_soft"/>
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_tiny">
+        android:layout_marginTop="@dimen/margin_medium">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,6 +81,7 @@
             android:textAppearance="@style/text_appearance_medium_dark"
             android:text="@string/search_order_by"/>
         <TextView
+            android:id="@+id/comments_search_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

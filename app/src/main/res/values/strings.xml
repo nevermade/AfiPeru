@@ -7,6 +7,8 @@
     <string name="save_failed">No se pudo guardar</string>
     <string name="no_internet">Se necesita conexión a Internet para realizar esta operación.</string>
 
+    <string name="no_date_selected">--/--/----</string>
+
     <!--Recuperar contraseña-->
     <string name="recover_password">Para recuperar su contraseña escriba su correo electrónico:</string>
 

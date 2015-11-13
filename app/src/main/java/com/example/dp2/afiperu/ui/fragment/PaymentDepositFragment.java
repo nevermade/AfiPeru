@@ -22,6 +22,7 @@ import com.example.dp2.afiperu.ui.viewmodel.PaymentDepositView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -55,7 +56,7 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
                 vd.show(getFragmentManager(), DetailActivity.DIALOG_TAG_DATE);
             }
         });
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         vouchDate.setText(format.format(new Date()));
 
         Button button = (Button)rootView.findViewById(R.id.payment_deposit_btn);
@@ -69,7 +70,7 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 }else {
-                    long date = getDate(vouchDate.getText().toString());
+                    long date = DatePickerDialog.getDate(getContext(), vouchDate.getText().toString());
                     if (System.currentTimeMillis() <= date) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage(R.string.payment_date_wrong).setNeutralButton(android.R.string.ok, null);
@@ -81,15 +82,6 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
                 }
             }
         });
-    }
-
-    public long getDate(String text){
-        //Milisegundos
-        String[] numbers = text.split("/");
-        int day = Integer.parseInt(numbers[0]);
-        int month = Integer.parseInt(numbers[1]);
-        int year = Integer.parseInt(numbers[2]);
-        return (new GregorianCalendar(year, month-1, day)).getTimeInMillis();
     }
 
     @Override
