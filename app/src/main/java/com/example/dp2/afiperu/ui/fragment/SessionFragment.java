@@ -12,10 +12,12 @@ import com.example.dp2.afiperu.component.DaggerSessionComponent;
 import com.example.dp2.afiperu.module.SessionModule;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncSession;
+import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.adapter.SessionAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.SessionView;
 import com.example.dp2.afiperu.util.NetworkManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -73,9 +75,25 @@ public class SessionFragment extends BaseFragment implements SessionView{
     }
 
     @Override
+    public void displaySessionsCalendar(List<SyncSession> sessions) {
+        CalendarFragment calendarFragment = new CalendarFragment();
+        Bundle args = new Bundle();
+
+        args.putSerializable(CalendarFragment.EVENTS_ARG, (ArrayList)sessions);
+        args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_CALENDARIO);
+        calendarFragment.setArguments(args);
+        addFragmentToStack(calendarFragment, DetailActivity.FRAGMENT_CALENDARIO);
+    }
+
+    @Override
     public void displaySessionsErrorOrFailure() {
         if(getView() != null) {
             getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
+    }
+
+
+    public void sessionsCalendar(){
+        presenter.getAllSessionsCalendar(getContext());
     }
 }

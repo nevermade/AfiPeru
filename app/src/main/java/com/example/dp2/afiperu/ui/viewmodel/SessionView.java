@@ -10,5 +10,6 @@ import java.util.List;
 public interface SessionView {
 
     void displaySessions(List<SyncSession> sessions);
+    void displaySessionsCalendar(List<SyncSession> sessions);
     void displaySessionsErrorOrFailure();
 }

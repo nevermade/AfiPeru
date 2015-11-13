@@ -116,10 +116,14 @@ public class CommentInteractorImpl implements CommentInteractor {
                 listafinal.add(item);
             }
         }
-        if (orderBy.contentEquals("Más actual"))
-            Collections.sort(listafinal, new CustomComparator1());
-        else
-            Collections.sort(listafinal, new CustomComparator2());
+        try {
+            if (orderBy.contentEquals("Más actual"))
+                Collections.sort(listafinal, new CustomComparator1());
+            else
+                Collections.sort(listafinal, new CustomComparator2());
+        }catch  (Exception e){
+            Collections.sort(listafinal);
+        }
         presenter.showComments(listafinal);
     }
 

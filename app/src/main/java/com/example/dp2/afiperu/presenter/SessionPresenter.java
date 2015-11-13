@@ -35,11 +35,21 @@ public class SessionPresenter extends BasePresenter{
     public void getAllSessions(Context context){
         interactor.getAllSessions(context, this);
     }
+    public void getAllSessionsCalendar(Context context){
+        interactor.getAllSessionsCalendar(context, this);
+    }
 
     public void onSessionFound(List<SyncSession> sessions){
         if(sessions!=null)
             view.displaySessions(sessions);
     }
+
+
+    public void onSessionFoundCalendar(List<SyncSession> sessions){
+        if(sessions!=null)
+            view.displaySessionsCalendar(sessions);
+    }
+
 
     public void onSessionErrorOrFailure(){
         view.displaySessionsErrorOrFailure();

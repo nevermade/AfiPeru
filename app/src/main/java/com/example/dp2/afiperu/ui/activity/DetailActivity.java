@@ -58,6 +58,7 @@ import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
+import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
@@ -231,6 +232,13 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             case FRAGMENT_SESIONES:
                 switch(item.getItemId()){
                     case R.id.sessions_menu_calendar:
+
+
+                        ((SessionFragment)topFragment).sessionsCalendar();
+                         //       break;
+                       // }
+                        //break;
+                        /*
                         Hashtable<Long, AFIEvent> events = new Hashtable<>();
                         Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
                         Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
@@ -242,6 +250,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                         BaseFragment calendarFragment = new CalendarFragment();
                         calendarFragment.setArguments(args);
                         addFragment(calendarFragment, getTitle(FRAGMENT_CALENDARIO), getMenu(FRAGMENT_CALENDARIO));
+                        */
                         break;
                 }
                 break;

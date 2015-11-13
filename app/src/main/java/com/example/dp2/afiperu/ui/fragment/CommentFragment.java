@@ -99,7 +99,7 @@ public class CommentFragment extends BaseFragment implements CommentView {
     }
     @Override
     public void onSearch(String query){
-        presenter.queryKidAndComment(getContext(),kidid,query,0,0,"");
+        presenter.queryKidAndComment(getContext(),kidid,query,-1,-1,"Más actual");
     }
 
 
