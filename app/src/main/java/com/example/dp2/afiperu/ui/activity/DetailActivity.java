@@ -238,11 +238,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 switch(item.getItemId()){
                     case R.id.sessions_menu_calendar:
                         ((SessionFragment)topFragment).sessionsCalendar();
-                         //       break;
-                       // }
-                        //break;
-                        /*
-                        Hashtable<Long, AFIEvent> events = new Hashtable<>();
+                        /*Hashtable<Long, AFIEvent> events = new Hashtable<>();
                         Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
                         Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
                         events.put(dateNoTime.getTime().getTime(),
