@@ -15,52 +15,34 @@ import com.example.dp2.afiperu.R;
 /**
  * Created by Fernando on 01/10/2015.
  */
-public class UserSearchDialog extends DialogFragment {
+public abstract class UserSearchDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.users_search, null);
+        final View v = inflater.inflate(R.layout.users_search, null);
         builder.setView(v)
                 .setTitle(R.string.users_menu_search)
-                .setPositiveButton(R.string.search_yes,  new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.search_yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        // Send the positive button event back to the host activity
-                        //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
-                        onClickDialog();
-                        //System.out.println("Holi123");
-                        //Toast.makeText(getBaseContext(),"Holi23",Toast.LENGTH_SHORT);
+                        TextView name = (TextView) v.findViewById(R.id.user_fullname);
+                        TextView nrodoc = (TextView) v.findViewById(R.id.user_nrodoc);
+                        TextView perfil = (TextView) v.findViewById(R.id.combo_perfil);
+                        onSearch(name.getText().toString(), nrodoc.getText().toString(), perfil.getText().toString());
                     }
                 }).setNegativeButton(R.string.search_no, null);
 
+        final String[] options = getResources().getStringArray(R.array.search_profile_options);
 
-        final String[] options = new String[4];
-        options[0]="Miembro AFI";
-        options[1]="Voluntario";
-        options[2]="Padrino";
-        options[3]="Cualquiera";/*
-        builder.setNeutralButton(android.R.string.ok, null)
-                .setTitle(R.string.choose_address).setItems(options, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //goToAddress(addresses.get(which));
-            }
-        });
-*/      final TextView comboPerfil = (TextView)v.findViewById(R.id.combo_perfil);
-        //comboPerfil.setText("Holi");
-
-
+        final TextView comboPerfil = (TextView)v.findViewById(R.id.combo_perfil);
         comboPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //System.out.println("comboclick");
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Elija un perfil")
                         .setItems(options, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
                                 comboPerfil.setText(options[which]);
                             }
                         });
@@ -71,23 +53,14 @@ public class UserSearchDialog extends DialogFragment {
             }
         });
 
-
         AlertDialog result = builder.create();
 
-
-
-        //comboPerfil.
         //Background color
         result.getWindow().setBackgroundDrawableResource(R.color.main_background);
 
         return result;
     }
 
-
-    public void onClickDialog(){
-
-    }
-
-
+    public abstract void onSearch(String name, String doc, String profile);
 
 }

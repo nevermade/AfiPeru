@@ -539,21 +539,18 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             }
 
             //Search view
-            if(toolbarMenu == R.menu.people_menu_toolbar){
+            if(toolbarMenu == R.menu.people_menu_toolbar) {
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
                 final SearchView searchView = (SearchView) menu.findItem(R.id.people_menu_search).getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
-                //searchView.set
-                MenuItem menuItem = (MenuItem) menu.findItem(R.id.people_menu_search);
+                MenuItem menuItem = menu.findItem(R.id.people_menu_search);
 
-                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-                if (currentapiVersion >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
                     if (menuItem != null) {
                         MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
                             @Override
                             public boolean onMenuItemActionExpand(MenuItem item) {
-
                                 return true;
                             }
 
@@ -563,14 +560,12 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                                 return true;
                             }
                         });
-                        MenuItemCompat.setActionView(menuItem, searchView);
                     }
-                }else {
+                } else {
                     searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                         @Override
                         public boolean onClose() {
-                            System.out.print("holi2");
-                            Toast.makeText(getBaseContext(), "holi", Toast.LENGTH_SHORT).show();
+                            getTopFragment().onCloseSearch();
                             return true;
                         }
                     });
@@ -581,190 +576,81 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 plusIcon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(((PeopleTabFragment)getTopFragment()).showingUsers()){
+                        if (((PeopleTabFragment) getTopFragment()).showingUsers()) {
+                            UserSearchDialog dialog = new UserSearchDialog(){
+                                @Override
+                                public void onSearch(String name, String doc, String profile) {
+                                    getTopFragment().onUserAdvancedSearch(name, doc, profile);
+                                }
+                            };
+                            dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_USERS);
+                        } else {
+                            DialogFragment dialog = new KidSearchDialog(){
 
-                            showAdvancedSearchUsers();
-
-                        }else{
-                            showAdvancedSearchKids();
-                            /*
-                            DialogFragment dialog = new KidSearchDialog();
+                                @Override
+                                public void onSearch(String name, String fromAge, String toAge, String gender) {
+                                    getTopFragment().onKidAdvancedSearch(name, fromAge, toAge, gender);
+                                }
+                            };
                             dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_KIDS);
-                            */
                         }
                     }
                 });
                 parent.addView(plusIcon);
-            }else {
-                final int menuItem;
-                final String dialogTag;
-                final Class<?> dialogFragmentClass;
-                switch (toolbarMenu) {
-                    case R.menu.comments_menu_toolbar:
-                        menuItem = R.id.comments_menu_search;
-                        dialogTag = DIALOG_TAG_SEARCH_COMMENTS;
-                        dialogFragmentClass = CommentSearchDialog.class;
-                        break;
-                    case R.menu.map_menu_toolbar:
-                    case R.menu.map_edit_menu_toolbar:
-                        menuItem = R.id.map_menu_search;
-                        dialogTag = null;
-                        dialogFragmentClass = null;
-                        break;
-                    default:
-                        menuItem = 0;
-                        dialogTag = null;
-                        dialogFragmentClass = null;
-                        break;
-                }
-                if (menuItem != 0) {
-                    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                    SearchView searchView = (SearchView) menu.findItem(menuItem).getActionView();
-                    SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-                    searchView.setSearchableInfo(searchableInfo);
-
-                    if (dialogFragmentClass != null) {
-                        LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
-                        ImageView plusIcon = new ImageView(this);
-                        plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
-                        plusIcon.setOnClickListener(new View.OnClickListener() {
+            }else if(toolbarMenu == R.menu.comments_menu_toolbar) {
+                SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                final SearchView searchView = (SearchView) menu.findItem(R.id.comments_menu_search).getActionView();
+                SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+                searchView.setSearchableInfo(searchableInfo);
+                MenuItem menuItem = menu.findItem(R.id.people_menu_search);
+                if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    if (menuItem != null) {
+                        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
                             @Override
-                            public void onClick(View v) {
-                                try {
-                                    DialogFragment dialog = (DialogFragment) dialogFragmentClass.newInstance();
-                                    dialog.show(getSupportFragmentManager(), dialogTag);
-                                } catch (InstantiationException e) {
-                                    Log.e("", "", e);
-                                } catch (IllegalAccessException e) {
-                                    Log.e("", "", e);
-                                }
+                            public boolean onMenuItemActionExpand(MenuItem item) {
+                                return true;
+                            }
+                            @Override
+                            public boolean onMenuItemActionCollapse(MenuItem item) {
+                                getTopFragment().onCloseSearch();
+                                return true;
                             }
                         });
-                        parent.addView(plusIcon);
                     }
+                } else {
+                    searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                        @Override
+                        public boolean onClose() {
+                            getTopFragment().onCloseSearch();
+                            return true;
+                        }
+                    });
                 }
+                LinearLayout parent = (LinearLayout) searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+                ImageView plusIcon = new ImageView(this);
+                plusIcon.setImageResource(R.drawable.ic_menu_advanced_search);
+                plusIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        CommentSearchDialog dialog = new CommentSearchDialog() {
+                            @Override
+                            public void search(String authorOrContent, long fromDate, long toDate) {
+                                getTopFragment().onCommentAdvancedSearch(authorOrContent, fromDate, toDate);
+                            }
+                        };
+                        dialog.show(getSupportFragmentManager(), DIALOG_TAG_SEARCH_COMMENTS);
+                    }
+                });
+                parent.addView(plusIcon);
+            }else if(toolbarMenu == R.menu.map_menu_toolbar || toolbarMenu == R.menu.map_edit_menu_toolbar){
+                SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                final SearchView searchView = (SearchView) menu.findItem(R.id.map_menu_search).getActionView();
+                SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+                searchView.setSearchableInfo(searchableInfo);
             }
         }
         return true;
     }
-
-    public void showAdvancedSearchUsers(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        final View v = inflater.inflate(R.layout.users_search, null);
-        builder.setView(v)
-                .setTitle(R.string.users_menu_search)
-                .setPositiveButton(R.string.search_yes,  new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the positive button event back to the host activity
-                        //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
-                        TextView name = (TextView)v.findViewById(R.id.user_fullname);
-                        TextView nrodoc = (TextView)v.findViewById(R.id.user_nrodoc);
-                        TextView perfil = (TextView)v.findViewById(R.id.combo_perfil);
-                        getTopFragment().onUserAdvancedSearch(name.getText().toString(), nrodoc.getText().toString(), perfil.getText().toString());
-                    }
-                }).setNegativeButton(R.string.search_no, null);
-
-
-        final String[] options = new String[4];
-        options[0]="Miembro AFI";
-        options[1]="Voluntario";
-        options[2]="Padrino";
-        options[3]="Cualquiera";      final TextView comboPerfil = (TextView)v.findViewById(R.id.combo_perfil);
-
-        comboPerfil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //System.out.println("comboclick");
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailActivity.this);
-                builder.setTitle("Elija un perfil")
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
-                                comboPerfil.setText(options[which]);
-                            }
-                        });
-                android.app.AlertDialog result = builder.create();
-
-                result.getWindow().setBackgroundDrawableResource(R.color.main_background);
-                result.show();
-            }
-        });
-
-
-        AlertDialog result = builder.create();
-
-
-
-        //comboPerfil.
-        //Background color
-        result.getWindow().setBackgroundDrawableResource(R.color.main_background);
-
-        result.show();
-    }
-
-
-    public void showAdvancedSearchKids(){
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        final View v = inflater.inflate(R.layout.kid_search, null);
-        builder.setView(v)
-                .setTitle(R.string.search_title_kids)
-                .setPositiveButton(R.string.search_yes,  new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Send the positive button event back to the host activity
-                        //mListener.onDialogPositiveClick(NoticeDialogFragment.this);
-
-                        TextView name = (TextView)v.findViewById(R.id.kid_fullname);
-                        TextView edadini = (TextView)v.findViewById(R.id.kid_search_age_from);
-                        TextView edadfin = (TextView)v.findViewById(R.id.kid_search_age_to);
-                        TextView genero = (TextView)v.findViewById(R.id.kid_gender);
-
-                        getTopFragment().onKidAdvancedSearch(name.getText().toString(), edadini.getText().toString(), edadfin.getText().toString(),genero.getText().toString());
-                    }
-                }).setNegativeButton(R.string.search_no, null);
-
-
-        final String[] options = new String[3];
-        options[0]="Masculino";
-        options[1]="Femenino";
-        options[2]="Cualquiera";
-        final TextView comboGender = (TextView)v.findViewById(R.id.kid_gender);
-
-        comboGender.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //System.out.println("comboclick");
-                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(DetailActivity.this);
-                builder.setTitle("Elija un genero")
-                        .setItems(options, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                // The 'which' argument contains the index position
-                                // of the selected item
-                                comboGender.setText(options[which]);
-                            }
-                        });
-                android.app.AlertDialog result = builder.create();
-
-                result.getWindow().setBackgroundDrawableResource(R.color.main_background);
-                result.show();
-            }
-        });
-
-
-        AlertDialog result = builder.create();
-
-
-
-        //comboPerfil.
-        //Background color
-        result.getWindow().setBackgroundDrawableResource(R.color.main_background);
-
-        result.show();
-    }
-
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
         FragmentManager fragmentManager = getSupportFragmentManager();

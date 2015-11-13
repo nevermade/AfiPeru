@@ -61,6 +61,9 @@ public abstract class BaseFragment extends Fragment {
     public void onKidAdvancedSearch(String name,String edadini, String edadfin,String genero){
 
     }
+    public void onCommentAdvancedSearch(String authorOrContent, long fromDate, long toDate){
+
+    }
     public void onCloseSearch(){
 
     }

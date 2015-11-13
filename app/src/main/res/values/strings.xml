@@ -149,6 +149,12 @@
         <item>Voluntario</item>
         <item>Padrino</item>
     </string-array>
+    <string name="select_gender">Elija un género</string>
+    <string-array name="search_gender_options">
+        <item>@string/search_profile_options_any</item>
+        <item>@string/sex_male</item>
+        <item>@string/sex_female</item>
+    </string-array>
 
     <!-- Repostular -->
     <string name="confirm_postulate">¿Estás seguro de que quieres postular a este periodo?</string>
