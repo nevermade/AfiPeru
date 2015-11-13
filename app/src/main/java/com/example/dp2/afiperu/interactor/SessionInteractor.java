@@ -9,4 +9,5 @@ import com.example.dp2.afiperu.presenter.SessionPresenter;
  */
 public interface SessionInteractor {
     void getAllSessions(Context context, SessionPresenter presenter);
+    void getAllSessionsCalendar(Context context, SessionPresenter presenter);
 }

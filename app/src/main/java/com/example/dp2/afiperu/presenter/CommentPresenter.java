@@ -43,4 +43,8 @@ public class CommentPresenter extends BasePresenter{
     public void onFailure(){
         view.onFailure();
     }
+
+    public void queryKidAndComment(Context context,Integer kidId, String autorcomment,long datefrom, long dateto,String orderBy){
+        interactor.queryKidAndComment(this,context,kidId,autorcomment,datefrom,dateto,orderBy);
+    }
 }

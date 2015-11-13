@@ -4,14 +4,18 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.domain.Comment;
 import com.example.dp2.afiperu.domain.Kid;
+import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.CommentPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.syncmodel.SyncComment;
+import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import retrofit.Call;
@@ -76,6 +80,69 @@ public class CommentInteractorImpl implements CommentInteractor {
             List<SyncComment> comments = SyncComment.find(SyncComment.class, "kid_id = ?", String.valueOf(kidId));
             Collections.sort(comments);
             presenter.showComments(comments);
+        }
+    }
+
+    @Override
+    public void queryKidAndComment(CommentPresenter presenter, Context context, Integer kidId, String autorcomment, long datefrom, long dateto, String orderBy) {
+        List<SyncComment> comments = SyncComment.find(SyncComment.class, "kid_id = ?", String.valueOf(kidId));
+        List<SyncComment> listafinal = new ArrayList<SyncComment>();
+
+        for (SyncComment item : comments){
+            String authorOrComment = item.getAuthorNames()+ " "+item.getMessage();
+            boolean bName = authorOrComment.toLowerCase().contains(autorcomment.toLowerCase());
+            boolean bDateini = true;
+            boolean bDatefin = true;
+
+            List<SyncSession> se = SyncSession.find(SyncSession.class, "session_id = ?", String.valueOf(item.getSession()));
+
+            long date = se.get(0).getDate();
+
+            if (datefrom==-1){
+                bDateini=true;
+            }else if (date>=datefrom)
+                bDateini=true;
+            else
+                bDateini=false;
+
+            if (dateto==-1){
+                bDatefin=true;
+            }else
+                if (date<=dateto) bDatefin=true;
+            else
+                    bDatefin=false;
+
+            if (bName&&bDateini &&bDatefin ){
+                listafinal.add(item);
+            }
+        }
+        try {
+            if (orderBy.contentEquals("Más actual"))
+                Collections.sort(listafinal, new CustomComparator1());
+            else
+                Collections.sort(listafinal, new CustomComparator2());
+        }catch  (Exception e){
+            Collections.sort(listafinal);
+        }
+        presenter.showComments(listafinal);
+    }
+
+    public class CustomComparator1 implements Comparator<SyncComment> {
+        @Override
+        public int compare(SyncComment o1, SyncComment o2) {
+            List<SyncSession> se1 = SyncSession.find(SyncSession.class, "session_id = ?", String.valueOf(o1.getSession()));
+            List<SyncSession> se2 = SyncSession.find(SyncSession.class, "session_id = ?", String.valueOf(o2.getSession()));
+            return se1.get(0).getDate().compareTo(se2.get(0).getDate());
+        }
+    }
+
+
+    public class CustomComparator2 implements Comparator<SyncComment> {
+        @Override
+        public int compare(SyncComment o1, SyncComment o2) {
+            List<SyncSession> se1 = SyncSession.find(SyncSession.class, "session_id = ?", String.valueOf(o1.getSession()));
+            List<SyncSession> se2 = SyncSession.find(SyncSession.class, "session_id = ?", String.valueOf(o2.getSession()));
+            return se2.get(0).getDate().compareTo(se1.get(0).getDate());
         }
     }
 
