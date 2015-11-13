@@ -327,7 +327,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         for(int i=fragments.size()-1; i>=0; i--){
             Fragment fragment = fragments.get(i);
-            if (fragment != null) {
+            if (fragment != null && (fragment instanceof BaseFragment)) {
                 return (BaseFragment) fragment;
             }
         }

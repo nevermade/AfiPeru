@@ -47,6 +47,13 @@ public class UserInteractorImpl implements UserInteractor {
                             su.setLastName(user.getLastName());
                             su.setSecondLastName(user.getSecondLastName());
                             su.setNickName(user.getNickName());
+                            if (user.getProfiles().get(0).getName().equals("webmaster")||user.getProfiles().get(0).getName().equals("afi"))
+                                su.setProfile("Miembro de AFI");
+                            else if (user.getProfiles().get(0).getName().equals("voluntario"))
+                                su.setProfile("Voluntario");
+                            else if (user.getProfiles().get(0).getName().equals("padrino"))
+                                su.setProfile("Padrino");
+                            else
                             su.setProfile(user.getProfiles().get(0).getName());
                             su.save();
                         }
