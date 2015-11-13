@@ -1,10 +1,18 @@
 package com.example.dp2.afiperu.interactor;
 
+import android.content.Context;
+
 import com.example.dp2.afiperu.presenter.AttendancePresenter;
 import com.example.dp2.afiperu.presenter.PointsOfReunionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.AttendanceBody;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
+import com.example.dp2.afiperu.rest.model.RestVolunteer;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceVolunteer;
+import com.example.dp2.afiperu.util.NetworkManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit.Call;
 import retrofit.Callback;
@@ -21,25 +29,49 @@ public class AttendanceInteractorImpl implements AttendanceInteractor {
     }
 
     @Override
-    public void editAttendance(final AttendancePresenter presenter, AttendanceBody body) {
-        Call<Void> result = service.editAttendance(body);
+    public void editAttendance(Context context, final AttendancePresenter presenter, int sessionId,
+                               final List<SyncAttendanceVolunteer> volunteers) {
+        SyncAttendanceVolunteer.deleteAll(SyncAttendanceVolunteer.class, "session = ?", String.valueOf(sessionId));
 
-        result.enqueue(new Callback<Void>() {
-
-            @Override
-            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                if(response.body() != null) {
-                    presenter.saveSuccessful();
-                }else{
-                    presenter.saveFailed();
+        if (NetworkManager.isNetworkConnected(context)) {
+            AttendanceBody body = new AttendanceBody();
+            body.setSessionId(sessionId);
+            List<RestVolunteer> rv = new ArrayList<>();
+            for(SyncAttendanceVolunteer volunteer : volunteers){
+                RestVolunteer r = new RestVolunteer();
+                r.setId(volunteer.getVolunteerId());
+                r.setAttended(volunteer.getAttended());
+                r.setRating(volunteer.getRating());
+                r.setComment(volunteer.getComment());
+                rv.add(r);
+            }
+            body.setVolunteers(rv);
+            Call<Void> result = service.editAttendance(sessionId, body);
+            result.enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
+                    if (response.body() != null) {
+                        for(SyncAttendanceVolunteer volunteer : volunteers){
+                            volunteer.setNeedsync(0);
+                            volunteer.save();
+                        }
+                        if(presenter != null) presenter.saveSuccessful();
+                    } else {
+                        if(presenter != null) presenter.saveFailed();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Throwable t) {
-                presenter.saveFailed();
+                @Override
+                public void onFailure(Throwable t) {
+                    if(presenter != null) presenter.saveFailed();
+                }
+            });
+        } else {
+            for(SyncAttendanceVolunteer volunteer : volunteers){
+                volunteer.setNeedsync(1);
+                volunteer.save();
             }
-        });
+        }
     }
 
 }

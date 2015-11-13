@@ -2,7 +2,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/margin_small">
-
     <TextView
         android:id="@+id/attendance_item_name"
         android:layout_width="wrap_content"
@@ -12,34 +11,21 @@
         android:textAppearance="@style/text_appearance_large_dark"
         android:singleLine="true"
         android:layout_marginRight="10dp"/>
-
-    <!--RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:id="@+id/radioButton"
-
-        android:layout_toLeftOf="@+id/attendance_item_scorebutton"
-        android:layout_marginRight="15dp"
-        android:layout_centerVertical="true" /-->
-
+    <!--'marginRight' logra que el texto no se dibuje encima del Switch-->
     <ImageView
+        android:id="@+id/attendance_item_scorebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/attendance_item_scorebutton"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:src="@drawable/ic_edit_icon"
         />
-
     <ImageView
+        android:id="@+id/attendance_checkbox"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:id="@+id/attendance_checkbox"
         android:layout_toLeftOf="@id/attendance_item_scorebutton"
         android:src="@drawable/ic_checked_checkbox"
         android:layout_centerVertical="true"
         android:layout_marginRight="@dimen/margin_medium"/>
-
-    <!--'marginRight' logra que el texto no se dibuje encima del Switch-->
 </RelativeLayout>

@@ -11,7 +11,9 @@ import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.presenter.SessionPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.AttendanceChild;
+import com.example.dp2.afiperu.rest.model.AttendanceVolunteer;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceVolunteer;
 import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
@@ -19,7 +21,6 @@ import com.example.dp2.afiperu.syncmodel.SyncKid;
 import com.example.dp2.afiperu.syncmodel.SyncLocation;
 import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
 import com.example.dp2.afiperu.syncmodel.SyncSession;
-import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.util.Collections;
@@ -57,7 +58,7 @@ public class SessionInteractorImpl implements SessionInteractor {
                         SyncAttendanceChild.deleteAll(SyncAttendanceChild.class);
                         SyncKid.deleteAll(SyncKid.class, "attendance_child != ?", "0");
                         SyncComment.deleteAll(SyncComment.class, "attendance_child != ?", "0");
-                        //SyncAttendanceVolunteer.deleteAll(SyncAttendanceVolunteer.class);
+                        SyncAttendanceVolunteer.deleteAll(SyncAttendanceVolunteer.class);
 
                         for(Session session : result){
                             SyncSession ses = SyncSession.fromSession(session);
@@ -97,6 +98,11 @@ public class SessionInteractorImpl implements SessionInteractor {
                                 SyncAttendanceChild child = new SyncAttendanceChild(attendanceChild.getId(), kid, comment);
                                 child.setSession(ses.getSessionId());
                                 child.save();
+                            }
+                            for(AttendanceVolunteer attendanceVolunteer : session.getAttendanceVolunteers()){
+                                SyncAttendanceVolunteer volunteer = SyncAttendanceVolunteer.fromAttendanceVolunteer(attendanceVolunteer);
+                                volunteer.setSession(ses.getSessionId());
+                                volunteer.save();
                             }
                         }
 

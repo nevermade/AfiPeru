@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.module;
 
+import com.example.dp2.afiperu.interactor.AttendanceInteractor;
 import com.example.dp2.afiperu.interactor.CommentKidInteractor;
 import com.example.dp2.afiperu.interactor.MainActivityInteractor;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
@@ -26,8 +27,8 @@ public class MainActivityModule {
 
     @Provides
     public MainActivityPresenter providePresenter(MainActivityView view, MainActivityInteractor interactor,
-                                                  CommentKidInteractor commentInteractor){
-        return new MainActivityPresenter(view, interactor, commentInteractor);
+                                                  CommentKidInteractor commentInteractor, AttendanceInteractor attendanceInteractor){
+        return new MainActivityPresenter(view, interactor, commentInteractor, attendanceInteractor);
     }
 
 }

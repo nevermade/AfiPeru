@@ -12,5 +12,6 @@ public interface MainActivityView{
     void loadUserFromSharedPreferences();
     void selectItem(int fragmentId);
     void logOff();
+    void synchronize();
 
 }

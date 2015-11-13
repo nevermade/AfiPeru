@@ -16,11 +16,13 @@ import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.others.MarkerInfo;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceVolunteer;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.syncmodel.SyncLocation;
 import com.example.dp2.afiperu.syncmodel.SyncPointOfReunion;
 import com.example.dp2.afiperu.syncmodel.SyncSession;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.ui.fragment.CommentKidFragment;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
@@ -95,50 +97,16 @@ public class SessionAdapter extends BaseArrayAdapter<SyncSession> {
                                     getFragment().addFragmentToStack(kidsFragment, DetailActivity.FRAGMENT_COMENTARIOS);
                                     break;
                                 case R.id.sessions_menu_attendance:
-                                    /*args = new Bundle();
-                                    List<AttendanceVolunteer> restvolunteers = item.queryAttendanceVolunteers();
-                                    ArrayList<AttendanceVolunteer> realvol = new ArrayList<AttendanceVolunteer>();
-                                    for (AttendanceVolunteer av : restvolunteers) realvol.add(av);
-                                    ArrayList<Attendance> volunteers = new ArrayList<>();
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Alonso Alvarez", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Fernando Banda", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Luis Barcena", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Daekef Abarca", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Gloria Cisneros", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Diego Malpartida", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Gabriel Tovar", false));
-                                    volunteers.add(new Attendance(
-                                            2001,
-                                            "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                                            "Luis Incio", false));
-                                    Collections.sort(realvol);
+                                    ArrayList<SyncAttendanceVolunteer> volunteers = new ArrayList<>();
+                                    volunteers.addAll(item.queryAttendanceVolunteer());
                                     Collections.sort(volunteers);
-                                    args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, realvol);
+                                    args = new Bundle();
+                                    args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, volunteers);
+                                    args.putInt(AttendanceFragment.SESSION_ID_ARG, item.getSessionId());
                                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_ASISTENCIA);
                                     AttendanceFragment attendanceFragment = new AttendanceFragment();
                                     attendanceFragment.setArguments(args);
-                                    getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);*/
+                                    getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);
                                     break;
                                 case R.id.sessions_menu_map:
                                     MapFragment mapFragment;

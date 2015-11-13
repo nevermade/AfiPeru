@@ -72,8 +72,9 @@ public interface  AfiApiServiceEndPoints {
     Call<Void> editMeetingPoints(@Body MeetingPointsBody meetingPointsBody);
 
     /* Attendance */
+    @FormUrlEncoded
     @POST("roll_call")
-    Call<Void> editAttendance(@Body AttendanceBody attendanceBody);
+    Call<Void> editAttendance(@Field("session_id") Integer sessionId, @Field("volunteers") AttendanceBody attendanceBody);
 
     /*** Login Interactor ***/
     @FormUrlEncoded

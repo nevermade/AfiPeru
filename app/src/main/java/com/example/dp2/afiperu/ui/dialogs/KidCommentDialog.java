@@ -20,7 +20,7 @@ import com.example.dp2.afiperu.ui.fragment.CommentKidFragment;
 /**
  * Created by Usuario on 01/10/2015.
  */
-public class KidCommentDialog extends DialogFragment {
+public abstract class KidCommentDialog extends DialogFragment {
 
     public static final String COMMENT_ARG = "comment_arg";
 
@@ -95,8 +95,6 @@ public class KidCommentDialog extends DialogFragment {
         return builder.create();
     }
 
-    public void acceptComment(int face, String message){
-
-    };
+    public abstract void acceptComment(int face, String message);
 
 }

@@ -233,4 +233,9 @@
     <string name="sync_comments">Sincronizando comentarios...</string>
     <string name="sync_attendance">Sincronizando asistencia...</string>
     <string name="offline">Modo offline activado</string>
+
+    <!-- Asistencia -->
+    <string name="save_needed_attendance">No ha guardado los cambios en la asistencia. ¿Qué desea hacer?</string>
+    <string name="cant_comment_if_didnt_attend">No se puede calificar a un voluntario que no ha asistido.</string>
+
 </resources>

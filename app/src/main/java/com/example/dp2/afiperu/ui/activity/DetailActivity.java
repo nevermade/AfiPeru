@@ -62,6 +62,7 @@ import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
+import com.example.dp2.afiperu.syncmodel.SyncAttendanceVolunteer;
 import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
@@ -75,6 +76,7 @@ import com.example.dp2.afiperu.ui.adapter.DrawerAdapter;
 import com.example.dp2.afiperu.ui.dialogs.CommentSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.KidSearchDialog;
 import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
+import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
 import com.example.dp2.afiperu.ui.fragment.CalendarFragment;
@@ -110,8 +112,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -212,6 +216,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             case FRAGMENT_LISTA_COMENTARIOS: return R.menu.comments_menu_toolbar;
             case FRAGMENT_MAPA: return R.menu.map_menu_toolbar;
             case FRAGMENT_MAPA_EDITABLE: return R.menu.map_edit_menu_toolbar;
+            case FRAGMENT_ASISTENCIA: return R.menu.attendance_menu_toolbar;
             default: return 0;
         }
     }
@@ -245,7 +250,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                         break;
                 }
                 break;
-
             case FRAGMENT_SUBIR_FOTOS:
                 switch(item.getItemId()){
                     case R.id.upload_photos_menu_gallery:/*
@@ -276,6 +280,14 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
 
                         //Toast.makeText(DetailActivity.this, "Camara", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                break;
+            case FRAGMENT_ASISTENCIA:
+                AttendanceFragment attendanceFragment = (AttendanceFragment)topFragment;
+                switch(item.getItemId()){
+                    case R.id.attendance_menu_save:
+                        attendanceFragment.trySave();
                         break;
                 }
                 break;
@@ -327,7 +339,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
         for(int i=fragments.size()-1; i>=0; i--){
             Fragment fragment = fragments.get(i);
-            if (fragment != null) {
+            if (fragment != null && fragment instanceof BaseFragment) {
                 return (BaseFragment) fragment;
             }
         }
@@ -1128,6 +1140,41 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         if(intent.getAction().equals(Intent.ACTION_SEARCH)){
             String query = intent.getStringExtra(SearchManager.QUERY);
             getTopFragment().onSearch(query);
+        }
+    }
+
+
+
+    @Override
+    public void synchronize(){
+        List<SyncComment> comments = SyncComment.find(SyncComment.class, "needsync = ?", "1");
+        if (!comments.isEmpty()) {
+            Toast.makeText(this, getString(R.string.sync_comments), Toast.LENGTH_SHORT).show();
+            for (SyncComment comment : comments) {
+                List<SyncAttendanceChild> child = SyncAttendanceChild.find(SyncAttendanceChild.class, "attendance_child_id = ?",
+                        String.valueOf(comment.getAttendanceChild()));
+                presenter.makeComment(this, child.get(0), comment);
+            }
+        }
+
+        List<SyncAttendanceVolunteer> volunteers = SyncAttendanceVolunteer.find(SyncAttendanceVolunteer.class, "needsync = ?", "1");
+        if(!volunteers.isEmpty()){
+            Toast.makeText(this, getString(R.string.sync_attendance), Toast.LENGTH_SHORT).show();
+            HashMap<Integer, List<SyncAttendanceVolunteer>> vols = new HashMap<>();
+            for(SyncAttendanceVolunteer vol : volunteers){
+                int ses = vol.getSession();
+                if(vols.containsKey(ses)){
+                    vols.get(ses).add(vol);
+                }else{
+                    ArrayList<SyncAttendanceVolunteer> list = new ArrayList<>();
+                    list.add(vol);
+                    vols.put(ses, list);
+                }
+            }
+
+            for(Map.Entry<Integer, List<SyncAttendanceVolunteer>> entry : vols.entrySet()){
+                presenter.editAttendance(this, entry.getKey(), entry.getValue());
+            }
         }
     }
 }

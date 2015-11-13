@@ -52,6 +52,10 @@ public class SyncSession extends SugarRecord<SyncSession> implements Serializabl
         return SyncAttendanceChild.find(SyncAttendanceChild.class, "session = ?", String.valueOf(this.getSessionId()));
     }
 
+    public List<SyncAttendanceVolunteer> queryAttendanceVolunteer(){
+        return SyncAttendanceVolunteer.find(SyncAttendanceVolunteer.class, "session = ?", String.valueOf(this.getSessionId()));
+    }
+
     @Override
     public int compareTo(SyncSession o2){
         return o2.date.compareTo(date);
