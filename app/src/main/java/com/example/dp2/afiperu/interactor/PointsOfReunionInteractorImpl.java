@@ -30,7 +30,7 @@ public class PointsOfReunionInteractorImpl implements PointsOfReunionInteractor 
 
                 @Override
                 public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                    if (response.body() != null) {
+                    if (response.raw().code() == 200) {
                         presenter.saveSuccessful();
                     } else {
                         presenter.saveFailed();

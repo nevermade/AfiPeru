@@ -15,6 +15,7 @@ import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PointsOfReunionInteractor;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
+import com.example.dp2.afiperu.interactor.UploadPhotoInteractor;
 import com.example.dp2.afiperu.interactor.UserInteractor;
 import com.example.dp2.afiperu.module.InteractorModule;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
@@ -51,4 +52,5 @@ public interface AfiAppComponent {
         AttendanceInteractor getAttendanceInteractor();
         CommentKidInteractor getCommentKidInteractor();
         CommentInteractor getCommentInteractor();
+        UploadPhotoInteractor getUploadPhotoInteractor();
 }

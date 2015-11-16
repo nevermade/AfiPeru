@@ -45,11 +45,6 @@ public class LoginPresenter extends BasePresenter {
         view.displayLoginError();
     }
 
-    @Override
-    public int onNoInternetString(){
-        return R.string.cant_verify_user;
-    }
-
     public void recoverPass(Context context, String email){
         interactor.recoverPass(context, email, this);
     }

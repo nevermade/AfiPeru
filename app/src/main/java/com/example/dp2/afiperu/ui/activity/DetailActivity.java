@@ -14,8 +14,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,7 +33,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -52,13 +49,11 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseActivity;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
-import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
@@ -80,7 +75,6 @@ import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
-import com.example.dp2.afiperu.ui.fragment.CalendarFragment;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.DonationFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
@@ -103,6 +97,7 @@ import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
 import com.google.gson.Gson;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -114,7 +109,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -164,11 +158,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         return presenter;
     }
 
-    private int REQUEST_IMAGE_CAPTURE =1;
-    private int REQUEST_IMAGE_GALLERY =2;
+    private static final int REQUEST_IMAGE_CAPTURE =1;
+    private static final int REQUEST_IMAGE_GALLERY =2;
     /* Cosas a agregar con cada layout nuevo */
-
-
 
     public String getTitle(int fragmentId){
         int id = 0;
@@ -255,34 +247,17 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 break;
             case FRAGMENT_SUBIR_FOTOS:
                 switch(item.getItemId()){
-                    case R.id.upload_photos_menu_gallery:/*
-                        Hashtable<Long, AFIEvent> events = new Hashtable<>();
-                        Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
-                        Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
-                        events.put(dateNoTime.getTime().getTime(),
-                                new AFIEvent("Av. Antonio Alarco 497", dateWithTime.getTime().getTime(), "Sesión 1"));
-                        Bundle args = new Bundle();
-                        args.putSerializable(CalendarFragment.EVENTS_ARG, events);
-                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CALENDARIO);
-                        BaseFragment calendarFragment = new CalendarFragment();
-                        calendarFragment.setArguments(args);
-                        addFragment(calendarFragment, getTitle(FRAGMENT_CALENDARIO), getMenu(FRAGMENT_CALENDARIO));
-                        */
+                    case R.id.upload_photos_menu_gallery:
                         Intent getPictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         if (getPictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(getPictureIntent, REQUEST_IMAGE_GALLERY);
                         }
                         break;
                     case R.id.upload_photos_menu_camera:
-
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                         }
-
-
-
-                        //Toast.makeText(DetailActivity.this, "Camara", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
@@ -308,42 +283,60 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ImageView iv = (ImageView) findViewById(R.id.photo_pic);
-            iv.setImageBitmap(imageBitmap);
-            float opacity =1;
-            iv.setAlpha(opacity);
-            TextView tv = (TextView) findViewById(R.id.no_photo_text);
-            tv.setText("");
-        }else  if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK){
-            Uri uri = data.getData();
-            String [] projection = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(uri,projection,null,null,null);
-            cursor.moveToFirst();
-            int columIndex = cursor.getColumnIndex(projection[0]);
-            String filePath = cursor.getString(columIndex);
-            cursor.close();
-            Bitmap imageBitmap = BitmapFactory.decodeFile(filePath);
-            Drawable d = new BitmapDrawable(getResources(), imageBitmap);
-            ImageView iv = (ImageView) findViewById(R.id.photo_pic);
-            iv.setImageDrawable(d);
-            float opacity =1;
-            iv.setAlpha(opacity);
-            TextView tv = (TextView) findViewById(R.id.no_photo_text);
-            tv.setText("");
-         }
+        if((requestCode == REQUEST_IMAGE_CAPTURE || requestCode == REQUEST_IMAGE_GALLERY) && resultCode == RESULT_OK){
+            String filePath;
+            Bitmap imageBitmap;
+            switch(requestCode){
+                case REQUEST_IMAGE_CAPTURE:
+                    Bundle extras = data.getExtras();
+                    imageBitmap = (Bitmap) extras.get("data");
+                    Uri uri = getImageUri(getApplicationContext(), imageBitmap);
+                    filePath = getRealPathFromURI(uri);
+                    break;
+                default:
+                    uri = data.getData();
+                    String [] projection = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+                    cursor.moveToFirst();
+                    int columIndex = cursor.getColumnIndex(projection[0]);
+                    filePath = cursor.getString(columIndex);
+                    cursor.close();
+                    imageBitmap = BitmapFactory.decodeFile(filePath);
+                    break;
+            }
+            BaseFragment fragment = getTopFragment();
+            if(fragment instanceof UploadPhotosFragment){
+                ((UploadPhotosFragment)fragment).updateBitmap(imageBitmap, filePath);
+            }else{
+                if(imageBitmap != null) imageBitmap.recycle();
+            }
+        }
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
     }
 
     /* Cosas que casi no deberían cambiar */
 
     private BaseFragment getTopFragment(){
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for(int i=fragments.size()-1; i>=0; i--){
-            Fragment fragment = fragments.get(i);
-            if (fragment != null && fragment instanceof BaseFragment) {
-                return (BaseFragment) fragment;
+        if(fragments != null) {
+            for (int i = fragments.size() - 1; i >= 0; i--) {
+                Fragment fragment = fragments.get(i);
+                if (fragment != null && fragment instanceof BaseFragment) {
+                    return (BaseFragment) fragment;
+                }
             }
         }
         return null;
@@ -371,11 +364,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /******************************/
 
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         receiver = new NetworkReceiver();
-        this.registerReceiver(receiver, filter);
 
         /****dialog de loading****/
         Constants.PROGRESS=new ProgressDialog(this);
@@ -389,6 +379,19 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
 
         selectItem(FRAGMENT_LOGIN);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     public void setActions(User user){
@@ -668,14 +671,16 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        if(toolbarTitle != null){
-            Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
-            toolbar.setTitle(toolbarTitle);
+        if(getTopFragment() == null || getTopFragment().tryBack()){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            if(toolbarTitle != null){
+                Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+                toolbar.setTitle(toolbarTitle);
+            }
+            this.toolbarMenu = toolbarMenu;
+            invalidateOptionsMenu();
         }
-        this.toolbarMenu = toolbarMenu;
-        invalidateOptionsMenu();
     }
 
     public void addFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
@@ -916,14 +921,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             }else{
                 selectItem(fragmentId);
             }
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (receiver != null) {
-            this.unregisterReceiver(receiver);
         }
     }
 

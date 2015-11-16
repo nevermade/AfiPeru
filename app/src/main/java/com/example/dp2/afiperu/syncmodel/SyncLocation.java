@@ -12,12 +12,14 @@ public class SyncLocation extends SugarRecord<SyncLocation>{
     private Double latitude;
     private Double longitude;
     private Integer session;
+    private String address;
 
     public SyncLocation(){}
-    public SyncLocation(Double latitude, Double longitude, Integer session) {
+    public SyncLocation(Double latitude, Double longitude, Integer session, String address) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.session = session;
+        this.address = address;
     }
 
     public Double getLatitude() {
@@ -28,7 +30,11 @@ public class SyncLocation extends SugarRecord<SyncLocation>{
         return longitude;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public static SyncLocation fromLocation(Location location, Integer session){
-        return new SyncLocation(location.getLatitude(), location.getLongitude(), session);
+        return new SyncLocation(location.getLatitude(), location.getLongitude(), session, location.getAddress());
     }
 }

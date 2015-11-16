@@ -77,7 +77,7 @@ public class CalendarFragment extends BaseFragment {
             eventTitle.setText(event.getName());
             eventDate.setText(DateFormat.getDateInstance().format(new Date(event.getDate())));
             eventTime.setText(new SimpleDateFormat("hh:mm a").format(new Date(event.getDate())));
-            eventAddress.setText(event.getName());
+            eventAddress.setText(event.getLocation().getAddress());
         }else{
             eventInfo.setVisibility(View.INVISIBLE);
         }

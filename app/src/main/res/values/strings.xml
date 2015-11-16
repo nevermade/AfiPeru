@@ -122,6 +122,7 @@
     <string name="upload_photos_menu_camera">Tomar foto</string>
     <string name="upload_photos_button">Enviar</string>
     <string name="no_photo_message">No se ha elegido ninguna imagen.\n\nPor favor elija una de la galería o tome una foto nueva.</string>
+    <string name="photo_success">La foto se subió correctamente.</string>
 
     <!-- Blog -->
     <string name="blogs_none">No se encontraron artículos de blog.</string>
