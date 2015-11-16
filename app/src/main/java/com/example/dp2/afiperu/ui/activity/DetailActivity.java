@@ -382,6 +382,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         Constants.PROGRESS.setTitle(getResources().getString(R.string.loading));
         Constants.PROGRESS.setMessage(getResources().getString(R.string.please_wait));
+        Constants.PROGRESS.setCancelable(false);
 
         setContentView(R.layout.base);
 

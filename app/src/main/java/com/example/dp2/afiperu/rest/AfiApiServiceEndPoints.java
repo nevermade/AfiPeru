@@ -93,6 +93,8 @@ public interface  AfiApiServiceEndPoints {
     @POST("reapply")
     Call<Void> applyForPeriod(@Field("period_id")int periodId);
 
-
+    @FormUrlEncoded
+    @POST("verify_payment")
+    Call<Void> verifyPayment(@Field("fee_id")int feeId,@Field("payment_id")String paymentId,@Field("payment_client") String paymentClient);
 
 }

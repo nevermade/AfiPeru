@@ -9,4 +9,5 @@ import com.example.dp2.afiperu.presenter.PaymentListPresenter;
  */
 public interface PaymentListInteractor {
     public void getAllPayments(PaymentListPresenter userPresenter, Context context);
+    public void verifyPayment(String paymentId,String paymentClient);
 }

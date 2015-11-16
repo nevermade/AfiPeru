@@ -59,4 +59,9 @@ public class PaymentListInteractorImpl implements PaymentListInteractor {
             presenter.onPaymentsFound(payments);
         }
     }
+
+    @Override
+    public void verifyPayment(String paymentId, String paymentClient) {
+        //Call<Void> call= service.verifyPayment()
+    }
 }

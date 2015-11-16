@@ -6,6 +6,7 @@ import com.example.dp2.afiperu.common.BasePresenter;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.syncmodel.SyncPayment;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentListView;
+import com.example.dp2.afiperu.util.Constants;
 
 import java.util.List;
 
@@ -29,6 +30,19 @@ public class PaymentListPresenter extends BasePresenter {
 
     @Override
     public void onStop() {
+
+    }
+
+    public void verifyPaymentOnServer(String paymendId, String paymentClient){
+        Constants.PROGRESS.setMessage("Verificando pago");
+        interactor.verifyPayment(paymendId,paymentClient);
+    }
+
+    public void onPaymentSuccess(){
+
+    }
+
+    public void onPaymentFailure(){
 
     }
 
