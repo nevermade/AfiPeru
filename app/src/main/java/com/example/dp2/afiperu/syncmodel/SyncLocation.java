@@ -7,7 +7,9 @@ package com.example.dp2.afiperu.syncmodel;
 import com.example.dp2.afiperu.domain.Location;
 import com.orm.SugarRecord;
 
-public class SyncLocation extends SugarRecord<SyncLocation>{
+import java.io.Serializable;
+
+public class SyncLocation extends SugarRecord<SyncLocation> implements Serializable{
 
     private Double latitude;
     private Double longitude;
