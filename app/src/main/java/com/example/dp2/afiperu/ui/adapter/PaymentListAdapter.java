@@ -37,7 +37,7 @@ import java.util.Locale;
  */
 public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
 
-
+    private static SyncPayment clickedPayment;
 
     public PaymentListAdapter(Context context, BaseFragment fragment, List<SyncPayment> objects) {
         super(context, fragment, R.layout.payments_list_item, objects);
@@ -68,6 +68,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
             @Override
             public void onClick(View v) {
                 showDialog(item);
+
             }
         });
 
@@ -108,6 +109,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        clickedPayment=item;
                         launchPaypalPayment(item);
                     }
                 })
@@ -129,18 +131,20 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         PayPalPayment payment = new PayPalPayment(
                 BigDecimal.valueOf(item.getAmount()),
                 "USD",
-                "Pago correspondiente al "+item.getDueDate().toString(),
+                "Pago correspondiente al "+ (new Date(item.getDueDate())).toString(),
                 Constants.PAYMENT_INTENT
         );
         payment.items(items).paymentDetails(details);
-        payment.custom(item.getFeeId().toString());
-
-
+        Constants.PAYMENT_FEE_ID=item.getFeeId();
         Intent intent= new Intent(getFragment().getActivity(), PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaymentListFragment.paypalConfig);
-        intent.putExtra(PaymentActivity.EXTRA_PAYMENT,payment);
-        getFragment().getActivity().startActivityForResult(intent,Constants.REQUEST_CODE_PAYMENT);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+        getFragment().getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_PAYMENT);
     }
 
+    public void removeClickedItem(){
+        remove(clickedPayment);
+        notifyDataSetChanged();
+    }
 
 }

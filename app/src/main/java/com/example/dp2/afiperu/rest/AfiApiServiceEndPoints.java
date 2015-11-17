@@ -66,6 +66,12 @@ public interface  AfiApiServiceEndPoints {
     @POST("payment")
     Call<Void> registerBankPayment(@Field("fee_id") String feeId, @Field("voucher_code") String voucherCode, @Field("date") Double date);
 
+
+    @FormUrlEncoded
+    @POST("verify_payment")
+    Call<Void> verifyPayment(@Field("fee_id")int feeId,@Field("payment_id")String paymentId,@Field("payment_client") String paymentClient);
+
+
     /*** Points of Reunion Interactor ***/
 
     @POST("meeting_points")
@@ -92,9 +98,5 @@ public interface  AfiApiServiceEndPoints {
     @FormUrlEncoded
     @POST("reapply")
     Call<Void> applyForPeriod(@Field("period_id")int periodId);
-
-    @FormUrlEncoded
-    @POST("verify_payment")
-    Call<Void> verifyPayment(@Field("fee_id")int feeId,@Field("payment_id")String paymentId,@Field("payment_client") String paymentClient);
 
 }

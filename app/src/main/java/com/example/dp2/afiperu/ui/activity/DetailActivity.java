@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.ui.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -56,6 +57,7 @@ import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.News;
+import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.Session;
@@ -102,6 +104,10 @@ import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
 import com.google.gson.Gson;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+
+import org.json.JSONException;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -157,6 +163,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     private NetworkReceiver receiver = new NetworkReceiver();
     int previousBackStackCount;
     Drawer applyOptionItem;
+    PaymentListFragment paymentListFragment;
+    private static final String TAG = "paymentExample";
     @Inject
     MainActivityPresenter presenter;
 
@@ -333,7 +341,45 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             iv.setAlpha(opacity);
             TextView tv = (TextView) findViewById(R.id.no_photo_text);
             tv.setText("");
-         }
+         }else if (requestCode == Constants.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirm = data
+                        .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+                        /*Log.e(TAG, confirm.toJSONObject().toString(4));
+                        Log.e(TAG, confirm.getPayment().toJSONObject()
+                                .toString(4));*/
+                        /*Gson gson= new Gson();
+                        gson.fromJson(data.getRes)*/
+                        String paymentId = confirm.toJSONObject()
+                                .getJSONObject("response").getString("id");
+
+                        String payment_client = confirm.getPayment()
+                                .toJSONObject().toString();
+
+
+
+                        /*Log.e(TAG, "paymentId: " + paymentId
+                                + ", payment_json: " + payment_client);*/
+
+                        // Now verify the payment on the server side
+                        Constants.PROGRESS.setMessage("Validando pago...");
+                        Constants.PROGRESS.show();
+                        paymentListFragment.getPaymentListPresenter().verifyPaymentOnServer(paymentId, payment_client);
+
+                    } catch (JSONException e) {
+                        Log.e(TAG, "an extremely unlikely failure occurred: ",
+                                e);
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.e(TAG, "The user canceled.");
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Log.e(TAG,
+                        "An invalid Payment or PayPalConfiguration was submitted.");
+            }
+        }
     }
 
     /* Cosas que casi no deberían cambiar */
@@ -868,6 +914,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             case FRAGMENT_PAGOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_PAGOS);
                 fragment=new PaymentListFragment();
+                paymentListFragment=(PaymentListFragment)fragment;
                 break;
             case FRAGMENT_REPORTES_PADRINOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_REPORTES_PADRINOS);

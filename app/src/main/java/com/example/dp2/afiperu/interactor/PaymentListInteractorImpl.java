@@ -6,6 +6,7 @@ import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.presenter.PaymentListPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.syncmodel.SyncPayment;
+import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
 
 import java.text.ParseException;
@@ -61,7 +62,22 @@ public class PaymentListInteractorImpl implements PaymentListInteractor {
     }
 
     @Override
-    public void verifyPayment(String paymentId, String paymentClient) {
-        //Call<Void> call= service.verifyPayment()
+    public void verifyPayment(String paymentId, String paymentClient, final PaymentListPresenter presenter) {
+        Call<Void> call= service.verifyPayment(Constants.PAYMENT_FEE_ID,paymentId,paymentClient);
+        call.enqueue(new Callback<Void>(){
+
+            @Override
+            public void onResponse(Response<Void> response, Retrofit retrofit) {
+                if(response.errorBody()==null)
+                    presenter.onPaymentSuccess();
+                else
+                    presenter.onPaymentError();
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                presenter.onPaymentFailure();
+            }
+        });
     }
 }

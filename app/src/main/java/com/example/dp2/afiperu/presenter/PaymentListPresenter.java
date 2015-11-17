@@ -35,15 +35,19 @@ public class PaymentListPresenter extends BasePresenter {
 
     public void verifyPaymentOnServer(String paymendId, String paymentClient){
         Constants.PROGRESS.setMessage("Verificando pago");
-        interactor.verifyPayment(paymendId,paymentClient);
+        interactor.verifyPayment(paymendId,paymentClient,this);
     }
 
     public void onPaymentSuccess(){
-
+        view.displayPaymentSuccess();
     }
 
     public void onPaymentFailure(){
+        view.displayPaymentFailure();
+    }
 
+    public void onPaymentError(){
+        view.displayPaymentError();
     }
 
     public void getAllPayments(Context context){
