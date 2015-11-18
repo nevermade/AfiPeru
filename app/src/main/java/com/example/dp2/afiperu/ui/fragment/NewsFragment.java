@@ -8,19 +8,27 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.component.DaggerNewsComponent;
+import com.example.dp2.afiperu.module.NewsModule;
+import com.example.dp2.afiperu.presenter.NewsPresenter;
+import com.example.dp2.afiperu.syncmodel.SyncNews;
 import com.example.dp2.afiperu.ui.adapter.NewsAdapter;
-import com.example.dp2.afiperu.domain.News;
+import com.example.dp2.afiperu.ui.viewmodel.NewsView;
+import com.example.dp2.afiperu.util.NetworkManager;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by Fernando on 23/09/2015.
  */
-public class NewsFragment extends BaseFragment {
+public class NewsFragment extends BaseFragment implements NewsView {
 
-    public static final String NEWS_ARG = "news_arg";
-
-    private boolean[] isFavorite;
+    @Inject
+    NewsAdapter adapter;
+    @Inject
+    NewsPresenter presenter;
 
     public NewsFragment(){
         super();
@@ -33,17 +41,13 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
-        ArrayList<News> news = (ArrayList<News>)args.getSerializable(NEWS_ARG);
-        NewsAdapter adapter = new NewsAdapter(getContext(), this, news);
-
         ListView newsList = (ListView)rootView.findViewById(R.id.news_list);
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_news_list));
-
-        isFavorite = new boolean[news.size()];
-        for(int i=0; i<isFavorite.length; i++){
-            isFavorite[i] = news.get(i).isFavorite();
+        if(NetworkManager.isNetworkConnected(getContext())){
+            //rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         }
+        presenter.getAllNews(getContext());
     }
 
     @Override
@@ -53,12 +57,42 @@ public class NewsFragment extends BaseFragment {
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
-
+        DaggerNewsComponent.builder()
+                .afiAppComponent(appComponent)
+                .newsModule(new NewsModule(this))
+                .build()
+                .inject(this);
     }
 
-    public boolean toggleFavorite(int position){
-        isFavorite[position] = !isFavorite[position];
-        return isFavorite[position];
+    @Override
+    public void displayNews(List<SyncNews> news){
+        adapter.update(news);
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
     }
 
+    @Override
+    public void displayErrorOrFailure(){
+        if(getView() != null) {
+            getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
+        }
+    }
+    @Override
+    public void onSearch(String query){
+        if (query.contentEquals("") ){
+            List<SyncNews> all = SyncNews.listAll(SyncNews.class);
+            adapter.update(all);
+        }else {
+            List<SyncNews> filter = SyncNews.find(SyncNews.class, "title like ? or content like ?", "%" + query + "%", "%" + query + "%");
+            adapter.update(filter);
+        }
+    }
+
+
+    @Override
+    public void onCloseSearch(){
+        List<SyncNews> all = SyncNews.listAll(SyncNews.class);
+        adapter.update(all);
+    }
 }

@@ -11,8 +11,7 @@ import android.widget.TextView;
 
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.others.MarkerInfo;
-import com.example.dp2.afiperu.domain.NewsArticle;
-import com.example.dp2.afiperu.domain.News;
+import com.example.dp2.afiperu.syncmodel.SyncNews;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
@@ -21,10 +20,8 @@ import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 
 import java.util.List;
 
-public class NewsAdapter extends BaseArrayAdapter<News> {
+public class NewsAdapter extends BaseArrayAdapter<SyncNews> {
 
-    public static final int EMPTY_STAR = R.drawable.ic_star_empty;
-    public static final int FULL_STAR = R.drawable.ic_star_full;
     public static int getStarDrawable(boolean isFavorite){
         if(!isFavorite){
             return R.drawable.ic_star_empty;
@@ -33,7 +30,7 @@ public class NewsAdapter extends BaseArrayAdapter<News> {
         }
     }
 
-    public NewsAdapter(Context context, BaseFragment fragment, List<News> objects) {
+    public NewsAdapter(Context context, BaseFragment fragment, List<SyncNews> objects) {
         super(context, fragment, R.layout.news_list_item, objects);
     }
 
@@ -42,29 +39,26 @@ public class NewsAdapter extends BaseArrayAdapter<News> {
     }
 
     @Override
-    public void prepareItemView(final View convertView, final News item, final int position) {
+    public void prepareItemView(final View convertView, final SyncNews item, final int position) {
         ImageView pic = (ImageView) convertView.findViewById(R.id.news_item_pic);
         TextView title = (TextView) convertView.findViewById(R.id.news_item_title);
-        ImageView authorIcon = (ImageView) convertView.findViewById(R.id.news_item_author_icon);
-        TextView authorName = (TextView) convertView.findViewById(R.id.news_item_author_name);
         TextView date = (TextView) convertView.findViewById(R.id.news_item_date);
         ImageView favoriteIcon = (ImageView) convertView.findViewById(R.id.news_item_icon_favorite);
 
-        setImage(pic, item.getPicURL(), "news_" + item.getPicId() + ".jpg");
+        setImage(pic, item.getImageURL(), "news_" + item.getNewsId() + ".jpg");
         title.setText(item.getTitle());
-        setImage(authorIcon, item.getAuthorIconURL(), "news_author_" + item.getAuthorIconId() + ".png");
-        authorName.setText(item.getAuthorName());
-        CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), item.getUploadDate(),
+        CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), item.getDate(),
                 DateUtils.MINUTE_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH);
         date.setText(formattedDate);
-        favoriteIcon.setImageResource(getStarDrawable(item.isFavorite()));
+        favoriteIcon.setImageResource(getStarDrawable(item.getIsFavorite() == 1));
         favoriteIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (v.getId() == R.id.news_item_icon_favorite) {
-                    boolean isFavorite = ((NewsFragment)getFragment()).toggleFavorite(position);
+                    item.toggleFavorite();
+                    item.save();
                     ImageView favoriteIcon = (ImageView) v;
-                    favoriteIcon.setImageResource(getStarDrawable(isFavorite));
+                    favoriteIcon.setImageResource(getStarDrawable(item.getIsFavorite() == 1));
                 }
             }
         });
@@ -76,11 +70,7 @@ public class NewsAdapter extends BaseArrayAdapter<News> {
                 if(v.getId() == R.id.news_item){
                     NewsArticleFragment newsArticleFragment = new NewsArticleFragment();
                     Bundle args = new Bundle();
-                    NewsArticle arg = new NewsArticle(item.getPicId(), item.getPicURL(),
-                            item.getTitle(), item.getAuthorName(), item.getUploadDate(),
-                            convertView.getResources().getString(R.string.article_example),
-                            new MarkerInfo(-1, -12.0731492, -77.0819083, MarkerInfo.MARKER_KIND_EVENT_ADDRESS, null));
-                    args.putSerializable(NewsArticleFragment.NEWS_ARTICLE_ARG, arg);
+                    args.putSerializable(NewsArticleFragment.NEWS_ARTICLE_ARG, item);
                     args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_DETALLE_NOTICIAS);
                     newsArticleFragment.setArguments(args);
                     getFragment().addFragmentToStack(newsArticleFragment, DetailActivity.FRAGMENT_DETALLE_NOTICIAS);

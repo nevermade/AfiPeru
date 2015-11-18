@@ -27,7 +27,6 @@ import javax.inject.Inject;
 
 
 public class UsersFragment extends BaseFragment implements UserView {
-    public static final String USER_ARG = "user_arg";
     @Inject
     UserPresenter presenter;
     @Inject
@@ -113,23 +112,17 @@ public class UsersFragment extends BaseFragment implements UserView {
 
     @Override
     public void onSearch(String query){
-        //ACÁ HAZ TU BÚSQUEDA SIMPLE
         if (query.contentEquals("") ){
             presenter.getAllUsers(getContext());
+        }else {
+            presenter.queryUsers(getContext(), query);
         }
-            else
-            presenter.queryUsers(getContext(),query);
-        int a = 0;
     }
 
 
     @Override
     public void onCloseSearch(){
-        //ACÁ HAZ TU BÚSQUEDA SIMPLE
-
-            presenter.getAllUsers(getContext());
-
-        int a = 0;
+        presenter.getAllUsers(getContext());
     }
 
 

@@ -37,7 +37,7 @@ public class BlogArticleFragment extends BaseFragment {
         TextView date = (TextView)rootView.findViewById(R.id.blog_detail_date);
         CharSequence formattedDate = DateUtils.getRelativeDateTimeString(getContext(), article.getUploadDate(),
                 DateUtils.MINUTE_IN_MILLIS, DateUtils.YEAR_IN_MILLIS, DateUtils.FORMAT_ABBREV_MONTH);
-        date.setText(getResources().getString(R.string.news_article_author_date, article.getAuthorName(), formattedDate));
+        date.setText(formattedDate);
         TextView content = (TextView)rootView.findViewById(R.id.blog_detail_content);
         content.setText(article.getContent());
 
