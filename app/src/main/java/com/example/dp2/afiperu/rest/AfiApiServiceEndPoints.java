@@ -105,7 +105,6 @@ public interface  AfiApiServiceEndPoints {
     @FormUrlEncoded
     @POST("set_gcm_token")
     Call<SuccessBody> setGCM(@Field("gcm_token")String token);
-    @FormUrlEncoded
     @POST("clear_gcm_token")
     Call<SuccessBody> clearGCM();
 
