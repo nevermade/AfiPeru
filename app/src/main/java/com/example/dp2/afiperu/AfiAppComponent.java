@@ -11,10 +11,12 @@ import com.example.dp2.afiperu.interactor.DocumentInteractor;
 import com.example.dp2.afiperu.interactor.KidInteractor;
 import com.example.dp2.afiperu.interactor.LoginInteractor;
 import com.example.dp2.afiperu.interactor.MainActivityInteractor;
+import com.example.dp2.afiperu.interactor.NewsInteractor;
 import com.example.dp2.afiperu.interactor.PaymentDepositInteractor;
 import com.example.dp2.afiperu.interactor.PaymentListInteractor;
 import com.example.dp2.afiperu.interactor.PointsOfReunionInteractor;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
+import com.example.dp2.afiperu.interactor.UploadPhotoInteractor;
 import com.example.dp2.afiperu.interactor.UserInteractor;
 import com.example.dp2.afiperu.module.InteractorModule;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
@@ -51,4 +53,6 @@ public interface AfiAppComponent {
         AttendanceInteractor getAttendanceInteractor();
         CommentKidInteractor getCommentKidInteractor();
         CommentInteractor getCommentInteractor();
+        UploadPhotoInteractor getUploadPhotoInteractor();
+        NewsInteractor getNewsInteractor();
 }

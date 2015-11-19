@@ -11,8 +11,9 @@ import com.paypal.android.sdk.payments.PayPalPayment;
  */
 public class Constants {
 
-    public static final String URL="http://200.16.7.111/afiperularavel/public/";
-    public static final String BASE_URL="http://200.16.7.111/afiperularavel/public/api/v1/";
+    public static final String DRUPAL_ARTICLES_URL="http://162.243.118.33/afiperudrupal/node/";
+    public static final String DOCS_URL ="http://162.243.118.33/afiperularavel/public/";
+    public static final String BASE_URL="http://162.243.118.33/";
 
     public static String TOKEN="";
     public static ProgressDialog PROGRESS;

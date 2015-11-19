@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
 import com.example.dp2.afiperu.common.BaseFragment;
-import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.syncmodel.SyncDocument;
 import com.example.dp2.afiperu.syncmodel.SyncDocumentUser;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
@@ -66,7 +65,7 @@ public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
                                 case R.id.docs_menu_view:
                                     if (NetworkManager.isNetworkConnected(getContext())) {
                                         Intent intent = new Intent(Intent.ACTION_VIEW);
-                                        intent.setData(Uri.parse(Constants.URL + docItem.getUrl()));
+                                        intent.setData(Uri.parse(Constants.DOCS_URL + docItem.getUrl()));
                                         getFragment().startActivity(intent);
                                         ((DocumentsFragment) getFragment()).recordVisualization(docItem.getDocId());
                                     } else if (docItem.getLastUri() != null) {
@@ -77,7 +76,7 @@ public class DocumentsAdapter extends BaseArrayAdapter<SyncDocument> {
                                     break;
                                 case R.id.docs_menu_download:
                                     if (NetworkManager.isNetworkConnected(getContext())) {
-                                        downloadDocument(docItem, Constants.URL + docItem.getUrl());
+                                        downloadDocument(docItem, Constants.DOCS_URL + docItem.getUrl());
                                         ((DocumentsFragment) getFragment()).recordVisualization(docItem.getDocId());
                                     } else if (docItem.getLastUri() != null) {
                                         ((DetailActivity) getFragment().getActivity()).openFile(docItem.getLastUri());

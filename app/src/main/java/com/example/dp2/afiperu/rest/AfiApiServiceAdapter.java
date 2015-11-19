@@ -25,7 +25,6 @@ public class AfiApiServiceAdapter {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
                     Request newRequest = chain.request().newBuilder()
-                            .addHeader("Accept", "application/json")
                             .addHeader("Authorization", Constants.TOKEN).build();
                     Log.d("Token", Constants.TOKEN);
                     return chain.proceed(newRequest);

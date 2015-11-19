@@ -15,8 +15,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -36,7 +34,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -53,14 +50,12 @@ import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseActivity;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
-import com.example.dp2.afiperu.domain.AFIEvent;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Drawer;
 import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
-import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.module.MainActivityModule;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
@@ -82,13 +77,12 @@ import com.example.dp2.afiperu.ui.dialogs.UserSearchDialog;
 import com.example.dp2.afiperu.ui.fragment.AttendanceFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogSearchFragment;
 import com.example.dp2.afiperu.ui.fragment.BlogTabFragment;
-import com.example.dp2.afiperu.ui.fragment.CalendarFragment;
 import com.example.dp2.afiperu.ui.fragment.DocumentsFragment;
 import com.example.dp2.afiperu.ui.fragment.DonationFragment;
 import com.example.dp2.afiperu.ui.fragment.FavoriteBlogFragment;
-import com.example.dp2.afiperu.ui.fragment.FavoriteNewsFragment;
 import com.example.dp2.afiperu.ui.fragment.LoginFragment;
 import com.example.dp2.afiperu.ui.fragment.MapEditFragment;
+import com.example.dp2.afiperu.ui.fragment.NewsArticleFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsFragment;
 import com.example.dp2.afiperu.ui.fragment.NewsTabFragment;
 import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
@@ -109,6 +103,7 @@ import com.paypal.android.sdk.payments.PaymentConfirmation;
 
 import org.json.JSONException;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -172,11 +167,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         return presenter;
     }
 
-    private int REQUEST_IMAGE_CAPTURE =1;
-    private int REQUEST_IMAGE_GALLERY =2;
+    private static final int REQUEST_IMAGE_CAPTURE =1;
+    private static final int REQUEST_IMAGE_GALLERY =2;
     /* Cosas a agregar con cada layout nuevo */
-
-
 
     public String getTitle(int fragmentId){
         int id = 0;
@@ -215,7 +208,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public int getMenu(int fragmentId){
         switch(fragmentId){
             case FRAGMENT_NOTICIAS: return R.menu.news_menu_toolbar;
-            case FRAGMENT_DOCUMENTOS: return R.menu.docs_menu_toolbar;
             case FRAGMENT_SESIONES: return R.menu.sessions_menu_toolbar;
             case FRAGMENT_SUBIR_FOTOS: return R.menu.upload_photos_toolbar;
             case FRAGMENT_DETALLE_NOTICIAS: return R.menu.news_article_menu_toolbar;
@@ -235,6 +227,13 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         BaseFragment topFragment = getTopFragment();
         int fragmentId = topFragment.getFragmentId();
         switch(fragmentId){
+            case FRAGMENT_DETALLE_NOTICIAS:
+                switch(item.getItemId()){
+                    case R.id.news_article_menu_share:
+                        ((NewsArticleFragment)getTopFragment()).shareOnFacebook();
+                        break;
+                }
+                break;
             case FRAGMENT_PERSONAS:
                 switch(item.getItemId()){
                     case R.id.people_menu_map:
@@ -263,34 +262,17 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 break;
             case FRAGMENT_SUBIR_FOTOS:
                 switch(item.getItemId()){
-                    case R.id.upload_photos_menu_gallery:/*
-                        Hashtable<Long, AFIEvent> events = new Hashtable<>();
-                        Calendar dateNoTime = new GregorianCalendar(2015, 9, 20);
-                        Calendar dateWithTime = new GregorianCalendar(2015, 9, 20, 16, 0);
-                        events.put(dateNoTime.getTime().getTime(),
-                                new AFIEvent("Av. Antonio Alarco 497", dateWithTime.getTime().getTime(), "Sesión 1"));
-                        Bundle args = new Bundle();
-                        args.putSerializable(CalendarFragment.EVENTS_ARG, events);
-                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_CALENDARIO);
-                        BaseFragment calendarFragment = new CalendarFragment();
-                        calendarFragment.setArguments(args);
-                        addFragment(calendarFragment, getTitle(FRAGMENT_CALENDARIO), getMenu(FRAGMENT_CALENDARIO));
-                        */
+                    case R.id.upload_photos_menu_gallery:
                         Intent getPictureIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         if (getPictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(getPictureIntent, REQUEST_IMAGE_GALLERY);
                         }
                         break;
                     case R.id.upload_photos_menu_camera:
-
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                         }
-
-
-
-                        //Toast.makeText(DetailActivity.this, "Camara", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 break;
@@ -316,32 +298,61 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            ImageView iv = (ImageView) findViewById(R.id.photo_pic);
-            iv.setImageBitmap(imageBitmap);
-            float opacity =1;
-            iv.setAlpha(opacity);
-            TextView tv = (TextView) findViewById(R.id.no_photo_text);
-            tv.setText("");
-        }else  if (requestCode == REQUEST_IMAGE_GALLERY && resultCode == RESULT_OK){
-            Uri uri = data.getData();
-            String [] projection = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(uri,projection,null,null,null);
-            cursor.moveToFirst();
-            int columIndex = cursor.getColumnIndex(projection[0]);
-            String filePath = cursor.getString(columIndex);
-            cursor.close();
-            Bitmap imageBitmap = BitmapFactory.decodeFile(filePath);
-            Drawable d = new BitmapDrawable(getResources(), imageBitmap);
-            ImageView iv = (ImageView) findViewById(R.id.photo_pic);
-            iv.setImageDrawable(d);
-            float opacity =1;
-            iv.setAlpha(opacity);
-            TextView tv = (TextView) findViewById(R.id.no_photo_text);
-            tv.setText("");
-         }else if (requestCode == Constants.REQUEST_CODE_PAYMENT) {
+        if((requestCode == REQUEST_IMAGE_CAPTURE || requestCode == REQUEST_IMAGE_GALLERY) && resultCode == RESULT_OK){
+            String filePath;
+            Bitmap imageBitmap;
+            switch(requestCode){
+                case REQUEST_IMAGE_CAPTURE:
+                    Bundle extras = data.getExtras();
+                    imageBitmap = (Bitmap) extras.get("data");
+                    Uri uri = getImageUri(getApplicationContext(), imageBitmap);
+                    filePath = getRealPathFromURI(uri);
+                    break;
+                default:
+                    uri = data.getData();
+                    String [] projection = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+                    cursor.moveToFirst();
+                    int columIndex = cursor.getColumnIndex(projection[0]);
+                    filePath = cursor.getString(columIndex);
+                    cursor.close();
+
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(filePath, options);
+                    int height = options.outHeight;
+                    int width = options.outWidth;
+
+                    float density = getResources().getDisplayMetrics().density;
+                    int requiredHeight = getResources().getDisplayMetrics().heightPixels;
+                    requiredHeight -= density*30; //30 dp margen abajo de botón de enviar
+                    requiredHeight -= density*50; //50dp de la imagen del botón
+                    requiredHeight -= density*getResources().getDimension(R.dimen.margin_large)*2; //Margen arriba y abajo de la foto
+                    int requiredWidth = getResources().getDisplayMetrics().widthPixels;
+                    requiredWidth -= density*getResources().getDimension(R.dimen.margin_large)*2; //Margen izquierda y derecha
+
+                    int inSampleSize = 1;
+                    if(height > requiredHeight || width > requiredWidth){
+                        int halfHeight = height / 2;
+                        int halfWidth = width / 2;
+                        while((halfHeight / inSampleSize) > requiredHeight
+                                && (halfWidth / inSampleSize) > requiredWidth){
+                            inSampleSize *= 2;
+                        }
+                    }
+
+                    options.inSampleSize = inSampleSize;
+                    options.inJustDecodeBounds = false;
+                    imageBitmap = BitmapFactory.decodeFile(filePath, options);
+                    break;
+            }
+            BaseFragment fragment = getTopFragment();
+            if(fragment instanceof UploadPhotosFragment){
+                ((UploadPhotosFragment)fragment).updateBitmap(imageBitmap, filePath);
+            }else{
+                if(imageBitmap != null) imageBitmap.recycle();
+            }
+        }else if (requestCode == Constants.REQUEST_CODE_PAYMENT) {
             if (resultCode == Activity.RESULT_OK) {
                 PaymentConfirmation confirm = data
                         .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
@@ -382,14 +393,30 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
     }
 
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+        return cursor.getString(idx);
+    }
+
     /* Cosas que casi no deberían cambiar */
 
     private BaseFragment getTopFragment(){
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for(int i=fragments.size()-1; i>=0; i--){
-            Fragment fragment = fragments.get(i);
-            if (fragment != null && fragment instanceof BaseFragment) {
-                return (BaseFragment) fragment;
+        if(fragments != null) {
+            for (int i = fragments.size() - 1; i >= 0; i--) {
+                Fragment fragment = fragments.get(i);
+                if (fragment != null && fragment instanceof BaseFragment) {
+                    return (BaseFragment) fragment;
+                }
             }
         }
         return null;
@@ -417,11 +444,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /******************************/
 
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         receiver = new NetworkReceiver();
-        this.registerReceiver(receiver, filter);
 
         /****dialog de loading****/
         Constants.PROGRESS=new ProgressDialog(this);
@@ -436,6 +460,19 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
 
         selectItem(FRAGMENT_LOGIN);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        this.registerReceiver(receiver, filter);
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     public void setActions(User user){
@@ -589,7 +626,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public static final String DIALOG_TAG_DETAIL_COMMENT = "detail_comment";
     public static final String DIALOG_TAG_DATE = "pick_date";
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public boolean onPrepareOptionsMenu(Menu menu){
         menu.clear();
@@ -660,25 +696,23 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 });
                 parent.addView(plusIcon);
             }else if(toolbarMenu == R.menu.comments_menu_toolbar) {
+                MenuItem menuItem = menu.findItem(R.id.comments_menu_search);
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                final SearchView searchView = (SearchView) menu.findItem(R.id.comments_menu_search).getActionView();
+                final SearchView searchView = (SearchView) menuItem.getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
-                MenuItem menuItem = menu.findItem(R.id.people_menu_search);
                 if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                    if (menuItem != null) {
-                        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
-                            @Override
-                            public boolean onMenuItemActionExpand(MenuItem item) {
-                                return true;
-                            }
-                            @Override
-                            public boolean onMenuItemActionCollapse(MenuItem item) {
-                                getTopFragment().onCloseSearch();
-                                return true;
-                            }
-                        });
-                    }
+                    MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                        @Override
+                        public boolean onMenuItemActionExpand(MenuItem item) {
+                            return true;
+                        }
+                        @Override
+                        public boolean onMenuItemActionCollapse(MenuItem item) {
+                            getTopFragment().onCloseSearch();
+                            return true;
+                        }
+                    });
                 } else {
                     searchView.setOnCloseListener(new SearchView.OnCloseListener() {
                         @Override
@@ -706,23 +740,51 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 parent.addView(plusIcon);
             }else if(toolbarMenu == R.menu.map_menu_toolbar || toolbarMenu == R.menu.map_edit_menu_toolbar){
                 SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-                final SearchView searchView = (SearchView) menu.findItem(R.id.map_menu_search).getActionView();
+                SearchView searchView = (SearchView) menu.findItem(R.id.map_menu_search).getActionView();
                 SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
                 searchView.setSearchableInfo(searchableInfo);
+            }else if(toolbarMenu == R.menu.news_menu_toolbar){SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                MenuItem menuItem = menu.findItem(R.id.news_menu_search);
+                SearchView searchView = (SearchView) menuItem.getActionView();
+                SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+                searchView.setSearchableInfo(searchableInfo);
+                if (Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+                    MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+                        @Override
+                        public boolean onMenuItemActionExpand(MenuItem item) {
+                            return true;
+                        }
+                        @Override
+                        public boolean onMenuItemActionCollapse(MenuItem item) {
+                            getTopFragment().onCloseSearch();
+                            return true;
+                        }
+                    });
+                } else {
+                    searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+                        @Override
+                        public boolean onClose() {
+                            getTopFragment().onCloseSearch();
+                            return true;
+                        }
+                    });
+                }
             }
         }
         return true;
     }
 
     public void changeFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        if(toolbarTitle != null){
-            Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
-            toolbar.setTitle(toolbarTitle);
+        if(getTopFragment() == null || getTopFragment().tryBack()){
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+            if(toolbarTitle != null){
+                Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
+                toolbar.setTitle(toolbarTitle);
+            }
+            this.toolbarMenu = toolbarMenu;
+            invalidateOptionsMenu();
         }
-        this.toolbarMenu = toolbarMenu;
-        invalidateOptionsMenu();
     }
 
     public void addFragment(Fragment fragment, String toolbarTitle, int toolbarMenu){
@@ -827,49 +889,12 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 return;
 
             case FRAGMENT_NOTICIAS:
-                ArrayList<News> news = new ArrayList<>();
-                Calendar calendar = new GregorianCalendar(2015, 8, 25, 0, 31);
-                news.add(new News(
-                        1001,
-                        "https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xat1/v/t1.0-9/13779_10153228555392486_8679903887061635913_n.jpg?oh=00b977b776d2b46e53c88f229bc38250&oe=5668F7B7&__gda__=1453937731_0addbe5c62688f1ca9aa12cef23593eb",
-                        "Paseo pinoteco al parque de las leyendas",
-                        2001,
-                        "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                        "Manuel", calendar.getTime().getTime(), true));
-                calendar = new GregorianCalendar(2015, 8, 24, 23, 40);
-                news.add(new News(
-                        1002,
-                        "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/11024597_10153107115432486_3774679476823351402_n.jpg?oh=2e13703d43f85c64bde46ce3b0ff4738&oe=5697777F",
-                        "Voluntarios accederan a puntajes para becas y viviendas",
-                        2001,
-                        "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                        "Gabriela", calendar.getTime().getTime(), false));
-                calendar = new GregorianCalendar(2015, 8, 21, 15, 22);
-                news.add(new News(
-                        1003,
-                        "https://fbcdn-sphotos-b-a.akamaihd.net/hphotos-ak-xfa1/v/t1.0-9/11150479_10153215037187486_66126204997766216_n.jpg?oh=efc6181115bfcd36dd12eeda1f2be26d&oe=56A16C75&__gda__=1449207363_cde5ddb130a171ea4e9fc3d09933356b",
-                        "Recurso multimedia que utiliza el cuento como motivación inicial, dirigido a niños",
-                        2001,
-                        "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
-                        "Yuri", calendar.getTime().getTime(), false));
-                args.putSerializable(NewsFragment.NEWS_ARG, news);
-                ArrayList<News> favoriteNews = new ArrayList<>();
-                favoriteNews.add(news.get(0));
-                args.putSerializable(FavoriteNewsFragment.FAVORITE_NEWS_ARG, favoriteNews);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_NOTICIAS);
                 fragment = new NewsTabFragment();
                 break;
-            case FRAGMENT_BLOG:
-/*
-                List<SyncSession> out = SyncSession.listAll(SyncSession.class);
-
-                List<SyncPointOfReunion> loca = SyncLocation.find(SyncPointOfReunion.class, " session = ?", String.valueOf(out.get(7).getId()));
-                //List<Book> books = Book.listAll(Book.class);
-                //Toast.makeText(getBaseContext(),loca.get(0).getLatitude().toString(),Toast.LENGTH_SHORT).show();
-                Toast.makeText(getBaseContext(),out.get(7).getPointsOfReunion().get(0).getLatitude().toString(),Toast.LENGTH_SHORT).show();
-  */
+            /*case FRAGMENT_BLOG:
                 ArrayList<Blog> blogs= new ArrayList<>();
-                calendar=new GregorianCalendar(2015,8,22,14,25);
+                Calendar calendar=new GregorianCalendar(2015,8,22,14,25);
                 blogs.add(new Blog("Titulo 1","Daekef Abarca",calendar.getTime().getTime(),false));
                 calendar=new GregorianCalendar(2015,7,24,48,27);
                 blogs.add(new Blog("Titulo 2","Fernando Banda",calendar.getTime().getTime(),true));
@@ -882,20 +907,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 args.putSerializable(FavoriteBlogFragment.FAVORITE_BLOG_ARG, favoriteBlogs);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_BLOG);
                 fragment=new BlogTabFragment();
-                break;
+                break;*/
             case FRAGMENT_PERSONAS:
-                ArrayList<User> users= new ArrayList<>();
-                users.add(new User("dabarca",20101147,"Daekef","Abarca","Cusimayta", "Miembro de AFI",3.5, true));
-                users.add(new User("fbanda",20107845,"Fernando","Banda","Cardenas", "Voluntario",4.8, false));
-                users.add(new User("lbarcena",20101019,"Luis","Barcena","Navarro","Padrino",1.0, true));
-                Collections.sort(users);
-                args.putSerializable(UsersFragment.USER_ARG, users);
-                ArrayList<PeopleKids> kids= new ArrayList<>();
-                kids.add(new PeopleKids(false,12,"Perales","Perez","Paola"));
-                kids.add(new PeopleKids(true,10,"Perales","Perez","Juan"));
-                kids.add(new PeopleKids(false,11,"Perales","Perez","Rosario"));
-                Collections.sort(kids);
-                args.putSerializable(PeopleKidsFragment.PEOPLE_KIDS_ARG, kids);
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_PERSONAS);
                 fragment = new PeopleTabFragment();
                 break;
@@ -964,14 +977,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             }else{
                 selectItem(fragmentId);
             }
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (receiver != null) {
-            this.unregisterReceiver(receiver);
         }
     }
 
@@ -1045,6 +1050,10 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             this.activity = activity;
         }
 
+        public boolean openAfterDownloading(){
+            return true;
+        }
+
         @Override
         protected String doInBackground(String... args){
             String url = args[0];
@@ -1056,7 +1065,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         @Override
         protected void onPostExecute(String uriResult){
             super.onPostExecute(uriResult);
-            if(uriResult != null) {
+            if(uriResult != null && openAfterDownloading()) {
                 boolean openedFile = activity.openFile(uriResult);
                 if(!openedFile){
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
@@ -1096,6 +1105,11 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         public DownloadImageTask(DetailActivity activity, ImageView view){
             super(activity);
             this.view = view;
+        }
+
+        @Override
+        public boolean openAfterDownloading(){
+            return false;
         }
 
         @Override

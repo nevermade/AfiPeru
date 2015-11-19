@@ -76,7 +76,8 @@ public class SessionFragment extends BaseFragment implements SessionView{
 
     @Override
     public void displaySessionsCalendar(List<SyncSession> sessions) {
-        CalendarFragment calendarFragment = new CalendarFragment();
+        //CalendarFragment calendarFragment = new CalendarFragment();
+        CalendarCustomFragment calendarFragment = new CalendarCustomFragment();
         Bundle args = new Bundle();
 
         args.putSerializable(CalendarFragment.EVENTS_ARG, (ArrayList)sessions);

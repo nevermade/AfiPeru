@@ -16,7 +16,6 @@ import com.example.dp2.afiperu.ui.adapter.PeopleKidsAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.KidView;
 import com.example.dp2.afiperu.util.NetworkManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,7 +24,6 @@ import javax.inject.Inject;
  * Created by Nevermade on 02/10/2015.
  */
 public class PeopleKidsFragment extends BaseFragment implements KidView{
-    public static final String PEOPLE_KIDS_ARG = "people_kids_arg";
 
     @Inject
     KidPresenter presenter;

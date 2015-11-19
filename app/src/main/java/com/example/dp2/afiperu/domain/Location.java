@@ -17,6 +17,9 @@ public class Location{
     @SerializedName("longitude")
     @Expose
     private Double longitude;
+    @SerializedName("address")
+    @Expose
+    private String address;
 
 
     public Location(){}
@@ -46,6 +49,14 @@ public class Location{
      */
     public Double getLongitude() {
         return longitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     /**
