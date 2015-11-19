@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.ui.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
@@ -53,6 +54,8 @@ import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.component.DaggerMainActivityComponent;
 import com.example.dp2.afiperu.domain.Blog;
 import com.example.dp2.afiperu.domain.Drawer;
+import com.example.dp2.afiperu.domain.News;
+import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.domain.PeopleKids;
 import com.example.dp2.afiperu.domain.Profile;
 import com.example.dp2.afiperu.domain.User;
@@ -100,6 +103,10 @@ import com.example.dp2.afiperu.util.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -113,6 +120,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -159,6 +167,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     int previousBackStackCount;
     Drawer applyOptionItem;
+    PaymentListFragment paymentListFragment;
+    private static final String TAG = "paymentExample";
     @Inject
     MainActivityPresenter presenter;
 
@@ -351,6 +361,44 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             }else{
                 if(imageBitmap != null) imageBitmap.recycle();
             }
+        }else if (requestCode == Constants.REQUEST_CODE_PAYMENT) {
+            if (resultCode == Activity.RESULT_OK) {
+                PaymentConfirmation confirm = data
+                        .getParcelableExtra(PaymentActivity.EXTRA_RESULT_CONFIRMATION);
+                if (confirm != null) {
+                    try {
+                        /*Log.e(TAG, confirm.toJSONObject().toString(4));
+                        Log.e(TAG, confirm.getPayment().toJSONObject()
+                                .toString(4));*/
+                        /*Gson gson= new Gson();
+                        gson.fromJson(data.getRes)*/
+                        String paymentId = confirm.toJSONObject()
+                                .getJSONObject("response").getString("id");
+
+                        String payment_client = confirm.getPayment()
+                                .toJSONObject().toString();
+
+
+
+                        /*Log.e(TAG, "paymentId: " + paymentId
+                                + ", payment_json: " + payment_client);*/
+
+                        // Now verify the payment on the server side
+                        Constants.PROGRESS.setMessage("Validando pago...");
+                        Constants.PROGRESS.show();
+                        paymentListFragment.getPaymentListPresenter().verifyPaymentOnServer(paymentId, payment_client);
+
+                    } catch (JSONException e) {
+                        Log.e(TAG, "an extremely unlikely failure occurred: ",
+                                e);
+                    }
+                }
+            } else if (resultCode == Activity.RESULT_CANCELED) {
+                Log.e(TAG, "The user canceled.");
+            } else if (resultCode == PaymentActivity.RESULT_EXTRAS_INVALID) {
+                Log.e(TAG,
+                        "An invalid Payment or PayPalConfiguration was submitted.");
+            }
         }
     }
 
@@ -449,6 +497,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         Constants.PROGRESS.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         Constants.PROGRESS.setTitle(getResources().getString(R.string.loading));
         Constants.PROGRESS.setMessage(getResources().getString(R.string.please_wait));
+        Constants.PROGRESS.setCancelable(false);
 
         setContentView(R.layout.base);
 
@@ -841,6 +890,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         SyncSchoolAddress.deleteAll(SyncSchoolAddress.class);
         SyncSession.deleteAll(SyncSession.class);
         SyncUser.deleteAll(SyncUser.class);
+
+        presenter.clearGCMToken(this);
     }
 
     private void tryPostulate(){
@@ -926,6 +977,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             case FRAGMENT_PAGOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_PAGOS);
                 fragment=new PaymentListFragment();
+                paymentListFragment=(PaymentListFragment)fragment;
                 break;
             case FRAGMENT_REPORTES_PADRINOS:
                 args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_REPORTES_PADRINOS);

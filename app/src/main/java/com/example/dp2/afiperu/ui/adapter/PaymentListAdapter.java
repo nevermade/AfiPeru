@@ -2,6 +2,7 @@ package com.example.dp2.afiperu.ui.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
@@ -17,7 +18,15 @@ import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.syncmodel.SyncPayment;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
 import com.example.dp2.afiperu.ui.fragment.PaymentDepositFragment;
+import com.example.dp2.afiperu.ui.fragment.PaymentListFragment;
+import com.example.dp2.afiperu.util.Constants;
+import com.paypal.android.sdk.payments.PayPalItem;
+import com.paypal.android.sdk.payments.PayPalPayment;
+import com.paypal.android.sdk.payments.PayPalPaymentDetails;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +36,8 @@ import java.util.Locale;
  * Created by Nevermade on 18/10/2015.
  */
 public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
+
+    private static SyncPayment clickedPayment;
 
     public PaymentListAdapter(Context context, BaseFragment fragment, List<SyncPayment> objects) {
         super(context, fragment, R.layout.payments_list_item, objects);
@@ -56,7 +67,8 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         payBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog(item.getFeeId());
+                showDialog(item);
+
             }
         });
 
@@ -78,7 +90,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         }
     }
 
-    public void showDialog(final int feeId) {
+    public void showDialog(final SyncPayment item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getContext().getString(R.string.payment_method))
                 .setMessage(getContext().getString(R.string.payment_method_prompt))
@@ -87,15 +99,52 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
                     public void onClick(DialogInterface dialog, int which) {
                         Bundle args = new Bundle();
                         PaymentDepositFragment fragment = new PaymentDepositFragment();
-                        args.putInt(PaymentDepositFragment.FEE_ID_ARG, feeId);
+                        args.putInt(PaymentDepositFragment.FEE_ID_ARG, item.getFeeId());
                         args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
                         fragment.setArguments(args);
                         getFragment().addFragmentToStack(fragment, DetailActivity.FRAGMENT_REGISTRAR_PAGO);
                     }
                 })
-                .setNeutralButton(R.string.payment_method_paypal, null)
+                .setNeutralButton(R.string.payment_method_paypal, new DialogInterface.OnClickListener(){
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        clickedPayment=item;
+                        launchPaypalPayment(item);
+                    }
+                })
                 .setNegativeButton(android.R.string.cancel, null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    private void launchPaypalPayment(SyncPayment item){
+
+        //BigDecimal amount=BigDecimal.valueOf(item.getAmount());
+        PayPalItem payPalItem= new PayPalItem("pago de padrino",1,BigDecimal.valueOf(item.getAmount()/Constants.FROM_USD_TO_PEN),"USD",item.getFeeId().toString());
+
+        PayPalItem[] items= new PayPalItem[1];
+        items[0]=payPalItem;
+
+        PayPalPaymentDetails details = new PayPalPaymentDetails(new BigDecimal("0.0"),PayPalItem.getItemTotal(items),new BigDecimal("0.0"));
+
+        PayPalPayment payment = new PayPalPayment(
+                BigDecimal.valueOf(item.getAmount()),
+                "USD",
+                "Pago correspondiente al "+ (new Date(item.getDueDate())).toString(),
+                Constants.PAYMENT_INTENT
+        );
+        payment.items(items).paymentDetails(details);
+        Constants.PAYMENT_FEE_ID=item.getFeeId();
+        Intent intent= new Intent(getFragment().getActivity(), PaymentActivity.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaymentListFragment.paypalConfig);
+        intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
+        getFragment().getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_PAYMENT);
+    }
+
+    public void removeClickedItem(){
+        remove(clickedPayment);
+        notifyDataSetChanged();
+    }
+
 }

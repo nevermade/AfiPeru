@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.LoginPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.SuccessBody;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
 
@@ -31,18 +32,36 @@ public class LoginInteractorImpl implements LoginInteractor {
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Response<User> response, Retrofit retrofit) {
-                    User loginResponse = response.body();
+                    final User loginResponse = response.body();
                     if (loginResponse != null && loginResponse.getName() != null) {
                         Constants.TOKEN = loginResponse.getAuthToken();
-                        presenter.onLoginSuccess(loginResponse, username, password);
+                        Call<SuccessBody> call = service.setGCM(Constants.TOKEN);
+                        call.enqueue(new Callback<SuccessBody>() {
+                            @Override
+                            public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
+                                if(response.body() != null && response.body().getSuccess() == 1) {
+                                    presenter.onLoginSuccess(loginResponse, username, password);
+                                }else{
+                                    presenter.onLoginSuccess(loginResponse, username, password); //Este se borra
+                                    //presenter.onLoginFailure(); <-Este va
+                                }
+                                Constants.PROGRESS.dismiss();
+                            }
+                            @Override
+                            public void onFailure(Throwable t) {
+                                presenter.onLoginFailure();
+                                Constants.PROGRESS.dismiss();
+                            }
+                        });
                     } else {
                         presenter.onLoginFailure();
+                        Constants.PROGRESS.dismiss();
                     }
-                    Constants.PROGRESS.dismiss();
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
+                    presenter.onLoginFailure();
                     Constants.PROGRESS.dismiss();
                 }
             });

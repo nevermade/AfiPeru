@@ -90,6 +90,10 @@ public class MainActivityPresenter extends BasePresenter {
         attendanceInteractor.editAttendance(context, null, sessionId, attendanceVolunteers);
     }
 
+    public void clearGCMToken(Context context){
+        interactor.clearGCMToken(context);
+    }
+
     @Override
     public void onStart() {
 

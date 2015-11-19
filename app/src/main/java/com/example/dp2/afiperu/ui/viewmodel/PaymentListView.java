@@ -10,4 +10,7 @@ import java.util.List;
 public interface PaymentListView {
     void displayPayments(List<SyncPayment> payments);
     void displayNoPaymentsFound();
+    void displayPaymentSuccess();
+    void displayPaymentError();
+    void displayPaymentFailure();
 }

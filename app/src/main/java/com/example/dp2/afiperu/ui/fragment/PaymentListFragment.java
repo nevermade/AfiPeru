@@ -1,8 +1,14 @@
 package com.example.dp2.afiperu.ui.fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
@@ -14,7 +20,15 @@ import com.example.dp2.afiperu.presenter.PaymentListPresenter;
 import com.example.dp2.afiperu.syncmodel.SyncPayment;
 import com.example.dp2.afiperu.ui.adapter.PaymentListAdapter;
 import com.example.dp2.afiperu.ui.viewmodel.PaymentListView;
+import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
+import com.google.gson.Gson;
+import com.paypal.android.sdk.payments.PayPalConfiguration;
+import com.paypal.android.sdk.payments.PayPalService;
+import com.paypal.android.sdk.payments.PaymentActivity;
+import com.paypal.android.sdk.payments.PaymentConfirmation;
+
+import org.json.JSONException;
 
 import java.util.List;
 
@@ -26,6 +40,14 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
     PaymentListPresenter paymentListPresenter;
     @Inject
     PaymentListAdapter paymentListAdapter;
+
+    public PaymentListPresenter getPaymentListPresenter() {
+        return paymentListPresenter;
+    }
+
+    public static PayPalConfiguration paypalConfig = new PayPalConfiguration()
+            .environment(Constants.PAYPAL_ENVIRONMENT).clientId(
+                    Constants.PAYPAL_CLIENT_ID);
 
     @Override
     public int getLayout() {
@@ -40,7 +62,7 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
         if(NetworkManager.isNetworkConnected(getContext())){
             rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         }
-        paymentListPresenter.getAllPayments(getContext());
+
     }
 
     @Override
@@ -69,6 +91,42 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
         if(getView() != null) {
             getView().findViewById(R.id.progress_bar).setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        paymentListPresenter.getAllPayments(getContext());
+
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Starting PayPal service
+        Intent intent = new Intent(getActivity(), PayPalService.class);
+        intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, paypalConfig);
+        getActivity().startService(intent);
+    }
+
+    public void displayPaymentSuccess(){
+        Constants.PROGRESS.dismiss();
+        //paymentListAdapter.removeClickedItem();
+        paymentListAdapter.clear();
+        paymentListAdapter.notifyDataSetChanged();
+        paymentListPresenter.getAllPayments(getContext());
+        Toast.makeText(getActivity(), "Se ha registrado su pago correctamente.", Toast.LENGTH_SHORT).show();
+    }
+
+    public void displayPaymentError(){
+        Toast.makeText(getActivity(), "Error al validar el pago.", Toast.LENGTH_SHORT).show();
+        Constants.PROGRESS.dismiss();
+    }
+
+    public void displayPaymentFailure(){
+        Toast.makeText(getActivity(), "No se puede conectar con el servidor.", Toast.LENGTH_SHORT).show();
+        Constants.PROGRESS.dismiss();
     }
 
 }
