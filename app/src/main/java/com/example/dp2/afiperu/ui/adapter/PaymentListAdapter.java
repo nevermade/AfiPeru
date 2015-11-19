@@ -27,6 +27,7 @@ import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -121,7 +122,9 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
     private void launchPaypalPayment(SyncPayment item){
 
         //BigDecimal amount=BigDecimal.valueOf(item.getAmount());
-        PayPalItem payPalItem= new PayPalItem("pago de padrino",1,BigDecimal.valueOf(item.getAmount()/Constants.FROM_USD_TO_PEN),"USD",item.getFeeId().toString());
+        DecimalFormat df = new DecimalFormat("#.0");
+        String formattedAmount= df.format((Double)(item.getAmount()/Constants.FROM_USD_TO_PEN));
+        PayPalItem payPalItem= new PayPalItem("pago de padrino",1,new BigDecimal(formattedAmount),"USD",item.getFeeId().toString());
 
         PayPalItem[] items= new PayPalItem[1];
         items[0]=payPalItem;
@@ -131,7 +134,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         PayPalPayment payment = new PayPalPayment(
                 BigDecimal.valueOf(item.getAmount()),
                 "USD",
-                "Pago correspondiente al "+ (new Date(item.getDueDate())).toString(),
+                "Pago correspondiente al "+ (new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date(item.getDueDate()))),
                 Constants.PAYMENT_INTENT
         );
         payment.items(items).paymentDetails(details);
