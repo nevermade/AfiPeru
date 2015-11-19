@@ -2,6 +2,7 @@ package com.example.dp2.afiperu.rest;
 
 import com.example.dp2.afiperu.domain.Document;
 import com.example.dp2.afiperu.domain.Kid;
+import com.example.dp2.afiperu.domain.News;
 import com.example.dp2.afiperu.domain.Payment;
 import com.example.dp2.afiperu.domain.Session;
 import com.example.dp2.afiperu.domain.User;
@@ -32,6 +33,10 @@ public interface  AfiApiServiceEndPoints {
     @Multipart
     @POST("afiperudrupal/?q=photoupload")
     Call<SuccessBody> uploadPhoto(@Part("image\"; filename=\"1.jpg\"") RequestBody photo);
+
+    /*** News Interactor ***/
+    @GET("afiperudrupal/?q=photoupload")
+    Call<List<News>> getAllNews();
 
     /*** Document Interactor ***/
     @GET("afiperularavel/public/api/v1/documents")

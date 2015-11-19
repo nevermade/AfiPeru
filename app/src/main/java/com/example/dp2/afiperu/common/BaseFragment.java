@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public final View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View rootView = inflater.inflate(getLayout(), container, false);
-        fragmentId = getArguments().getInt(FRAGMENT_ID_ARG);
+        if(getArguments() != null) {
+            fragmentId = getArguments().getInt(FRAGMENT_ID_ARG);
+        }else{
+            fragmentId = DetailActivity.FRAGMENT_NOTICIAS;
+            Log.d("fragmentid forzado", "noticias");
+        }
         injectDependencies();
         prepareView(rootView, getArguments(), savedInstanceState);
 

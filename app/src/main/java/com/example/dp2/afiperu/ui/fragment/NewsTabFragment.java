@@ -17,10 +17,15 @@ import com.example.dp2.afiperu.common.BasePresenter;
  */
 public class NewsTabFragment extends BaseFragment {
 
-    private final Fragment[] tabs = new Fragment[2];
+    private final BaseFragment[] tabs = new BaseFragment[2];
 
     public NewsTabFragment(){
         super();
+    }
+
+    public boolean showingAll(){
+        final ViewPager pager = (ViewPager)getView().findViewById(R.id.pager);
+        return pager.getCurrentItem() == 0;
     }
 
     @Override
@@ -30,14 +35,8 @@ public class NewsTabFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
-        Bundle args0 = new Bundle();
-        args0.putSerializable(NewsFragment.NEWS_ARG, args.getSerializable(NewsFragment.NEWS_ARG));
         tabs[0] = new NewsFragment();
-        tabs[0].setArguments(args0);
-        Bundle args1 = new Bundle();
-        args1.putSerializable(FavoriteNewsFragment.FAVORITE_NEWS_ARG, args.getSerializable(FavoriteNewsFragment.FAVORITE_NEWS_ARG));
         tabs[1] = new FavoriteNewsFragment();
-        tabs[1].setArguments(args1);
 
         TabLayout tabLayout = (TabLayout)rootView.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_all));
@@ -60,7 +59,11 @@ public class NewsTabFragment extends BaseFragment {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                pager.setCurrentItem(tab.getPosition(), true);
+                int pos = tab.getPosition();
+                if (pos == 1) {
+                    ((FavoriteNewsFragment) tabs[1]).updateFavorites();
+                }
+                pager.setCurrentItem(pos, true);
             }
 
             @Override
@@ -83,6 +86,22 @@ public class NewsTabFragment extends BaseFragment {
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
         
+    }
+    @Override
+    public void onSearch(String query){
+        for(int i=0; i<tabs.length; i++){
+            tabs[0].onSearch(query);
+            tabs[1].onSearch(query);
+        }
+    }
+
+
+    @Override
+    public void onCloseSearch(){
+        for(int i=0; i <tabs.length; i++){
+            tabs[0].onCloseSearch();
+            tabs[1].onCloseSearch();
+        }
     }
 
 }

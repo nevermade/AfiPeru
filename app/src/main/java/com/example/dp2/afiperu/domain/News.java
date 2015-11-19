@@ -1,62 +1,69 @@
 package com.example.dp2.afiperu.domain;
 
-import java.io.Serializable;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-public class News implements Serializable, Comparable<News> {
-    private int picId;
-    private String picURL;
+/**
+ * Created by Fernando on 17/11/2015.
+ */
+public class News {
+
+    @SerializedName("id")
+    @Expose
+    private Integer id;
+    @SerializedName("title")
+    @Expose
     private String title;
-    private int authorIconId;
-    private String authorIconURL;
-    private String authorName;
-    private long uploadDate;
-    private boolean isFavorite;
+    @SerializedName("content")
+    @Expose
+    private String content;
+    @SerializedName("post_date")
+    @Expose
+    private Long postDate;
+    @SerializedName("image_url")
+    @Expose
+    private String imageURL;
 
-    public News(int picId, String picURL, String title, int authorIconId, String authorIconURL, String authorName, long uploadDate, boolean isFavorite) {
-        this.picId = picId;
-        this.picURL = picURL;
-        this.title = title;
-        this.authorIconId = authorIconId;
-        this.authorIconURL = authorIconURL;
-        this.authorName = authorName;
-        this.uploadDate = uploadDate;
-        this.isFavorite = isFavorite;
+    public News() {
     }
 
-    public int getPicId(){
-        return picId;
+    public Integer getId() {
+        return id;
     }
 
-    public String getPicURL(){
-        return picURL;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public int getAuthorIconId(){
-        return authorIconId;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getAuthorIconURL() {
-        return authorIconURL;
+    public String getContent() {
+        return content;
     }
 
-    public String getAuthorName(){
-        return authorName;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public long getUploadDate() {
-        return uploadDate;
+    public Long getPostDate() {
+        return postDate;
     }
 
-    public boolean isFavorite(){
-        return isFavorite;
+    public void setPostDate(Long postDate) {
+        this.postDate = postDate;
     }
 
-    @Override
-    public int compareTo(News o2){
-        return Long.valueOf(o2.uploadDate).compareTo(uploadDate);
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }

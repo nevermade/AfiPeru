@@ -35,14 +35,8 @@ public class PeopleTabFragment extends BaseFragment {
 
     @Override
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState) {
-        Bundle args0 = new Bundle();
-        args0.putSerializable(UsersFragment.USER_ARG, args.getSerializable(UsersFragment.USER_ARG));
         tabs[0] = new UsersFragment();
-        tabs[0].setArguments(args0);
-        Bundle args1 = new Bundle();
-        args1.putSerializable(PeopleKidsFragment.PEOPLE_KIDS_ARG, args.getSerializable(PeopleKidsFragment.PEOPLE_KIDS_ARG));
         tabs[1] = new PeopleKidsFragment();
-        tabs[1].setArguments(args1);
 
         TabLayout tabLayout = (TabLayout)rootView.findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_users));
