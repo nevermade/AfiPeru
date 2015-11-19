@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -95,6 +97,9 @@ import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkReceiver;
+import com.example.dp2.afiperu.util.RegistrationIntentService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
@@ -149,6 +154,10 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     int selectedLayout;
     int toolbarMenu;
     private NetworkReceiver receiver = new NetworkReceiver();
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    public static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    public static final String REGISTRATION_COMPLETE = "registrationComplete";
     int previousBackStackCount;
     Drawer applyOptionItem;
     @Inject
@@ -361,10 +370,46 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
     };
 
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, 4000)
+                        .show();
+            } else {
+                Log.i("GCM", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        //Inicializo el servicio de Push Notifications
 
+
+        super.onCreate(savedInstanceState);
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(SENT_TOKEN_TO_SERVER, false);
+                if (sentToken) {
+                    Log.d("gcm","success");
+                }
+            }
+        };
+
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with GCM.
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
         receiver = new NetworkReceiver();
 
         /****dialog de loading****/
@@ -386,10 +431,13 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         super.onResume();
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         this.registerReceiver(receiver, filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(REGISTRATION_COMPLETE));
     }
 
     @Override
     public void onPause(){
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
         super.onPause();
         unregisterReceiver(receiver);
     }

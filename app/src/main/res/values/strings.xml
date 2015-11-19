@@ -239,4 +239,8 @@
     <string name="save_needed_attendance">No ha guardado los cambios en la asistencia. ¿Qué desea hacer?</string>
     <string name="cant_comment_if_didnt_attend">No se puede calificar a un voluntario que no ha asistido.</string>
 
+    <!-- Push notifications-->
+    <string name="gcm_defaultSenderId">621074273856</string>
+
+
 </resources>
