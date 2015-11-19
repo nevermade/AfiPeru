@@ -24,7 +24,7 @@ public class Constants {
 
     public static final String PAYPAL_ENVIRONMENT = PayPalConfiguration.ENVIRONMENT_SANDBOX;
     public static final String PAYMENT_INTENT = PayPalPayment.PAYMENT_INTENT_SALE;
-    //public static final String DEFAULT_CURRENCY = "USD";
+    public static Double FROM_USD_TO_PEN = 3.3;
     public static final int REQUEST_CODE_PAYMENT = 3;
     public static int PAYMENT_FEE_ID;
 

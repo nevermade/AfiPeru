@@ -121,7 +121,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
     private void launchPaypalPayment(SyncPayment item){
 
         //BigDecimal amount=BigDecimal.valueOf(item.getAmount());
-        PayPalItem payPalItem= new PayPalItem("pago de padrino",1,BigDecimal.valueOf(item.getAmount()),"USD",item.getFeeId().toString());
+        PayPalItem payPalItem= new PayPalItem("pago de padrino",1,BigDecimal.valueOf(item.getAmount()/Constants.FROM_USD_TO_PEN),"USD",item.getFeeId().toString());
 
         PayPalItem[] items= new PayPalItem[1];
         items[0]=payPalItem;

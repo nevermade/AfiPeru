@@ -82,7 +82,7 @@ public interface  AfiApiServiceEndPoints {
 
 
     @FormUrlEncoded
-    @POST("verify_payment")
+    @POST("afiperularavel/public/api/v1/verify_payment")
     Call<Void> verifyPayment(@Field("fee_id")int feeId,@Field("payment_id")String paymentId,@Field("payment_client") String paymentClient);
 
 
