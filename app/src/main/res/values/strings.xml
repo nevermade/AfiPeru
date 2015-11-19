@@ -195,6 +195,10 @@
     <string name="config_notifications_payments">Pagos pendientes</string>
     <string name="config_sign_out">Cerrar sesión</string>
 
+    <!--Cambiar contraseña-->
+    <string name="password_must_have_8">La nueva contraseña debe tener al menos 8 caracteres</string>
+    <string name="password_not_same">Las contraseñas no coinciden</string>
+
     <!-- payment -->
     <string name="payment_header_expiration_date">Vence</string>
     <string name="payment_header_mount">Monto</string>
@@ -237,5 +241,9 @@
     <!-- Asistencia -->
     <string name="save_needed_attendance">No ha guardado los cambios en la asistencia. ¿Qué desea hacer?</string>
     <string name="cant_comment_if_didnt_attend">No se puede calificar a un voluntario que no ha asistido.</string>
+
+    <!-- Push notifications-->
+    <string name="gcm_defaultSenderId">621074273856</string>
+
 
 </resources>
