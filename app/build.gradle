@@ -48,4 +48,8 @@ dependencies {
     // paypal sdk
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
+    //google play services
+    compile 'com.google.android.gms:play-services:+'
+
+
 }
