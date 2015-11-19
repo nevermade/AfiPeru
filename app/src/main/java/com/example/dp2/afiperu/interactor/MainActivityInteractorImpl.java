@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.SuccessBody;
 import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
@@ -72,6 +73,24 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
             });
         }else{
             presenter.onUserCantValidate();
+        }
+    }
+
+    @Override
+    public void clearGCMToken(Context context){
+        if(NetworkManager.isNetworkConnected(context)){
+            Call<SuccessBody> call = service.clearGCM();
+            call.enqueue(new Callback<SuccessBody>() {
+                @Override
+                public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
+
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
         }
     }
 }

@@ -793,6 +793,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         SyncSchoolAddress.deleteAll(SyncSchoolAddress.class);
         SyncSession.deleteAll(SyncSession.class);
         SyncUser.deleteAll(SyncUser.class);
+
+        presenter.clearGCMToken(this);
     }
 
     private void tryPostulate(){

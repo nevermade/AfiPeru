@@ -96,6 +96,12 @@ public interface  AfiApiServiceEndPoints {
     @FormUrlEncoded
     @POST("afiperularavel/public/api/v1/recover_password")
     Call<Void> recoverPass(@Field("email")String email);
+    @FormUrlEncoded
+    @POST("set_gcm_token")
+    Call<SuccessBody> setGCM(@Field("gcm_token")String token);
+    @FormUrlEncoded
+    @POST("clear_gcm_token")
+    Call<SuccessBody> clearGCM();
 
     /*** ChangePassword Interactor ***/
     @FormUrlEncoded
