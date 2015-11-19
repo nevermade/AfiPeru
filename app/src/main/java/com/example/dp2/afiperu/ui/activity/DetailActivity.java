@@ -497,7 +497,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         return false;
     }
 
-    public boolean isGodfather(List<Profile> profiles){
+    public static boolean isGodfather(List<Profile> profiles){
         if(profiles!=null){
             for(Profile p:profiles){
                 if(p.getId()==4)
@@ -508,7 +508,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         return false;
     }
 
-    public boolean isOnlyGodfather(List<Profile> profiles){
+    public static boolean isOnlyGodfather(List<Profile> profiles){
         return profiles != null && profiles.size() == 1 && profiles.get(0).getId() == 4;
     }
 

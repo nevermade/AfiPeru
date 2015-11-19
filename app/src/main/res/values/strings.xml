@@ -195,6 +195,10 @@
     <string name="config_notifications_payments">Pagos pendientes</string>
     <string name="config_sign_out">Cerrar sesión</string>
 
+    <!--Cambiar contraseña-->
+    <string name="password_must_have_8">La nueva contraseña debe tener al menos 8 caracteres</string>
+    <string name="password_not_same">Las contraseñas no coinciden</string>
+
     <!-- payment -->
     <string name="payment_header_expiration_date">Vence</string>
     <string name="payment_header_mount">Monto</string>

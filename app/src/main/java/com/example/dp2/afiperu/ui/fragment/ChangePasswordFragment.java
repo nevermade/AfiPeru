@@ -53,9 +53,13 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
                 String nPwd=newPassword.getText().toString();
                 String nPWdR=newPasswordRepeat.getText().toString();
                 if(nPwd.equals(nPWdR))
-                    presenter.changePassword(getContext(), cPwd, nPwd);
+                    if(nPwd.length() >= 8) {
+                        presenter.changePassword(getContext(), cPwd, nPwd);
+                    }else{
+                        Toast.makeText(getContext(), getString(R.string.password_must_have_8), Toast.LENGTH_SHORT).show();
+                    }
                 else
-                    Toast.makeText(getContext(), "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getString(R.string.password_not_same), Toast.LENGTH_SHORT).show();
             }
         });
 
