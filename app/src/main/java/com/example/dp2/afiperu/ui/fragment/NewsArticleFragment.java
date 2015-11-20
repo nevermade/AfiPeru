@@ -94,7 +94,7 @@ public class NewsArticleFragment extends BaseFragment {
         intent.putExtra(Intent.EXTRA_TITLE, title);
         intent.putExtra(Intent.EXTRA_TEXT, Constants.DRUPAL_ARTICLES_URL + url);
         intent.setType("text/plain");
-        startActivity(Intent.createChooser(intent, getString(R.string.kids_none)));
+        startActivity(Intent.createChooser(intent, getString(R.string.share_option)));
     }
 
 }

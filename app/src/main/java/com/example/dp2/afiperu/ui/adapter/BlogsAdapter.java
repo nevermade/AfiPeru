@@ -72,7 +72,7 @@ public class BlogsAdapter extends BaseArrayAdapter<Blog> {
                     BlogArticleFragment blogArticleFragment = new BlogArticleFragment();
                     Bundle args = new Bundle();
                     BlogArticle arg = new BlogArticle(item.getTitle(), item.getUploadDate(),
-                            convertView.getResources().getString(R.string.article_example),
+                            "",
                             2001,
                             "https://scontent-mia1-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10392539_10153410963797486_885580920541938912_n.png?oh=f05a7187f83b64568b81f9a023552651&oe=56A5DF4D",
                             item.getAuthor(),

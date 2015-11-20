@@ -16,6 +16,7 @@ public class Constants {
     public static final String BASE_URL="http://162.243.118.33/";
 
     public static String TOKEN="";
+    public static String GCM_TOKEN="";
     public static ProgressDialog PROGRESS;
     public static User loggedUser;
 

@@ -88,7 +88,7 @@ public class KidInteractorImpl implements KidInteractor {
     public void queryAdvancedKid(Context context, KidPresenter presenter, String name, String edadini, String edadfin, String genero) {
         List<SyncKid> lista = SyncKid.find(SyncKid.class, "attendance_child = 0");
         Integer edadfrom=0;
-        Integer edadto=200;
+        Integer edadto=5000;
         Integer gender = 2;
         try {
             edadfrom = Integer.parseInt(edadini);
@@ -107,7 +107,7 @@ public class KidInteractorImpl implements KidInteractor {
         }
         try {
 
-            if (genero.contentEquals("Cualquier"))
+            if (genero.contentEquals("Cualquiera"))
                 gender = 2;
             else if (genero.contentEquals("Masculino"))
                 gender = 0;
@@ -127,7 +127,7 @@ public class KidInteractorImpl implements KidInteractor {
 
             boolean bEdadfin;
             if (edadfin.contentEquals(""))
-                edadto=200;
+                edadto=5000;
             bEdadfin= edadto >= item.getAge();
 
 

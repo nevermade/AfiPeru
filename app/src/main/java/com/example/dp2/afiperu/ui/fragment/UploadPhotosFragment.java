@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.ui.fragment;
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -48,7 +49,18 @@ public class UploadPhotosFragment extends BaseFragment implements UploadPhotoVie
             @Override
             public void onClick(View v) {
                 if(capturedBitmap != null && path != null){
-                    presenter.uploadPhoto(getContext(), path);
+                    AlertDialog.OnClickListener listener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            presenter.uploadPhoto(getContext(), path);
+                        }
+                    };
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setMessage(R.string.upload_photo_prompt)
+                            .setPositiveButton(android.R.string.yes, listener)
+                            .setNegativeButton(android.R.string.no, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
                 }else{
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                     builder.setMessage(R.string.no_photo_message)

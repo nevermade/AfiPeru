@@ -17,10 +17,10 @@ public class GcmMessageHandler extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
 
-
+        String title = data.getString("title");
         String message = data.getString("message");
-
-        createNotification(from, message);
+        String type = data.getString("type");
+        createNotification(title + type, message);
         System.out.println("GGGGGFROM: " + from);
         System.out.println("GGGGGMESSAGE: " + message);
         //createNotification("holi1", "holi2");
