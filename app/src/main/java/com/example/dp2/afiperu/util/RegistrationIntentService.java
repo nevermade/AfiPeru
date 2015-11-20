@@ -39,6 +39,7 @@ public class RegistrationIntentService extends IntentService {
         try {
             // request token that will be used by the server to send push notifications
             token = instanceID.getToken(senderId, GoogleCloudMessaging.INSTANCE_ID_SCOPE);
+            Constants.GCM_TOKEN =token;
             Log.d(TAG, "GCM Registration Token: " + token);
 
             // pass along this data

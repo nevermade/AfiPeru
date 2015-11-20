@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.interactor;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.LoginPresenter;
@@ -34,8 +35,10 @@ public class LoginInteractorImpl implements LoginInteractor {
                 public void onResponse(Response<User> response, Retrofit retrofit) {
                     final User loginResponse = response.body();
                     if (loginResponse != null && loginResponse.getName() != null) {
+
                         Constants.TOKEN = loginResponse.getAuthToken();
-                        Call<SuccessBody> call = service.setGCM(Constants.TOKEN);
+                        //Log.d("GCMTOKEN", Constants.GCM_TOKEN);
+                        Call<SuccessBody> call = service.setGCM(Constants.GCM_TOKEN);
                         call.enqueue(new Callback<SuccessBody>() {
                             @Override
                             public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
