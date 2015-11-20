@@ -78,7 +78,8 @@ public interface  AfiApiServiceEndPoints {
     /*** Payment Deposit Interactor ***/
     @FormUrlEncoded
     @POST("afiperularavel/public/api/v1/payment")
-    Call<Void> registerBankPayment(@Field("fee_id") String feeId, @Field("voucher_code") String voucherCode, @Field("date") Double date);
+    Call<Void> registerBankPayment(@Field("fee_id") String feeId, @Field("voucher_code") String voucherCode,
+                                   @Field("date") Double date, @Field("bank") String bank);
 
 
     @FormUrlEncoded

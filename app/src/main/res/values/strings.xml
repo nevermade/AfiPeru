@@ -222,6 +222,15 @@
 
     <string name="voucher">Nro. Voucher</string>
     <string name="payment_date">Fecha del pago:</string>
+    <string name="payment_bank">Banco:</string>
+    <string name="payment_bank_1">BANCO DE CREDITO DEL PERU</string>
+    <string-array name="payment_banks">
+        <item>@string/payment_bank_1</item>
+        <item>BBVA BANCO CONTINENTAL</item>
+        <item>INTERBANK</item>
+        <item>SCOTIABANK</item>
+    </string-array>
+    <string name="select_bank">Eija un banco</string>
 
     <string name="payment_success">Se realizó el pago con éxito</string>
     <string name="payment_failure">No se pudo realizar el pago</string>

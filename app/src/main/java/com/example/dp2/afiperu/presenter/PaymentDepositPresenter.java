@@ -31,8 +31,8 @@ public class PaymentDepositPresenter extends BasePresenter {
 
     }
 
-    public void registerBankPayment(Context context, int feeId, String voucherCode, long date){
-        interactor.registerBankPayment(context, this, feeId, voucherCode, date);
+    public void registerBankPayment(Context context, int feeId, String voucherCode, long date, String bank){
+        interactor.registerBankPayment(context, this, feeId, voucherCode, date, bank);
     }
 
     public void onPaymentSuccess(){

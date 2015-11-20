@@ -5,11 +5,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_background">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/margin_top">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/text_appearance_medium_dark"
+            android:text="@string/payment_bank"/>
+        <TextView
+            android:id="@+id/payment_deposit_bank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_large"
+            android:textAppearance="@style/text_appearance_medium_dark_soft"
+            android:text="@string/payment_bank_1" />
+    </LinearLayout>
     <EditText
         android:id="@+id/payment_deposit_voucher"
-        android:layout_marginTop="@dimen/margin_top"
         android:layout_width="@dimen/edit_text_large"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_medium"
         style="@style/edit_text"
         android:hint="@string/voucher"
         android:layout_gravity="center_horizontal"

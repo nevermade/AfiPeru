@@ -24,9 +24,9 @@ public class PaymentDepositInteractorImpl implements PaymentDepositInteractor {
 
     @Override
     public void registerBankPayment(final Context context, final PaymentDepositPresenter presenter,
-                                    int feeId, String voucherCode, long date){
+                                    int feeId, String voucherCode, long date, String bank){
         if(NetworkManager.isNetworkConnected(context)) {
-            Call<Void> call = service.registerBankPayment(String.valueOf(feeId), voucherCode, (double)(date/1000));
+            Call<Void> call = service.registerBankPayment(String.valueOf(feeId), voucherCode, (double)(date/1000), bank);
             call.enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Response<Void> response, Retrofit retrofit) {

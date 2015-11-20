@@ -1,5 +1,6 @@
 package com.example.dp2.afiperu.ui.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -42,6 +43,25 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
     public void prepareView(View rootView, Bundle args, Bundle savedInstanceState){
         feeId = args.getInt(FEE_ID_ARG);
 
+        final TextView bank = (TextView)rootView.findViewById(R.id.payment_deposit_bank);
+        final String[] options = getResources().getStringArray(R.array.payment_banks);
+        bank.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle(R.string.select_bank)
+                        .setItems(options, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                bank.setText(options[which]);
+                            }
+                        });
+                AlertDialog result = builder.create();
+
+                result.getWindow().setBackgroundDrawableResource(R.color.main_background);
+                result.show();
+            }
+        });
+
         final EditText voucher = (EditText)rootView.findViewById(R.id.payment_deposit_voucher);
         final TextView vouchDate = (TextView)rootView.findViewById(R.id.payment_deposit_date);
         vouchDate.setOnClickListener(new View.OnClickListener(){
@@ -71,13 +91,14 @@ public class PaymentDepositFragment extends BaseFragment implements PaymentDepos
                     dialog.show();
                 }else {
                     long date = DatePickerDialog.getDate(getContext(), vouchDate.getText().toString());
+                    String bankName = bank.getText().toString();
                     if (System.currentTimeMillis() <= date) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                         builder.setMessage(R.string.payment_date_wrong).setNeutralButton(android.R.string.ok, null);
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     } else {
-                        presenter.registerBankPayment(getContext(), feeId, voucherCode, date);
+                        presenter.registerBankPayment(getContext(), feeId, voucherCode, date, bankName);
                     }
                 }
             }
