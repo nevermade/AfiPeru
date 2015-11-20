@@ -11,6 +11,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseArrayAdapter;
@@ -122,7 +123,7 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
     private void launchPaypalPayment(SyncPayment item){
 
         //BigDecimal amount=BigDecimal.valueOf(item.getAmount());
-        DecimalFormat df = new DecimalFormat("#.0");
+        DecimalFormat df = new DecimalFormat("#.00");
         String formattedAmount= df.format((Double)(item.getAmount()/Constants.FROM_USD_TO_PEN));
         PayPalItem payPalItem= new PayPalItem("pago de padrino",1,new BigDecimal(formattedAmount),"USD",item.getFeeId().toString());
 
@@ -132,9 +133,9 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         PayPalPaymentDetails details = new PayPalPaymentDetails(new BigDecimal("0.0"),PayPalItem.getItemTotal(items),new BigDecimal("0.0"));
 
         PayPalPayment payment = new PayPalPayment(
-                BigDecimal.valueOf(item.getAmount()),
+                new BigDecimal(formattedAmount),
                 "USD",
-                "Pago correspondiente al "+ (new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date(item.getDueDate()))),
+                "Pago del "+ (new SimpleDateFormat("dd/MM/yyyy", Locale.US).format(new Date(item.getDueDate()))),
                 Constants.PAYMENT_INTENT
         );
         payment.items(items).paymentDetails(details);
@@ -142,7 +143,10 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         Intent intent= new Intent(getFragment().getActivity(), PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaymentListFragment.paypalConfig);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-        getFragment().getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_PAYMENT);
+        if(Constants.FROM_USD_TO_PEN!=0)
+            getFragment().getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_PAYMENT);
+        else
+            Toast.makeText(getFragment().getActivity(), "No se pudo obtener la tasa de conversión", Toast.LENGTH_SHORT).show();
     }
 
     public void removeClickedItem(){

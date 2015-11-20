@@ -103,6 +103,7 @@ import com.example.dp2.afiperu.util.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
+import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
 
@@ -526,7 +527,15 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
         toolbar = (Toolbar)findViewById(R.id.toolbar_actionbar);
 
+
+
         selectItem(FRAGMENT_LOGIN);
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(new Intent(this, PayPalService.class));
+        super.onDestroy();
     }
 
     @Override
@@ -536,6 +545,12 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         this.registerReceiver(receiver, filter);
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
                 new IntentFilter(REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        presenter.getCurrecyRate(this);
     }
 
     @Override

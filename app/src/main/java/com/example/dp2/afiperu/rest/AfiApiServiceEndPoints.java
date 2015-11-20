@@ -86,7 +86,8 @@ public interface  AfiApiServiceEndPoints {
     @POST("afiperularavel/public/api/v1/verify_payment")
     Call<Void> verifyPayment(@Field("fee_id")int feeId,@Field("payment_id")String paymentId,@Field("payment_client") String paymentClient);
 
-
+    @GET("http://download.finance.yahoo.com/d/quotes.csv?s=USDPEN=X&f=l1")
+    Call<Double> checkCurrencyRate();
     /*** Points of Reunion Interactor ***/
 
     @POST("afiperularavel/public/api/v1/meeting_points")
