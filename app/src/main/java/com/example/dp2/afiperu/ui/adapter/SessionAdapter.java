@@ -4,6 +4,7 @@ package com.example.dp2.afiperu.ui.adapter;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -75,42 +76,63 @@ public class SessionAdapter extends BaseArrayAdapter<SyncSession> {
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch(menuItem.getItemId()){
                                 case R.id.sessions_menu_show_comments:
-                                    ArrayList<SyncAttendanceChild> children = new ArrayList<>();
-                                    children.addAll(item.queryAttendanceChildren());
-                                    Collections.sort(children);
-                                    Bundle args = new Bundle();
-                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
-                                    args.putSerializable(ViewCommentsFragment.KIDS_ARG, children);
-                                    ViewCommentsFragment kidsFragment2 = new ViewCommentsFragment();
-                                    kidsFragment2.setArguments(args);
-                                    getFragment().addFragmentToStack(kidsFragment2, DetailActivity.FRAGMENT_COMENTARIOS);
+                                    if(System.currentTimeMillis() <= item.getDate()){
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setMessage(R.string.sessions_date_error).setNeutralButton(android.R.string.ok, null);
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    } else {
+                                        ArrayList<SyncAttendanceChild> children = new ArrayList<>();
+                                        children.addAll(item.queryAttendanceChildren());
+                                        Collections.sort(children);
+                                        Bundle args = new Bundle();
+                                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
+                                        args.putSerializable(ViewCommentsFragment.KIDS_ARG, children);
+                                        ViewCommentsFragment kidsFragment2 = new ViewCommentsFragment();
+                                        kidsFragment2.setArguments(args);
+                                        getFragment().addFragmentToStack(kidsFragment2, DetailActivity.FRAGMENT_COMENTARIOS);
+                                    }
                                     break;
                                 case R.id.sessions_menu_comment:
-                                    children = new ArrayList<>();
-                                    children.addAll(item.queryAttendanceChildren());
-                                    Collections.sort(children);
-                                    args = new Bundle();
-                                    args.putSerializable(CommentKidFragment.KIDS_ARG, children);
-                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
-                                    CommentKidFragment kidsFragment = new CommentKidFragment();
-                                    kidsFragment.setArguments(args);
-                                    getFragment().addFragmentToStack(kidsFragment, DetailActivity.FRAGMENT_COMENTARIOS);
+                                    if(System.currentTimeMillis() <= item.getDate()){
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setMessage(R.string.sessions_date_error).setNeutralButton(android.R.string.ok, null);
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    } else {
+                                        ArrayList<SyncAttendanceChild> children = new ArrayList<>();
+                                        children.addAll(item.queryAttendanceChildren());
+                                        Collections.sort(children);
+                                        Bundle args = new Bundle();
+                                        args.putSerializable(CommentKidFragment.KIDS_ARG, children);
+                                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_COMENTARIOS);
+                                        CommentKidFragment kidsFragment = new CommentKidFragment();
+                                        kidsFragment.setArguments(args);
+                                        getFragment().addFragmentToStack(kidsFragment, DetailActivity.FRAGMENT_COMENTARIOS);
+                                    }
                                     break;
                                 case R.id.sessions_menu_attendance:
-                                    ArrayList<SyncAttendanceVolunteer> volunteers = new ArrayList<>();
-                                    volunteers.addAll(item.queryAttendanceVolunteer());
-                                    Collections.sort(volunteers);
-                                    args = new Bundle();
-                                    args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, volunteers);
-                                    args.putInt(AttendanceFragment.SESSION_ID_ARG, item.getSessionId());
-                                    args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_ASISTENCIA);
-                                    AttendanceFragment attendanceFragment = new AttendanceFragment();
-                                    attendanceFragment.setArguments(args);
-                                    getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);
+                                    if(System.currentTimeMillis() <= item.getDate()){
+                                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                                        builder.setMessage(R.string.sessions_date_error).setNeutralButton(android.R.string.ok, null);
+                                        AlertDialog dialog = builder.create();
+                                        dialog.show();
+                                    } else {
+                                        ArrayList<SyncAttendanceVolunteer> volunteers = new ArrayList<>();
+                                        volunteers.addAll(item.queryAttendanceVolunteer());
+                                        Collections.sort(volunteers);
+                                        Bundle args = new Bundle();
+                                        args.putSerializable(AttendanceFragment.ATTENDANCE_ARG, volunteers);
+                                        args.putInt(AttendanceFragment.SESSION_ID_ARG, item.getSessionId());
+                                        args.putInt(BaseFragment.FRAGMENT_ID_ARG, DetailActivity.FRAGMENT_ASISTENCIA);
+                                        AttendanceFragment attendanceFragment = new AttendanceFragment();
+                                        attendanceFragment.setArguments(args);
+                                        getFragment().addFragmentToStack(attendanceFragment, DetailActivity.FRAGMENT_ASISTENCIA);
+                                    }
                                     break;
                                 case R.id.sessions_menu_map:
                                     MapFragment mapFragment;
-                                    args = new Bundle();
+                                    Bundle args = new Bundle();
                                     SyncLocation location = item.getLocation();
                                     List<SyncPointOfReunion> pointsOfReunion = item.queryPointsOfReunion();
                                     ArrayList<MarkerInfo> markers = new ArrayList<>();

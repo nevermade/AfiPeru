@@ -34,9 +34,9 @@ public class NewsPresenter extends BasePresenter{
     }
 
     public void getAllNews(Context context){
-        //interactor.getAllNews(context, this);
+        interactor.getAllNews(context, this);
 
-        ArrayList<SyncNews> news = new ArrayList<>();
+        /*ArrayList<SyncNews> news = new ArrayList<>();
         news.add(new SyncNews("https://fbcdn-sphotos-a-a.akamaihd.net/hphotos-ak-xat1/v/t1.0-9/13779_10153228555392486_8679903887061635913_n.jpg?oh=00b977b776d2b46e53c88f229bc38250&oe=5668F7B7&__gda__=1453937731_0addbe5c62688f1ca9aa12cef23593eb",
                 15, "Paseo pinoteco al parque de las leyendas", "abcdef\n\nabcdef", 1447563600000L));
         news.add(new SyncNews("https://scontent-mia1-1.xx.fbcdn.net/hphotos-xpf1/v/t1.0-9/11024597_10153107115432486_3774679476823351402_n.jpg?oh=2e13703d43f85c64bde46ce3b0ff4738&oe=5697777F",
@@ -57,7 +57,7 @@ public class NewsPresenter extends BasePresenter{
             newsArticle.save();
         }
 
-        view.displayNews(news);
+        view.displayNews(news);*/
     }
 
     public void onNewsFound(List<SyncNews> news){

@@ -35,7 +35,7 @@ public interface  AfiApiServiceEndPoints {
     Call<SuccessBody> uploadPhoto(@Part("image\"; filename=\"1.jpg\"") RequestBody photo);
 
     /*** News Interactor ***/
-    @GET("afiperudrupal/?q=photoupload")
+    @GET("afiperudrupal/api/v1/articles")
     Call<List<News>> getAllNews();
 
     /*** Document Interactor ***/

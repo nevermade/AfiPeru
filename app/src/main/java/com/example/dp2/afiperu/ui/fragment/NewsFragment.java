@@ -45,7 +45,7 @@ public class NewsFragment extends BaseFragment implements NewsView {
         newsList.setAdapter(adapter);
         newsList.setEmptyView(rootView.findViewById(R.id.empty_news_list));
         if(NetworkManager.isNetworkConnected(getContext())){
-            //rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
+            rootView.findViewById(R.id.progress_bar).setVisibility(View.VISIBLE);
         }
         presenter.getAllNews(getContext());
     }

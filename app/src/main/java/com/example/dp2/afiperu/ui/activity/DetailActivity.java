@@ -115,9 +115,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -171,6 +173,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     private static final String TAG = "paymentExample";
     @Inject
     MainActivityPresenter presenter;
+
+    private String lastCameraPath;
 
     public MainActivityPresenter getPresenter(){
         return presenter;
@@ -280,6 +284,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                     case R.id.upload_photos_menu_camera:
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                            File tempFile = createImageFile();
+                            lastCameraPath = tempFile.getAbsolutePath();
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                         }
                         break;
@@ -312,49 +319,57 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
             Bitmap imageBitmap;
             switch(requestCode){
                 case REQUEST_IMAGE_CAPTURE:
-                    Bundle extras = data.getExtras();
-                    imageBitmap = (Bitmap) extras.get("data");
-                    Uri uri = getImageUri(getApplicationContext(), imageBitmap);
-                    filePath = getRealPathFromURI(uri);
+                    if(data != null){
+                        Uri uri = data.getData();
+                        String [] projection = {MediaStore.Images.Media.DATA};
+                        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+                        cursor.moveToFirst();
+                        int columIndex = cursor.getColumnIndex(projection[0]);
+                        filePath = cursor.getString(columIndex);
+                        cursor.close();
+                    }else{
+                        filePath = lastCameraPath;
+                    }
                     break;
                 default:
-                    uri = data.getData();
+                    Uri uri = data.getData();
                     String [] projection = {MediaStore.Images.Media.DATA};
                     Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
                     cursor.moveToFirst();
                     int columIndex = cursor.getColumnIndex(projection[0]);
                     filePath = cursor.getString(columIndex);
                     cursor.close();
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inJustDecodeBounds = true;
-                    BitmapFactory.decodeFile(filePath, options);
-                    int height = options.outHeight;
-                    int width = options.outWidth;
-
-                    float density = getResources().getDisplayMetrics().density;
-                    int requiredHeight = getResources().getDisplayMetrics().heightPixels;
-                    requiredHeight -= density*30; //30 dp margen abajo de botón de enviar
-                    requiredHeight -= density*50; //50dp de la imagen del botón
-                    requiredHeight -= density*getResources().getDimension(R.dimen.margin_large)*2; //Margen arriba y abajo de la foto
-                    int requiredWidth = getResources().getDisplayMetrics().widthPixels;
-                    requiredWidth -= density*getResources().getDimension(R.dimen.margin_large)*2; //Margen izquierda y derecha
-
-                    int inSampleSize = 1;
-                    if(height > requiredHeight || width > requiredWidth){
-                        int halfHeight = height / 2;
-                        int halfWidth = width / 2;
-                        while((halfHeight / inSampleSize) > requiredHeight
-                                && (halfWidth / inSampleSize) > requiredWidth){
-                            inSampleSize *= 2;
-                        }
-                    }
-
-                    options.inSampleSize = inSampleSize;
-                    options.inJustDecodeBounds = false;
-                    imageBitmap = BitmapFactory.decodeFile(filePath, options);
                     break;
             }
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeFile(filePath, options);
+            int height = options.outHeight;
+            int width = options.outWidth;
+
+            float density = getResources().getDisplayMetrics().density;
+            int requiredHeight = getResources().getDisplayMetrics().heightPixels;
+            requiredHeight -= density*30; //30 dp margen abajo de botón de enviar
+            requiredHeight -= density*50; //50dp de la imagen del botón
+            requiredHeight -= density*getResources().getDimension(R.dimen.margin_large)*2; //Margen arriba y abajo de la foto
+            int requiredWidth = getResources().getDisplayMetrics().widthPixels;
+            requiredWidth -= density*getResources().getDimension(R.dimen.margin_large)*2; //Margen izquierda y derecha
+
+            int inSampleSize = 1;
+            if(height > requiredHeight || width > requiredWidth){
+                int halfHeight = height / 2;
+                int halfWidth = width / 2;
+                while((halfHeight / inSampleSize) > requiredHeight
+                        && (halfWidth / inSampleSize) > requiredWidth){
+                    inSampleSize *= 2;
+                }
+            }
+
+            options.inSampleSize = inSampleSize;
+            options.inJustDecodeBounds = false;
+            imageBitmap = BitmapFactory.decodeFile(filePath, options);
+
+
             BaseFragment fragment = getTopFragment();
             if(fragment instanceof UploadPhotosFragment){
                 ((UploadPhotosFragment)fragment).updateBitmap(imageBitmap, filePath);
@@ -402,11 +417,18 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         }
     }
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+    /*public Uri getImageUri(Context inContext, Bitmap inImage) {
+        //ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        //inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
+    }*/
+
+    private File createImageFile(){
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File file = new File(Environment.getExternalStorageDirectory() + getExternalImagesDir() + "/Photos/Pic_" + timeStamp + ".jpg");
+        file.getParentFile().mkdirs();
+        return file;
     }
 
     public String getRealPathFromURI(Uri uri) {
@@ -650,7 +672,10 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         if(mDrawerLayout != null) {
             int backStackEntryCount = getSupportFragmentManager().getBackStackEntryCount();
             boolean noStack = backStackEntryCount == 0;
-            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            BaseFragment topFragment = getTopFragment();
+            if(topFragment == null || (topFragment instanceof LoginFragment)){
+                goBack();
+            }else if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 if (noStack) {
                     finish();
                 } else {
