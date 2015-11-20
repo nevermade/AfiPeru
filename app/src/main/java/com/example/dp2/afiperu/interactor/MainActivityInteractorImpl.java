@@ -93,4 +93,24 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
             });
         }
     }
+
+    @Override
+    public void getCurrencyRate(Context context) {
+        if(NetworkManager.isNetworkConnected(context)){
+            Call<Double> call = service.checkCurrencyRate();
+            call.enqueue(new Callback<Double>() {
+                @Override
+                public void onResponse(Response<Double> response, Retrofit retrofit) {
+                    if(response.errorBody()==null){
+                        Constants.FROM_USD_TO_PEN=response.body();
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
+        }
+    }
 }

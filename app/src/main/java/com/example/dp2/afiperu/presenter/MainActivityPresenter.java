@@ -94,6 +94,10 @@ public class MainActivityPresenter extends BasePresenter {
         interactor.clearGCMToken(context);
     }
 
+    public void getCurrecyRate(Context context){
+        interactor.getCurrencyRate(context);
+    }
+
     @Override
     public void onStart() {
 
