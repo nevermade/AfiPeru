@@ -45,8 +45,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                                 if(response.body() != null && response.body().getSuccess() == 1) {
                                     presenter.onLoginSuccess(loginResponse, username, password);
                                 }else{
-                                    presenter.onLoginSuccess(loginResponse, username, password); //Este se borra
-                                    //presenter.onLoginFailure(); <-Este va
+                                    presenter.onLoginFailure();
                                 }
                                 Constants.PROGRESS.dismiss();
                             }

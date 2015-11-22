@@ -10,6 +10,7 @@ import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 public interface MainActivityInteractor {
     void applyForPeriod(int idPeriod, MainActivityPresenter presenter);
     void validateUser(Context context, String username,String password,MainActivityPresenter presenter);
+    void setGCMToken(Context context, String GCMToken);
     void clearGCMToken(Context context);
     void getCurrencyRate(Context context);
 }

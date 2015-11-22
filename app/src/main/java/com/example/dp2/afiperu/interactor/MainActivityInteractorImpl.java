@@ -55,10 +55,27 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
             call.enqueue(new Callback<User>() {
                 @Override
                 public void onResponse(Response<User> response, Retrofit retrofit) {
-                    User loginResponse = response.body();
+                    final User loginResponse = response.body();
                     if (loginResponse != null && loginResponse.getName() != null) {
                         Constants.TOKEN = loginResponse.getAuthToken();
-                        presenter.onUserValidateSuccess(loginResponse, username, password);
+                        Call<SuccessBody> call = service.setGCM(Constants.GCM_TOKEN);
+                        call.enqueue(new Callback<SuccessBody>() {
+                            @Override
+                            public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
+                                if (response.body() != null && response.body().getSuccess() == 1) {
+                                    presenter.onUserValidateSuccess(loginResponse, username, password);
+                                } else {
+                                    presenter.onUserValidateFailure(context);
+                                }
+                                Constants.PROGRESS.dismiss();
+                            }
+
+                            @Override
+                            public void onFailure(Throwable t) {
+                                presenter.onUserValidateFailure(context);
+                                Constants.PROGRESS.dismiss();
+                            }
+                        });
                     } else {
                         presenter.onUserValidateFailure(context);
                     }
@@ -73,6 +90,24 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
             });
         }else{
             presenter.onUserCantValidate();
+        }
+    }
+
+    @Override
+    public void setGCMToken(Context context, String GCMToken) {
+        if(NetworkManager.isNetworkConnected(context)){
+            Call<SuccessBody> call = service.setGCM(GCMToken);
+            call.enqueue(new Callback<SuccessBody>() {
+                @Override
+                public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
+
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+
+                }
+            });
         }
     }
 

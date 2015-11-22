@@ -541,6 +541,9 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     @Override
     public void onResume(){
         super.onResume();
+        if(Constants.loggedUser != null && Constants.GCM_TOKEN != null){
+            presenter.setGCMToken(this, Constants.GCM_TOKEN);
+        }
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         this.registerReceiver(receiver, filter);
         LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
