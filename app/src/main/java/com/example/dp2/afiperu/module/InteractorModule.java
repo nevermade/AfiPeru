@@ -28,6 +28,8 @@ import com.example.dp2.afiperu.interactor.PointsOfReunionInteractor;
 import com.example.dp2.afiperu.interactor.PointsOfReunionInteractorImpl;
 import com.example.dp2.afiperu.interactor.SessionInteractor;
 import com.example.dp2.afiperu.interactor.SessionInteractorImpl;
+import com.example.dp2.afiperu.interactor.SettingsInteractor;
+import com.example.dp2.afiperu.interactor.SettingsInteractorImpl;
 import com.example.dp2.afiperu.interactor.UploadPhotoInteractor;
 import com.example.dp2.afiperu.interactor.UploadPhotoInteractorImpl;
 import com.example.dp2.afiperu.interactor.UserInteractor;
@@ -117,5 +119,10 @@ public class InteractorModule {
     @Provides
     public NewsInteractor provideNewsInteractor(AfiApiServiceEndPoints service){
         return new NewsInteractorImpl(service);
+    }
+
+    @Provides
+    public SettingsInteractor provideSettingsInteractor(AfiApiServiceEndPoints service){
+        return new SettingsInteractorImpl(service);
     }
 }

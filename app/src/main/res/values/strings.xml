@@ -186,14 +186,12 @@
 
     <!--Configuración-->
     <string name="config_personal">Datos personales</string>
-    <string name="config_personal_phone">Teléfono</string>
-    <string name="config_personal_address">Cambiar dirección</string>
     <string name="config_personal_password">Cambiar contraseña</string>
-    <string name="config_calendar">Calendario</string>
-    <string name="config_calendar_sync">Sincronizar eventos</string>
     <string name="config_notifications">Notificaciones</string>
     <string name="config_notifications_events">Eventos próximos</string>
     <string name="config_notifications_payments">Pagos pendientes</string>
+    <string name="config_notifications_documents">Documentos</string>
+    <string name="config_notifications_reports">Reportes</string>
     <string name="config_sign_out">Cerrar sesión</string>
 
     <!--Cambiar contraseña-->

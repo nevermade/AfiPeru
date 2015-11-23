@@ -9,6 +9,7 @@ import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.interactor.AttendanceInteractor;
 import com.example.dp2.afiperu.interactor.CommentKidInteractor;
 import com.example.dp2.afiperu.interactor.MainActivityInteractor;
+import com.example.dp2.afiperu.interactor.SettingsInteractor;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceChild;
 import com.example.dp2.afiperu.syncmodel.SyncAttendanceVolunteer;
 import com.example.dp2.afiperu.syncmodel.SyncComment;
@@ -26,13 +27,15 @@ public class MainActivityPresenter extends BasePresenter {
     MainActivityInteractor interactor;
     CommentKidInteractor commentInteractor;
     AttendanceInteractor attendanceInteractor;
+    SettingsInteractor settingsInteractor;
 
     public MainActivityPresenter(MainActivityView view, MainActivityInteractor interactor, CommentKidInteractor commentInteractor,
-                                 AttendanceInteractor attendanceInteractor) {
+                                 AttendanceInteractor attendanceInteractor, SettingsInteractor settingsInteractor) {
         this.view = view;
         this.interactor = interactor;
         this.commentInteractor = commentInteractor;
         this.attendanceInteractor = attendanceInteractor;
+        this.settingsInteractor = settingsInteractor;
     }
 
     public MainActivityView getView() {
@@ -100,6 +103,10 @@ public class MainActivityPresenter extends BasePresenter {
 
     public void getCurrecyRate(Context context){
         interactor.getCurrencyRate(context);
+    }
+
+    public void setPushSettings(Context context, User user){
+        settingsInteractor.setPushSettings(context, user);
     }
 
     @Override

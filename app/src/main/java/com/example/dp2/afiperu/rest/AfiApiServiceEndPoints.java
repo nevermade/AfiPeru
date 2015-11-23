@@ -120,4 +120,10 @@ public interface  AfiApiServiceEndPoints {
     @POST("afiperularavel/public/api/v1/reapply")
     Call<Void> applyForPeriod(@Field("period_id")int periodId);
 
+    /*** Settings Interactor ***/
+    @FormUrlEncoded
+    @POST("afiperularavel/public/api/v1/push_settings")
+    Call<SuccessBody> pushSettings(@Field("push_events") Integer pushEvents, @Field("push_fees") Integer pushFees,
+                                   @Field("push_documents") Integer pushDocuments, @Field("push_reports") Integer pushReports);
+
 }

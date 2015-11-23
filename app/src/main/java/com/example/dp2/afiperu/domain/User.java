@@ -41,6 +41,18 @@ public class User implements Serializable, Comparable<User> {
     @SerializedName("auth_token")
     @Expose
     private String authToken;
+    @SerializedName("push_events")
+    @Expose
+    private Integer pushEvents;
+    @SerializedName("push_fees")
+    @Expose
+    private Integer pushFees;
+    @SerializedName("push_documents")
+    @Expose
+    private Integer pushDocuments;
+    @SerializedName("push_reports")
+    @Expose
+    private Integer pushReports;
 
     private String secondLastName;
     private String profile;
@@ -123,6 +135,38 @@ public class User implements Serializable, Comparable<User> {
 
     public void setSecondLastName(String secondLastName) {
         this.secondLastName = secondLastName;
+    }
+
+    public Integer getPushEvents() {
+        return pushEvents;
+    }
+
+    public void setPushEvents(Integer pushEvents) {
+        this.pushEvents = pushEvents;
+    }
+
+    public Integer getPushFees() {
+        return pushFees;
+    }
+
+    public void setPushFees(Integer pushFees) {
+        this.pushFees = pushFees;
+    }
+
+    public Integer getPushDocuments() {
+        return pushDocuments;
+    }
+
+    public void setPushDocuments(Integer pushDocuments) {
+        this.pushDocuments = pushDocuments;
+    }
+
+    public Integer getPushReports() {
+        return pushReports;
+    }
+
+    public void setPushReports(Integer pushReports) {
+        this.pushReports = pushReports;
     }
 
     public String getAuthToken() {

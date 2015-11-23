@@ -1,9 +1,7 @@
 package com.example.dp2.afiperu.ui.fragment;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,20 +12,26 @@ import com.example.dp2.afiperu.AfiAppComponent;
 import com.example.dp2.afiperu.R;
 import com.example.dp2.afiperu.common.BaseFragment;
 import com.example.dp2.afiperu.common.BasePresenter;
+import com.example.dp2.afiperu.component.DaggerSettingsComponent;
+import com.example.dp2.afiperu.interactor.SettingsInteractor;
+import com.example.dp2.afiperu.module.SessionModule;
+import com.example.dp2.afiperu.module.SettingsModule;
 import com.example.dp2.afiperu.syncmodel.SyncComment;
 import com.example.dp2.afiperu.ui.activity.DetailActivity;
+import com.example.dp2.afiperu.util.AppEnum;
 import com.example.dp2.afiperu.util.Constants;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by Fernando on 19/10/2015.
  */
 public class SettingsFragment extends BaseFragment {
 
-    public static final String NOTIFICATIONS_KEY_CALENDAR = "cal";
-    public static final String NOTIFICATIONS_KEY_EVENTS = "eve";
-    public static final String NOTIFICATIONS_KEY_PAYMENTS = "pay";
+    @Inject
+    SettingsInteractor interactor;
 
     @Override
     public int getLayout() {
@@ -79,84 +83,83 @@ public class SettingsFragment extends BaseFragment {
         });
 
         //Notification buttons
-
-        final ImageView calendarButton = (ImageView)rootView.findViewById(R.id.config_calendar_button);
-        calendarButton.setImageResource(
-                PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(NOTIFICATIONS_KEY_CALENDAR, true)
-                ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
-        );
-        calendarButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                boolean notify = preferences.getBoolean(NOTIFICATIONS_KEY_CALENDAR, true);
-                SharedPreferences.Editor editor = preferences.edit();
-                if(notify){
-                    editor.putBoolean(NOTIFICATIONS_KEY_CALENDAR, false);
-                    calendarButton.setImageResource(R.drawable.ic_unchecked_checkbox);
-                }else{
-                    editor.putBoolean(NOTIFICATIONS_KEY_CALENDAR, true);
-                    calendarButton.setImageResource(R.drawable.ic_checked_checkbox);
-                }
-            }
-        });
-
-        if(!DetailActivity.isOnlyGodfather(Constants.loggedUser.getProfiles())){
+        if(AppEnum.EnumAction.SESSION_AND_DOCUMENTS.hasPermission(Constants.loggedUser)){
             final ImageView eventButton = (ImageView)rootView.findViewById(R.id.config_event_button);
             eventButton.setImageResource(
-                    PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(NOTIFICATIONS_KEY_EVENTS, true)
-                    ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
+                    Constants.loggedUser.getPushEvents() == 1 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
             );
             eventButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    boolean notify = preferences.getBoolean(NOTIFICATIONS_KEY_EVENTS, true);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    if(notify){
-                        editor.putBoolean(NOTIFICATIONS_KEY_EVENTS, false);
-                        eventButton.setImageResource(R.drawable.ic_unchecked_checkbox);
-                    }else{
-                        editor.putBoolean(NOTIFICATIONS_KEY_EVENTS, true);
-                        eventButton.setImageResource(R.drawable.ic_checked_checkbox);
-                    }
+                    int notify = Constants.loggedUser.getPushEvents();
+                    Constants.loggedUser.setPushEvents(notify == 1 ? 0 : 1);
+                    interactor.setPushSettings(getContext(), Constants.loggedUser);
+                    eventButton.setImageResource(notify == 0 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
+                }
+            });
+            final ImageView documentsButton = (ImageView)rootView.findViewById(R.id.config_documents_button);
+            documentsButton.setImageResource(
+                    Constants.loggedUser.getPushDocuments() == 1 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
+            );
+            documentsButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int notify = Constants.loggedUser.getPushDocuments();
+                    Constants.loggedUser.setPushDocuments(notify == 1 ? 0 : 1);
+                    interactor.setPushSettings(getContext(), Constants.loggedUser);
+                    documentsButton.setImageResource(notify == 0 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
                 }
             });
         }else{
             RelativeLayout eventsLine = (RelativeLayout)rootView.findViewById(R.id.config_events_line);
             eventsLine.setVisibility(View.GONE);
+            RelativeLayout documentsLine = (RelativeLayout)rootView.findViewById(R.id.config_document_line);
+            documentsLine.setVisibility(View.GONE);
         }
 
-        if(DetailActivity.isGodfather(Constants.loggedUser.getProfiles())){
+        if(AppEnum.EnumAction.PAYMENT.hasPermission(Constants.loggedUser) && DetailActivity.isGodfather(Constants.loggedUser.getProfiles())){
             final ImageView paymentButton = (ImageView)rootView.findViewById(R.id.config_payment_button);
             paymentButton.setImageResource(
-                    PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(NOTIFICATIONS_KEY_PAYMENTS, true)
-                            ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
+                    Constants.loggedUser.getPushFees() == 1 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
             );
             paymentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-                    boolean notify = preferences.getBoolean(NOTIFICATIONS_KEY_PAYMENTS, true);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    if(notify){
-                        editor.putBoolean(NOTIFICATIONS_KEY_PAYMENTS, false);
-                        paymentButton.setImageResource(R.drawable.ic_unchecked_checkbox);
-                    }else{
-                        editor.putBoolean(NOTIFICATIONS_KEY_PAYMENTS, true);
-                        paymentButton.setImageResource(R.drawable.ic_checked_checkbox);
-                    }
+                    int notify = Constants.loggedUser.getPushFees();
+                    Constants.loggedUser.setPushFees(notify == 1 ? 0 : 1);
+                    interactor.setPushSettings(getContext(), Constants.loggedUser);
+                    paymentButton.setImageResource(notify == 0 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
                 }
             });
         }else{
             RelativeLayout paymentLine = (RelativeLayout)rootView.findViewById(R.id.config_payment_line);
             paymentLine.setVisibility(View.GONE);
         }
+
+        if(AppEnum.EnumAction.LIST_PERIOD_REPORT.hasPermission(Constants.loggedUser)){
+            final ImageView reportButton = (ImageView)rootView.findViewById(R.id.config_reports_button);
+            reportButton.setImageResource(
+                    Constants.loggedUser.getPushReports() == 1 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox
+            );
+            reportButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int notify = Constants.loggedUser.getPushReports();
+                    Constants.loggedUser.setPushReports(notify == 1 ? 0 : 1);
+                    interactor.setPushSettings(getContext(), Constants.loggedUser);
+                    reportButton.setImageResource(notify == 0 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
+                }
+            });
+        }
     }
 
     @Override
     public void setUpComponent(AfiAppComponent appComponent) {
-
+        DaggerSettingsComponent.builder()
+                .afiAppComponent(appComponent)
+                .settingsModule(new SettingsModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override

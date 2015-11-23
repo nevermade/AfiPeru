@@ -37,7 +37,6 @@ public class LoginInteractorImpl implements LoginInteractor {
                     if (loginResponse != null && loginResponse.getName() != null) {
 
                         Constants.TOKEN = loginResponse.getAuthToken();
-                        //Log.d("GCMTOKEN", Constants.GCM_TOKEN);
                         Call<SuccessBody> call = service.setGCM(Constants.GCM_TOKEN);
                         call.enqueue(new Callback<SuccessBody>() {
                             @Override

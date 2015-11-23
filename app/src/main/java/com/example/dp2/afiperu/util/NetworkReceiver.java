@@ -30,6 +30,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             if(Constants.loggedUser != null) {
                 MainActivityPresenter presenter = ((DetailActivity) context).getPresenter();
                 presenter.validateUser(context, Constants.loggedUser.getUsername(), Constants.loggedUser.getPassword());
+                presenter.setPushSettings(context, Constants.loggedUser);
             }
         } else {
             Toast.makeText(context, context.getString(R.string.offline), Toast.LENGTH_SHORT).show();
