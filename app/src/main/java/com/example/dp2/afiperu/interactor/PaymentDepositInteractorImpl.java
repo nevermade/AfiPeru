@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.presenter.PaymentDepositPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.SuccessBody;
 import com.example.dp2.afiperu.util.NetworkManager;
 
 import retrofit.Call;
@@ -26,11 +27,11 @@ public class PaymentDepositInteractorImpl implements PaymentDepositInteractor {
     public void registerBankPayment(final Context context, final PaymentDepositPresenter presenter,
                                     int feeId, String voucherCode, long date, String bank){
         if(NetworkManager.isNetworkConnected(context)) {
-            Call<Void> call = service.registerBankPayment(String.valueOf(feeId), voucherCode, (double)(date/1000), bank);
-            call.enqueue(new Callback<Void>() {
+            Call<SuccessBody> call = service.registerBankPayment(String.valueOf(feeId), voucherCode, (double)(date/1000), bank);
+            call.enqueue(new Callback<SuccessBody>() {
                 @Override
-                public void onResponse(Response<Void> response, Retrofit retrofit) {
-                    if(response.raw().code() == 200){
+                public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
+                    if(response.body() != null && response.body().getError() == null){
                         presenter.onPaymentSuccess();
                     }else{
                         presenter.onPaymentFailure(context);

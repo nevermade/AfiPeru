@@ -41,7 +41,7 @@ public class LoginInteractorImpl implements LoginInteractor {
                         call.enqueue(new Callback<SuccessBody>() {
                             @Override
                             public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
-                                if(response.body() != null && response.body().getSuccess() == 1) {
+                                if(response.body() != null && response.body().getError() == null) {
                                     presenter.onLoginSuccess(loginResponse, username, password);
                                 }else{
                                     presenter.onLoginFailure();

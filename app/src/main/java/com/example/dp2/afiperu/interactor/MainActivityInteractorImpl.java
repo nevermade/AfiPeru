@@ -62,7 +62,7 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
                         call.enqueue(new Callback<SuccessBody>() {
                             @Override
                             public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
-                                if (response.body() != null && response.body().getSuccess() == 1) {
+                                if (response.body() != null && response.body().getError() == null) {
                                     presenter.onUserValidateSuccess(loginResponse, username, password);
                                 } else {
                                     presenter.onUserValidateFailure(context);

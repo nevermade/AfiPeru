@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.PushBody;
 import com.example.dp2.afiperu.rest.model.SuccessBody;
 import com.example.dp2.afiperu.util.NetworkManager;
 
@@ -29,11 +30,11 @@ public class SettingsInteractorImpl implements SettingsInteractor {
             Integer pushFees = user.getPushFees();
             Integer pushDocuments = user.getPushDocuments();
             Integer pushReports = user.getPushReports();
-            Call<SuccessBody> call = service.pushSettings(pushEvents, pushFees, pushDocuments, pushReports);
+            Call<SuccessBody> call = service.pushSettings(new PushBody(pushEvents, pushFees, pushDocuments, pushReports));
             call.enqueue(new Callback<SuccessBody>() {
                 @Override
                 public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
-                    if(response.body() != null && response.body().getSuccess() == 1){
+                    if(response.body() != null && response.body().getError() == null){
 
                     }
                 }
