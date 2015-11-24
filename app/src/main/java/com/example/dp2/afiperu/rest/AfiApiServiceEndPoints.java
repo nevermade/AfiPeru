@@ -114,7 +114,7 @@ public interface  AfiApiServiceEndPoints {
     /*** ChangePassword Interactor ***/
     @FormUrlEncoded
     @PUT("afiperularavel/public/api/v1/change_password")
-    Call<Void> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);
+    Call<SuccessBody> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);
 
     /*** MainActivityInteractor ***/
     @FormUrlEncoded

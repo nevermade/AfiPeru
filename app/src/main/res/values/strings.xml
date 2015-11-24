@@ -253,5 +253,8 @@
     <!-- Push notifications-->
     <string name="gcm_defaultSenderId">621074273856</string>
 
+    <!--Calendario-->
+    <string name="no_events">No hay eventos para este día</string>
+
 
 </resources>

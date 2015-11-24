@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dp2.afiperu.AfiAppComponent;
@@ -101,7 +102,9 @@ public class CalendarFragment extends BaseFragment {
                     eventTime.setText(new SimpleDateFormat("hh:mm a").format(new Date(event.getDate())));
                     eventAddress.setText(event.getName());
                 }else{
-                    eventInfo.setVisibility(View.INVISIBLE);
+                    eventInfo.setVisibility(View.VISIBLE);
+                    eventTitle.setText(getString(R.string.no_events));
+
                 }
             }
         });

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.dp2.afiperu.AfiAppComponent;
@@ -64,9 +65,15 @@ public class CalendarCustomFragment extends BaseFragment {
 
         SyncSession event = dic.get(year*10000+(month+1)*100+day);
         LinearLayout eventInfo = (LinearLayout)rootView.findViewById(R.id.calendar_event_info);
+        eventInfo.setVisibility(View.VISIBLE);
+        RelativeLayout eventDateLine = (RelativeLayout)rootView.findViewById(R.id.calendar_date_line);
+        RelativeLayout eventTimeLine = (RelativeLayout)rootView.findViewById(R.id.calendar_time_line);
+        RelativeLayout eventAddressLine = (RelativeLayout)rootView.findViewById(R.id.calendar_address_line);
+        TextView eventTitle = (TextView)rootView.findViewById(R.id.calendar_event_title);
         if(event != null) {
-            eventInfo.setVisibility(View.VISIBLE);
-            TextView eventTitle = (TextView)rootView.findViewById(R.id.calendar_event_title);
+            eventDateLine.setVisibility(View.VISIBLE);
+            eventTimeLine.setVisibility(View.VISIBLE);
+            eventAddressLine.setVisibility(View.VISIBLE);
             TextView eventDate = (TextView)rootView.findViewById(R.id.calendar_event_date);
             TextView eventTime = (TextView)rootView.findViewById(R.id.calendar_event_time);
             TextView eventAddress = (TextView)rootView.findViewById(R.id.calendar_event_address);
@@ -75,7 +82,10 @@ public class CalendarCustomFragment extends BaseFragment {
             eventTime.setText(new SimpleDateFormat("hh:mm a").format(new Date(event.getDate())));
             eventAddress.setText(event.getLocation().getAddress());
         }else{
-            eventInfo.setVisibility(View.INVISIBLE);
+            eventTitle.setText(getString(R.string.no_events));
+            eventDateLine.setVisibility(View.INVISIBLE);
+            eventTimeLine.setVisibility(View.INVISIBLE);
+            eventAddressLine.setVisibility(View.INVISIBLE);
         }
 
         calendar.setOnDateSelectedListener(new CustomCalendar.OnDateSelectedListener() {
@@ -83,9 +93,15 @@ public class CalendarCustomFragment extends BaseFragment {
             public void onSelectDate(int date) {
                 SyncSession event = dic.get(date);
                 LinearLayout eventInfo = (LinearLayout)rootView.findViewById(R.id.calendar_event_info);
+                eventInfo.setVisibility(View.VISIBLE);
+                RelativeLayout eventDateLine = (RelativeLayout)rootView.findViewById(R.id.calendar_date_line);
+                RelativeLayout eventTimeLine = (RelativeLayout)rootView.findViewById(R.id.calendar_time_line);
+                RelativeLayout eventAddressLine = (RelativeLayout)rootView.findViewById(R.id.calendar_address_line);
+                TextView eventTitle = (TextView)rootView.findViewById(R.id.calendar_event_title);
                 if(event != null) {
-                    eventInfo.setVisibility(View.VISIBLE);
-                    TextView eventTitle = (TextView)rootView.findViewById(R.id.calendar_event_title);
+                    eventDateLine.setVisibility(View.VISIBLE);
+                    eventTimeLine.setVisibility(View.VISIBLE);
+                    eventAddressLine.setVisibility(View.VISIBLE);
                     TextView eventDate = (TextView)rootView.findViewById(R.id.calendar_event_date);
                     TextView eventTime = (TextView)rootView.findViewById(R.id.calendar_event_time);
                     TextView eventAddress = (TextView)rootView.findViewById(R.id.calendar_event_address);
@@ -94,7 +110,10 @@ public class CalendarCustomFragment extends BaseFragment {
                     eventTime.setText(new SimpleDateFormat("hh:mm a").format(new Date(event.getDate())));
                     eventAddress.setText(event.getLocation().getAddress());
                 }else{
-                    eventInfo.setVisibility(View.INVISIBLE);
+                    eventTitle.setText(getString(R.string.no_events));
+                    eventDateLine.setVisibility(View.INVISIBLE);
+                    eventTimeLine.setVisibility(View.INVISIBLE);
+                    eventAddressLine.setVisibility(View.INVISIBLE);
                 }
             }
         });

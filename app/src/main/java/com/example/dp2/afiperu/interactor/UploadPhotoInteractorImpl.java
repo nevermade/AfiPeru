@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.dp2.afiperu.presenter.UploadPhotoPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
 import com.example.dp2.afiperu.rest.model.SuccessBody;
+import com.example.dp2.afiperu.util.Constants;
 import com.example.dp2.afiperu.util.NetworkManager;
 import com.squareup.okhttp.RequestBody;
 
@@ -26,6 +27,7 @@ public class UploadPhotoInteractorImpl implements UploadPhotoInteractor {
     @Override
     public void uploadPhoto(final UploadPhotoPresenter presenter, final Context context, RequestBody photo){
         if(NetworkManager.isNetworkConnected(context)){
+            Constants.PROGRESS.show();
             Call<SuccessBody> call = service.uploadPhoto(photo);
             call.enqueue(new Callback<SuccessBody>() {
                 @Override
@@ -35,11 +37,13 @@ public class UploadPhotoInteractorImpl implements UploadPhotoInteractor {
                     }else{
                         presenter.photoUploadFailure(context);
                     }
+                    Constants.PROGRESS.dismiss();
                 }
 
                 @Override
                 public void onFailure(Throwable t) {
                     presenter.photoUploadFailure(context);
+                    Constants.PROGRESS.dismiss();
                 }
             });
         }else{

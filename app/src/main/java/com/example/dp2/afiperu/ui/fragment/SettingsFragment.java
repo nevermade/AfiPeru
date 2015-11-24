@@ -150,6 +150,9 @@ public class SettingsFragment extends BaseFragment {
                     reportButton.setImageResource(notify == 0 ? R.drawable.ic_checked_checkbox : R.drawable.ic_unchecked_checkbox);
                 }
             });
+        }else{
+            RelativeLayout reportLine = (RelativeLayout)rootView.findViewById(R.id.config_report_line);
+            reportLine.setVisibility(View.GONE);
         }
     }
 

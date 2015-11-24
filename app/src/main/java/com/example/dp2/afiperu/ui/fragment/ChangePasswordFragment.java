@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -91,8 +92,12 @@ public class ChangePasswordFragment extends BaseFragment implements ChangePasswo
     }
 
     @Override
-    public void displayPasswordChangedError() {
-        Toast.makeText(getContext(), "Su contraseña actual es errónea", Toast.LENGTH_SHORT).show();
+    public void displayPasswordChangedError(String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage(message)
+                .setNeutralButton(android.R.string.ok, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
