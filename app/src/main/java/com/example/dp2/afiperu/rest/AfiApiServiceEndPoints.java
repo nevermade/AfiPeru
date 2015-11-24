@@ -119,7 +119,7 @@ public interface  AfiApiServiceEndPoints {
     /*** MainActivityInteractor ***/
     @FormUrlEncoded
     @POST("afiperularavel/public/api/v1/reapply")
-    Call<Void> applyForPeriod(@Field("period_id")int periodId);
+    Call<SuccessBody> applyForPeriod(@Field("period_id")int periodId);
 
     /*** Settings Interactor ***/
     @POST("afiperularavel/public/api/v1/push_settings")

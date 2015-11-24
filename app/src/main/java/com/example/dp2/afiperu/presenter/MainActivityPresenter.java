@@ -50,12 +50,15 @@ public class MainActivityPresenter extends BasePresenter {
         interactor.applyForPeriod(idPeriod,this);
     }
 
-    public void onApplied(int idResponse){
+    public void onApplied(int idResponse, String message){
         if(idResponse== AppEnum.ResponseStatus.SUCCESS.ordinal()){
             view.displayApplySuccessMessage();
             view.removeApplyOption();
         }else {
-            view.displayApplyFailureMessage();
+            if(message == null){
+                message = "Hubo un error al postular";
+            }
+            view.displayApplyFailureMessage(message);
         }
     }
 

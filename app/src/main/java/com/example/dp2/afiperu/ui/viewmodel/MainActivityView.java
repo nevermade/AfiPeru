@@ -6,7 +6,7 @@ package com.example.dp2.afiperu.ui.viewmodel;
 public interface MainActivityView{
 
     void displayApplySuccessMessage();
-    void displayApplyFailureMessage();
+    void displayApplyFailureMessage(String message);
     void removeApplyOption();
     void saveUserToSharedPreferences();
     void loadUserFromSharedPreferences();

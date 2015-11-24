@@ -1058,8 +1058,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     @Override
-    public void displayApplyFailureMessage() {
-        Toast.makeText(getBaseContext(),"No se pudo realizar la postulación",Toast.LENGTH_SHORT).show();
+    public void displayApplyFailureMessage(String message) {
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{
