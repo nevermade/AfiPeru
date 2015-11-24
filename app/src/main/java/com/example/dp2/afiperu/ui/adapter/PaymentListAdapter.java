@@ -143,8 +143,10 @@ public class PaymentListAdapter extends BaseArrayAdapter <SyncPayment>{
         Intent intent= new Intent(getFragment().getActivity(), PaymentActivity.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, PaymentListFragment.paypalConfig);
         intent.putExtra(PaymentActivity.EXTRA_PAYMENT, payment);
-        if(Constants.FROM_USD_TO_PEN!=0)
+        if(Constants.FROM_USD_TO_PEN!=0) {
+            Constants.PAYMENT_TYPE = 0;
             getFragment().getActivity().startActivityForResult(intent, Constants.REQUEST_CODE_PAYMENT);
+        }
         else
             Toast.makeText(getFragment().getActivity(), "No se pudo obtener la tasa de conversión", Toast.LENGTH_SHORT).show();
     }

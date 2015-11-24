@@ -28,5 +28,5 @@ public class Constants {
     public static Double FROM_USD_TO_PEN = 0.00;
     public static final int REQUEST_CODE_PAYMENT = 3;
     public static int PAYMENT_FEE_ID;
-
+    public static int PAYMENT_TYPE=-1;
 }

@@ -117,11 +117,13 @@ public class PaymentListFragment extends BaseFragment implements PaymentListView
         paymentListAdapter.notifyDataSetChanged();
         paymentListPresenter.getAllPayments(getContext());
         Toast.makeText(getActivity(), "Se ha registrado su pago correctamente.", Toast.LENGTH_SHORT).show();
+        getActivity().stopService(new Intent(getActivity(), PayPalService.class));
     }
 
     public void displayPaymentError(){
         Toast.makeText(getActivity(), "Error al validar el pago.", Toast.LENGTH_SHORT).show();
         Constants.PROGRESS.dismiss();
+        getActivity().stopService(new Intent(getActivity(), PayPalService.class));
     }
 
     public void displayPaymentFailure(){
