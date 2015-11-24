@@ -584,7 +584,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                 list.add(applyOptionItem);
             }
             list.add(new Drawer(FRAGMENT_NOTICIAS, getTitle(FRAGMENT_NOTICIAS), R.drawable.ic_drawer_news));
-            list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
+            //list.add(new Drawer(FRAGMENT_BLOG, getTitle(FRAGMENT_BLOG), R.drawable.ic_drawer_blog));
             if(AppEnum.EnumAction.LIST_USERS.hasPermission(user)){
                 list.add(new Drawer(FRAGMENT_PERSONAS, getTitle(FRAGMENT_PERSONAS), R.drawable.ic_drawer_people));
             }
@@ -1296,7 +1296,7 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     private void handleIntent(Intent intent){
-        if(intent.getAction().equals(Intent.ACTION_SEARCH)){
+        if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEARCH)){
             String query = intent.getStringExtra(SearchManager.QUERY);
             getTopFragment().onSearch(query);
         }

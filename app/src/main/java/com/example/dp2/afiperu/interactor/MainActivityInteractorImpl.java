@@ -1,6 +1,7 @@
 package com.example.dp2.afiperu.interactor;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
@@ -96,6 +97,7 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
     @Override
     public void setGCMToken(Context context, String GCMToken) {
         if(NetworkManager.isNetworkConnected(context)){
+            Log.d("gcm", Constants.GCM_TOKEN);
             Call<SuccessBody> call = service.setGCM(GCMToken);
             call.enqueue(new Callback<SuccessBody>() {
                 @Override
