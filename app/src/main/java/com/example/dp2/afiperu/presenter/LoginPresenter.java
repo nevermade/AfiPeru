@@ -38,6 +38,20 @@ public class LoginPresenter extends BasePresenter {
         Constants.loggedUser = user;
         Constants.loggedUser.setUsername(username);
         Constants.loggedUser.setPassword(password);
+
+        if(Constants.loggedUser.getPushEvents() == null){
+            Constants.loggedUser.setPushEvents(1);
+        }
+        if(Constants.loggedUser.getPushDocuments() == null){
+            Constants.loggedUser.setPushDocuments(1);
+        }
+        if(Constants.loggedUser.getPushReports() == null){
+            Constants.loggedUser.setPushReports(1);
+        }
+        if(Constants.loggedUser.getPushFees() == null){
+            Constants.loggedUser.setPushFees(1);
+        }
+
         view.showApp(user.getName());
     }
 

@@ -37,12 +37,11 @@ public class LoginInteractorImpl implements LoginInteractor {
                     if (loginResponse != null && loginResponse.getName() != null) {
 
                         Constants.TOKEN = loginResponse.getAuthToken();
-                        //Log.d("GCMTOKEN", Constants.GCM_TOKEN);
                         Call<SuccessBody> call = service.setGCM(Constants.GCM_TOKEN);
                         call.enqueue(new Callback<SuccessBody>() {
                             @Override
                             public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
-                                if(response.body() != null && response.body().getSuccess() == 1) {
+                                if(response.body() != null && response.body().getError() == null) {
                                     presenter.onLoginSuccess(loginResponse, username, password);
                                 }else{
                                     presenter.onLoginFailure();

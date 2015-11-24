@@ -14,6 +14,6 @@ public interface ChangePasswordView {
     */
     void displayPasswordChangedSuccess();
 
-    void displayPasswordChangedError();
+    void displayPasswordChangedError(String message);
     void displayPasswordChangedFailure();
 }

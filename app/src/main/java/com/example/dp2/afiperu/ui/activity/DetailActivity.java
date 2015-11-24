@@ -400,9 +400,15 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
                                 + ", payment_json: " + payment_client);*/
 
                         // Now verify the payment on the server side
-                        Constants.PROGRESS.setMessage("Validando pago...");
-                        Constants.PROGRESS.show();
-                        paymentListFragment.getPaymentListPresenter().verifyPaymentOnServer(paymentId, payment_client);
+                        if(Constants.PAYMENT_TYPE==0) {
+                            Constants.PROGRESS.setMessage("Validando pago...");
+                            Constants.PROGRESS.show();
+                            paymentListFragment.getPaymentListPresenter().verifyPaymentOnServer(paymentId, payment_client);
+                        }
+                        else {
+                            Toast.makeText(this, "Gracias por su donación :)", Toast.LENGTH_SHORT).show();
+                            getFragmentManager().popBackStackImmediate();
+                        }
 
                     } catch (JSONException e) {
                         Log.e(TAG, "an extremely unlikely failure occurred: ",
@@ -532,11 +538,6 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
         selectItem(FRAGMENT_LOGIN);
     }
 
-    @Override
-    protected void onDestroy() {
-        stopService(new Intent(this, PayPalService.class));
-        super.onDestroy();
-    }
 
     @Override
     public void onResume(){
@@ -1057,8 +1058,8 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     @Override
-    public void displayApplyFailureMessage() {
-        Toast.makeText(getBaseContext(),"No se pudo realizar la postulación",Toast.LENGTH_SHORT).show();
+    public void displayApplyFailureMessage(String message) {
+        Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener{

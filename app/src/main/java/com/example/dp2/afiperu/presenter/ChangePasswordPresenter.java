@@ -38,8 +38,8 @@ public class ChangePasswordPresenter extends BasePresenter{
         interactor.changePassword(context, currentPw, newPw, this);
     }
 
-    public void onPasswordChangedError(){
-        view.displayPasswordChangedError();
+    public void onPasswordChangedError(String message){
+        view.displayPasswordChangedError(message);
     }
 
     public void onPasswordChangedFailure(){

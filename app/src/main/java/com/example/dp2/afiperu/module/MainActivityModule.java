@@ -3,6 +3,7 @@ package com.example.dp2.afiperu.module;
 import com.example.dp2.afiperu.interactor.AttendanceInteractor;
 import com.example.dp2.afiperu.interactor.CommentKidInteractor;
 import com.example.dp2.afiperu.interactor.MainActivityInteractor;
+import com.example.dp2.afiperu.interactor.SettingsInteractor;
 import com.example.dp2.afiperu.presenter.MainActivityPresenter;
 import com.example.dp2.afiperu.ui.viewmodel.MainActivityView;
 
@@ -27,8 +28,9 @@ public class MainActivityModule {
 
     @Provides
     public MainActivityPresenter providePresenter(MainActivityView view, MainActivityInteractor interactor,
-                                                  CommentKidInteractor commentInteractor, AttendanceInteractor attendanceInteractor){
-        return new MainActivityPresenter(view, interactor, commentInteractor, attendanceInteractor);
+                                                  CommentKidInteractor commentInteractor, AttendanceInteractor attendanceInteractor,
+                                                  SettingsInteractor settingsInteractor){
+        return new MainActivityPresenter(view, interactor, commentInteractor, attendanceInteractor, settingsInteractor);
     }
 
 }

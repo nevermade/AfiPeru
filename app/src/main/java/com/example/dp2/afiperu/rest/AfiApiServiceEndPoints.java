@@ -9,6 +9,7 @@ import com.example.dp2.afiperu.domain.User;
 import com.example.dp2.afiperu.rest.model.AttendanceBody;
 import com.example.dp2.afiperu.rest.model.LocationsBody;
 import com.example.dp2.afiperu.rest.model.MeetingPointsBody;
+import com.example.dp2.afiperu.rest.model.PushBody;
 import com.example.dp2.afiperu.rest.model.SuccessBody;
 import com.squareup.okhttp.RequestBody;
 
@@ -78,7 +79,7 @@ public interface  AfiApiServiceEndPoints {
     /*** Payment Deposit Interactor ***/
     @FormUrlEncoded
     @POST("afiperularavel/public/api/v1/payment")
-    Call<Void> registerBankPayment(@Field("fee_id") String feeId, @Field("voucher_code") String voucherCode,
+    Call<SuccessBody> registerBankPayment(@Field("fee_id") String feeId, @Field("voucher_code") String voucherCode,
                                    @Field("date") Double date, @Field("bank") String bank);
 
 
@@ -113,11 +114,15 @@ public interface  AfiApiServiceEndPoints {
     /*** ChangePassword Interactor ***/
     @FormUrlEncoded
     @PUT("afiperularavel/public/api/v1/change_password")
-    Call<Void> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);
+    Call<SuccessBody> changePassword(@Field("current_password")String current_password,@Field("new_password")String new_password);
 
     /*** MainActivityInteractor ***/
     @FormUrlEncoded
     @POST("afiperularavel/public/api/v1/reapply")
-    Call<Void> applyForPeriod(@Field("period_id")int periodId);
+    Call<SuccessBody> applyForPeriod(@Field("period_id")int periodId);
+
+    /*** Settings Interactor ***/
+    @POST("afiperularavel/public/api/v1/push_settings")
+    Call<SuccessBody> pushSettings(@Body PushBody pushBody);
 
 }

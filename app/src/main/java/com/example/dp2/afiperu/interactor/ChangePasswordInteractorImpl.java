@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.dp2.afiperu.presenter.ChangePasswordPresenter;
 import com.example.dp2.afiperu.rest.AfiApiServiceEndPoints;
+import com.example.dp2.afiperu.rest.model.SuccessBody;
 import com.example.dp2.afiperu.util.NetworkManager;
 
 import retrofit.Call;
@@ -24,14 +25,14 @@ public class ChangePasswordInteractorImpl implements ChangePasswordInteractor {
     @Override
     public void changePassword(Context context, String currentPw, String newPw, final ChangePasswordPresenter presenter) {
         if(NetworkManager.isNetworkConnected(context)) {
-            Call<Void> call = service.changePassword(currentPw, newPw);
-            call.enqueue(new Callback<Void>() {
+            Call<SuccessBody> call = service.changePassword(currentPw, newPw);
+            call.enqueue(new Callback<SuccessBody>() {
                 @Override
-                public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                    if (response.errorBody() == null) {
+                public void onResponse(retrofit.Response<SuccessBody> response, Retrofit retrofit) {
+                    if (response.body() != null && response.body().getError() == null) {
                         presenter.onPasswordChangedSuccess();
                     } else {
-                        presenter.onPasswordChangedError();
+                        presenter.onPasswordChangedError(response.body().getError());
                     }
                 }
 

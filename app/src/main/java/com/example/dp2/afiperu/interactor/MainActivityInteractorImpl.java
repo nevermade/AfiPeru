@@ -28,20 +28,20 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
 
     @Override
     public void applyForPeriod(int idPeriod, final MainActivityPresenter presenter) {
-        Call<Void> call=service.applyForPeriod(idPeriod);
-        call.enqueue(new Callback<Void>() {
+        Call<SuccessBody> call=service.applyForPeriod(idPeriod);
+        call.enqueue(new Callback<SuccessBody>() {
             @Override
-            public void onResponse(retrofit.Response<Void> response, Retrofit retrofit) {
-                if(response.body()==null){
-                    presenter.onApplied(AppEnum.ResponseStatus.SUCCESS.ordinal());
+            public void onResponse(retrofit.Response<SuccessBody> response, Retrofit retrofit) {
+                if(response.body() != null && response.body().getError() == null){
+                    presenter.onApplied(AppEnum.ResponseStatus.SUCCESS.ordinal(), null);
                 }else {
-                    presenter.onApplied(AppEnum.ResponseStatus.ERROR.ordinal());
+                    presenter.onApplied(AppEnum.ResponseStatus.ERROR.ordinal(), response.body().getError());
                 }
             }
 
             @Override
             public void onFailure(Throwable t) {
-                presenter.onApplied(AppEnum.ResponseStatus.FAILURE.ordinal());
+                presenter.onApplied(AppEnum.ResponseStatus.FAILURE.ordinal(), null);
             }
         });
 
@@ -62,7 +62,7 @@ public class MainActivityInteractorImpl implements MainActivityInteractor{
                         call.enqueue(new Callback<SuccessBody>() {
                             @Override
                             public void onResponse(Response<SuccessBody> response, Retrofit retrofit) {
-                                if (response.body() != null && response.body().getSuccess() == 1) {
+                                if (response.body() != null && response.body().getError() == null) {
                                     presenter.onUserValidateSuccess(loginResponse, username, password);
                                 } else {
                                     presenter.onUserValidateFailure(context);
