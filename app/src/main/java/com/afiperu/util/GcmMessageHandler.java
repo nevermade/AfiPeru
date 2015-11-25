@@ -26,14 +26,15 @@ public class GcmMessageHandler extends GcmListenerService {
         String title = data.getString("title");
         String message = data.getString("message");
         String type = data.getString("type");
-        createNotification(title + type, message);
+        createNotification(title, message,type);
 
     }
 
     // Creates notification based on title and body received
-    private void createNotification(String title, String body) {
+    private void createNotification(String title, String body,String type) {
 
         Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("type", type);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);

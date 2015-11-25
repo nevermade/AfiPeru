@@ -1217,9 +1217,43 @@ public class DetailActivity extends BaseActivity implements MainActivityView {
     }
 
     private void handleIntent(Intent intent){
+        try {
+        String menuFragment= "-1";
+
+            menuFragment = intent.getStringExtra("type");
+
+
         if(intent.getAction() != null && intent.getAction().equals(Intent.ACTION_SEARCH)){
             String query = intent.getStringExtra(SearchManager.QUERY);
             getTopFragment().onSearch(query);
+        }
+
+        else if(menuFragment.contentEquals("1")){
+            //eventos
+
+        }else if(menuFragment.contentEquals("2")){
+            //pagos
+
+        }else if(menuFragment.contentEquals("3")){
+            //documentos
+            Bundle args = new Bundle();
+            Fragment fragment;
+            args.putInt(BaseFragment.FRAGMENT_ID_ARG, FRAGMENT_DOCUMENTOS);
+            fragment = new DocumentsFragment();
+            fragment.setArguments(args);
+            mDrawerList.setItemChecked(FRAGMENT_DOCUMENTOS, true);
+            mDrawerLayout.closeDrawer(mDrawerList);
+            selectedLayout = FRAGMENT_DOCUMENTOS;
+            changeFragment(fragment, getTitle(selectedLayout), getMenu(selectedLayout));
+
+        }else if(menuFragment.contentEquals("4")){
+            //reporte padrinos
+
+        }
+        }
+
+        catch (Exception e){
+
         }
     }
 
