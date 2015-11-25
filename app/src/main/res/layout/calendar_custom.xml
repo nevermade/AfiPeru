@@ -82,7 +82,7 @@
                 android:text="Av. Antonio Alarco 497"/>
         </RelativeLayout>
     </LinearLayout>
-    <com.example.dp2.afiperu.others.CustomCalendar
+    <com.afiperu.others.CustomCalendar
         android:id="@+id/calendar_custom"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
